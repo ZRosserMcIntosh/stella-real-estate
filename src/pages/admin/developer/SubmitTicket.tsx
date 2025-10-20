@@ -223,7 +223,7 @@ export default function SubmitTicket() {
             onChange={(e) => setTitle(e.target.value)}
             required
             placeholder="Enable WhatsApp notifications for new leads"
-            className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none shadow-sm transition focus:border-brand-400 focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-900/40"
+            className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none shadow-sm transition focus:border-brand-400 focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-900/40 text-slate-900 placeholder-slate-400 caret-slate-900 dark:text-white dark:placeholder-slate-500 dark:caret-white"
           />
         </label>
 
@@ -235,7 +235,7 @@ export default function SubmitTicket() {
             required
             rows={6}
             placeholder="What problem are you seeing? Include URLs, steps to reproduce, or links to designs if you have them."
-            className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none shadow-sm transition focus:border-brand-400 focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-900/40"
+            className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none shadow-sm transition focus:border-brand-400 focus:ring-2 focus:ring-brand-400/40 dark:border-slate-700 dark:bg-slate-900/40 text-slate-900 placeholder-slate-400 caret-slate-900 dark:text-white dark:placeholder-slate-500 dark:caret-white"
           />
         </label>
 
