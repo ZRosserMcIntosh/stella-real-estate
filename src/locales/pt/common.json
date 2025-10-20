@@ -1,0 +1,59 @@
+{
+  "header": {
+    "brand": "Stella Mary Imóveis",
+    "nav": {
+      "projects": "Novos Projetos",
+      "listings": "Listagens de Imóveis",
+  "about": "Sobre",
+  "contact": "Contato",
+  "employeeLogin": "Login de Funcionário"
+    },
+    "cta": "Começar"
+  },
+  "home": {
+    "hero": {
+      "title": "A Stella Imóveis conecta você às melhores residências de São Paulo com um toque pessoal.",
+      "subtitle": "Feito com React, Vite, Tailwind e Inter. Padrões limpos e espaçamento elegante para apresentar seus imóveis.",
+      "browse": "Ver Listagens",
+      "docs": "Documentação"
+    },
+    "about": {
+      "title": "Sobre",
+      "body": "A Stella Real Estate ajuda você a descobrir imóveis que combinam com seu estilo de vida. Este starter é propositalmente minimalista para você avançar rápido."
+    },
+    "contact": {
+      "title": "Contato",
+      "email": "Email",
+      "message": "Mensagem",
+      "send": "Enviar"
+    },
+    "footer": {
+      "privacy": "Privacidade",
+      "listProperty": "Anuncie seu Imóvel",
+  "legal": "Jurídico",
+  "admin": "Admin"
+    }
+  },
+  "pages": {
+    "about": { "title": "Sobre a Stella" },
+    "contact": { "title": "Contato" },
+    "listings": { "title": "Listagens" },
+    "projects": { "title": "Novos Projetos" },
+    "privacy": { "title": "Política de Privacidade" },
+    "legal": { "title": "Jurídico" },
+    "listYourProperty": { "title": "Anuncie seu Imóvel" },
+    "notFound": { "title": "Página não encontrada", "backHome": "Voltar para Home" }
+  },
+  "auth": {
+    "signIn": "Entrar",
+    "createAccount": "Criar conta",
+    "haveAccount": "Já tem uma conta? Entrar",
+    "useAccount": "Use sua conta Stella",
+    "email": "Email",
+    "password": "Senha",
+    "signingIn": "Entrando...",
+    "creating": "Criando...",
+    "forgotPrompt": "Esqueceu sua senha?",
+    "reset": "Redefinir"
+  }
+}

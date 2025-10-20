@@ -1,0 +1,22 @@
+.vercel
+node_modules
+.DS_Store
+
+# Vite build output
+dist/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Supabase local temp
+supabase/.temp/
+
+# Next.js nested app
+next-app/.next/
+next-app/node_modules/
+next-app/.env.local

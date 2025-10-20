@@ -1,0 +1,57 @@
+# postgresql://postgres:[YOUR-PASSWORD]@db.fxvxdvwiqgpypcqmljja.supabase.co:5432/postgres 
+      #Direct connection: Ideal for applications with persistent, long-lived connections, such as those running on virtual machines or long-standing containers.
+# postgresql://postgres.fxvxdvwiqgpypcqmljja:[YOUR-PASSWORD]@aws-1-sa-east-1.pooler.supabase.com:6543/postgres 
+      #Transaction pooler: Shared Pooler Ideal for stateless applications like serverless functions where each interaction with Postgres is brief and isolated.
+#postgresql://postgres.fxvxdvwiqgpypcqmljja:[YOUR-PASSWORD]@aws-1-sa-east-1.pooler.supabase.com:5432/postgres
+      #Session pooler Shared Pooler: Only recommended as an alternative to Direct Connection, when connecting via an IPv4 network.
+
+
+# NEXT_PUBLIC_SUPABASE_URL="https://fxvxdvwiqgpypcqmljja.supabase.co"
+# NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4dnhkdndpcWdweXBjcW1samphIiwicm9zZSI6ImFub24iLCJpYXQiOjE3NjAzNTUwNzIsImV4cCI6MjA3NTkzMTA3Mn0.r3zL3sGlpBy5lM5cEK8SmIbAMwGh1NLIhqi661-IdmY"
+
+#   COMMANDS
+#   supabase logout            # if logged into the wrong account
+#   supabase login             # open browser or paste token
+#   supabase link --project-ref <NEW_PROJECT_REF>
+#   supabase db push
+#   supabase link --project-ref fxvxdvwiqgpypcqmljja
+
+# supabase access token: sbp_413764efcfe226c9fa50ec808e46ec450d180473
+
+# RESEND API KEY:    re_GaxqmJnc_5i7ECmzabrVPkSPxeNrzTRdM
+
+# COMMANDS
+#   supabase db push
+
+   # Set up a new local Prisma Postgres `prisma dev`-ready project
+      $ prisma init
+
+      Start a local Prisma Postgres server for development
+      $ prisma dev
+
+      Generate artifacts (e.g. Prisma Client)
+      $ prisma generate
+
+      Browse your data
+      $ prisma studio
+
+      Create migrations from your Prisma schema, apply them to the database, generate artifacts (e.g. Prisma Client)
+      $ prisma migrate dev
+
+      Pull the schema from an existing database, updating the Prisma schema
+      $ prisma db pull
+
+      Push the Prisma schema state to the database
+      $ prisma db push
+
+      Validate your Prisma schema
+      $ prisma validate
+
+      Format your Prisma schema
+      $ prisma format
+
+      Display Prisma version info
+      $ prisma version
+
+      Display Prisma debug info
+      $ prisma debug

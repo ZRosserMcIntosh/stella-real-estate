@@ -1,0 +1,168 @@
+:root {
+  --brand-600: #3B82F6; /* Example brand color */
+  --brand-700: #2563EB; /* Example brand color */
+  --brand-800: #1D4ED8; /* Example brand color */
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb; /* Light background */
+  color: #1f2937; /* Dark text color */
+}
+
+.container-padded {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+}
+
+.shadow-soft {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.fixed {
+  position: fixed;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.grid {
+  display: grid;
+}
+
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.rounded-2xl {
+  border-radius: 1rem;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.bg-white/70 {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.dark\:bg-slate-900 {
+  background-color: #1e293b; /* Dark mode background */
+}
+
+.dark\:text-slate-300 {
+  color: #d1d5db; /* Dark mode text color */
+}
+
+.border {
+  border-width: 1px;
+}
+
+.border-slate-200 {
+  border-color: #e5e7eb; /* Light border color */
+}
+
+.dark\:border-slate-800 {
+  border-color: #1e293b; /* Dark mode border color */
+}
+
+.text-slate-600 {
+  color: #4b5563; /* Medium text color */
+}
+
+.text-slate-500 {
+  color: #6b7280; /* Light medium text color */
+}
+
+.text-slate-900 {
+  color: #111827; /* Dark text color */
+}
+
+.max-w-2xl {
+  max-width: 32rem;
+}
+
+.container-padded {
+  padding: 2rem;
+}
+
+.py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.pt-16 {
+  padding-top: 4rem;
+}
+
+.pb-24 {
+  padding-bottom: 6rem;
+}
+
+.hover\:bg-brand-600:hover {
+  background-color: var(--brand-600);
+}
+
+.hover\:bg-brand-700:hover {
+  background-color: var(--brand-700);
+}
+
+.hover\:bg-slate-800:hover {
+  background-color: #1e293b; /* Dark mode hover */
+}
+
+.transition-colors {
+  transition: background-color 0.2s ease;
+}
+
+.outline-none {
+  outline: none;
+}
+
+.focus\:ring-2:focus {
+  ring-width: 2px;
+}
+
+.focus\:ring-brand-500\/40:focus {
+  ring-color: rgba(59, 130, 246, 0.4);
+}

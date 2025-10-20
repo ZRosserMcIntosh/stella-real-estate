@@ -1,0 +1,31 @@
+// Prisma is used for modeling and generating a typed client. We scope it to the `public` schema.
+// Source of truth for advanced DB objects (RLS, triggers, functions) remains SQL migrations in supabase/migrations.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // Ensure your DATABASE_URL includes `?schema=public`.
+}
+
+// Models will be generated via `prisma db pull` from your Supabase DB.
+// If you prefer to define some models manually, add them below and map to existing tables, e.g.:
+// model Employee {
+//   id               String   @id @db.Uuid
+//   userId           String?  @db.Uuid @map("user_id")
+//   fullName         String   @map("full_name")
+//   email            String
+//   positionTitle    String?  @map("position_title")
+//   department       String?
+//   city             String?
+//   stateCode        String?  @map("state_code")
+//   employmentType   String?  @map("employment_type")
+//   status           String?
+//   createdAt        DateTime @default(now()) @map("created_at")
+//   updatedAt        DateTime @default(now()) @map("updated_at")
+//   @@map("employees")
+//   @@schema("public")
+// }

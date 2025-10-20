@@ -1,0 +1,562 @@
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { getSiteSettings } from './lib/siteSettings'
+import { supabase } from './lib/supabaseClient'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { makeProjectSlug } from './utils/slug'
+import { useCurrency } from './context/CurrencyContext'
+
+export default function App() {
+  const { t } = useTranslation()
+  const heroRef = useRef<HTMLDivElement | null>(null)
+
+  // Make the background video ~20% blurrier overall and start slightly blurred (~10% of max).
+  const maxBlur = 25.84 // previous 14.4 * 1.1 ≈ 10% more blur
+  const minBlur = maxBlur * 0.1 // start with ~10% of max
+  const [blur, setBlur] = useState<number>(minBlur)
+  const [heroHeight, setHeroHeight] = useState<number>(typeof window !== 'undefined' ? window.innerHeight : 800)
+  // keep main content visually above the fixed video so it covers the video when scrolling
+  // (no need to toggle transparency — we want the white panels to always hide the video)
+  const [showMainBg, setShowMainBg] = useState<boolean>(false)
+  const [homeVideoId, setHomeVideoId] = useState<string>('bv2x5gn_Tc0')
+  const [heroUploadedUrl, setHeroUploadedUrl] = useState<string>('')
+  const [heroFallbackImage, setHeroFallbackImage] = useState<string>('')
+  const [projects, setProjects] = useState<any[]>([])
+  const [featuredProjects, setFeaturedProjects] = useState<any[]>([])
+  const [projectsError, setProjectsError] = useState<string | null>(null)
+  const { formatPrice } = useCurrency()
+
+  // video aspect & computed min size so iframe behaves like background-size: cover
+  const videoAspect = 16 / 9
+  const viewportW = typeof window !== 'undefined' ? window.innerWidth : 0
+  // ensure iframe is tall enough so (height * aspect) >= viewport width
+  const requiredHeightForWidth = Math.ceil(viewportW / videoAspect)
+  const computedMinHeight = Math.max(heroHeight, requiredHeightForWidth)
+  const computedMinWidth = Math.ceil(computedMinHeight * videoAspect)
+
+  useEffect(() => {
+    function update() {
+      const h = heroRef.current?.offsetHeight ?? window.innerHeight
+      setHeroHeight(h)
+      const scrollY = window.scrollY || window.pageYOffset
+      const progress = Math.max(0, Math.min(1, scrollY / h))
+      // interpolate between minBlur and maxBlur based on scroll progress
+      const next = Math.min(maxBlur, Math.max(minBlur, minBlur + progress * (maxBlur - minBlur)))
+      setBlur(next)
+
+      // show white background for main content only after user scrolls past the hero
+      const headerOffset = 80 // tweak to match header height if needed
+      setShowMainBg(scrollY > (h - headerOffset))
+    }
+
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [])
+
+  useEffect(() => {
+    const loadVideo = async () => {
+      try {
+  const s = await getSiteSettings(['video_home_id','featured_projects','video_home_uploaded_url','video_home_fallback_image'])
+        if (s.video_home_id) setHomeVideoId(s.video_home_id)
+  if (s.video_home_uploaded_url) setHeroUploadedUrl(s.video_home_uploaded_url)
+  if (s.video_home_fallback_image) setHeroFallbackImage(s.video_home_fallback_image)
+        // Featured projects: accept JSON array of ids/slugs or a single string
+        const raw = (s.featured_projects || '').trim()
+        if (raw && (import.meta as any).env?.VITE_SUPABASE_URL) {
+          let values: string[] = []
+          try {
+            const parsed = JSON.parse(raw)
+            if (Array.isArray(parsed)) values = parsed.map(String)
+            else if (typeof parsed === 'string') values = [parsed]
+          } catch {
+            values = [raw]
+          }
+          const ids = Array.from(new Set(
+            values
+              .map((v) => {
+                const m = String(v).match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)
+                return m?.[0] || String(v)
+              })
+              .filter(Boolean)
+          ))
+          if (ids.length === 1) {
+            const { data } = await supabase.from('listings').select('*').eq('id', ids[0]).single()
+            if (data) setFeaturedProjects([data])
+          } else if (ids.length > 1) {
+            const { data } = await supabase.from('listings').select('*').in('id', ids)
+            if (data && Array.isArray(data)) {
+              // preserve the admin's order
+              const order: Record<string, number> = ids.reduce((acc, id, i) => { acc[id] = i; return acc }, {} as Record<string, number>)
+              data.sort((a: any, b: any) => (order[a.id] ?? 0) - (order[b.id] ?? 0))
+              setFeaturedProjects(data)
+            }
+          }
+        }
+      } catch { /* ignore */ }
+    }
+    loadVideo()
+  }, [])
+
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        if (!(import.meta as any).env?.VITE_SUPABASE_URL) return
+        const attempt = async () => {
+          const { data, error } = await supabase
+            .from('listings')
+            .select('id,title,city,state_code,features,media,price,created_at')
+            .eq('listing_type', 'new_project')
+            .neq('status', 'archived')
+            .order('created_at', { ascending: false })
+            .limit(6)
+          if (error) throw error
+          return data || []
+        }
+        let tries = 0
+        let lastErr: any = null
+        while (tries < 3) {
+          try {
+            const rows = await attempt()
+            setProjects(rows)
+            lastErr = null
+            break
+          } catch (e: any) {
+            lastErr = e
+            const msg: string = e?.message || ''
+            if (msg.includes('schema cache')) {
+              await new Promise(r => setTimeout(r, 600 * (tries + 1)))
+              tries++
+              continue
+            }
+            throw e
+          }
+        }
+        if (lastErr) throw lastErr
+      } catch (e: any) {
+        const msg: string = e?.message || 'Failed to load projects'
+        setProjectsError(msg)
+      }
+    }
+    loadProjects()
+  }, [])
+
+  const heroFeatured = useMemo(() => featuredProjects.slice(0, 3), [featuredProjects])
+  const heroGridClasses = useMemo(() => {
+    switch (heroFeatured.length) {
+      case 1:
+        return 'grid-cols-1 justify-items-center w-full max-w-[22rem]'
+      case 2:
+        return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 justify-items-center sm:justify-items-center w-full max-w-4xl'
+      default:
+        return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center sm:justify-items-center w-full max-w-6xl'
+    }
+  }, [heroFeatured.length])
+
+  // YouTube fallback overlay support
+  const ytPlayerRef = useRef<any>(null)
+  const ytReadyRef = useRef(false)
+  const [ytPlaying, setYtPlaying] = useState(false)
+  const [showFallbackOverlay, setShowFallbackOverlay] = useState(false)
+
+  // Load YT Iframe API when needed
+  useEffect(() => {
+    if (!homeVideoId || heroUploadedUrl) return
+    const ensureYT = () =>
+      new Promise<void>((resolve) => {
+        const w = window as any
+        if (w.YT && w.YT.Player) return resolve()
+        const prev = document.getElementById('yt-iframe-api') as HTMLScriptElement | null
+        if (!prev) {
+          const s = document.createElement('script')
+          s.id = 'yt-iframe-api'
+          s.src = 'https://www.youtube.com/iframe_api'
+          document.head.appendChild(s)
+        }
+        const check = () => {
+          const w = window as any
+          if (w.YT && w.YT.Player) resolve()
+          else window.setTimeout(check, 60)
+        }
+        check()
+      })
+
+    let cancelled = false
+    ensureYT().then(() => {
+      if (cancelled) return
+      const w = window as any
+      const onReady = () => {
+        ytReadyRef.current = true
+        // give it a moment to start
+        window.setTimeout(() => {
+          if (!ytPlaying) setShowFallbackOverlay(Boolean(heroFallbackImage))
+        }, 1500)
+      }
+      const onStateChange = (e: any) => {
+        // 1 = playing, 0 = ended, 2 = paused, 3 = buffering, -1 = unstarted, 5 = video cued
+        const playing = e?.data === 1
+        setYtPlaying(playing)
+        if (playing) setShowFallbackOverlay(false)
+      }
+      try {
+        ytPlayerRef.current = new w.YT.Player('hero-youtube-embed', {
+          events: { onReady, onStateChange },
+        })
+      } catch {
+        // If player init fails, show fallback
+        setShowFallbackOverlay(Boolean(heroFallbackImage))
+      }
+    })
+
+    return () => {
+      cancelled = true
+      try {
+        const p = ytPlayerRef.current
+        if (p && p.destroy) p.destroy()
+      } catch { /* ignore */ }
+      ytPlayerRef.current = null
+      ytReadyRef.current = false
+      setYtPlaying(false)
+    }
+  }, [homeVideoId, heroUploadedUrl, heroFallbackImage])
+
+  return (
+  <div className="relative min-h-screen flex flex-col">
+      {/* Fixed background video that fills edge-to-edge at the top (covers the hero area).
+          Height is controlled by heroHeight so the video sits behind the header and hero content. */}
+      <div
+        aria-hidden
+        className="fixed left-0 top-0 w-screen overflow-hidden pointer-events-none -z-20"
+        style={{ height: `${heroHeight}px`, width: '100vw' }}
+      >
+  {heroUploadedUrl ? (
+          <video
+            src={heroUploadedUrl}
+            autoPlay
+            muted
+            loop
+            playsInline
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: `translate(-50%, -50%) scale(1.06)`,
+              transformOrigin: 'center center',
+              minWidth: `${computedMinWidth}px`,
+              minHeight: `${computedMinHeight}px`,
+              width: 'auto',
+              height: 'auto',
+              background: 'transparent',
+              border: 0,
+              filter: `blur(${blur}px)`,
+              transition: 'filter 160ms linear, transform 400ms linear',
+              willChange: 'filter, transform',
+              pointerEvents: 'none',
+              objectFit: 'cover'
+            }}
+          />
+        ) : homeVideoId ? (
+          <>
+          <iframe
+            // cover the viewport horizontally and the hero vertically to avoid letterboxing
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: `translate(-50%, -50%) scale(1.06)`,
+              transformOrigin: 'center center',
+              // ensure the iframe covers horizontally by using the computed min height
+              minWidth: `${computedMinWidth}px`,
+              minHeight: `${computedMinHeight}px`,
+              width: 'auto',
+              height: 'auto',
+              background: 'transparent',
+              border: 0,
+              filter: `blur(${blur}px)`,
+              opacity: showFallbackOverlay ? 0 : 1,
+              transition: 'filter 160ms linear, transform 400ms linear',
+              willChange: 'filter, transform',
+              pointerEvents: 'none'
+            }}
+            id="hero-youtube-embed"
+            src={`https://www.youtube-nocookie.com/embed/${homeVideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${homeVideoId}&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(typeof window!== 'undefined' ? window.location.origin : '')}`}
+            title="Background video"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowFullScreen
+          />
+          {heroFallbackImage && (
+            // eslint-disable-next-line jsx-a11y/alt-text
+            <img
+              src={heroFallbackImage}
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: `translate(-50%, -50%) scale(1.06)`,
+                transformOrigin: 'center center',
+                minWidth: `${computedMinWidth}px`,
+                minHeight: `${computedMinHeight}px`,
+                width: 'auto',
+                height: 'auto',
+                background: 'transparent',
+                border: 0,
+                filter: `blur(${blur}px)`,
+                transition: 'filter 160ms linear, transform 400ms linear, opacity 200ms ease-in-out',
+                willChange: 'filter, transform, opacity',
+                pointerEvents: 'none',
+                objectFit: 'cover',
+                opacity: showFallbackOverlay ? 1 : 0,
+              }}
+            />
+          )}
+          </>
+        ) : heroFallbackImage ? (
+          // eslint-disable-next-line jsx-a11y/alt-text
+          <img
+            src={heroFallbackImage}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: `translate(-50%, -50%) scale(1.06)`,
+              transformOrigin: 'center center',
+              minWidth: `${computedMinWidth}px`,
+              minHeight: `${computedMinHeight}px`,
+              width: 'auto',
+              height: 'auto',
+              background: 'transparent',
+              border: 0,
+              filter: `blur(${blur}px)`,
+              transition: 'filter 160ms linear, transform 400ms linear',
+              willChange: 'filter, transform',
+              pointerEvents: 'none',
+              objectFit: 'cover'
+            }}
+          />
+        ) : null}
+        {/* slightly darker overlay for more contrast */}
+        <div aria-hidden style={{ position: 'absolute', inset: 0 }} className="-z-10 bg-black/50 md:bg-black/45" />
+      </div>
+
+  {/* Header is provided by the shared Layout. */}
+
+      {/* HERO — content area that sits visually over the video. Keep ref to measure height. */}
+      <section
+        ref={heroRef}
+        className="relative overflow-hidden h-[75vh] md:h-[80vh] lg:h-[90vh] flex items-center"
+        aria-label="Hero"
+      >
+        <div className="container-padded relative z-20 flex h-full w-full items-center justify-center py-12">
+          {heroFeatured.length > 0 && (
+            <div className="w-full max-w-6xl flex flex-col items-center gap-6">
+              <div className="mx-auto max-w-3xl space-y-3 text-center text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
+                <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
+                  {t('home.featured.title', { defaultValue: 'Coleção Exclusiva Stella' })}
+                </h2>
+                <p className="text-sm sm:text-base text-white/90">
+                  {t('home.featured.subtitle', {
+                    defaultValue: 'Residências escolhidas a dedo para investidores que lideram o ritmo da cidade.',
+                  })}
+                </p>
+              </div>
+              <div className={`mx-auto grid gap-4 text-slate-900 ${heroGridClasses}`}>
+                {heroFeatured.map((p: any) => {
+                  const mediaItems = Array.isArray(p.media) ? p.media : []
+                  const thumb = mediaItems.find((m: any) => m.kind === 'thumbnail')?.url || mediaItems[0]?.url
+                  const videoCandidate = mediaItems.find(
+                    (m: any) =>
+                      typeof m?.url === 'string' &&
+                      ((m.kind || '').toLowerCase().includes('video') || /\.mp4($|\?)/i.test(m.url)),
+                  )
+                  const videoUrl = videoCandidate?.url as string | undefined
+                  // Prefer per-unit price: features.unit_price, else min floorplan/units price, else row price
+                  const f = (p.features || {}) as any
+                  const toNum = (v: any): number | null => {
+                    const n = typeof v === 'number' ? v : Number(v)
+                    return Number.isFinite(n) ? n : null
+                  }
+                  let perUnit: number | null = toNum(f.unit_price ?? f.unitPrice)
+                  if (perUnit == null && Array.isArray(f.floorplans)) {
+                    for (const plan of f.floorplans) {
+                      const v = toNum(plan?.pricePerUnit ?? plan?.price_per_unit ?? plan?.price)
+                      if (v != null) perUnit = perUnit == null ? v : Math.min(perUnit, v)
+                    }
+                  }
+                  if (perUnit == null && Array.isArray(f.units)) {
+                    for (const u of f.units) {
+                      const v = toNum(u?.price ?? u?.valor)
+                      if (v != null) perUnit = perUnit == null ? v : Math.min(perUnit, v)
+                    }
+                  }
+                  const fallbackPrice = toNum(p.price)
+                  const displayPrice = perUnit != null ? perUnit : (fallbackPrice != null ? fallbackPrice : null)
+                  const price = displayPrice != null ? formatPrice(displayPrice) : null
+                  const card = (
+                    <article className="group relative flex flex-col w-full sm:w-[22rem] min-h-[360px] overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-4 text-left text-slate-900 shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:border-white/60">
+                      {thumb ? (
+                        <div className="relative overflow-hidden rounded-2xl">
+                          {/* On hover, if videoUrl exists, show a muted autoplaying video in place of the image */}
+                          {videoUrl ? (
+                            <div className="relative h-52 w-full">
+                              <img
+                                src={thumb}
+                                alt={p.title}
+                                className="absolute inset-0 h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-0"
+                              />
+                              <video
+                                className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                                src={videoUrl}
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                                onMouseEnter={(e) => {
+                                  try {
+                                    const vid = e.currentTarget as HTMLVideoElement
+                                    vid.currentTime = 0
+                                    void vid.play()
+                                  } catch {
+                                    /* ignore */
+                                  }
+                                }}
+                                onMouseLeave={(e) => {
+                                  try {
+                                    const vid = e.currentTarget as HTMLVideoElement
+                                    vid.pause()
+                                    vid.currentTime = 0
+                                  } catch {
+                                    /* ignore */
+                                  }
+                                }}
+                              />
+                            </div>
+                          ) : (
+                            <img
+                              src={thumb}
+                              alt={p.title}
+                              className="h-52 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <div className="grid h-52 w-full place-items-center rounded-2xl bg-slate-100/80 text-slate-400">
+                          {t('home.featured.noImage', { defaultValue: 'No image' })}
+                        </div>
+                      )}
+                      <div className="mt-3 space-y-2 min-h-[92px]">
+                        <h3 className="text-lg font-semibold text-slate-900 line-clamp-1">{p.title}</h3>
+                        <p className="text-sm text-slate-600">{[p.city, p.state_code].filter(Boolean).join(', ')}</p>
+                        {price ? (
+                          <p className="text-xl font-bold text-brand-700 tracking-tight truncate">{price}</p>
+                        ) : (
+                          <p className="text-xs uppercase tracking-[0.25em] text-slate-500">
+                            {t('home.featured.priceUnavailable', { defaultValue: 'Price on request' })}
+                          </p>
+                        )}
+                      </div>
+                    </article>
+                  )
+                  if (p.listing_type === 'new_project') {
+                    const slug = makeProjectSlug(p.title || 'project', p.id)
+                    return (
+                      <Link
+                        key={p.id}
+                        to={`/projects/${slug}`}
+                        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                        aria-label={p.title}
+                      >
+                        {card}
+                      </Link>
+                    )
+                  }
+                  return (
+                    <div key={p.id}>
+                      {card}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+  {/* MAIN CONTENT */}
+  <main className="flex-1 relative z-40 bg-white">
+    {/* Removed placeholder marketing copy per request */}
+    {projects.length > 0 && (
+      <section id="new-projects" className="container-padded py-16">
+            <h2 className="text-2xl font-bold">{t('home.newProjects.title', { defaultValue: 'New Projects' })}</h2>
+            {projectsError && <p className="mt-2 text-sm text-red-600">{projectsError}</p>}
+            <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {projects.map((p) => {
+                const thumb = (p.media || []).find((m: any) => m.kind === 'thumbnail')?.url || (p.media || [])[0]?.url
+                const expected = p.features?.expected_delivery_month || p.features?.expected_delivery_year
+                return (
+                  <div key={p.id} className="rounded-2xl border border-slate-200 dark:border-slate-800 p-4 bg-white/80 dark:bg-slate-900/60 shadow-soft">
+                    {thumb ? (
+                      <img src={thumb} alt={p.title} className="w-full h-40 object-cover rounded-xl" />
+                    ) : (
+                      <div className="w-full h-40 bg-slate-100 rounded-xl grid place-items-center text-slate-400 text-sm">No image</div>
+                    )}
+                    <h3 className="mt-3 text-lg font-semibold line-clamp-1">{p.title}</h3>
+                    <p className="text-sm text-slate-600">{[p.city, p.state_code].filter(Boolean).join(', ')}</p>
+                    {expected && (
+                      <p className="text-sm text-slate-700 mt-1">Delivery: {[
+                        p.features?.expected_delivery_month,
+                        p.features?.expected_delivery_year,
+                      ].filter(Boolean).join(' ')}</p>
+                    )}
+                  </div>
+  );              })}
+            </div>
+          </section>
+        )}
+
+        <section id="about" className="container-padded py-16">
+          <h2 className="text-2xl font-bold">{t('home.about.title')}</h2>
+          <p className="mt-3 text-slate-900 dark:text-black-900 max-w-2xl">
+            {t('home.about.body')}
+          </p>
+        </section>
+
+        <section id="contact" className="container-padded py-16">
+          <h2 className="text-2xl font-normal text-black dark:text-black">{t('home.contact.title')}</h2>
+          <form className="mt-6 grid gap-4 max-w-lg">
+            <label className="grid gap-1 text-sm">
+              <span className="font-medium">{t('home.contact.email')}</span>
+              <input type="email" placeholder="voce@example.com" className="rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-500/40"/>
+            </label>
+            <label className="grid gap-1 text-sm">
+              <span className="font-medium">{t('home.contact.message')}</span>
+              <textarea placeholder="How can we help?" rows={5} className="rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-500/40"></textarea>
+            </label>
+            <button className="inline-flex items-center justify-center rounded-2xl px-4 py-2 font-semibold bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 shadow-soft transition-colors w-fit">
+              {t('home.contact.send')}
+            </button>
+          </form>
+        </section>
+      </main>
+
+  {/* Footer is provided by the shared Layout. */}
+
+      {/* WhatsApp floating button — replace PHONE_NUMBER with e.g. 15551234567 (country + number, no plus) */}
+      <a
+        href="https://wa.me/5511986410429?text=Hello%2C%20I%27m%20interested%20in%20your%20listings"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
+        className="fixed right-6 bottom-6 z-50 inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#1DA851] text-white shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#25D366]"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-7 h-7" fill="currentColor" aria-hidden="true">
+          <path d="M20.52 3.48A11.92 11.92 0 0012 0C5.37 0 .08 5.29.08 11.92c0 2.1.55 4.16 1.6 5.98L0 24l6.36-1.66A11.9 11.9 0 0012 23.84c6.63 0 11.92-5.29 11.92-11.92 0-3.18-1.24-6.17-3.4-8.44zM12 21.66c-1.3 0-2.57-.35-3.68-1.02l-.26-.15-3.78.99.99-3.69-.16-.27A8.45 8.45 0 013.56 11.9C3.56 7.04 7.14 3.46 12 3.46c4.86 0 8.44 3.58 8.44 8.44 0 4.86-3.58 8.44-8.44 8.44z"/>
+          <path d="M17.2 14.06c-.27-.14-1.6-.79-1.85-.88-.25-.09-.44-.14-.63.14-.2.27-.77.88-.95 1.06-.17.18-.35.2-.65.07-.3-.13-1.26-.47-2.4-1.48-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.12-.6.12-.12.27-.3.4-.45.14-.15.18-.27.28-.46.09-.18.05-.34-.03-.48-.08-.14-.63-1.52-.86-2.09-.23-.55-.47-.47-.64-.48l-.55-.01c-.18 0-.47.07-.72.34-.25.27-.95.93-.95 2.27 0 1.34.98 2.64 1.12 2.82.14.18 1.93 2.95 4.67 4.13 1.64.72 2.32.83 3.15.7.48-.07 1.6-.65 1.83-1.28.24-.62.24-1.16.17-1.28-.07-.12-.26-.18-.53-.32z"/>
+        </svg>
+      </a>
+    </div>
+  );
+}
