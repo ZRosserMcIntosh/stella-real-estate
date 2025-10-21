@@ -30,8 +30,9 @@
     "footer": {
       "privacy": "Privacy",
       "listProperty": "List Your Property",
-  "legal": "Legal Department",
-  "admin": "Admin"
+      "legal": "Legal Department",
+      "admin": "Admin",
+      "institutional": "Institutional"
     }
   },
   "pages": {
@@ -42,6 +43,7 @@
     "privacy": { "title": "Privacy Policy" },
     "legal": { "title": "Legal" },
     "listYourProperty": { "title": "List Your Property" },
+    "institutional": { "title": "Institutional" },
     "notFound": { "title": "Page not found", "backHome": "Back to Home" }
   },
   "auth": {
@@ -54,6 +56,8 @@
     "signingIn": "Signing in...",
     "creating": "Creating...",
     "forgotPrompt": "Forgot your password?",
-    "reset": "Reset it"
+  "reset": "Reset it",
+  "exploreDemo": "Explore in demo mode",
+  "demoHint": "Use your email or enter DEMO with password stella to explore."
   }
 }

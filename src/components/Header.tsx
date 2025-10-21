@@ -58,12 +58,8 @@ export default function Header() {
       <div className="container-padded flex items-center justify-between py-3">
         <Link to="/" className="flex items-center gap-3">
           {!logoFailed ? (
-            // Place image at public/stella-mary-logo.png
-            // Will be served at /stella-mary-logo.png
-            // Size scales with height, preserves aspect via object-contain
-            // eslint-disable-next-line jsx-a11y/alt-text
             <img
-              src="/stella-mary-logo.png"
+              src="/stella-favicon.png"
               className="h-10 sm:h-12 w-auto object-contain drop-shadow-sm"
               alt={t('header.brand') as string}
               onError={() => setLogoFailed(true)}

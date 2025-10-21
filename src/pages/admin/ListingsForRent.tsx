@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
+import { useAuth } from '../../context/AuthContext'
 
 type Listing = {
 	id: string
@@ -154,6 +155,7 @@ export default function ListingsForRent() {
 	// Data state
 	const [items, setItems] = useState<Listing[]>([])
 	const [loading, setLoading] = useState(false)
+	const { isDemo } = useAuth()
 
 	// Edit state
 	const [editingId, setEditingId] = useState<string | null>(null)
@@ -261,6 +263,10 @@ export default function ListingsForRent() {
 	}
 
 	async function saveEdit() {
+		if (isDemo) {
+			setError('Demo mode: editing listings is disabled.')
+			return
+		}
 		if (!editingId) return
 		setSaving(true)
 		setError(null)
@@ -322,6 +328,10 @@ export default function ListingsForRent() {
 
 	const createListing = async (e: React.FormEvent) => {
 		e.preventDefault()
+		if (isDemo) {
+			setError('Demo mode: creating listings is disabled.')
+			return
+		}
 		setSaving(true)
 		setError(null)
 		try {
@@ -381,6 +391,7 @@ export default function ListingsForRent() {
 	}
 
 	const remove = async (id: string) => {
+		if (isDemo) return
 		await supabase.from('listings').delete().eq('id', id)
 		setItems(prev => prev.filter(i => i.id !== id))
 	}
@@ -390,12 +401,17 @@ export default function ListingsForRent() {
 
 	return (
 		<div className="p-4 text-slate-800">
-			<div>
-				<h1 className="text-xl font-semibold">Listings · For Rent</h1>
-				<p className="mt-1 text-slate-600">Create and manage properties listed for rent.</p>
-				{loading && <p className="text-sm text-slate-500 mt-1">Loading…</p>}
-				{error && <p className="text-sm text-red-600 mt-1">{error}</p>}
-			</div>
+		<div>
+			<h1 className="text-xl font-semibold">Listings · For Rent</h1>
+			<p className="mt-1 text-slate-600">Create and manage properties listed for rent.</p>
+			{isDemo && (
+				<p className="mt-2 inline-flex items-center gap-2 rounded-full border border-amber-300/80 bg-amber-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
+					Demo mode · changes disabled
+				</p>
+			)}
+			{loading && <p className="text-sm text-slate-500 mt-1">Loading…</p>}
+			{error && <p className="text-sm text-red-600 mt-1">{error}</p>}
+		</div>
 
 			{/* Add New Listing (collapsible) */}
 			<div className="mt-6 rounded-xl border border-slate-200 bg-white">
@@ -631,9 +647,13 @@ export default function ListingsForRent() {
 								</label>
 							</div>
 
-							<button disabled={saving || !title} className="mt-4 mx-auto w-fit text-sm inline-flex items-center rounded-md px-3 py-1.5 text-white bg-sky-600 hover:bg-sky-700 disabled:opacity-60">
-								{saving ? 'Saving…' : 'Add Listing'}
-							</button>
+					<button
+						disabled={saving || !title || isDemo}
+						className="mt-4 mx-auto w-fit text-sm inline-flex items-center rounded-md px-3 py-1.5 text-white bg-sky-600 hover:bg-sky-700 disabled:cursor-not-allowed disabled:opacity-60"
+						title={isDemo ? 'Disabled in demo mode' : undefined}
+					>
+						{saving ? 'Saving…' : 'Add Listing'}
+					</button>
 						</form>
 					</div>
 				)}
@@ -708,8 +728,13 @@ export default function ListingsForRent() {
 									<p className="text-sm text-slate-700 mt-1">{l.price != null ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(l.price)) : '—'}</p>
 								</div>
 									<div className="flex items-center gap-3">
-										<button onClick={()=>startEdit(l)} className="text-sm text-slate-700 hover:underline">Edit</button>
-										<button onClick={()=>remove(l.id)} className="text-sm text-red-600 hover:underline">Delete</button>
+				<button onClick={()=>startEdit(l)} className="text-sm text-slate-700 hover:underline">Edit</button>
+				<button
+					onClick={()=>remove(l.id)}
+					disabled={isDemo}
+					className="text-sm text-red-600 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+					title={isDemo ? 'Disabled in demo mode' : undefined}
+				>Delete</button>
 									</div>
 							</div>
 						</div>
@@ -776,7 +801,13 @@ export default function ListingsForRent() {
 								</label>
 							</div>
 							<div className="mt-2 flex items-center gap-3">
-								<button onClick={saveEdit} className="inline-flex items-center rounded-md px-3 py-1.5 text-white bg-sky-600 hover:bg-sky-700 text-sm" type="button">Save</button>
+				<button
+					onClick={isDemo ? undefined : saveEdit}
+					disabled={isDemo}
+					className="inline-flex items-center rounded-md px-3 py-1.5 text-white bg-sky-600 hover:bg-sky-700 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+					type="button"
+					title={isDemo ? 'Disabled in demo mode' : undefined}
+				>Save</button>
 								<button onClick={()=>setEditingId(null)} className="inline-flex items-center rounded-md px-3 py-1.5 text-slate-700 bg-slate-100 hover:bg-slate-200 text-sm" type="button">Cancel</button>
 							</div>
 							{error && <p className="text-sm text-red-600 mt-1">{error}</p>}
@@ -787,4 +818,3 @@ export default function ListingsForRent() {
 		</div>
 	)
 }
-

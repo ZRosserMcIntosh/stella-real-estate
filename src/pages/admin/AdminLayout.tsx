@@ -2,11 +2,12 @@ import React from 'react'
 import { createPortal } from 'react-dom'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import LanguageSwitcher from '../../components/LanguageSwitcher'
-import { supabase } from '../../lib/supabaseClient'
+import { useAuth } from '../../context/AuthContext'
 
 export default function AdminLayout() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { session, isDemo, loading: authLoading, signOut: signOutAuth } = useAuth()
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const [listingsOpen, setListingsOpen] = React.useState(false)
   const [companyOpen, setCompanyOpen] = React.useState(false)
@@ -30,6 +31,15 @@ export default function AdminLayout() {
     location.pathname.startsWith('/admin/account') ||
     location.pathname.startsWith('/admin/calendar') ||
     location.pathname.startsWith('/admin/document-vault')
+  const handleSignOut = React.useCallback(async () => {
+    await signOutAuth()
+    navigate('/login')
+  }, [signOutAuth, navigate])
+
+  React.useEffect(() => {
+    if (authLoading) return
+    if (!session && !isDemo) navigate('/login', { replace: true })
+  }, [authLoading, session, isDemo, navigate])
 
   React.useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
@@ -82,13 +92,8 @@ export default function AdminLayout() {
       window.removeEventListener('scroll', handler)
     }
   }, [companyOpen, positionMenu])
-  const signOut = async () => {
-    try {
-      await supabase.auth.signOut()
-    } finally {
-      navigate('/login')
-    }
-  }
+  if (authLoading) return null
+  if (!session && !isDemo) return null
   return (
     <div className="min-h-screen bg-white">
   {/* Clean admin header */}
@@ -459,10 +464,16 @@ export default function AdminLayout() {
                 </div>
               )}
             </div>
+            {isDemo && (
+              <span className="hidden md:inline-flex items-center rounded-lg border border-amber-300/80 bg-amber-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
+                Demo mode · read-only
+              </span>
+            )}
             <button
               type="button"
-              onClick={signOut}
-              className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-800 hover:bg-slate-50"
+              onClick={handleSignOut}
+              disabled={authLoading}
+              className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-800 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
             >
               Sign out
             </button>
@@ -511,7 +522,21 @@ export default function AdminLayout() {
                   <NavLink to="document-vault" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm ${isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'}`}>Document Vault</NavLink>
                 </div>
               </div>
-              <button onClick={async () => { await supabase.auth.signOut(); setMobileOpen(false); navigate('/login') }} className="mt-1 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white">Sign out</button>
+              {isDemo && (
+                <div className="mt-2 rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-amber-700">
+                  Demo mode · read-only
+                </div>
+              )}
+              <button
+                onClick={async () => {
+                  setMobileOpen(false)
+                  await handleSignOut()
+                }}
+                className="mt-3 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
+                disabled={authLoading}
+              >
+                Sign out
+              </button>
             </div>
           </div>
         </div>

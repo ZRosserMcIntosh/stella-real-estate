@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../../../lib/supabaseClient'
+import { useAuth } from '../../../context/AuthContext'
 
 type TicketCategory = 'feature' | 'bug' | 'integration' | 'content' | 'other'
 type TicketPriority = 'p0' | 'p1' | 'p2' | 'p3'
@@ -58,6 +59,7 @@ export default function SubmitTicket() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const { isDemo } = useAuth()
 
   const supabaseConfigured = Boolean((import.meta as any).env?.VITE_SUPABASE_URL)
 
@@ -91,6 +93,10 @@ export default function SubmitTicket() {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (isDemo) {
+      setError('Demo mode: ticket submission is disabled.')
+      return
+    }
     setSubmitting(true)
     setError(null)
 
@@ -260,8 +266,9 @@ export default function SubmitTicket() {
           )}
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || isDemo}
             className={`inline-flex items-center gap-2 rounded-full px-6 py-2 text-sm font-semibold text-white shadow-md transition hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 disabled:cursor-not-allowed disabled:bg-brand-300 ${submitButtonTone}`}
+            title={isDemo ? 'Disabled in demo mode' : undefined}
           >
             {submitting ? 'Sending…' : 'Submit ticket'}
           </button>

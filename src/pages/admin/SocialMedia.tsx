@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from '../../lib/supabaseClient'
+import { useAuth } from '../../context/AuthContext'
 
 type SocialPlatform =
   | 'instagram'
@@ -526,6 +527,7 @@ export default function SocialMedia() {
   const [activeTab, setActiveTab] = useState<SocialSubView>('publishing')
   const [billing, setBilling] = useState<BillingFrequency>('yearly')
   const [channelCount, setChannelCount] = useState<number>(3)
+  const { isDemo } = useAuth()
 
   const [content, setContent] = useState('')
   const [platforms, setPlatforms] = useState<SocialPlatform[]>([])
@@ -598,12 +600,12 @@ export default function SocialMedia() {
   }
 
   const handleConnect = async (provider: SocialConnector) => {
-    if (supabaseConfigured && !session) {
+    if (supabaseConfigured && !session && !isDemo) {
       setError('Sign in to connect social accounts.')
       return
     }
 
-    if (!supabaseConfigured || !session) {
+    if (!supabaseConfigured || !session || isDemo) {
       const current = connections[provider]?.status ?? 'disconnected'
       updateLocalConnection(provider, current === 'connected' ? 'disconnected' : 'connected')
       setError(null)
@@ -782,7 +784,7 @@ export default function SocialMedia() {
   }, [connectedPlatforms])
 
   const composerReady = connectedPlatforms.length > 0
-  const scheduleDisabled = !composerReady || !platforms.length || !content.trim()
+  const scheduleDisabled = isDemo || !composerReady || !platforms.length || !content.trim()
 
   const resetComposer = () => {
     setContent('')
@@ -824,6 +826,11 @@ export default function SocialMedia() {
     const disconnectedSelections = platforms.filter((platform) => connections[platform]?.status !== 'connected')
     if (disconnectedSelections.length) {
       setError('One or more selected platforms are not connected. Connect them first.')
+      return
+    }
+
+    if (isDemo) {
+      setError('Demo mode: publishing is disabled.')
       return
     }
 
@@ -887,6 +894,10 @@ export default function SocialMedia() {
   }
 
   const updateStatus = async (id: string, nextStatus: SocialStatus) => {
+    if (isDemo) {
+      setError('Demo mode: status updates are disabled.')
+      return
+    }
     if (!supabaseConfigured) {
       setPosts((prev) =>
         prev.map((post) =>
@@ -934,6 +945,10 @@ export default function SocialMedia() {
   }
 
   const deletePost = async (id: string) => {
+    if (isDemo) {
+      setError('Demo mode: deleting posts is disabled.')
+      return
+    }
     if (!supabaseConfigured) {
       setPosts((prev) => prev.filter((post) => post.id !== id))
       return
@@ -1074,11 +1089,13 @@ export default function SocialMedia() {
                 <button
                   type="button"
                   onClick={() => handleConnect(connector.provider)}
+                  disabled={isDemo}
                   className={`mt-4 w-full rounded-lg px-3 py-1.5 text-sm font-semibold transition ${
                     isConnected
                       ? 'border border-slate-300 text-slate-600 hover:bg-white'
                       : 'bg-sky-600 text-white hover:bg-sky-700'
-                  }`}
+                  } disabled:cursor-not-allowed disabled:opacity-60`}
+                  title={isDemo ? 'Disabled in demo mode' : undefined}
                 >
                   {isConnected ? 'Disconnect' : 'Connect'}
                 </button>
@@ -1263,6 +1280,7 @@ export default function SocialMedia() {
               onClick={handleCreate}
               disabled={scheduleDisabled}
               className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-300 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
+              title={isDemo ? 'Disabled in demo mode' : undefined}
             >
               {scheduledAt ? 'Schedule post' : 'Save draft'}
             </button>
@@ -1464,7 +1482,9 @@ export default function SocialMedia() {
                         <button
                           type="button"
                           onClick={() => updateStatus(post.id, 'published')}
-                          className="rounded border border-emerald-300 bg-emerald-50 px-2 py-1 text-emerald-700 hover:bg-emerald-100"
+                          disabled={isDemo}
+                          className="rounded border border-emerald-300 bg-emerald-50 px-2 py-1 text-emerald-700 hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-50"
+                          title={isDemo ? 'Disabled in demo mode' : undefined}
                         >
                           Mark published
                         </button>
@@ -1473,7 +1493,9 @@ export default function SocialMedia() {
                         <button
                           type="button"
                           onClick={() => updateStatus(post.id, 'failed')}
-                          className="rounded border border-red-200 bg-red-50 px-2 py-1 text-red-600 hover:bg-red-100"
+                          disabled={isDemo}
+                          className="rounded border border-red-200 bg-red-50 px-2 py-1 text-red-600 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                          title={isDemo ? 'Disabled in demo mode' : undefined}
                         >
                           Flag failed
                         </button>
@@ -1481,7 +1503,9 @@ export default function SocialMedia() {
                       <button
                         type="button"
                         onClick={() => deletePost(post.id)}
-                        className="rounded border border-slate-300 px-2 py-1 text-red-600 hover:bg-red-50"
+                        disabled={isDemo}
+                        className="rounded border border-slate-300 px-2 py-1 text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                        title={isDemo ? 'Disabled in demo mode' : undefined}
                       >
                         Delete
                       </button>
@@ -1971,6 +1995,11 @@ export default function SocialMedia() {
       </nav>
 
       <p className="text-sm text-slate-500">{subTabs.find((tab) => tab.key === activeTab)?.blurb}</p>
+      {isDemo && (
+        <p className="mt-2 inline-flex items-center gap-2 rounded-full border border-amber-300/80 bg-amber-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
+          Demo mode · changes disabled
+        </p>
+      )}
 
       {activeTab === 'publishing' && publishingView}
       {activeTab === 'analytics' && analyticsView}

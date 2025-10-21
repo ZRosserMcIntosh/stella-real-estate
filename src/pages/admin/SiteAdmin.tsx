@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { can, type UserRBACContext } from '../../lib/rbac'
 import { getSiteSettings, setSiteSetting, getSiteSettingHistory, addSiteSettingToHistory } from '../../lib/siteSettings'
 import { supabase } from '../../lib/supabaseClient'
+import { useAuth } from '../../context/AuthContext'
 
 export default function SiteAdmin() {
   // TODO: wire the real user context; for now, assume admin access in dev
@@ -11,6 +12,7 @@ export default function SiteAdmin() {
     scopes: { listings: 'global', leads: 'global', cities: [] },
   }
   const allowed = can(userCtx, 'roles.manage') || can(userCtx, 'users.manage')
+  const { isDemo } = useAuth()
 
   const [homeId, setHomeId] = useState('')
   const [loginId, setLoginId] = useState('')
@@ -137,6 +139,11 @@ export default function SiteAdmin() {
     <div className="p-4 text-slate-900">
       <h1 className="text-xl font-semibold">Site Admin</h1>
       <p className="mt-1 text-slate-600">Manage public site configuration.</p>
+      {isDemo && (
+        <p className="mt-2 inline-flex items-center gap-2 rounded-full border border-amber-300/80 bg-amber-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
+          Demo mode · changes disabled
+        </p>
+      )}
       <div className="mt-6 grid gap-6 max-w-2xl">
         <label className="grid gap-1 text-sm">
           <span className="font-medium">Home page background video (YouTube ID)</span>
@@ -153,6 +160,12 @@ export default function SiteAdmin() {
                 accept="image/*"
                 className="hidden"
                 onChange={async (e)=>{
+                  if (isDemo) {
+                    setMsg('Demo mode: uploads are disabled.')
+                    setTimeout(() => setMsg(null), 2500)
+                    e.target.value = ''
+                    return
+                  }
                   const file = e.target.files?.[0]
                   if (!file) return
                   try {
@@ -221,6 +234,12 @@ export default function SiteAdmin() {
                 accept="video/mp4,video/webm,video/ogg"
                 className="hidden"
                 onChange={async (e)=>{
+                  if (isDemo) {
+                    setMsg('Demo mode: uploads are disabled.')
+                    setTimeout(() => setMsg(null), 2500)
+                    e.target.value = ''
+                    return
+                  }
                   const file = e.target.files?.[0]
                   if (!file) return
                   try {
@@ -342,8 +361,13 @@ export default function SiteAdmin() {
         )}
         <div className="flex items-center gap-2">
           <button
-            disabled={saving}
+            disabled={saving || isDemo}
             onClick={async ()=>{
+              if (isDemo) {
+                setMsg('Demo mode: settings are read-only.')
+                setTimeout(() => setMsg(null), 2500)
+                return
+              }
               setSaving(true); setMsg(null)
               const hv = homeId.trim()
               const lv = loginId.trim()
@@ -366,7 +390,8 @@ export default function SiteAdmin() {
               setMsg('Saved')
               setTimeout(()=> setMsg(null), 2000)
             }}
-            className="rounded-md bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-700 disabled:opacity-60"
+            className="rounded-md bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-700 disabled:cursor-not-allowed disabled:opacity-60"
+            title={isDemo ? 'Disabled in demo mode' : undefined}
           >{saving ? 'Saving…' : 'Save'}</button>
           {msg && <span className="text-sm text-slate-600">{msg}</span>}
         </div>

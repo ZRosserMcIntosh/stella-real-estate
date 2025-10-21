@@ -30,8 +30,9 @@
     "footer": {
       "privacy": "Privacidade",
       "listProperty": "Anuncie seu Imóvel",
-  "legal": "Jurídico",
-  "admin": "Admin"
+      "legal": "Jurídico",
+      "admin": "Admin",
+      "institutional": "Institucional"
     }
   },
   "pages": {
@@ -42,6 +43,7 @@
     "privacy": { "title": "Política de Privacidade" },
     "legal": { "title": "Jurídico" },
     "listYourProperty": { "title": "Anuncie seu Imóvel" },
+    "institutional": { "title": "Institucional" },
     "notFound": { "title": "Página não encontrada", "backHome": "Voltar para Home" }
   },
   "auth": {
@@ -54,6 +56,8 @@
     "signingIn": "Entrando...",
     "creating": "Criando...",
     "forgotPrompt": "Esqueceu sua senha?",
-    "reset": "Redefinir"
+  "reset": "Redefinir",
+  "exploreDemo": "Explorar em modo demo",
+  "demoHint": "Você pode usar seu email ou digitar DEMO com a senha stella para explorar."
   }
 }

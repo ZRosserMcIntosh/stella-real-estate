@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
+import { useAuth } from '../../context/AuthContext'
 
 type Listing = {
 	id: string
@@ -505,6 +506,7 @@ export default function ListingsNewProjects(){
 	// Data state
 	const [items, setItems] = useState<Listing[]>([])
 	const [loading, setLoading] = useState(false)
+	const { isDemo } = useAuth()
 
 	const parsedUnitsAvailableValue = useMemo<number | null>(() => {
 		const digits = (unitsAvailable || '').replace(/[^0-9]/g, '')
@@ -745,6 +747,10 @@ export default function ListingsNewProjects(){
 
 	const createListing = async (e: React.FormEvent) => {
 		e.preventDefault()
+		if (isDemo) {
+			setError('Demo mode: creating projects is disabled.')
+			return
+		}
 		setSaving(true)
 		setError(null)
 		setLastDbError(null)
@@ -940,6 +946,10 @@ export default function ListingsNewProjects(){
 }
 
 	async function saveEdit() {
+		if (isDemo) {
+			setError('Demo mode: editing projects is disabled.')
+			return
+		}
 		if (!editingId) return
 		setSaving(true)
 		setError(null)
@@ -1085,6 +1095,10 @@ export default function ListingsNewProjects(){
 	}
 
 	async function warmApi() {
+		if (isDemo) {
+			setError('Demo mode: diagnostics are disabled.')
+			return
+		}
 		setError(null)
 		setLastDbError(null)
 		try {
@@ -1105,6 +1119,10 @@ export default function ListingsNewProjects(){
 	}
 
 	async function runDiagnostics() {
+		if (isDemo) {
+			setError('Demo mode: diagnostics are disabled.')
+			return
+		}
 		setDiagRunning(true)
 		setDiagLog([])
 		setError(null)
@@ -1188,12 +1206,17 @@ export default function ListingsNewProjects(){
 	const selectCls = "rounded-md border border-slate-300 bg-white text-slate-900 px-2 py-2 text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none"
 
 	return <div className="p-4 text-slate-800">
-		<div>
-			<h1 className="text-xl font-semibold">Listings · New Projects</h1>
-			<p className="mt-1 text-slate-600">Manage new developments.</p>
-			{loading && <p className="text-sm text-slate-500 mt-1">Loading…</p>}
-			{error && <p className="text-sm text-red-600 mt-1">{error}</p>}
-		</div>
+	<div>
+		<h1 className="text-xl font-semibold">Listings · New Projects</h1>
+		<p className="mt-1 text-slate-600">Manage new developments.</p>
+		{isDemo && (
+			<p className="mt-2 inline-flex items-center gap-2 rounded-full border border-amber-300/80 bg-amber-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
+				Demo mode · changes disabled
+			</p>
+		)}
+		{loading && <p className="text-sm text-slate-500 mt-1">Loading…</p>}
+		{error && <p className="text-sm text-red-600 mt-1">{error}</p>}
+	</div>
 
 		<div className="mt-6 rounded-xl border border-slate-200 bg-white">
 			<button type="button" onClick={()=>setShowForm(s=>!s)} className="w-full flex items-center justify-between px-4 py-3">
@@ -1400,15 +1423,31 @@ export default function ListingsNewProjects(){
 							</label>
 						</div>
 
-						<button disabled={saving || !title || !isYearValid(expectedYear)} className="mt-4 mx-auto w-fit text-sm inline-flex items-center rounded-md px-3 py-1.5 text-white bg-sky-600 hover:bg-sky-700 disabled:opacity-60">
+						<button
+							disabled={saving || !title || !isYearValid(expectedYear) || isDemo}
+							className="mt-4 mx-auto w-fit text-sm inline-flex items-center rounded-md px-3 py-1.5 text-white bg-sky-600 hover:bg-sky-700 disabled:cursor-not-allowed disabled:opacity-60"
+							title={isDemo ? 'Disabled in demo mode' : undefined}
+						>
 							{saving ? 'Saving…' : 'Add Project'}
 						</button>
 						<div className="mt-3 mx-auto w-full max-w-2xl grid gap-2">
-							<div className="flex items-center gap-2">
-								<button type="button" onClick={warmApi} className="text-xs inline-flex items-center rounded-md px-2 py-1 text-slate-700 bg-slate-100 hover:bg-slate-200">Quick ping</button>
-								<button type="button" disabled={diagRunning} onClick={runDiagnostics} className="text-xs inline-flex items-center rounded-md px-2 py-1 text-indigo-700 bg-indigo-100 hover:bg-indigo-200 disabled:opacity-60">
-									{diagRunning ? 'Running diagnostics…' : 'Run full diagnostics'}
-								</button>
+						<div className="flex items-center gap-2">
+							<button
+								type="button"
+								onClick={isDemo ? undefined : warmApi}
+								disabled={isDemo}
+								className="text-xs inline-flex items-center rounded-md px-2 py-1 text-slate-700 bg-slate-100 hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+								title={isDemo ? 'Disabled in demo mode' : undefined}
+							>Quick ping</button>
+							<button
+								type="button"
+								disabled={diagRunning || isDemo}
+								onClick={isDemo ? undefined : runDiagnostics}
+								className="text-xs inline-flex items-center rounded-md px-2 py-1 text-indigo-700 bg-indigo-100 hover:bg-indigo-200 disabled:cursor-not-allowed disabled:opacity-60"
+								title={isDemo ? 'Disabled in demo mode' : undefined}
+							>
+								{diagRunning ? 'Running diagnostics…' : 'Run full diagnostics'}
+							</button>
 							</div>
 							{diagLog.length > 0 && (
 								<div className="mt-2 rounded border border-slate-200 p-2 bg-slate-50">
@@ -1507,11 +1546,17 @@ export default function ListingsNewProjects(){
 										<p className="text-sm text-slate-700 mt-1">{l.price ? `R$ ${Number(l.price).toLocaleString()}` : '—'}</p>
 									</div>
 									<div className="flex items-center gap-3">
-										<button className="text-sm text-slate-700 hover:underline" onClick={() => startEdit(l)}>Edit</button>
-										<button className="text-sm text-red-600 hover:underline" onClick={async ()=>{
-											await supabase.from('listings').delete().eq('id', l.id)
-											setItems(prev => prev.filter(i => i.id !== l.id))
-										}}>Delete</button>
+						<button className="text-sm text-slate-700 hover:underline" onClick={() => startEdit(l)}>Edit</button>
+						<button
+							className="text-sm text-red-600 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+							onClick={async ()=>{
+								if (isDemo) return
+								await supabase.from('listings').delete().eq('id', l.id)
+								setItems(prev => prev.filter(i => i.id !== l.id))
+							}}
+							disabled={isDemo}
+							title={isDemo ? 'Disabled in demo mode' : undefined}
+						>Delete</button>
 									</div>
 								</div>
 							</div>
@@ -1614,7 +1659,13 @@ export default function ListingsNewProjects(){
 							</label>
 						</div>
 						<div className="mt-2 flex items-center gap-3">
-							<button onClick={saveEdit} className="inline-flex items-center rounded-md px-3 py-1.5 text-white bg-sky-600 hover:bg-sky-700 text-sm" type="button">Save</button>
+						<button
+							onClick={isDemo ? undefined : saveEdit}
+							disabled={isDemo}
+							className="inline-flex items-center rounded-md px-3 py-1.5 text-white bg-sky-600 hover:bg-sky-700 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+							type="button"
+							title={isDemo ? 'Disabled in demo mode' : undefined}
+						>Save</button>
 							<button onClick={()=>setEditingId(null)} className="inline-flex items-center rounded-md px-3 py-1.5 text-slate-700 bg-slate-100 hover:bg-slate-200 text-sm" type="button">Cancel</button>
 						</div>
 						{error && <p className="text-sm text-red-600 mt-1">{error}</p>}

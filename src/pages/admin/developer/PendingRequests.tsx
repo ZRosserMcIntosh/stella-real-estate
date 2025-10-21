@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react'
 import { supabase } from '../../../lib/supabaseClient'
+import { useAuth } from '../../../context/AuthContext'
 
 type TicketCategory = 'feature' | 'bug' | 'integration' | 'content' | 'other'
 type TicketPriority = 'p0' | 'p1' | 'p2' | 'p3'
@@ -157,6 +158,7 @@ export default function PendingRequests() {
   const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({})
   const [expandedCompleted, setExpandedCompleted] = useState(false)
   const [expandedRejected, setExpandedRejected] = useState(false)
+  const { isDemo } = useAuth()
 
   useEffect(() => {
     if (!supabaseConfigured) {
@@ -224,6 +226,10 @@ export default function PendingRequests() {
   }
 
   const handleStatusChange = async (requestId: string, nextStatus: TicketStatus) => {
+    if (isDemo) {
+      setError('Demo mode: status changes are disabled.')
+      return
+    }
     if (supabaseConfigured) {
       const { error: updateError } = await supabase
         .from('developer_requests')
@@ -243,6 +249,10 @@ export default function PendingRequests() {
   }
 
   const handleReaction = async (requestId: string, reaction: 'like' | 'dislike') => {
+    if (isDemo) {
+      setError('Demo mode: reactions are disabled.')
+      return
+    }
     if (!user.id) {
       setError('Sign in to react to requests.')
       return
@@ -303,6 +313,11 @@ export default function PendingRequests() {
     if (!text) return
     if (!user.id && supabaseConfigured) {
       setError('Sign in to add comments.')
+      return
+    }
+
+    if (isDemo) {
+      setError('Demo mode: comments are disabled.')
       return
     }
 
@@ -386,14 +401,18 @@ export default function PendingRequests() {
             <button
               type="button"
               onClick={() => handleStatusChange(request.id, 'completed')}
-              className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600 hover:bg-emerald-100 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-200"
+              disabled={isDemo}
+              className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600 hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-200"
+              title={isDemo ? 'Disabled in demo mode' : undefined}
             >
               Mark completed
             </button>
             <button
               type="button"
               onClick={() => handleStatusChange(request.id, 'rejected')}
-              className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-500 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800/40 dark:text-slate-200"
+              disabled={isDemo}
+              className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-500 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800/40 dark:text-slate-200"
+              title={isDemo ? 'Disabled in demo mode' : undefined}
             >
               Reject
             </button>
@@ -411,22 +430,26 @@ export default function PendingRequests() {
               <button
                 type="button"
                 onClick={() => handleReaction(request.id, 'like')}
-                className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold transition ${
+                disabled={isDemo}
+                className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 ${
                   userReaction === 'like'
                     ? 'border-emerald-400 bg-emerald-50 text-emerald-600'
                     : 'border-slate-200 bg-white text-slate-600 hover:border-emerald-200 hover:text-emerald-600'
                 }`}
+                title={isDemo ? 'Disabled in demo mode' : undefined}
               >
                 👍 {likes}
               </button>
               <button
                 type="button"
                 onClick={() => handleReaction(request.id, 'dislike')}
-                className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold transition ${
+                disabled={isDemo}
+                className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 ${
                   userReaction === 'dislike'
                     ? 'border-red-400 bg-red-50 text-red-600'
                     : 'border-slate-200 bg-white text-slate-600 hover:border-red-200 hover:text-red-600'
                 }`}
+                title={isDemo ? 'Disabled in demo mode' : undefined}
               >
                 👎 {dislikes}
               </button>
@@ -461,15 +484,17 @@ export default function PendingRequests() {
                   placeholder="Share context or an update…"
                   className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-400/40 dark:border-slate-600 dark:bg-slate-900"
                 />
-                <div className="mt-2 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => handleCommentSubmit(request.id)}
-                    className="inline-flex items-center rounded-full bg-brand-500 px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-brand-600"
-                  >
-                    Post comment
-                  </button>
-                </div>
+          <div className="mt-2 flex justify-end">
+            <button
+              type="button"
+              onClick={() => handleCommentSubmit(request.id)}
+              disabled={isDemo}
+              className="inline-flex items-center rounded-full bg-brand-500 px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-60"
+              title={isDemo ? 'Disabled in demo mode' : undefined}
+            >
+              Post comment
+            </button>
+          </div>
               </div>
             </div>
           </>
@@ -487,6 +512,11 @@ export default function PendingRequests() {
         <p className="text-sm text-slate-600 dark:text-slate-300">
           Review requests submitted by the team, add updates, and move them to completed or rejected when decisions are made.
         </p>
+        {isDemo && (
+          <p className="inline-flex items-center gap-2 rounded-full border border-amber-300/80 bg-amber-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
+            Demo mode · changes disabled
+          </p>
+        )}
       </div>
 
       {error && (

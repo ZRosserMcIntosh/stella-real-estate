@@ -30,8 +30,9 @@
     "footer": {
       "privacy": "Privacidad",
       "listProperty": "Publica tu Propiedad",
-  "legal": "Legal",
-  "admin": "Admin"
+      "legal": "Legal",
+      "admin": "Admin",
+      "institutional": "Institucional"
     }
   },
   "pages": {
@@ -42,6 +43,7 @@
     "privacy": { "title": "Política de Privacidad" },
     "legal": { "title": "Legal" },
     "listYourProperty": { "title": "Publica tu Propiedad" },
+    "institutional": { "title": "Institucional" },
     "notFound": { "title": "Página no encontrada", "backHome": "Volver al Inicio" }
   },
   "auth": {
@@ -54,6 +56,8 @@
     "signingIn": "Iniciando...",
     "creating": "Creando...",
     "forgotPrompt": "¿Olvidaste tu contraseña?",
-    "reset": "Restablécela"
+  "reset": "Restablécela",
+  "exploreDemo": "Explorar en modo demo",
+  "demoHint": "Puedes usar tu email o escribir DEMO con la contraseña stella para explorar."
   }
 }

@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { supabase } from '../../../lib/supabaseClient'
+import { useAuth } from '../../../context/AuthContext'
 import type { Person, EmploymentType, Department, PersonStatus } from './types'
 
 type Step = 1|2|3|4
@@ -8,6 +9,7 @@ const cpfRegex = /^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/
 const cnpjRegex = /^(\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}|\d{14})$/
 
 export function AddPersonModal({ open, onClose, onCreated, existingPeople }: { open: boolean; onClose: ()=>void; onCreated: (p: Person | null)=>void; existingPeople: Person[] }) {
+  const { isDemo } = useAuth()
   const [step, setStep] = useState<Step>(1)
   const [type, setType] = useState<EmploymentType>('employee')
   const [fullName, setFullName] = useState('')
@@ -40,6 +42,11 @@ export function AddPersonModal({ open, onClose, onCreated, existingPeople }: { o
           <button onClick={onClose} className="rounded border border-slate-300 bg-white px-2 py-1 text-sm">Close</button>
         </div>
         <div className="px-4 py-3">
+          {isDemo && (
+            <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-300/80 bg-amber-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
+              Demo mode · changes disabled
+            </p>
+          )}
           <div className="mb-3 flex items-center gap-2 text-sm">
             <label className="text-slate-700">Type</label>
             <select value={type} onChange={e=>setType(e.target.value as EmploymentType)} className="rounded border border-slate-300 bg-white px-2 py-1 text-sm">
@@ -143,7 +150,7 @@ export function AddPersonModal({ open, onClose, onCreated, existingPeople }: { o
             {step > 1 && step < 4 && <button onClick={()=>setStep((s)=> (s-1) as Step)} className="rounded border border-slate-300 bg-white px-3 py-1.5 text-sm">Back</button>}
             {step < 3 && <button onClick={()=> setStep((s)=> (s+1) as Step)} disabled={(step===1 && !canNext1) || (step===2 && !roleTitle.trim())} className="rounded bg-slate-900 px-3 py-1.5 text-sm text-white disabled:opacity-50">Next</button>}
             {step === 3 && <button onClick={async ()=>{
-              if (!canCreate) return
+              if (!canCreate || isDemo) return
               // Try Supabase RPC first (admin-only); fallback to local state if not configured or fails
               let createdLocal = false
               try {
@@ -182,7 +189,7 @@ export function AddPersonModal({ open, onClose, onCreated, existingPeople }: { o
                 onCreated(p)
               }
               setStep(4)
-            }} disabled={!canCreate} className="rounded bg-sky-600 px-3 py-1.5 text-sm text-white disabled:opacity-50">Create</button>}
+            }} disabled={!canCreate || isDemo} className="rounded bg-sky-600 px-3 py-1.5 text-sm text-white disabled:cursor-not-allowed disabled:opacity-50" title={isDemo ? 'Disabled in demo mode' : undefined}>Create</button>}
           </div>
         </div>
       </div>

@@ -351,18 +351,18 @@ export default function App() {
         aria-label="Hero"
       >
         <div className="container-padded relative z-20 flex h-full w-full items-center justify-center py-12">
-          {heroFeatured.length > 0 && (
-            <div className="w-full max-w-6xl flex flex-col items-center gap-6">
-              <div className="mx-auto max-w-3xl space-y-3 text-center text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
-                <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
-                  {t('home.featured.title', { defaultValue: 'Coleção Exclusiva Stella' })}
-                </h2>
-                <p className="text-sm sm:text-base text-white/90">
-                  {t('home.featured.subtitle', {
-                    defaultValue: 'Residências escolhidas a dedo para investidores que lideram o ritmo da cidade.',
-                  })}
-                </p>
-              </div>
+          <div className="w-full max-w-6xl flex flex-col items-center gap-6">
+            <div className="mx-auto max-w-3xl space-y-3 text-center text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
+              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
+                {t('home.featured.title', { defaultValue: 'Coleção Exclusiva Stella' })}
+              </h2>
+              <p className="text-sm sm:text-base text-white/90">
+                {t('home.featured.subtitle', {
+                  defaultValue: 'Residências escolhidas a dedo para investidores que lideram o ritmo da cidade.',
+                })}
+              </p>
+            </div>
+            {heroFeatured.length > 0 && (
               <div className={`mx-auto grid gap-4 text-slate-900 ${heroGridClasses}`}>
                 {heroFeatured.map((p: any) => {
                   const mediaItems = Array.isArray(p.media) ? p.media : []
@@ -480,8 +480,8 @@ export default function App() {
                   )
                 })}
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </section>
 
@@ -496,6 +496,11 @@ export default function App() {
               {projects.map((p) => {
                 const thumb = (p.media || []).find((m: any) => m.kind === 'thumbnail')?.url || (p.media || [])[0]?.url
                 const expected = p.features?.expected_delivery_month || p.features?.expected_delivery_year
+                const f = (p as any).features || {}
+                const perUnit: number | null =
+                  typeof f.unit_price === 'number'
+                    ? f.unit_price
+                    : (typeof (p as any).price === 'number' && Number.isFinite((p as any).price) ? (p as any).price : null)
                 return (
                   <div key={p.id} className="rounded-2xl border border-slate-200 dark:border-slate-800 p-4 bg-white/80 dark:bg-slate-900/60 shadow-soft">
                     {thumb ? (
@@ -511,6 +516,12 @@ export default function App() {
                         p.features?.expected_delivery_year,
                       ].filter(Boolean).join(' ')}</p>
                     )}
+                    <div className="mt-3 grid grid-cols-1 gap-2 text-xs">
+                      <div className="rounded-lg bg-slate-50 border border-slate-200 px-2 py-1.5">
+                        <div className="uppercase tracking-wide text-[10px] text-slate-500">Per unit</div>
+                        <div className="mt-0.5 font-semibold text-slate-900">{formatPrice(perUnit, { fallback: '—' })}</div>
+                      </div>
+                    </div>
                   </div>
   );              })}
             </div>

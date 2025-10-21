@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 type Listing = {
   id: string
@@ -11,30 +12,20 @@ type Listing = {
 }
 
 export default function Admin() {
-  const [sessionChecked, setSessionChecked] = useState(false)
   const [listings, setListings] = useState<Listing[]>([])
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState<number | ''>('')
   const [saving, setSaving] = useState(false)
   const navigate = useNavigate()
+  const { isDemo, session, loading: authLoading, signOut } = useAuth()
 
-  // Require auth to view
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (!data.session) navigate('/login')
-      setSessionChecked(true)
-    })
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (!session) navigate('/login')
-    })
-    return () => sub.subscription.unsubscribe()
-  }, [navigate])
+  const ready = !authLoading && (session !== null || isDemo)
 
   useEffect(() => {
-    if (!sessionChecked) return
-    refresh()
-  }, [sessionChecked])
+    if (!ready) return
+    void refresh()
+  }, [ready])
 
   const refresh = async () => {
     const { data, error } = await supabase.from('listings').select('*').order('created_at', { ascending: false })
@@ -43,6 +34,7 @@ export default function Admin() {
 
   const addListing = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (isDemo) return
     setSaving(true)
     const { error } = await supabase.from('listings').insert({
       title, description, price: price === '' ? null : Number(price)
@@ -54,14 +46,15 @@ export default function Admin() {
     }
   }
   const remove = async (id: string) => {
+    if (isDemo) return
     await supabase.from('listings').delete().eq('id', id)
     refresh()
   }
   const logout = async () => {
-    await supabase.auth.signOut()
+    await signOut()
     navigate('/login')
   }
-  if (!sessionChecked) return null
+  if (!ready) return null
 
   return (
     <div className="min-h-screen">
@@ -77,10 +70,16 @@ export default function Admin() {
               Review inventory, publish new listings, and keep client-facing content accurate across every channel.
             </p>
           </div>
-          <div className="mt-5 flex justify-center">
+          <div className="mt-5 flex flex-col items-center gap-2">
+            {isDemo && (
+              <span className="inline-flex items-center gap-2 rounded-full border border-amber-300/80 bg-amber-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
+                Demo mode · changes disabled
+              </span>
+            )}
             <button
               onClick={logout}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-300/70 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:border-brand-500 hover:text-brand-600 hover:shadow-md dark:border-slate-700/70 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:border-brand-400 dark:hover:text-brand-300"
+              disabled={authLoading}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-300/70 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:border-brand-500 hover:text-brand-600 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700/70 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:border-brand-400 dark:hover:text-brand-300"
             >
               <span className="h-2 w-2 rounded-full bg-emerald-400" />
               Log out
@@ -110,7 +109,11 @@ export default function Admin() {
             <span className="font-medium">Description</span>
             <textarea value={description} onChange={e=>setDescription(e.target.value)} rows={4} className="rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-500/40"></textarea>
           </label>
-          <button disabled={saving} className="mt-4 inline-flex items-center rounded-2xl px-4 py-2 font-semibold bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 shadow-soft transition-colors">
+          <button
+            disabled={saving || isDemo}
+            className="mt-4 inline-flex items-center rounded-2xl px-4 py-2 font-semibold bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 shadow-soft transition-colors disabled:cursor-not-allowed disabled:opacity-55"
+            title={isDemo ? 'Disabled in demo mode' : undefined}
+          >
             {saving ? 'Saving...' : 'Add Listing'}
           </button>
         </form>
@@ -125,7 +128,12 @@ export default function Admin() {
                     <h3 className="font-semibold">{l.title}</h3>
                     {l.price != null && <p className="text-sm text-slate-500">${Number(l.price).toLocaleString()}</p>}
                   </div>
-                  <button onClick={()=>remove(l.id)} className="text-sm text-red-600 hover:underline">Delete</button>
+                  <button
+                    onClick={()=>remove(l.id)}
+                    disabled={isDemo}
+                    className="text-sm text-red-600 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+                    title={isDemo ? 'Disabled in demo mode' : undefined}
+                  >Delete</button>
                 </div>
                 <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{l.description}</p>
               </div>

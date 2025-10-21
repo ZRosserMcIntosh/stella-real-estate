@@ -15,7 +15,7 @@ import Privacy from './pages/Privacy'
 import Legal from './pages/Legal'
 import ListYourProperty from './pages/ListYourProperty'
 import NotFound from './pages/NotFound'
-import Admin from './pages/Admin'
+import Institutional from './pages/Institutional'
 import DealRoom from './pages/admin/DealRoom'
 import AdminLayout from './pages/admin/AdminLayout'
 import Account from './pages/admin/Account'
@@ -37,6 +37,7 @@ import Login from './pages/Login'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import { CurrencyProvider } from './context/CurrencyContext'
+import { AuthProvider } from './context/AuthContext'
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
   { path: 'projects/:slug', element: <ProjectDetail /> },
       { path: 'privacy', element: <Privacy /> },
       { path: 'legal', element: <Legal /> },
+      { path: 'institutional', element: <Institutional /> },
       { path: 'list-your-property', element: <ListYourProperty /> },
     ],
   },
@@ -90,8 +92,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <CurrencyProvider>
-      <RouterProvider router={router} />
-    </CurrencyProvider>
+    <AuthProvider>
+      <CurrencyProvider>
+        <RouterProvider router={router} />
+      </CurrencyProvider>
+    </AuthProvider>
   </React.StrictMode>,
 )
