@@ -18,6 +18,7 @@ export default function Header() {
   const location = useLocation()
   const isHome = location.pathname === '/'
   const [hoverOpen, setHoverOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [projects, setProjects] = useState<ProjectLite[]>([])
   const [loading, setLoading] = useState(false)
   const [logoFailed, setLogoFailed] = useState(false)
@@ -47,6 +48,11 @@ export default function Header() {
     load()
     return () => { cancelled = true }
   }, [isHome])
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [location.pathname])
+
   return (
     <header className="z-50 backdrop-blur bg-white/70 dark:bg-slate-900/50 border-b border-slate-200/60 dark:border-slate-800/60">
       <div className="container-padded flex items-center justify-between py-3">
@@ -71,7 +77,8 @@ export default function Header() {
             </div>
           )}
         </Link>
-        <nav className="hidden sm:flex items-center gap-6 text-sm font-medium">
+  {/* Desktop nav */}
+  <nav className="hidden sm:flex items-center gap-6 text-sm font-medium">
           <div
             className="relative"
             onMouseEnter={() => isHome && setHoverOpen(true)}
@@ -118,14 +125,65 @@ export default function Header() {
           <Link className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors" to="/contact">{t('header.nav.contact')}</Link>
           <Link className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors" to="/login">{t('header.nav.employeeLogin')}</Link>
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher />
           <CurrencySwitcher />
-          <Link to="/contact" className="inline-flex items-center gap-2 rounded-2xl px-3.5 py-2 text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 transition-colors shadow-soft">
+          <Link to="/contact" className="hidden sm:inline-flex items-center gap-2 rounded-2xl px-3.5 py-2 text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 transition-colors shadow-soft">
             {t('header.cta')}
           </Link>
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            aria-label="Open menu"
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((v) => !v)}
+            className="inline-flex items-center justify-center rounded-lg p-2 text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 sm:hidden"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+              {mobileOpen ? (
+                <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 11-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clipRule="evenodd" />
+              ) : (
+                <path fillRule="evenodd" d="M3.75 5.25a.75.75 0 000 1.5h16.5a.75.75 0 000-1.5H3.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm.75 5.25a.75.75 0 000 1.5h16.5a.75.75 0 000-1.5H3.75z" clipRule="evenodd" />
+              )}
+            </svg>
+          </button>
         </div>
       </div>
+
+      {/* Mobile menu overlay */}
+      {mobileOpen && (
+        <div className="sm:hidden">
+          <div
+            className="fixed inset-0 z-50 bg-black/30 backdrop-blur-[1px]"
+            onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="fixed inset-x-0 top-0 z-50 mt-[60px] max-h-[calc(100vh-60px)] overflow-y-auto rounded-b-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-800 dark:bg-slate-900">
+            <div className="grid gap-2 text-base font-medium">
+              <Link to="/projects" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                {t('header.nav.projects')}
+              </Link>
+              <Link to="/listings" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                {t('header.nav.listings')}
+              </Link>
+              <Link to="/about" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                {t('header.nav.about')}
+              </Link>
+              <Link to="/contact" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                {t('header.nav.contact')}
+              </Link>
+              <Link to="/login" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                {t('header.nav.employeeLogin')}
+              </Link>
+            </div>
+            <div className="mt-3 border-t border-slate-200 pt-3 dark:border-slate-800">
+              <Link to="/contact" onClick={() => setMobileOpen(false)} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-700">
+                {t('header.cta')}
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   )
 }
