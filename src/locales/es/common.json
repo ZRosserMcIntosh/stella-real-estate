@@ -128,12 +128,38 @@
         "cta": "Echar un vistazo al beta interno"
       }
     },
+    "video3d": {
+      "badge": "Tecnología Revolucionaria",
+      "title": "Del smartphone al tour 3D. Sin Lidar. Sin esfuerzo.",
+      "description": "Graba un simple recorrido en video con cualquier smartphone. Nuestra IA propietaria transforma video 2D en mapas 3D UHD totalmente texturizados que los clientes pueden explorar como si fuera un videojuego. Elimina el 90% de los tours presenciales que no cierran negocios. Recupera cientos de horas al año.",
+      "feature1": {
+        "title": "Cualquier smartphone. Cero Lidar.",
+        "description": "Sin equipo costoso. Solo graba y sube. Nuestra IA hace el resto."
+      },
+      "feature2": {
+        "title": "Mapas 3D UHD en minutos",
+        "description": "Reconstrucción fotorrealista con texturas de alta definición y navegación inmersiva."
+      },
+      "feature3": {
+        "title": "Experiencia tipo videojuego",
+        "description": "Los clientes exploran cada habitación, ángulo y detalle a su propio ritmo — 24/7."
+      },
+      "impact": {
+        "label": "Impacto en la Productividad",
+        "value": "12x más eficiencia",
+        "description": "Con 90% de tours eliminados y solo 8-12% de conversión, los agentes recuperan 18-27 horas/semana para enfocarse en prospectos calificados"
+      },
+      "demo": {
+        "label": "Demo en vivo",
+        "caption": "Video de smartphone convertido en espacio 3D explorable"
+      }
+    },
     "metrics": {
       "title": "Construido para Escalar",
       "productivity": {
-        "value": "3.2x",
+        "value": "12x",
         "label": "Aumento de Productividad",
-        "description": "Los primeros adoptadores reportan 3,2x más velocidad en el cierre de negocios"
+        "description": "Tours 3D virtuales eliminan el 90% de las visitas presenciales improductivas, liberando 18-27 horas/semana"
       },
       "automation": {
         "value": "87%",

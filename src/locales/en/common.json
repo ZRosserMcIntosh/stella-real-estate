@@ -128,12 +128,38 @@
         "cta": "Peek at the internal beta"
       }
     },
+    "video3d": {
+      "badge": "Revolutionary Technology",
+      "title": "From smartphone to 3D tour. No Lidar. No hassle.",
+      "description": "Record a simple video walkthrough on any smartphone. Our proprietary AI transforms 2D video into fully textured UHD 3D maps that clients can explore like a video game. Eliminate 90% of in-person tours that don't close. Reclaim hundreds of hours per year.",
+      "feature1": {
+        "title": "Any smartphone. Zero Lidar.",
+        "description": "No expensive equipment. Just record and upload. Our AI does the rest."
+      },
+      "feature2": {
+        "title": "UHD 3D maps in minutes",
+        "description": "Photorealistic reconstruction with high-definition textures and immersive navigation."
+      },
+      "feature3": {
+        "title": "Video-game experience",
+        "description": "Clients explore every room, angle, and detail at their own pace — 24/7."
+      },
+      "impact": {
+        "label": "Productivity Impact",
+        "value": "12x efficiency gain",
+        "description": "With 90% of tours eliminated and only 8-12% conversion rates, agents reclaim 18-27 hours/week to focus on qualified leads"
+      },
+      "demo": {
+        "label": "Live Demo",
+        "caption": "Smartphone video converted to explorable 3D space"
+      }
+    },
     "metrics": {
       "title": "Built for Scale",
       "productivity": {
-        "value": "3.2x",
+        "value": "12x",
         "label": "Productivity Increase",
-        "description": "Early adopters report 3.2x faster deal closure velocity"
+        "description": "Virtual 3D tours eliminate 90% of unproductive in-person showings, freeing up 18-27 hours/week"
       },
       "automation": {
         "value": "87%",
