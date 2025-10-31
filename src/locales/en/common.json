@@ -44,7 +44,125 @@
     "legal": { "title": "Legal" },
     "listYourProperty": { "title": "List Your Property" },
     "institutional": { "title": "Institutional" },
+    "stellaPlatform": { "title": "Stella Platform" },
     "notFound": { "title": "Page not found", "backHome": "Back to Home" }
+  },
+  "stellaPlatform": {
+    "badge": "Stella Platform",
+    "hero": {
+      "title": "The operating system for modern real estate empires.",
+      "subtitle": "Employee control centers, a CRM that bends reality, a choreographed work graph, cinematic websites, and an automation fabric that smokes everything else on the market. Built in Brazil. Designed to dominate globally.",
+      "inquire": "Inquire",
+      "reserveBeta": "Reserve beta access"
+    },
+    "pillars": {
+      "title": "Platform Pillars",
+      "subtitle": "Everything runs on a unified data core. No duplicate entries. No brittle integrations. Just outrageous speed and clarity for brokerages that refuse to be average.",
+      "constelacao": {
+        "subtitle": "The revenue galaxy",
+        "title": "Constelação CRM",
+        "description": "Every relationship, every deal, every whisper of intent captured in a single constellation of truth. Pipeline AI, forecasting rituals, and automations so aggressive they make legacy CRMs look like fax machines. Yes — it absolutely takes a fat shit on anything built in 1999.",
+        "bullets": [
+          "Lead-to-close journeys with predictive nudges and auto-generated next steps",
+          "Client dossiers blending listings, contracts, communications, and financials",
+          "Governance-grade access controls with enterprise audit trails baked in"
+        ]
+      },
+      "bale": {
+        "subtitle": "Flows with choreography",
+        "title": "Balé Task Orchestrator",
+        "description": "Balé is our Asana-level command center tuned for high-velocity brokerage teams. Every move is choreographed: recurring plays, dependency-aware timelines, approval runs, and AI briefings that keep the entire troupe in sync.",
+        "bullets": [
+          "List, board, timeline, workload, and portfolio views on a single data spine",
+          "Forms, playbook bundles, and automation recipes that launch projects in seconds",
+          "Native proofing, time tracking, and executive reporting without spreadsheet gymnastics"
+        ]
+      },
+      "sites": {
+        "subtitle": "100+ launch-ready experiences",
+        "title": "Stella Sites",
+        "description": "A website builder where Shopify, Weebly, and WordPress had a prodigy baby trained exclusively on ultra-premium real estate. Drag, drop, and ship a cinematic brokerage site in minutes — no agency retainers, no compromise.",
+        "bullets": [
+          "Curated library of 100+ high-converting templates localized for LATAM luxury buyers",
+          "Inventory sync with Constelação CRM and Balé so listings, projects, and case studies stay fresh automatically",
+          "Built-in SEO, analytics, lead capture, and multi-language storytelling out of the box"
+        ]
+      }
+    },
+    "stack": {
+      "title": "The Stella Stack for unstoppable operators.",
+      "subtitle": "From recruitment into onboarding, from first showing to notarized deed — every tool you touch talks to every other. Automations, command centers, creative tools, data intelligence. Stella is the house where real estate teams actually live.",
+      "unifiedLogin": {
+        "title": "Unified Employee Login",
+        "description": "A cockpit for every Stella teammate: permissions, documents, listings, performance dashboards, and dev ops support stitched together in a single secure session."
+      },
+      "socialStudio": {
+        "title": "Social Studio",
+        "description": "Publish-worthy carousels, shorts, and reels generated from your listings, then auto-posted to every network with agent-level personalization."
+      },
+      "calendar": {
+        "title": "Calendar Intelligence",
+        "description": "Two-way sync across Google, Outlook, iCloud, and CRM timelines. Balé fills the agenda; Constelação knows the stakes. No more double-booked viewings."
+      },
+      "docVault": {
+        "title": "Document Vault + eSign",
+        "description": "Contracts, disclosures, CAD files, and marketing collateral stored with version history, approvals, and DocuSign-ready envelopes."
+      },
+      "analytics": {
+        "title": "Analytics & Revenue Command",
+        "description": "Real-time dashboards for pipeline velocity, campaign ROI, agent performance, and absorption forecasts — all straight from the platform's beating heart."
+      },
+      "api": {
+        "title": "API-First Everything",
+        "description": "GraphQL, webhooks, automations, and integration kits for your accounting stack, marketing partners, and custom concierge flows."
+      },
+      "checklist": {
+        "title": "Checklist of dominance",
+        "items": [
+          "Full-funnel analytics connected to your data warehouse",
+          "Real-time collaboration across agents, marketing, finance, and legal",
+          "AI copilots drafting status updates, proposals, and marketing copy on command",
+          "Mobile and desktop apps for on-the-go brokerage pros",
+          "Enterprise security, compliance, and localization for LATAM operations"
+        ],
+        "cta": "Peek at the internal beta"
+      }
+    },
+    "metrics": {
+      "title": "Built for Scale",
+      "productivity": {
+        "value": "3.2x",
+        "label": "Productivity Increase",
+        "description": "Early adopters report 3.2x faster deal closure velocity"
+      },
+      "automation": {
+        "value": "87%",
+        "label": "Automation Rate",
+        "description": "87% of repetitive tasks eliminated through intelligent flows"
+      },
+      "satisfaction": {
+        "value": "98%",
+        "label": "Team Satisfaction",
+        "description": "98% of teams report higher job satisfaction"
+      },
+      "roi": {
+        "value": "6 months",
+        "label": "Time to ROI",
+        "description": "Positive ROI achieved on average within 6 months"
+      }
+    },
+    "beta": {
+      "title": "Public test flight launches in 90 days.",
+      "subtitle": "We're inviting 100 fearless brokerages to become founding pilots. Lock in your seat with a fully-refundable R$ 1,000 deposit. In return you get white-glove onboarding, direct access to the dev squad, and co-creation rights for features tailored to your playbook.",
+      "badges": [
+        "Direct developer hotline for beta partners",
+        "Custom feature fast-track & roadmap voting power",
+        "Dedicated success engineer for your brokerage"
+      ],
+      "joinShortlist": "Join the tester shortlist",
+      "talkStrategists": "Talk with product strategists",
+      "footer": "Stella Platform · Built for realtors with unreasonable ambition"
+    }
   },
   "auth": {
     "signIn": "Sign in",

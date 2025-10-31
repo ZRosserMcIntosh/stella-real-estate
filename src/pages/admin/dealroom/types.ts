@@ -22,4 +22,5 @@ export interface KpiTileData {
   sub?: string
   trend?: 'up' | 'down' | 'flat'
   alert?: 'ok' | 'warn' | 'error'
+  tooltip?: string
 }

@@ -72,9 +72,9 @@ export default function App() {
           try {
             const parsed = JSON.parse(raw)
             if (Array.isArray(parsed)) values = parsed.map(String)
-            else if (typeof parsed === 'string') values = [parsed]
+            else if (typeof parsed === 'string') values = parsed.split(/[\,\s]+/).map(v=>v.trim()).filter(Boolean)
           } catch {
-            values = [raw]
+            values = raw.split(/[\,\s]+/).map(v=>v.trim()).filter(Boolean)
           }
           const ids = Array.from(new Set(
             values
@@ -352,21 +352,17 @@ export default function App() {
       >
         <div className="container-padded relative z-20 flex h-full w-full items-center justify-center py-12">
           <div className="w-full max-w-6xl flex flex-col items-center gap-6">
-            <div className="mx-auto max-w-3xl space-y-3 text-center text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
-              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
-                {t('home.featured.title', { defaultValue: 'Coleção Exclusiva Stella' })}
-              </h2>
-              <p className="text-sm sm:text-base text-white/90">
-                {t('home.featured.subtitle', {
-                  defaultValue: 'Residências escolhidas a dedo para investidores que lideram o ritmo da cidade.',
-                })}
-              </p>
-            </div>
+            <img
+              src="/Stella.png"
+              alt="Stella"
+              className="h-32 sm:h-40 md:h-48 lg:h-56 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]"
+            />
             {heroFeatured.length > 0 && (
               <div className={`mx-auto grid gap-4 text-slate-900 ${heroGridClasses}`}>
                 {heroFeatured.map((p: any) => {
                   const mediaItems = Array.isArray(p.media) ? p.media : []
                   const thumb = mediaItems.find((m: any) => m.kind === 'thumbnail')?.url || mediaItems[0]?.url
+                  const secondImage = mediaItems[1]?.url || null
                   const videoCandidate = mediaItems.find(
                     (m: any) =>
                       typeof m?.url === 'string' &&
@@ -399,7 +395,7 @@ export default function App() {
                     <article className="group relative flex flex-col w-full sm:w-[22rem] min-h-[360px] overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-4 text-left text-slate-900 shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:border-white/60">
                       {thumb ? (
                         <div className="relative overflow-hidden rounded-2xl">
-                          {/* On hover, if videoUrl exists, show a muted autoplaying video in place of the image */}
+                          {/* On hover, if videoUrl exists, show video; else show second image if available */}
                           {videoUrl ? (
                             <div className="relative h-52 w-full">
                               <img
@@ -432,6 +428,19 @@ export default function App() {
                                     /* ignore */
                                   }
                                 }}
+                              />
+                            </div>
+                          ) : secondImage ? (
+                            <div className="relative h-52 w-full">
+                              <img
+                                src={thumb}
+                                alt={p.title}
+                                className="absolute inset-0 h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-0"
+                              />
+                              <img
+                                src={secondImage}
+                                alt={`${p.title} - alternate`}
+                                className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                               />
                             </div>
                           ) : (

@@ -22,6 +22,39 @@ export default function Header() {
   const [projects, setProjects] = useState<ProjectLite[]>([])
   const [loading, setLoading] = useState(false)
   const [logoFailed, setLogoFailed] = useState(false)
+  const [institutionalOpen, setInstitutionalOpen] = useState(false)
+  const [institutionalClosing, setInstitutionalClosing] = useState(false)
+  const [projectsClosing, setProjectsClosing] = useState(false)
+  const [institutionalButtonCenter, setInstitutionalButtonCenter] = React.useState<number>(0)
+  const headerRef = React.useRef<HTMLHeadElement>(null)
+  const buttonRef = React.useRef<HTMLButtonElement>(null)
+  const institutionalButtonRef = React.useRef<HTMLButtonElement>(null)
+  const [buttonCenter, setButtonCenter] = React.useState<number>(0)
+  const closeTimerRef = React.useRef<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      if (headerRef.current) {
+        const height = headerRef.current.offsetHeight
+        document.documentElement.style.setProperty('--header-height', `${height}px`)
+      }
+      if (buttonRef.current) {
+        const rect = buttonRef.current.getBoundingClientRect()
+        setButtonCenter(rect.left + rect.width / 2)
+      }
+    }
+    updateHeaderHeight()
+    if (institutionalButtonRef.current) {
+      const rect = institutionalButtonRef.current.getBoundingClientRect()
+      setInstitutionalButtonCenter(rect.left + rect.width / 2)
+    }
+    window.addEventListener('resize', updateHeaderHeight)
+    window.addEventListener('scroll', updateHeaderHeight)
+    return () => {
+      window.removeEventListener('resize', updateHeaderHeight)
+      window.removeEventListener('scroll', updateHeaderHeight)
+    }
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -51,10 +84,15 @@ export default function Header() {
   // Close mobile menu on route change
   useEffect(() => {
     setMobileOpen(false)
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current)
+      }
+    }
   }, [location.pathname])
 
   return (
-    <header className="z-50 backdrop-blur bg-white/70 dark:bg-slate-900/50 border-b border-slate-200/60 dark:border-slate-800/60">
+  <header ref={headerRef} className="z-50 backdrop-blur bg-white/70 dark:bg-slate-900/50">
       <div className="container-padded flex items-center justify-between py-3">
         <Link to="/" className="flex items-center gap-3">
           {!logoFailed ? (
@@ -74,52 +112,282 @@ export default function Header() {
           )}
         </Link>
   {/* Desktop nav */}
-  <nav className="hidden sm:flex items-center gap-6 text-sm font-medium">
+  <nav className="hidden sm:flex items-center gap-3 text-sm font-medium">
+        <style>{`
+          
+          @keyframes dropdownRollout {
+            from {
+              opacity: 0;
+              transform: translate(-50%, -8px);
+            }
+            to {
+              opacity: 1;
+              transform: translate(-50%, 0);
+            }
+          }
+          @keyframes dropdownSlideUp {
+            from {
+              opacity: 1;
+              transform: translate(-50%, 0);
+            }
+            to {
+              opacity: 0;
+              transform: translate(-50%, -100%);
+            }
+          }
+          @keyframes dropdownSlideUpFast {
+            from {
+              opacity: 1;
+              transform: translate(-50%, 0);
+            }
+            to {
+              opacity: 0;
+              transform: translate(-50%, -100%);
+            }
+          }
+          .dropdown-menu {
+            animation: dropdownRollout 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-top: 0;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+          }
+          .dropdown-menu.closing {
+            animation: dropdownSlideUp 0.35s ease-in forwards;
+          }
+          .dropdown-menu.closing-fast {
+            animation: dropdownSlideUpFast 0.15s ease-in forwards;
+          }
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            filter: blur(0px);
+          }
+          .mirage-button:hover {
+            filter: blur(0px);
+          }
+          .mirage-button.blurred {
+            filter: blur(1.5px);
+          }
+          .dropdown-menu {
+            animation: dropdownRollout 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-top: 0;
+            border-radius: 0.75rem;
+          }
+          .nav-button {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            cursor: pointer;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.4px;
+            font-weight: 300;
+            text-transform: uppercase;
+            white-space: nowrap;
+          }
+          .nav-button:hover {
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+          }
+          .nav-button:active {
+            background: rgba(255, 255, 255, 0.25);
+          }
+          @media (prefers-color-scheme: dark) {
+            .nav-button {
+              background: rgba(255, 255, 255, 0.05);
+            }
+            .nav-button:hover {
+              background: rgba(255, 255, 255, 0.12);
+              box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.08);
+            }
+            .nav-button:active {
+              background: rgba(255, 255, 255, 0.18);
+            }
+          }
+        `}</style>
           <div
             className="relative"
-            onMouseEnter={() => isHome && setHoverOpen(true)}
-            onMouseLeave={() => setHoverOpen(false)}
+            onMouseEnter={() => {
+              if (closeTimerRef.current) {
+                clearTimeout(closeTimerRef.current)
+                closeTimerRef.current = null
+              }
+              if (isHome) {
+                if (buttonRef.current) {
+                  const rect = buttonRef.current.getBoundingClientRect()
+                  setButtonCenter(rect.left + rect.width / 2)
+                }
+                setHoverOpen(true)
+              }
+            }}
+            onMouseLeave={() => {
+              closeTimerRef.current = setTimeout(() => {
+                setProjectsClosing(true)
+                setTimeout(() => {
+                  setHoverOpen(false)
+                  setProjectsClosing(false)
+                }, 350)
+              }, 500)
+            }}
           >
-            <Link className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors" to="/projects">
-              {t('header.nav.projects')}
-            </Link>
+            <button 
+              ref={buttonRef}
+              className="nav-button"
+              onClick={() => window.location.href = '/projects'}
+            >
+              {t('header.nav.projects').toUpperCase?.() || 'NEW PROJECTS'}
+            </button>
             {isHome && hoverOpen && (projects.length > 0 || loading) && (
-              <div className="absolute left-0 mt-2 w-[320px] sm:w-[420px] rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl p-3">
-                <div className="text-xs text-slate-500 px-1">New Projects</div>
-                <div className="mt-2 grid grid-cols-1 gap-2">
+              <div
+                className={`dropdown-menu fixed z-[60] inline-block backdrop-blur bg-white/70 dark:bg-slate-900/50 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-xl w-fit min-w-[280px] max-w-[90vw] sm:max-w-[500px] overflow-hidden ${projectsClosing ? 'closing' : ''}`}
+                style={{ top: 'calc(var(--header-height, 60px) + 6px)', left: `${buttonCenter}px`, transform: 'translateX(-50%)' }}
+                onMouseEnter={() => {
+                  if (closeTimerRef.current) {
+                    clearTimeout(closeTimerRef.current)
+                    closeTimerRef.current = null
+                  }
+                }}
+                onMouseLeave={() => {
+                  closeTimerRef.current = setTimeout(() => {
+                    setProjectsClosing(true)
+                    setTimeout(() => {
+                      setHoverOpen(false)
+                      setProjectsClosing(false)
+                    }, 350)
+                  }, 500)
+                }}
+              >
+                <div className="grid grid-cols-1 gap-2">
                   {projects.map((p) => {
                     const thumb = (p.media || []).find(m => m.kind === 'thumbnail')?.url || (p.media || [])[0]?.url
                     const slugBase = (p.title || 'project').toString().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')
                     const slug = `${slugBase}-${p.id}`
                     return (
-                      <Link key={p.id} to={`/projects/${slug}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 p-2 transition-colors">
+                      <button
+                        key={p.id}
+                        onClick={() => window.open(`/projects/${slug}`, '_blank')}
+                        className={`mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left`}
+                      >
                         {thumb ? (
                           // eslint-disable-next-line jsx-a11y/alt-text
-                          <img src={thumb} className="h-12 w-12 rounded-md object-cover flex-none" />
+                          <img src={thumb} className="h-11 w-11 rounded-md object-cover flex-none pointer-events-none" />
                         ) : (
-                          <div className="h-12 w-12 rounded-md bg-slate-100 dark:bg-slate-800 grid place-items-center text-slate-400 text-xs flex-none">No image</div>
+                          <div className="h-11 w-11 rounded-md bg-slate-100 dark:bg-slate-800 grid place-items-center text-slate-400 text-xs flex-none">No image</div>
                         )}
-                        <div className="min-w-0">
-                          <div className="text-sm font-medium truncate">{p.title}</div>
+                        <div className="min-w-0 pr-3 max-w-[22rem] sm:max-w-[25rem]">
+                          <div className="text-sm font-medium truncate text-slate-900 dark:text-slate-100">{p.title}</div>
                           <div className="text-xs text-slate-600 dark:text-slate-400 truncate">{[p.city, p.state_code].filter(Boolean).join(', ')}</div>
                         </div>
-                      </Link>
+                      </button>
                     )
                   })}
                   {!loading && projects.length === 0 && (
                     <div className="text-sm text-slate-600 px-2 py-3">No projects yet.</div>
                   )}
                 </div>
-                <div className="mt-2 border-t border-slate-200 dark:border-slate-800 pt-2 text-right">
-                  <Link to="/projects" className="text-xs text-brand-700 dark:text-brand-400 hover:underline">View all</Link>
+                <div className="mt-2 border-t border-slate-200/40 dark:border-slate-800/40 pt-2 px-2 text-center">
+                  <button
+                    onClick={() => window.open('/projects', '_blank')}
+                    className="text-xs text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors font-medium"
+                  >
+                    View all
+                  </button>
                 </div>
               </div>
             )}
           </div>
-          <Link className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors" to="/listings">{t('header.nav.listings')}</Link>
-          <Link className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors" to="/about">{t('header.nav.about')}</Link>
-          <Link className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors" to="/contact">{t('header.nav.contact')}</Link>
-          <Link className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors" to="/login">{t('header.nav.employeeLogin')}</Link>
+          <button
+            className="nav-button"
+            onClick={() => window.location.href = '/listings?type=buy'}
+          >
+            BUY
+          </button>
+          <button
+            className="nav-button"
+            onClick={() => window.location.href = '/listings?type=rent'}
+          >
+            RENT
+          </button>
+          <button
+            className="nav-button"
+            onClick={() => window.location.href = '/about'}
+          >
+            {t('header.nav.about').toUpperCase?.() || 'ABOUT'}
+          </button>
+          <button
+            className="nav-button"
+            onClick={() => window.location.href = '/contact'}
+          >
+            {t('header.nav.contact').toUpperCase?.() || 'CONTACT'}
+          </button>
+          <div
+            className="relative"
+            onMouseEnter={() => {
+              if (closeTimerRef.current) {
+                clearTimeout(closeTimerRef.current)
+                closeTimerRef.current = null
+              }
+              if (institutionalButtonRef.current) {
+                const rect = institutionalButtonRef.current.getBoundingClientRect()
+                setInstitutionalButtonCenter(rect.left + rect.width / 2)
+              }
+              setInstitutionalOpen(true)
+            }}
+            onMouseLeave={() => {
+              closeTimerRef.current = setTimeout(() => {
+                setInstitutionalClosing(true)
+                setTimeout(() => {
+                  setInstitutionalOpen(false)
+                  setInstitutionalClosing(false)
+                }, 350)
+              }, 500)
+            }}
+          >
+            <button 
+              ref={institutionalButtonRef}
+              className="nav-button"
+            >
+              INSTITUTIONAL
+            </button>
+            {institutionalOpen && (
+              <div
+                className={`dropdown-menu fixed z-[60] inline-block backdrop-blur bg-white/70 dark:bg-slate-900/50 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-xl w-fit min-w-[200px] max-w-[90vw] sm:max-w-[320px] overflow-hidden ${institutionalClosing ? 'closing' : ''}`}
+                style={{ top: 'calc(var(--header-height, 60px) + 6px)', left: `${institutionalButtonCenter}px`, transform: 'translateX(-50%)' }}
+                onMouseEnter={() => {
+                  if (closeTimerRef.current) {
+                    clearTimeout(closeTimerRef.current)
+                    closeTimerRef.current = null
+                  }
+                }}
+                onMouseLeave={() => {
+                  closeTimerRef.current = setTimeout(() => {
+                    setInstitutionalClosing(true)
+                    setTimeout(() => {
+                      setInstitutionalOpen(false)
+                      setInstitutionalClosing(false)
+                    }, 350)
+                  }, 500)
+                }}
+              >
+                <button
+                  onClick={() => window.open('/stella-platform', '_blank')}
+                  className={`mirage-button flex items-center rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
+                >
+                  Stella Platform
+                </button>
+                <button
+                  onClick={() => window.location.href = '/login'}
+                  className={`mirage-button flex items-center rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
+                >
+                  Employee Login
+                </button>
+              </div>
+            )}
+          </div>
         </nav>
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher />
@@ -164,6 +432,9 @@ export default function Header() {
               </Link>
               <Link to="/about" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 {t('header.nav.about')}
+              </Link>
+              <Link to="/stella-platform" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                Stella Platform
               </Link>
               <Link to="/contact" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 {t('header.nav.contact')}

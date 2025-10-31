@@ -9,9 +9,12 @@ import {
 export default function CurrencySwitcher() {
   const { currency, setCurrency } = useCurrency()
   const [open, setOpen] = React.useState(false)
+  const [closing, setClosing] = React.useState(false)
   const [manual, setManual] = React.useState(false)
   const wrapperRef = React.useRef<HTMLDivElement | null>(null)
-  const closeTimer = React.useRef<number | null>(null)
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null)
+  const [buttonCenter, setButtonCenter] = React.useState<number>(0)
+  const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const triggerCls = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/15 text-white shadow-sm ring-1 ring-white/30 backdrop-blur-md text-sm hover:bg-white/20 transition-colors'
   const menuCls = 'absolute right-0 mt-2 w-56 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl overflow-hidden'
@@ -33,12 +36,22 @@ export default function CurrencySwitcher() {
 
   const handleMouseEnter = () => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current)
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect()
+      setButtonCenter(rect.left + rect.width / 2)
+    }
     setOpen(true)
   }
   const handleMouseLeave = () => {
     if (manual) return
     if (closeTimer.current) window.clearTimeout(closeTimer.current)
-    closeTimer.current = window.setTimeout(() => setOpen(false), 160)
+    closeTimer.current = window.setTimeout(() => {
+      setClosing(true)
+      setTimeout(() => {
+        setOpen(false)
+        setClosing(false)
+      }, 350)
+    }, 500) as any
   }
 
   const change = (next: CurrencyCode) => {
@@ -48,7 +61,11 @@ export default function CurrencySwitcher() {
       return
     }
     setCurrency(next)
-    setOpen(false)
+    setClosing(true)
+    setTimeout(() => {
+      setOpen(false)
+      setClosing(false)
+    }, 150)
     setManual(false)
   }
 
@@ -62,7 +79,30 @@ export default function CurrencySwitcher() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      <style>{`
+        @keyframes dropdownSlideUp {
+          from {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
+          to {
+            opacity: 0;
+            transform: translate(-50%, -100%);
+          }
+        }
+        .cur-menu {
+          border-top-left-radius: 0.5rem;
+          border-top-right-radius: 0.5rem;
+        }
+        .cur-menu.closing {
+          animation: dropdownSlideUp 0.35s ease-in forwards;
+        }
+        .cur-menu.closing-fast {
+          animation: dropdownSlideUp 0.15s ease-in forwards;
+        }
+      `}</style>
       <button
+        ref={buttonRef}
         type="button"
         className={triggerCls}
         aria-haspopup="listbox"
@@ -83,25 +123,28 @@ export default function CurrencySwitcher() {
         </svg>
       </button>
       {open && (
-        <div className={menuCls} role="listbox" aria-activedescendant={`cur-${currency}`}>
+        <div
+          className={`dropdown-menu cur-menu fixed z-[60] inline-block backdrop-blur bg-white/70 dark:bg-slate-900/50 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-b-xl w-fit min-w-[180px] max-w-[90vw] sm:max-w-[320px] overflow-hidden ${closing ? 'closing' : ''}`}
+          style={{ top: 'calc(var(--header-height, 60px) + 6px)', left: `${buttonCenter}px`, transform: 'translateX(-50%)' }}
+          role="listbox"
+          aria-activedescendant={`cur-${currency}`}
+        >
           {SUPPORTED_CURRENCIES.map((c) => (
             <button
               key={c}
               id={`cur-${c}`}
               onClick={() => change(c)}
-              className={currency === c ? itemActive : itemBase}
+              className={`cur-item flex items-center gap-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
               role="option"
               aria-selected={currency === c}
             >
-              {/* Flag only in dropdown */}
               {CURRENCY_META[c].flag ? (
                 <span aria-hidden className="text-base leading-none">{CURRENCY_META[c].flag}</span>
               ) : (
                 <span aria-hidden className="w-4" />
               )}
               <span className="font-medium">{c}</span>
-              <span className="ml-auto text-xs text-slate-500 dark:text-slate-400">{CURRENCY_META[c].label}</span>
-              <span aria-hidden className="ml-2 text-sm text-slate-500 dark:text-slate-400">{CURRENCY_META[c].symbol}</span>
+              <span className="ml-auto text-xs">{CURRENCY_META[c].symbol}</span>
             </button>
           ))}
         </div>

@@ -16,13 +16,15 @@ import Legal from './pages/Legal'
 import ListYourProperty from './pages/ListYourProperty'
 import NotFound from './pages/NotFound'
 import Institutional from './pages/Institutional'
+import StellaPlatform from './pages/StellaPlatform'
 import DealRoom from './pages/admin/DealRoom'
 import AdminLayout from './pages/admin/AdminLayout'
 import Account from './pages/admin/Account'
 import ListingsNewProjects from './pages/admin/ListingsNewProjects'
 import ListingsForSale from './pages/admin/ListingsForSale'
 import ListingsForRent from './pages/admin/ListingsForRent'
-import CRM from './pages/admin/CRM'
+import Constellation from './pages/admin/CRM'
+import Ballet from './pages/admin/Ballet'
 import SocialMedia from './pages/admin/SocialMedia'
 import Team from './pages/admin/Team'
 import Calendar from './pages/admin/Calendar'
@@ -53,6 +55,7 @@ const router = createBrowserRouter([
       { path: 'privacy', element: <Privacy /> },
       { path: 'legal', element: <Legal /> },
       { path: 'institutional', element: <Institutional /> },
+      { path: 'stella-platform', element: <StellaPlatform /> },
       { path: 'list-your-property', element: <ListYourProperty /> },
     ],
   },
@@ -68,7 +71,8 @@ const router = createBrowserRouter([
       { path: 'listings/new-projects', element: <ListingsNewProjects /> },
       { path: 'listings/for-sale', element: <ListingsForSale /> },
       { path: 'listings/for-rent', element: <ListingsForRent /> },
-      { path: 'crm', element: <CRM /> },
+      { path: 'crm', element: <Constellation /> },
+      { path: 'ballet', element: <Ballet /> },
       { path: 'social-media', element: <SocialMedia /> },
       { path: 'team', element: <Team /> },
       { path: 'calendar', element: <Calendar /> },

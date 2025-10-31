@@ -15,24 +15,31 @@ export default function LanguageSwitcher() {
     : 'pt'
   const [lang, setLang] = React.useState<LangCode>(initial)
   const [open, setOpen] = React.useState(false)
+  const [closing, setClosing] = React.useState(false)
   const [manual, setManual] = React.useState(false)
   const wrapperRef = React.useRef<HTMLDivElement | null>(null)
-  const closeTimer = React.useRef<number | null>(null)
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null)
+  const [buttonCenter, setButtonCenter] = React.useState<number>(0)
+  const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const change = (newLang: LangCode) => {
     if (newLang === lang) return setOpen(false)
     i18n.changeLanguage(newLang)
     localStorage.setItem('lang', newLang)
     setLang(newLang)
-    setOpen(false)
+    setClosing(true)
+    setTimeout(() => {
+      setOpen(false)
+      setClosing(false)
+    }, 150)
     setManual(false)
   }
 
   // Boxed trigger that spells out the language name
-  const triggerCls = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-800 shadow-sm text-sm hover:bg-slate-50 transition-colors'
-  const menuCls = 'absolute right-0 mt-2 w-48 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl overflow-hidden'
-  const itemBase = 'w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-left'
-  const itemActive = 'w-full flex items-center gap-2 px-3 py-2 text-sm bg-slate-100 dark:bg-slate-800/60 text-slate-900 dark:text-white text-left'
+  const triggerCls = 'lang-trigger'
+  const menuCls = 'lang-menu'
+  const itemBase = 'lang-item'
+  const itemActive = 'lang-item-active'
 
   const current = LANGS[lang]
 
@@ -51,12 +58,22 @@ export default function LanguageSwitcher() {
 
   const handleMouseEnter = () => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current)
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect()
+      setButtonCenter(rect.left + rect.width / 2)
+    }
     setOpen(true)
   }
   const handleMouseLeave = () => {
     if (manual) return // keep open when manually toggled
     if (closeTimer.current) window.clearTimeout(closeTimer.current)
-    closeTimer.current = window.setTimeout(() => setOpen(false), 160)
+    closeTimer.current = window.setTimeout(() => {
+      setClosing(true)
+      setTimeout(() => {
+        setOpen(false)
+        setClosing(false)
+      }, 350)
+    }, 500) as any
   }
 
   return (
@@ -67,9 +84,85 @@ export default function LanguageSwitcher() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      <style>{`
+        @keyframes dropdownRollout {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -8px);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
+        }
+        @keyframes dropdownSlideUp {
+          from {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
+          to {
+            opacity: 0;
+            transform: translate(-50%, -100%);
+          }
+        }
+        @keyframes dropdownSlideUpFast {
+          from {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
+          to {
+            opacity: 0;
+            transform: translate(-50%, -100%);
+          }
+        }
+        .lang-trigger {
+          background: rgba(255, 255, 255, 0.08);
+          border: none;
+          cursor: pointer;
+          padding: 0.4rem 0.8rem;
+          border-radius: 0.5rem;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+          font-size: 0.75rem;
+          letter-spacing: 0.4px;
+          font-weight: 300;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+        .lang-trigger:hover {
+          background: rgba(255, 255, 255, 0.18);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        .lang-trigger:active {
+          background: rgba(255, 255, 255, 0.25);
+        }
+        @media (prefers-color-scheme: dark) {
+          .lang-trigger {
+            background: rgba(255, 255, 255, 0.05);
+          }
+          .lang-trigger:hover {
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.08);
+          }
+          .lang-trigger:active {
+            background: rgba(255, 255, 255, 0.18);
+          }
+        }
+        .lang-menu {
+          animation: dropdownRollout 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .lang-menu.closing {
+          animation: dropdownSlideUp 0.35s ease-in forwards;
+        }
+        .lang-menu.closing-fast {
+          animation: dropdownSlideUpFast 0.15s ease-in forwards;
+        }
+      `}</style>
       <button
+        ref={buttonRef}
         type="button"
-        className={triggerCls}
+        className={`${triggerCls} flex items-center gap-1.5`}
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={() => {
@@ -83,44 +176,46 @@ export default function LanguageSwitcher() {
         }}
       >
         <span className="font-medium tracking-wide">{current.name}</span>
-        <svg className="h-3.5 w-3.5 opacity-80" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+        <svg className="h-3 w-3 opacity-60 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
           <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
         </svg>
       </button>
       {open && (
-        <div className={menuCls} role="listbox" aria-activedescendant={`lang-${lang}`}>
+        <div
+          className={`lang-menu dropdown-menu fixed z-[60] inline-block backdrop-blur bg-white/70 dark:bg-slate-900/50 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-xl w-fit min-w-[160px] max-w-[90vw] sm:max-w-[280px] overflow-hidden ${closing ? 'closing' : ''}`}
+          style={{ top: 'calc(var(--header-height, 60px) + 6px)', left: `${buttonCenter}px`, transform: 'translateX(-50%)' }}
+          role="listbox"
+          aria-activedescendant={`lang-${lang}`}
+        >
           <button
             id="lang-pt"
             onClick={() => change('pt')}
-            className={lang === 'pt' ? itemActive : itemBase}
+            className={`lang-item flex items-center gap-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
             role="option"
             aria-selected={lang === 'pt'}
           >
             <span aria-hidden>🇧🇷</span>
-            <span className="font-medium">PT</span>
-            <span className="ml-auto text-xs text-slate-500 dark:text-slate-400">Português</span>
+            <span className="font-medium">Português</span>
           </button>
           <button
             id="lang-es"
             onClick={() => change('es')}
-            className={lang === 'es' ? itemActive : itemBase}
+            className={`lang-item flex items-center gap-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
             role="option"
             aria-selected={lang === 'es'}
           >
             <span aria-hidden>🇪🇸</span>
-            <span className="font-medium">ES</span>
-            <span className="ml-auto text-xs text-slate-500 dark:text-slate-400">Español</span>
+            <span className="font-medium">Español</span>
           </button>
           <button
             id="lang-en"
             onClick={() => change('en')}
-            className={lang === 'en' ? itemActive : itemBase}
+            className={`lang-item flex items-center gap-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
             role="option"
             aria-selected={lang === 'en'}
           >
             <span aria-hidden>🇺🇸</span>
-            <span className="font-medium">EN</span>
-            <span className="ml-auto text-xs text-slate-500 dark:text-slate-400">English</span>
+            <span className="font-medium">English</span>
           </button>
         </div>
       )}

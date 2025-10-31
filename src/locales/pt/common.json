@@ -44,7 +44,125 @@
     "legal": { "title": "Jurídico" },
     "listYourProperty": { "title": "Anuncie seu Imóvel" },
     "institutional": { "title": "Institucional" },
+    "stellaPlatform": { "title": "Plataforma Stella" },
     "notFound": { "title": "Página não encontrada", "backHome": "Voltar para Home" }
+  },
+  "stellaPlatform": {
+    "badge": "Plataforma Stella",
+    "hero": {
+      "title": "O sistema operacional para impérios imobiliários modernos.",
+      "subtitle": "Centros de controle para funcionários, um CRM que dobra a realidade, um gráfico de trabalho coreografado, sites cinematográficos e uma estrutura de automação que supera tudo no mercado. Construído no Brasil. Projetado para dominar globalmente.",
+      "inquire": "Consultar",
+      "reserveBeta": "Reserve acesso beta"
+    },
+    "pillars": {
+      "title": "Pilares da Plataforma",
+      "subtitle": "Tudo roda em um núcleo de dados unificado. Sem entradas duplicadas. Sem integrações frágeis. Apenas velocidade e clareza ultrajantes para corretoras que se recusam a ser médias.",
+      "constelacao": {
+        "subtitle": "A galáxia da receita",
+        "title": "Constelação CRM",
+        "description": "Cada relacionamento, cada negócio, cada sussurro de intenção capturado em uma única constelação de verdade. IA de pipeline, rituais de previsão e automações tão agressivas que fazem CRMs legados parecerem máquinas de fax. Sim — definitivamente supera qualquer coisa construída em 1999.",
+        "bullets": [
+          "Jornadas de lead a fechamento com alertas preditivos e próximos passos gerados automaticamente",
+          "Dossiês de clientes combinando listagens, contratos, comunicações e finanças",
+          "Controles de acesso de nível de governança com trilhas de auditoria empresarial integradas"
+        ]
+      },
+      "bale": {
+        "subtitle": "Fluxos com coreografia",
+        "title": "Balé Task Orchestrator",
+        "description": "Balé é nosso centro de comando de nível Asana ajustado para equipes de corretagem de alta velocidade. Cada movimento é coreografado: jogadas recorrentes, cronogramas conscientes de dependências, execuções de aprovação e briefings de IA que mantêm toda a trupe sincronizada.",
+        "bullets": [
+          "Visualizações de lista, quadro, cronograma, carga de trabalho e portfólio em uma única espinha dorsal de dados",
+          "Formulários, pacotes de playbook e receitas de automação que lançam projetos em segundos",
+          "Revisão nativa, rastreamento de tempo e relatórios executivos sem ginástica de planilhas"
+        ]
+      },
+      "sites": {
+        "subtitle": "100+ experiências prontas para lançamento",
+        "title": "Stella Sites",
+        "description": "Um construtor de sites onde Shopify, Weebly e WordPress tiveram um bebê prodígio treinado exclusivamente em imóveis ultra-premium. Arraste, solte e envie um site de corretagem cinematográfico em minutos — sem honorários de agência, sem compromissos.",
+        "bullets": [
+          "Biblioteca curada de 100+ modelos de alta conversão localizados para compradores de luxo LATAM",
+          "Sincronização de inventário com Constelação CRM e Balé para que listagens, projetos e estudos de caso permaneçam atualizados automaticamente",
+          "SEO integrado, análises, captura de leads e narrativa multilíngue prontos para uso"
+        ]
+      }
+    },
+    "stack": {
+      "title": "O Stack Stella para operadores imparáveis.",
+      "subtitle": "Do recrutamento à integração, da primeira exibição à escritura notarizada — cada ferramenta que você toca conversa com todas as outras. Automações, centros de comando, ferramentas criativas, inteligência de dados. Stella é a casa onde as equipes imobiliárias realmente vivem.",
+      "unifiedLogin": {
+        "title": "Login Unificado de Funcionários",
+        "description": "Um cockpit para cada membro da equipe Stella: permissões, documentos, listagens, painéis de desempenho e suporte de operações de desenvolvimento costurados juntos em uma única sessão segura."
+      },
+      "socialStudio": {
+        "title": "Social Studio",
+        "description": "Carrosséis, shorts e reels dignos de publicação gerados a partir de suas listagens, depois postados automaticamente em todas as redes com personalização em nível de agente."
+      },
+      "calendar": {
+        "title": "Inteligência de Calendário",
+        "description": "Sincronização bidirecional entre Google, Outlook, iCloud e cronogramas do CRM. Balé preenche a agenda; Constelação conhece as apostas. Chega de visualizações com reserva dupla."
+      },
+      "docVault": {
+        "title": "Cofre de Documentos + eSign",
+        "description": "Contratos, divulgações, arquivos CAD e material de marketing armazenados com histórico de versões, aprovações e envelopes prontos para DocuSign."
+      },
+      "analytics": {
+        "title": "Analytics & Comando de Receita",
+        "description": "Painéis em tempo real para velocidade de pipeline, ROI de campanha, desempenho de agentes e previsões de absorção — tudo direto do coração pulsante da plataforma."
+      },
+      "api": {
+        "title": "API-First em Tudo",
+        "description": "GraphQL, webhooks, automações e kits de integração para sua pilha contábil, parceiros de marketing e fluxos de concierge personalizados."
+      },
+      "checklist": {
+        "title": "Lista de verificação de dominância",
+        "items": [
+          "Análises de funil completo conectadas ao seu data warehouse",
+          "Colaboração em tempo real entre agentes, marketing, finanças e jurídico",
+          "Copilotos de IA redigindo atualizações de status, propostas e cópias de marketing sob comando",
+          "Aplicativos móveis e desktop para profissionais de corretagem em movimento",
+          "Segurança empresarial, conformidade e localização para operações LATAM"
+        ],
+        "cta": "Espreitar o beta interno"
+      }
+    },
+    "metrics": {
+      "title": "Construído para Escala",
+      "productivity": {
+        "value": "3.2x",
+        "label": "Aumento de Produtividade",
+        "description": "Os primeiros adotantes relatam 3,2x mais velocidade no fechamento de negócios"
+      },
+      "automation": {
+        "value": "87%",
+        "label": "Taxa de Automação",
+        "description": "87% das tarefas repetitivas eliminadas através de fluxos inteligentes"
+      },
+      "satisfaction": {
+        "value": "98%",
+        "label": "Satisfação da Equipe",
+        "description": "98% das equipes relatam maior satisfação no trabalho"
+      },
+      "roi": {
+        "value": "6 meses",
+        "label": "Tempo de ROI",
+        "description": "ROI positivo alcançado em média em 6 meses"
+      }
+    },
+    "beta": {
+      "title": "Lançamento do voo de teste público em 90 dias.",
+      "subtitle": "Estamos convidando 100 corretoras destemidas para se tornarem pilotos fundadores. Garanta seu lugar com um depósito totalmente reembolsável de R$ 1.000. Em troca, você recebe integração de luva branca, acesso direto à equipe de desenvolvimento e direitos de co-criação para recursos adaptados ao seu playbook.",
+      "badges": [
+        "Linha direta com desenvolvedores para parceiros beta",
+        "Fast-track de recursos personalizados e poder de voto no roadmap",
+        "Engenheiro de sucesso dedicado para sua corretora"
+      ],
+      "joinShortlist": "Junte-se à lista de testadores",
+      "talkStrategists": "Fale com estrategistas de produto",
+      "footer": "Plataforma Stella · Construída para corretores com ambição irracional"
+    }
   },
   "auth": {
     "signIn": "Entrar",
