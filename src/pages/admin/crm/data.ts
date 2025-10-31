@@ -104,7 +104,7 @@ export interface ServiceTicket {
 export interface IntegrationCard {
   id: string
   name: string
-  category: 'Sales' | 'Marketing' | 'Support' | 'Productivity' | 'Finance'
+  category: 'Sales' | 'Marketing' | 'Support' | 'Productivity' | 'Finance' | 'Analytics'
   status: 'Connected' | 'Available'
   description: string
 }
