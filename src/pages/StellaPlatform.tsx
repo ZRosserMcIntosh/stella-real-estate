@@ -36,6 +36,65 @@ export default function StellaPlatform() {
         </div>
       </section>
 
+      {/* Hero 3D Video Showcase - THE ULTIMATE */}
+      <section className="relative py-16 overflow-hidden bg-slate-950">
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-emerald-950/10 to-slate-950" />
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
+          <div className="grid gap-8 lg:grid-cols-[0.85fr,1.15fr] lg:gap-12 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/50 bg-emerald-500/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.35em] text-emerald-200 mb-4 shadow-lg shadow-emerald-500/20">
+                {t('stellaPlatform.video3d.badge')}
+              </div>
+              <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl mb-4 leading-tight">
+                {t('stellaPlatform.video3d.title')}
+              </h2>
+              <p className="text-base text-slate-300 leading-relaxed mb-6">
+                {t('stellaPlatform.video3d.description')}
+              </p>
+              <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-emerald-500/20 to-cyan-500/10 border border-emerald-400/30">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-400/20 border border-emerald-400/40">
+                  <svg className="h-5 w-5 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-white">{t('stellaPlatform.video3d.impact.value')}</div>
+                  <div className="text-xs text-emerald-200">{t('stellaPlatform.video3d.impact.description')}</div>
+                </div>
+              </div>
+            </div>
+            <div className="relative group">
+              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-500/40 via-cyan-500/30 to-emerald-500/40 opacity-75 blur-2xl group-hover:opacity-100 transition duration-500" />
+              <div className="relative overflow-hidden rounded-2xl border border-emerald-400/40 shadow-[0_20px_80px_-20px_rgba(16,185,129,0.6)] ring-1 ring-emerald-400/10">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-auto"
+                  poster="/video/office-3D-poster.jpg"
+                >
+                  <source src="/video/office-3D.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-slate-950/95 to-transparent">
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-2 w-2 shrink-0">
+                      <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                    </div>
+                    <div className="text-xs font-semibold uppercase tracking-wider text-emerald-200">
+                      {t('stellaPlatform.video3d.demo.label')}
+                    </div>
+                  </div>
+                  <div className="text-sm text-slate-300 mt-1">{t('stellaPlatform.video3d.demo.caption')}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Metrics Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-indigo-950/20 to-slate-950" />
