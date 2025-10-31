@@ -177,17 +177,50 @@
         "description": "ROI positivo alcanzado en promedio en 6 meses"
       }
     },
+    "mobile": {
+      "title": "Pon tu marca en el bolsillo de cada cliente",
+      "subtitle": "Apps nativas para iOS y Android, integración con Apple Wallet y acceso completo a la plataforma móvil — todo bajo tu marca.",
+      "clientApps": {
+        "title": "Apps Nativas para Clientes",
+        "subtitle": "Marca personalizada iOS y Android",
+        "description": "Crea apps personalizadas para iOS y Android para que tus clientes exploren propiedades, programen visitas, reciban notificaciones y conecten con tu equipo — todo bajo tu marca.",
+        "features": [
+          "Diseño completamente personalizado con tu logo, colores y marca",
+          "Notificaciones push para nuevas propiedades y actualizaciones",
+          "Sincronización en tiempo real con Constelação CRM",
+          "Tours virtuales 3D integrados en la palma de su mano",
+          "Programación directa y mensajería con agentes"
+        ]
+      },
+      "appleWallet": {
+        "title": "Tarjeta de Negocio Apple Wallet",
+        "subtitle": "Compartir instantáneo",
+        "description": "Tus agentes pueden agregar tarjetas de negocio digitales a Apple Wallet de clientes con un toque. Información de contacto, códigos QR y enlaces directos — siempre accesibles, siempre profesionales.",
+        "benefit": {
+          "label": "Por qué esto importa:",
+          "description": "Las tarjetas físicas se pierden. Las tarjetas digitales permanecen accesibles y permiten contacto instantáneo — aumentando conversiones y recordación de marca."
+        }
+      },
+      "platformApps": {
+        "badge": "Próximamente",
+        "title": "Constelação, Balé y Gestión de Sitios En Movimiento",
+        "description": "Gestiona pipelines, asigna tareas, aprueba marketing y actualiza propiedades desde cualquier lugar. Apps nativas con todas las funciones para iOS y Android próximamente.",
+        "ios": "App Store",
+        "android": "Google Play",
+        "modules": "Acceso completo a CRM, orquestador de tareas, bóveda de documentos y gestor de sitios"
+      }
+    },
     "beta": {
-      "title": "Lanzamiento del vuelo de prueba público en 90 días.",
-      "subtitle": "Estamos invitando a 100 corredurías intrépidas a convertirse en pilotos fundadores. Asegura tu asiento con un depósito totalmente reembolsable de R$ 1.000. A cambio obtienes incorporación de guante blanco, acceso directo al equipo de desarrollo y derechos de co-creación para características adaptadas a tu playbook.",
+      "title": "El vuelo de prueba público se lanza en 90 días.",
+      "subtitle": "Estamos invitando a 100 agencias valientes para convertirse en pilotos fundadores. Asegura tu asiento con un depósito totalmente reembolsable de R$ 1.000. A cambio obtendrás incorporación de guante blanco, acceso directo al equipo de desarrollo y derechos de co-creación para funciones adaptadas a tu estrategia.",
       "badges": [
         "Línea directa con desarrolladores para socios beta",
-        "Fast-track de características personalizadas y poder de voto en el roadmap",
-        "Ingeniero de éxito dedicado para tu correduría"
+        "Vía rápida para funciones personalizadas y poder de voto en la hoja de ruta",
+        "Ingeniero de éxito dedicado para tu agencia"
       ],
       "joinShortlist": "Únete a la lista de probadores",
       "talkStrategists": "Habla con estrategas de producto",
-      "footer": "Plataforma Stella · Construida para corredores con ambición irracional"
+      "footer": "Stella Platform · Construido para agentes con ambición desmedida"
     }
   },
   "auth": {

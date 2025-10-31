@@ -36,87 +36,6 @@ export default function StellaPlatform() {
         </div>
       </section>
 
-      {/* Revolutionary 2D-to-3D Video Section */}
-      <section className="relative py-24 overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(99,102,241,0.15),_transparent_50%)]" />
-        <div className="relative z-10 mx-auto max-w-7xl px-6">
-          <div className="grid gap-12 lg:grid-cols-[1fr,1.1fr] lg:gap-16 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-200 mb-6">
-                {t('stellaPlatform.video3d.badge')}
-              </div>
-              <h2 className="text-4xl font-bold text-white sm:text-5xl mb-6">
-                {t('stellaPlatform.video3d.title')}
-              </h2>
-              <p className="text-lg text-slate-300 leading-relaxed mb-8">
-                {t('stellaPlatform.video3d.description')}
-              </p>
-              <div className="space-y-4 mb-8">
-                <div className="flex items-start gap-3">
-                  <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 border border-emerald-400/30">
-                    <svg className="h-3 w-3 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-white">{t('stellaPlatform.video3d.feature1.title')}</div>
-                    <div className="text-sm text-slate-400">{t('stellaPlatform.video3d.feature1.description')}</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 border border-emerald-400/30">
-                    <svg className="h-3 w-3 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-white">{t('stellaPlatform.video3d.feature2.title')}</div>
-                    <div className="text-sm text-slate-400">{t('stellaPlatform.video3d.feature2.description')}</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 border border-emerald-400/30">
-                    <svg className="h-3 w-3 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-white">{t('stellaPlatform.video3d.feature3.title')}</div>
-                    <div className="text-sm text-slate-400">{t('stellaPlatform.video3d.feature3.description')}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-cyan-500/5 border border-emerald-400/20">
-                <div className="text-sm font-semibold text-emerald-200 mb-2">{t('stellaPlatform.video3d.impact.label')}</div>
-                <div className="text-3xl font-bold text-white mb-2">{t('stellaPlatform.video3d.impact.value')}</div>
-                <div className="text-xs text-slate-300">{t('stellaPlatform.video3d.impact.description')}</div>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-emerald-500/20 via-cyan-500/10 to-transparent blur-3xl" />
-              <div className="relative overflow-hidden rounded-3xl border border-emerald-400/30 shadow-[0_30px_100px_-30px_rgba(16,185,129,0.5)]">
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-auto"
-                  poster="/video/office-3D-poster.jpg"
-                >
-                  <source src="/video/office-3D.mp4" type="video/mp4" />
-                </video>
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/90 to-transparent p-6">
-                  <div className="text-xs font-semibold uppercase tracking-wider text-emerald-200 mb-1">
-                    {t('stellaPlatform.video3d.demo.label')}
-                  </div>
-                  <div className="text-sm text-slate-300">{t('stellaPlatform.video3d.demo.caption')}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Metrics Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-indigo-950/20 to-slate-950" />
@@ -211,6 +130,87 @@ export default function StellaPlatform() {
         </div>
       </section>
 
+      {/* Revolutionary 2D-to-3D Video Section */}
+      <section className="relative py-24 overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(99,102,241,0.15),_transparent_50%)]" />
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
+          <div className="grid gap-12 lg:grid-cols-[1fr,1.1fr] lg:gap-16 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-200 mb-6">
+                {t('stellaPlatform.video3d.badge')}
+              </div>
+              <h2 className="text-4xl font-bold text-white sm:text-5xl mb-6">
+                {t('stellaPlatform.video3d.title')}
+              </h2>
+              <p className="text-lg text-slate-300 leading-relaxed mb-8">
+                {t('stellaPlatform.video3d.description')}
+              </p>
+              <div className="space-y-4 mb-8">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 border border-emerald-400/30">
+                    <svg className="h-3 w-3 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-white">{t('stellaPlatform.video3d.feature1.title')}</div>
+                    <div className="text-sm text-slate-400">{t('stellaPlatform.video3d.feature1.description')}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 border border-emerald-400/30">
+                    <svg className="h-3 w-3 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-white">{t('stellaPlatform.video3d.feature2.title')}</div>
+                    <div className="text-sm text-slate-400">{t('stellaPlatform.video3d.feature2.description')}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 border border-emerald-400/30">
+                    <svg className="h-3 w-3 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-white">{t('stellaPlatform.video3d.feature3.title')}</div>
+                    <div className="text-sm text-slate-400">{t('stellaPlatform.video3d.feature3.description')}</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-cyan-500/5 border border-emerald-400/20">
+                <div className="text-sm font-semibold text-emerald-200 mb-2">{t('stellaPlatform.video3d.impact.label')}</div>
+                <div className="text-3xl font-bold text-white mb-2">{t('stellaPlatform.video3d.impact.value')}</div>
+                <div className="text-xs text-slate-300">{t('stellaPlatform.video3d.impact.description')}</div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-emerald-500/20 via-cyan-500/10 to-transparent blur-3xl" />
+              <div className="relative overflow-hidden rounded-3xl border border-emerald-400/30 shadow-[0_30px_100px_-30px_rgba(16,185,129,0.5)]">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-auto"
+                  poster="/video/office-3D-poster.jpg"
+                >
+                  <source src="/video/office-3D.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/90 to-transparent p-6">
+                  <div className="text-xs font-semibold uppercase tracking-wider text-emerald-200 mb-1">
+                    {t('stellaPlatform.video3d.demo.label')}
+                  </div>
+                  <div className="text-sm text-slate-300">{t('stellaPlatform.video3d.demo.caption')}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-slate-900/60 py-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-10 md:grid-cols-[1.1fr,0.9fr] md:items-center">
@@ -260,6 +260,116 @@ export default function StellaPlatform() {
                   {t('stellaPlatform.stack.checklist.cta')}
                 </Link>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mobile & Apps Section */}
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900/50 to-slate-950" />
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white sm:text-5xl mb-4">
+              {t('stellaPlatform.mobile.title')}
+            </h2>
+            <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+              {t('stellaPlatform.mobile.subtitle')}
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-2 mb-12">
+            {/* Client Apps Card */}
+            <div className="relative overflow-hidden rounded-3xl border border-indigo-400/20 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-slate-900/50 p-8 shadow-[0_30px_80px_-30px_rgba(99,102,241,0.5)]">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="flex gap-3">
+                  <img src="/ios.png" alt="iOS" className="h-12 w-12 object-contain" />
+                  <img src="/android-white.png" alt="Android" className="h-12 w-12 object-contain" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-white mb-2">
+                    {t('stellaPlatform.mobile.clientApps.title')}
+                  </h3>
+                  <p className="text-sm text-indigo-200">
+                    {t('stellaPlatform.mobile.clientApps.subtitle')}
+                  </p>
+                </div>
+              </div>
+              <p className="text-slate-300 mb-6 leading-relaxed">
+                {t('stellaPlatform.mobile.clientApps.description')}
+              </p>
+              <ul className="space-y-3 text-sm text-slate-300">
+                {(t('stellaPlatform.mobile.clientApps.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <svg className="h-5 w-5 text-indigo-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Apple Wallet Card */}
+            <div className="relative overflow-hidden rounded-3xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-slate-900/80 p-8 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.5)]">
+              <div className="flex items-start gap-4 mb-6">
+                <img src="/apple-wallet.svg" alt="Apple Wallet" className="h-12 w-12" />
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-white mb-2">
+                    {t('stellaPlatform.mobile.appleWallet.title')}
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    {t('stellaPlatform.mobile.appleWallet.subtitle')}
+                  </p>
+                </div>
+              </div>
+              <p className="text-slate-300 mb-6 leading-relaxed">
+                {t('stellaPlatform.mobile.appleWallet.description')}
+              </p>
+              <div className="p-4 rounded-xl bg-slate-950/50 border border-slate-700/30">
+                <div className="text-xs font-semibold text-slate-400 mb-2">
+                  {t('stellaPlatform.mobile.appleWallet.benefit.label')}
+                </div>
+                <div className="text-sm text-slate-200">
+                  {t('stellaPlatform.mobile.appleWallet.benefit.description')}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Platform Apps Coming Soon */}
+          <div className="relative overflow-hidden rounded-3xl border border-purple-400/20 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-slate-900/50 p-10 shadow-[0_30px_100px_-30px_rgba(168,85,247,0.5)]">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 rounded-full border border-purple-400/40 bg-purple-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-purple-200 mb-4">
+                {t('stellaPlatform.mobile.platformApps.badge')}
+              </div>
+              <h3 className="text-3xl font-bold text-white mb-3">
+                {t('stellaPlatform.mobile.platformApps.title')}
+              </h3>
+              <p className="text-slate-300 max-w-2xl mx-auto">
+                {t('stellaPlatform.mobile.platformApps.description')}
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-center items-center gap-8">
+              <div className="flex items-center gap-3">
+                <img src="/ios.png" alt="iOS" className="h-16 w-16 object-contain" />
+                <div className="text-left">
+                  <div className="text-sm font-semibold text-purple-200">iOS</div>
+                  <div className="text-xs text-slate-400">{t('stellaPlatform.mobile.platformApps.ios')}</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <img src="/android-white.png" alt="Android" className="h-16 w-16 object-contain" />
+                <div className="text-left">
+                  <div className="text-sm font-semibold text-purple-200">Android</div>
+                  <div className="text-xs text-slate-400">{t('stellaPlatform.mobile.platformApps.android')}</div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-8 text-center">
+              <p className="text-sm text-slate-400">
+                {t('stellaPlatform.mobile.platformApps.modules')}
+              </p>
             </div>
           </div>
         </div>

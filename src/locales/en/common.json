@@ -177,6 +177,39 @@
         "description": "Positive ROI achieved on average within 6 months"
       }
     },
+    "mobile": {
+      "title": "Put your brand in every client's pocket",
+      "subtitle": "Native iOS and Android apps, Apple Wallet integration, and full mobile platform access — all under your brand.",
+      "clientApps": {
+        "title": "Native Client Apps",
+        "subtitle": "Branded iOS & Android",
+        "description": "Build custom iOS and Android apps for your clients to explore listings, schedule tours, receive notifications, and connect with your team — all under your brand.",
+        "features": [
+          "Fully customized design with your logo, colors, and branding",
+          "Push notifications for new properties and updates",
+          "Real-time sync with Constelação CRM",
+          "Integrated 3D virtual tours in the palm of their hand",
+          "Direct scheduling and messaging with agents"
+        ]
+      },
+      "appleWallet": {
+        "title": "Apple Wallet Business Card",
+        "subtitle": "Instant sharing",
+        "description": "Your agents can add digital business cards to clients' Apple Wallet with one tap. Contact info, QR codes, and direct links — always accessible, always professional.",
+        "benefit": {
+          "label": "Why this matters:",
+          "description": "Physical cards get lost. Digital cards stay accessible and enable instant contact — boosting conversions and brand recall."
+        }
+      },
+      "platformApps": {
+        "badge": "Coming Soon",
+        "title": "Constelação, Balé, and Site Management On The Go",
+        "description": "Manage pipelines, assign tasks, approve marketing, and update listings from anywhere. Full-featured native apps for iOS and Android launching soon.",
+        "ios": "App Store",
+        "android": "Google Play",
+        "modules": "Full access to CRM, task orchestrator, document vault, and site manager"
+      }
+    },
     "beta": {
       "title": "Public test flight launches in 90 days.",
       "subtitle": "We're inviting 100 fearless brokerages to become founding pilots. Lock in your seat with a fully-refundable R$ 1,000 deposit. In return you get white-glove onboarding, direct access to the dev squad, and co-creation rights for features tailored to your playbook.",

@@ -177,6 +177,39 @@
         "description": "ROI positivo alcançado em média em 6 meses"
       }
     },
+    "mobile": {
+      "title": "Leve sua marca para o bolso de cada cliente",
+      "subtitle": "Apps nativos iOS e Android, integração com Apple Wallet, e acesso móvel completo à plataforma — tudo com sua marca.",
+      "clientApps": {
+        "title": "Apps Nativos para Clientes",
+        "subtitle": "Branded iOS & Android",
+        "description": "Crie aplicativos iOS e Android personalizados para seus clientes explorarem listagens, agendarem tours, receberem notificações e se conectarem com sua equipe — tudo sob sua marca.",
+        "features": [
+          "Design totalmente personalizado com seu logo, cores e marca",
+          "Notificações push para novos imóveis e atualizações",
+          "Sincronização em tempo real com Constelação CRM",
+          "Tours virtuais 3D integrados na palma da mão",
+          "Agendamento direto e mensagens com agentes"
+        ]
+      },
+      "appleWallet": {
+        "title": "Cartão de Visita Apple Wallet",
+        "subtitle": "Compartilhamento instantâneo",
+        "description": "Seus agentes podem adicionar cartões de visita digitais ao Apple Wallet dos clientes com um toque. Informações de contato, QR codes e links diretos — sempre acessíveis, sempre profissionais.",
+        "benefit": {
+          "label": "Por que isso importa:",
+          "description": "Cartões físicos são esquecidos. Cartões digitais ficam acessíveis e permitem contato instantâneo — aumentando conversões e recall de marca."
+        }
+      },
+      "platformApps": {
+        "badge": "Em breve",
+        "title": "Constelação, Balé e Gerenciamento de Sites em Movimento",
+        "description": "Gerencie pipelines, atribua tarefas, aprove marketing e atualize listagens de qualquer lugar. Apps nativos completos para iOS e Android chegando em breve.",
+        "ios": "App Store",
+        "android": "Google Play",
+        "modules": "Acesso completo ao CRM, orquestrador de tarefas, cofre de documentos e gerenciador de sites"
+      }
+    },
     "beta": {
       "title": "Lançamento do voo de teste público em 90 dias.",
       "subtitle": "Estamos convidando 100 corretoras destemidas para se tornarem pilotos fundadores. Garanta seu lugar com um depósito totalmente reembolsável de R$ 1.000. Em troca, você recebe integração de luva branca, acesso direto à equipe de desenvolvimento e direitos de co-criação para recursos adaptados ao seu playbook.",
