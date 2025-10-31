@@ -7,7 +7,7 @@ export default function StellaPlatform() {
 
   return (
     <div className="bg-slate-950 text-slate-100">
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden -mt-20 pt-20">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(146,171,255,0.28),_rgba(15,23,42,0.95))]" />
         <div className="relative z-10 mx-auto max-w-6xl px-6 py-24 text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-indigo-400/40 bg-indigo-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-200">
