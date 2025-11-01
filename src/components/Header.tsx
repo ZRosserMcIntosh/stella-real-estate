@@ -377,7 +377,7 @@ export default function Header() {
                   onClick={() => window.open('/stella-platform', '_blank')}
                   className={`mirage-button flex items-center rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
                 >
-                  Stella Platform
+                  Constellation Platform
                 </button>
                 <button
                   onClick={() => window.location.href = '/login'}
@@ -434,7 +434,7 @@ export default function Header() {
                 {t('header.nav.about')}
               </Link>
               <Link to="/stella-platform" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-                Stella Platform
+                Constellation Platform
               </Link>
               <Link to="/contact" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 {t('header.nav.contact')}

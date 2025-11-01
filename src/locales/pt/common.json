@@ -44,11 +44,11 @@
     "legal": { "title": "Jurídico" },
     "listYourProperty": { "title": "Anuncie seu Imóvel" },
     "institutional": { "title": "Institucional" },
-    "stellaPlatform": { "title": "Plataforma Stella" },
+    "stellaPlatform": { "title": "Plataforma Constellation" },
     "notFound": { "title": "Página não encontrada", "backHome": "Voltar para Home" }
   },
   "stellaPlatform": {
-    "badge": "Plataforma Stella",
+    "badge": "Plataforma Constellation",
     "hero": {
       "title": "O sistema operacional para impérios imobiliários modernos.",
       "subtitle": "Centros de controle para funcionários, um CRM que dobra a realidade, um gráfico de trabalho coreografado, sites cinematográficos e uma estrutura de automação que supera tudo no mercado. Construído no Brasil. Projetado para dominar globalmente.",
@@ -220,7 +220,7 @@
       ],
       "joinShortlist": "Junte-se à lista de testadores",
       "talkStrategists": "Fale com estrategistas de produto",
-      "footer": "Plataforma Stella · Construída para corretores com ambição irracional"
+      "footer": "Plataforma Constellation · Construída para corretores com ambição irracional"
     }
   },
   "auth": {

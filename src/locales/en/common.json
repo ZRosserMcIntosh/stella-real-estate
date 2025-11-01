@@ -44,11 +44,11 @@
     "legal": { "title": "Legal" },
     "listYourProperty": { "title": "List Your Property" },
     "institutional": { "title": "Institutional" },
-    "stellaPlatform": { "title": "Stella Platform" },
+    "stellaPlatform": { "title": "Constellation Platform" },
     "notFound": { "title": "Page not found", "backHome": "Back to Home" }
   },
   "stellaPlatform": {
-    "badge": "Stella Platform",
+    "badge": "Constellation Platform",
     "hero": {
       "title": "The operating system for modern real estate empires.",
       "subtitle": "Employee control centers, a CRM that bends reality, a choreographed work graph, cinematic websites, and an automation fabric that smokes everything else on the market. Built in Brazil. Designed to dominate globally.",
@@ -220,7 +220,7 @@
       ],
       "joinShortlist": "Join the tester shortlist",
       "talkStrategists": "Talk with product strategists",
-      "footer": "Stella Platform · Built for realtors with unreasonable ambition"
+      "footer": "Constellation Platform · Built for realtors with unreasonable ambition"
     }
   },
   "auth": {
