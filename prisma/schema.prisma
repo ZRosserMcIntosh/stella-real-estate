@@ -29,3 +29,80 @@ datasource db {
 //   @@map("employees")
 //   @@schema("public")
 // }
+
+// Social Media Integration Models
+model SocialConnection {
+  id        String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  userId    String   @db.Uuid @map("user_id")
+  provider  String   // 'instagram', 'facebook', 'linkedin', 'x', 'tiktok', 'youtube', 'threads', 'pinterest', 'bluesky', 'mastodon', 'google_business'
+  status    String   @default("connected") // 'connected', 'pending', 'error'
+  connectedAt DateTime? @default(now()) @map("connected_at")
+  authMetadata Json?  @default("{}") @map("auth_metadata")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@unique([userId, provider])
+  @@map("social_connections")
+  @@schema("public")
+}
+
+model SocialPost {
+  id              String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  content         String
+  platforms       String[] @default([])
+  status          String   @default("draft") // 'draft', 'scheduled', 'queued', 'published', 'failed'
+  scheduledAt     DateTime? @map("scheduled_at")
+  postedAt        DateTime? @map("posted_at")
+  timezone        String?  @default("UTC")
+  mediaUrls       String[] @default([]) @map("media_urls")
+  campaign        String?
+  notes           String?
+  approvalRequired Boolean @default(false) @map("approval_required")
+  approvalStatus  String?  @default("approved") @map("approval_status") // 'pending', 'approved', 'rejected'
+  failureReason   String?  @map("failure_reason")
+  createdBy       String?  @db.Uuid @map("created_by")
+  ownerId         String?  @db.Uuid @map("owner_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([scheduledAt])
+  @@map("social_posts")
+  @@schema("public")
+}
+
+model SocialAccountToken {
+  id              String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  connectionId    String   @db.Uuid @map("connection_id")
+  accessToken     String   @map("access_token")
+  refreshToken    String?  @map("refresh_token")
+  tokenExpiresAt  DateTime? @map("token_expires_at")
+  accountHandle   String   @map("account_handle")
+  displayName     String?  @map("display_name")
+  profileImageUrl String?  @map("profile_image_url")
+  platformAccountId String? @map("platform_account_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([connectionId])
+  @@map("social_account_tokens")
+  @@schema("public")
+}
+
+model SocialAnalytic {
+  id              String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  postId          String?  @db.Uuid @map("post_id")
+  platform        String   // 'instagram', 'facebook', 'linkedin', 'x', 'tiktok', 'youtube', 'threads', 'pinterest', 'bluesky', 'mastodon', 'google_business'
+  platformPostId  String?  @map("platform_post_id")
+  impressions     Int      @default(0)
+  engagement      Int      @default(0)
+  shares          Int      @default(0)
+  comments        Int      @default(0)
+  likes           Int      @default(0)
+  fetchedAt       DateTime? @default(now()) @map("fetched_at")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([postId])
+  @@index([platform])
+  @@map("social_analytics")
+  @@schema("public")
+}

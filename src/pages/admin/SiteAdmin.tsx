@@ -117,9 +117,9 @@ export default function SiteAdmin() {
     }
   }, [search])
 
-  if (!allowed) return <div className="text-slate-700">You do not have access.</div>
+  if (!allowed) return <div className="text-slate-300">You do not have access.</div>
 
-  const inputCls = "w-full rounded-md border border-slate-300 bg-white text-slate-900 placeholder-slate-400 px-3 py-2 shadow-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none"
+  const inputCls = "w-full rounded-md border border-slate-700/60 bg-slate-800/50 text-slate-100 placeholder-slate-500 px-3 py-2 shadow-sm focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40 outline-none"
 
   const asYouTubeUrl = (id: string) => (id ? `https://www.youtube.com/watch?v=${encodeURIComponent(id)}` : '#')
 
@@ -136,11 +136,11 @@ export default function SiteAdmin() {
   const thumbOf = (p: any) => (p.media || []).find((m: any) => m.kind === 'thumbnail')?.url || (p.media || [])[0]?.url
 
   return (
-    <div className="p-4 text-slate-900">
-      <h1 className="text-xl font-semibold">Site Admin</h1>
-      <p className="mt-1 text-slate-600">Manage public site configuration.</p>
+    <div className="p-4 text-slate-300">
+      <h1 className="text-xl font-semibold text-slate-100">Site Admin</h1>
+      <p className="mt-1 text-slate-400">Manage public site configuration.</p>
       {isDemo && (
-        <p className="mt-2 inline-flex items-center gap-2 rounded-full border border-amber-300/80 bg-amber-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
+        <p className="mt-2 inline-flex items-center gap-2 rounded-full border border-amber-400/80 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-300">
           Demo mode · changes disabled
         </p>
       )}
@@ -203,7 +203,7 @@ export default function SiteAdmin() {
                   key={id}
                   type="button"
                   onClick={() => setHomeId(id)}
-                  className="px-2 py-1 rounded-md border border-slate-300 bg-white text-sm hover:bg-slate-50 flex items-center"
+                  className="px-2 py-1 rounded-md border border-slate-700/60 bg-slate-800/50 text-sm text-slate-200 hover:bg-slate-700/60 hover:text-slate-100 flex items-center transition-colors"
                   title="Click to use this ID"
                 >
                   <span className="font-mono">{id}</span>
@@ -211,7 +211,7 @@ export default function SiteAdmin() {
                     href={asYouTubeUrl(id)}
                     target="_blank"
                     rel="noreferrer"
-                    className="ml-2 text-sky-700 hover:underline"
+                    className="ml-2 text-indigo-400 hover:text-indigo-300 underline"
                     onClick={(e) => e.stopPropagation()}
                   >link</a>
                 </button>
@@ -343,7 +343,7 @@ export default function SiteAdmin() {
                   key={id}
                   type="button"
                   onClick={() => setLoginId(id)}
-                  className="px-2 py-1 rounded-md border border-slate-300 bg-white text-sm hover:bg-slate-50 flex items-center"
+                  className="px-2 py-1 rounded-md border border-slate-700/60 bg-slate-800/50 text-sm text-slate-200 hover:bg-slate-700/60 hover:text-slate-100 flex items-center transition-colors"
                   title="Click to use this ID"
                 >
                   <span className="font-mono">{id}</span>
@@ -351,7 +351,7 @@ export default function SiteAdmin() {
                     href={asYouTubeUrl(id)}
                     target="_blank"
                     rel="noreferrer"
-                    className="ml-2 text-sky-700 hover:underline"
+                    className="ml-2 text-indigo-400 hover:text-indigo-300 underline"
                     onClick={(e) => e.stopPropagation()}
                   >link</a>
                 </button>

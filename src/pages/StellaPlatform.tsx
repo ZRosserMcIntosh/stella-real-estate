@@ -379,6 +379,270 @@ export default function StellaPlatform() {
         </div>
         <p className="mt-6 text-xs uppercase tracking-[0.35em] text-slate-500">{t('stellaPlatform.beta.footer')}</p>
       </section>
+
+      {/* Constellation Ecosystem Section */}
+      <section className="relative py-24 overflow-hidden border-t border-slate-800">
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950/20 to-slate-950" />
+        <div className="relative z-10 mx-auto max-w-6xl px-6">
+          <div className="text-center mb-16">
+            <span className="inline-flex items-center gap-2 rounded-full border border-blue-400/40 bg-blue-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-blue-200 mb-6">
+              {t('stellaPlatform.ecosystem.badge')}
+            </span>
+            <h2 className="text-4xl font-bold text-white sm:text-5xl mb-4">
+              {t('stellaPlatform.ecosystem.title')}
+            </h2>
+            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+              {t('stellaPlatform.ecosystem.subtitle')}
+            </p>
+          </div>
+
+          {/* Core Features */}
+          <div className="grid md:grid-cols-2 gap-8 mb-16">
+            <div className="relative overflow-hidden rounded-3xl border border-blue-500/30 bg-gradient-to-br from-blue-600/20 to-blue-900/20 p-8 shadow-[0_20px_80px_-20px_rgba(59,130,246,0.3)]">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-400/20 border border-blue-400/40">
+                  <svg className="h-6 w-6 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-white">{t('stellaPlatform.ecosystem.coreFeatures.ai.title')}</h3>
+                  <p className="text-xs text-blue-200 mt-1">{t('stellaPlatform.ecosystem.coreFeatures.ai.subtitle')}</p>
+                </div>
+              </div>
+              <p className="text-slate-300 mb-4">
+                {t('stellaPlatform.ecosystem.coreFeatures.ai.description')}
+              </p>
+              <ul className="space-y-2 text-sm text-slate-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-300 mt-1">•</span>
+                  <span><span className="font-semibold text-blue-300">{t('stellaPlatform.ecosystem.coreFeatures.ai.investor')}</span></span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-300 mt-1">•</span>
+                  <span><span className="font-semibold text-blue-300">{t('stellaPlatform.ecosystem.coreFeatures.ai.family')}</span></span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-300 mt-1">•</span>
+                  <span><span className="font-semibold text-blue-300">{t('stellaPlatform.ecosystem.coreFeatures.ai.firstTime')}</span></span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="relative overflow-hidden rounded-3xl border border-purple-500/30 bg-gradient-to-br from-purple-600/20 to-purple-900/20 p-8 shadow-[0_20px_80px_-20px_rgba(168,85,247,0.3)]">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-purple-400/20 border border-purple-400/40">
+                  <svg className="h-6 w-6 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-white">{t('stellaPlatform.ecosystem.coreFeatures.socialProof.title')}</h3>
+                  <p className="text-xs text-purple-200 mt-1">{t('stellaPlatform.ecosystem.coreFeatures.socialProof.subtitle')}</p>
+                </div>
+              </div>
+              <p className="text-slate-300 mb-4">
+                {t('stellaPlatform.ecosystem.coreFeatures.socialProof.description')}
+              </p>
+              <ul className="space-y-2 text-sm text-slate-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-300 mt-1">🔥</span>
+                  <span>{t('stellaPlatform.ecosystem.coreFeatures.socialProof.offer')}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-300 mt-1">👀</span>
+                  <span>{t('stellaPlatform.ecosystem.coreFeatures.socialProof.views')}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-300 mt-1">❤️</span>
+                  <span>{t('stellaPlatform.ecosystem.coreFeatures.socialProof.instagram')}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* 8 User Types Grid */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-white mb-8 text-center">{t('stellaPlatform.ecosystem.userTypes.title')}</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-600/15 to-blue-900/10 p-6 hover:border-blue-500/60 transition">
+                <div className="text-3xl mb-3">👤</div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.independentRealtors.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.independentRealtors.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-600/15 to-emerald-900/10 p-6 hover:border-emerald-500/60 transition">
+                <div className="text-3xl mb-3">🏢</div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.brokerages.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.brokerages.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-orange-500/30 bg-gradient-to-br from-orange-600/15 to-orange-900/10 p-6 hover:border-orange-500/60 transition">
+                <div className="text-3xl mb-3">🏗️</div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.developers.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.developers.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-pink-500/30 bg-gradient-to-br from-pink-600/15 to-pink-900/10 p-6 hover:border-pink-500/60 transition">
+                <div className="text-3xl mb-3">🎨</div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.architects.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.architects.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-cyan-600/15 to-cyan-900/10 p-6 hover:border-cyan-500/60 transition">
+                <div className="text-3xl mb-3">🏠</div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.strManagers.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.strManagers.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-indigo-600/15 to-indigo-900/10 p-6 hover:border-indigo-500/60 transition">
+                <div className="text-3xl mb-3">🏘️</div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.propertyOwners.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.propertyOwners.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-red-500/30 bg-gradient-to-br from-red-600/15 to-red-900/10 p-6 hover:border-red-500/60 transition">
+                <div className="text-3xl mb-3">🗝️</div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.strOwners.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.strOwners.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-600/15 to-amber-900/10 p-6 hover:border-amber-500/60 transition">
+                <div className="text-3xl mb-3">🛍️</div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.shoppers.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.shoppers.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Pending Services */}
+          <div className="grid md:grid-cols-2 gap-6 mb-16">
+            {[
+              { key: 'realtors', icon: '👤', titleKey: 'stellaPlatform.ecosystem.pendingServices.realtors.title' },
+              { key: 'developers', icon: '🏗️', titleKey: 'stellaPlatform.ecosystem.pendingServices.developers.title' },
+              { key: 'architects', icon: '🎨', titleKey: 'stellaPlatform.ecosystem.pendingServices.architects.title' },
+              { key: 'rentalManagers', icon: '🏠', titleKey: 'stellaPlatform.ecosystem.pendingServices.rentalManagers.title' },
+              { key: 'owners', icon: '🏘️', titleKey: 'stellaPlatform.ecosystem.pendingServices.owners.title' },
+              { key: 'buyers', icon: '🛍️', titleKey: 'stellaPlatform.ecosystem.pendingServices.buyers.title' }
+            ].map(({ key, icon, titleKey }) => (
+              <div key={key} className="rounded-2xl border border-slate-700/50 bg-slate-800/30 p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <h4 className="text-slate-200 font-semibold text-lg flex items-center gap-2">
+                    <span>{icon}</span> {t(titleKey)}
+                  </h4>
+                  <span className="inline-flex items-center gap-1 rounded-full border border-blue-400/40 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-300">
+                    {t(`stellaPlatform.ecosystem.pendingServices.${key}.deliveryDate`)}
+                  </span>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <div>
+                    <p className="text-blue-400 font-semibold mb-1">Phase 1 (MVP):</p>
+                    <ul className="space-y-1 ml-2 text-slate-300">
+                      {(t(`stellaPlatform.ecosystem.pendingServices.${key}.phase1`, { returnObjects: true }) as string[]).map((item, idx) => (
+                        <li key={idx}>✓ {item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="text-slate-400 font-semibold mb-1">Pending Features:</p>
+                    <ul className="space-y-1 ml-2 text-slate-400">
+                      {(t(`stellaPlatform.ecosystem.pendingServices.${key}.pending`, { returnObjects: true }) as string[]).map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Why Stella */}
+          <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 rounded-3xl p-8 md:p-12">
+            <h3 className="text-2xl font-bold text-white mb-8">{t('stellaPlatform.ecosystem.whyStella.title')}</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                { key: 'aggregated', emoji: '✓' },
+                { key: 'narratives', emoji: '✨' },
+                { key: 'socialProof', emoji: '🔥' },
+                { key: 'ecosystem', emoji: '🎯' },
+                { key: 'str', emoji: '🏠' },
+                { key: 'users', emoji: '🌐' }
+              ].map(({ key, emoji }) => (
+                <div key={key} className="flex gap-4">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-500/20 border border-blue-400/40">
+                    <span className="text-blue-300 font-bold">{emoji}</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white mb-1">{t(`stellaPlatform.ecosystem.whyStella.${key}.title`)}</h4>
+                    <p className="text-sm text-slate-300">{t(`stellaPlatform.ecosystem.whyStella.${key}.description`)}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Ecosystem CTA */}
+      <section className="relative py-16 overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800">
+        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+          <h3 className="text-3xl font-bold text-white mb-4">
+            {t('stellaPlatform.ecosystem.cta.title')}
+          </h3>
+          <p className="text-lg text-slate-300 mb-8">
+            {t('stellaPlatform.ecosystem.cta.subtitle')}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="mailto:platform@stella.com?subject=Interest%20in%20Stella%20Platform%20Ecosystem"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/25 transition hover:-translate-y-0.5 hover:bg-indigo-200"
+            >
+              {t('stellaPlatform.ecosystem.cta.joinWaitlist')}
+            </a>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 rounded-full border border-indigo-400/60 px-6 py-3 text-sm font-semibold text-indigo-200 transition hover:border-indigo-200 hover:text-white"
+            >
+              {t('stellaPlatform.ecosystem.cta.scheduleDemo')}
+            </Link>
+          </div>
+          <p className="text-slate-400 text-sm mt-6">
+            {t('stellaPlatform.ecosystem.cta.footer')}
+          </p>
+        </div>
+      </section>
     </div>
   )
 }

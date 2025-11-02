@@ -26,6 +26,7 @@ import ListingsForRent from './pages/admin/ListingsForRent'
 import Constellation from './pages/admin/CRM'
 import Ballet from './pages/admin/Ballet'
 import SocialMedia from './pages/admin/SocialMedia'
+import WebsiteBuilder from './pages/admin/WebsiteBuilder'
 import Team from './pages/admin/Team'
 import Calendar from './pages/admin/Calendar'
 import Analytics from './pages/admin/Analytics'
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
       { path: 'crm', element: <Constellation /> },
       { path: 'ballet', element: <Ballet /> },
       { path: 'social-media', element: <SocialMedia /> },
+      { path: 'website-builder', element: <WebsiteBuilder /> },
       { path: 'team', element: <Team /> },
       { path: 'calendar', element: <Calendar /> },
       { path: 'analytics', element: <Analytics /> },

@@ -16,7 +16,7 @@ export default function CurrencySwitcher() {
   const [buttonCenter, setButtonCenter] = React.useState<number>(0)
   const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const triggerCls = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/15 text-white shadow-sm ring-1 ring-white/30 backdrop-blur-md text-sm hover:bg-white/20 transition-colors'
+  const triggerCls = 'currency-trigger'
   const menuCls = 'absolute right-0 mt-2 w-56 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl overflow-hidden'
   const itemBase = 'w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-left'
   const itemActive = 'w-full flex items-center gap-2 px-3 py-2 text-sm bg-slate-100 dark:bg-slate-800/60 text-slate-900 dark:text-white text-left'
@@ -99,6 +99,43 @@ export default function CurrencySwitcher() {
         }
         .cur-menu.closing-fast {
           animation: dropdownSlideUp 0.15s ease-in forwards;
+        }
+        .currency-trigger {
+          background: rgba(255, 255, 255, 0.08);
+          border: none;
+          cursor: pointer;
+          padding: 0.4rem 0.8rem;
+          border-radius: 0.5rem;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+          font-size: 0.75rem;
+          letter-spacing: 0.4px;
+          font-weight: 300;
+          text-transform: uppercase;
+          white-space: nowrap;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.375rem;
+        }
+        .currency-trigger:hover {
+          background: rgba(255, 255, 255, 0.18);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        .currency-trigger:active {
+          background: rgba(255, 255, 255, 0.25);
+        }
+        @media (prefers-color-scheme: dark) {
+          .currency-trigger {
+            background: rgba(255, 255, 255, 0.05);
+          }
+          .currency-trigger:hover {
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.08);
+          }
+          .currency-trigger:active {
+            background: rgba(255, 255, 255, 0.18);
+          }
         }
       `}</style>
       <button

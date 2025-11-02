@@ -280,10 +280,10 @@ export default function Team() {
     <div className="p-4">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold tracking-tight">Team</h1>
-          <p className="mt-1 text-slate-600">Org chart, directory, roles & permissions.</p>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-100">Team</h1>
+          <p className="mt-1 text-slate-400">Org chart, directory, roles & permissions.</p>
           {loading && <p className="mt-1 text-sm text-slate-500">Loading team…</p>}
-          {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+          {error && <p className="mt-1 text-sm text-red-400">{error}</p>}
           {!supabaseConfigured && !error && (
             <p className="mt-1 text-xs text-slate-500">
               Configure Supabase credentials to see live team members.
@@ -296,17 +296,17 @@ export default function Team() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search people / org"
-              className="w-64 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+              className="w-64 rounded-md border border-slate-700/60 bg-slate-800/50 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 shadow-sm focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 transition-all"
             />
           </div>
           <button
             onClick={() => setShowAdd(true)}
-            className="rounded-md bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-700"
+            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700 shadow-lg shadow-indigo-500/20 transition-all"
           >
             + Add Person
           </button>
           <div className="relative inline-block">
-            <button className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-50">
+            <button className="rounded-md border border-slate-700/60 bg-slate-800/50 px-3 py-2 text-sm text-slate-200 hover:bg-slate-800 hover:border-slate-600/80 transition-all">
               Export
             </button>
           </div>
@@ -314,7 +314,7 @@ export default function Team() {
             <select
               value={dept}
               onChange={(e) => setDept(e.target.value as any)}
-              className="rounded-md border border-slate-300 bg-white px-2 py-2 text-sm"
+              className="rounded-md border border-slate-700/60 bg-slate-800/50 px-2 py-2 text-sm text-slate-100 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 transition-all"
             >
               <option value="all">Department</option>
               {depts.map((d) => (
@@ -326,7 +326,7 @@ export default function Team() {
             <select
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              className="rounded-md border border-slate-300 bg-white px-2 py-2 text-sm"
+              className="rounded-md border border-slate-700/60 bg-slate-800/50 px-2 py-2 text-sm text-slate-100 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 transition-all"
             >
               <option value="all">City</option>
               {cities.map((c) => (
@@ -338,7 +338,7 @@ export default function Team() {
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="max-w-[12rem] rounded-md border border-slate-300 bg-white px-2 py-2 text-sm"
+              className="max-w-[12rem] rounded-md border border-slate-700/60 bg-slate-800/50 px-2 py-2 text-sm text-slate-100 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 transition-all"
             >
               <option value="all">Role</option>
               {roles.map((r) => (
@@ -350,7 +350,7 @@ export default function Team() {
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as any)}
-              className="rounded-md border border-slate-300 bg-white px-2 py-2 text-sm"
+              className="rounded-md border border-slate-700/60 bg-slate-800/50 px-2 py-2 text-sm text-slate-100 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 transition-all"
             >
               <option value="all">Status</option>
               <option value="active">Active</option>
@@ -361,7 +361,7 @@ export default function Team() {
             <select
               value={type}
               onChange={(e) => setType(e.target.value as any)}
-              className="rounded-md border border-slate-300 bg-white px-2 py-2 text-sm"
+              className="rounded-md border border-slate-700/60 bg-slate-800/50 px-2 py-2 text-sm text-slate-100 focus:border-indigo-500/60 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 transition-all"
             >
               <option value="all">Type</option>
               <option value="employee">Employee</option>
@@ -382,7 +382,7 @@ export default function Team() {
         )}
       </div>
 
-      <div className="mt-6 border-b border-slate-200">
+      <div className="mt-6 border-b border-slate-800/50">
         <nav className="-mb-px flex gap-6 text-sm" aria-label="Tabs">
           {(
             [
@@ -397,8 +397,8 @@ export default function Team() {
               key={key}
               onClick={() => setTab(key)}
               className={
-                'border-b-2 px-1 pb-3 ' +
-                (tab === key ? 'border-sky-600 text-sky-700' : 'border-transparent text-slate-600 hover:text-slate-800')
+                'border-b-2 px-1 pb-3 transition-colors ' +
+                (tab === key ? 'border-indigo-600 text-indigo-300' : 'border-transparent text-slate-400 hover:text-slate-300')
               }
             >
               {label}

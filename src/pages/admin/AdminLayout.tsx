@@ -40,6 +40,7 @@ export default function AdminLayout() {
       { label: 'Analytics', path: '/admin/analytics' },
       { label: 'Team', path: '/admin/team' },
       { label: 'Site Admin', path: '/admin/site-admin' },
+      { label: 'Website Builder', path: '/admin/website-builder' },
     ]},
     { icon: '👥', label: 'Constelação', path: '/admin/crm' },
     { icon: '🩰', label: 'Ballet', path: '/admin/ballet' },
@@ -48,9 +49,16 @@ export default function AdminLayout() {
   ]
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-slate-950 flex flex-col">
+      {/* Ambient Glow Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 left-1/3 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-slate-800/20 rounded-full blur-3xl" />
+      </div>
+      
       {/* Top Header */}
-      <div className="fixed top-0 left-0 right-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <div className="fixed top-0 left-0 right-0 z-40 border-b border-slate-800/50 bg-slate-900/95 backdrop-blur-lg">
         <div className="flex flex-nowrap items-center gap-2 px-4 py-3 md:gap-6 md:px-6">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0 hover:opacity-80 transition-opacity">
@@ -62,9 +70,9 @@ export default function AdminLayout() {
                 onError={() => setLogoFailed(true)}
               />
             ) : (
-              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-brand-400 to-brand-700 grid place-items-center text-white text-xs font-bold">S</div>
+              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 grid place-items-center text-white text-xs font-bold">S</div>
             )}
-            <span className="hidden sm:inline text-sm font-semibold text-slate-900">Stella</span>
+            <span className="hidden sm:inline text-sm font-semibold text-slate-100">Stella</span>
           </Link>
 
           {/* Desktop Navigation - Horizontal tabs */}
@@ -76,8 +84,8 @@ export default function AdminLayout() {
               className={({ isActive }) =>
                 `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-700 hover:bg-slate-100'
+                    ? 'bg-indigo-600/90 text-white shadow-lg shadow-indigo-500/30 border border-indigo-500/40'
+                    : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
@@ -100,8 +108,8 @@ export default function AdminLayout() {
                 onClick={() => setListingsOpen(!listingsOpen)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1 ${
                   listingsOpen
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-700 hover:bg-slate-100'
+                    ? 'bg-indigo-600/90 text-white shadow-lg shadow-indigo-500/30 border border-indigo-500/40'
+                    : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`}
               >
                 📋 Listings
@@ -111,7 +119,7 @@ export default function AdminLayout() {
               </button>
               {listingsOpen && createPortal(
                 <div 
-                  className="fixed z-[60] mt-0 w-56 rounded-lg border border-slate-200 bg-white shadow-lg" 
+                  className="fixed z-[60] mt-0 w-56 rounded-lg border border-slate-700/80 bg-slate-800/98 backdrop-blur-lg shadow-2xl shadow-slate-950/70" 
                   style={{top: '56px', left: '180px'}}
                   onMouseEnter={() => {
                     if (listingsCloseTimer.current) clearTimeout(listingsCloseTimer.current)
@@ -121,9 +129,9 @@ export default function AdminLayout() {
                   }}
                 >
                   <div className="p-1">
-                    <NavLink to="/admin/listings/new-projects" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-800 hover:bg-slate-100'}`} onClick={() => setListingsOpen(false)}>New Projects</NavLink>
-                    <NavLink to="/admin/listings/for-sale" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-800 hover:bg-slate-100'}`} onClick={() => setListingsOpen(false)}>For Sale</NavLink>
-                    <NavLink to="/admin/listings/for-rent" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-800 hover:bg-slate-100'}`} onClick={() => setListingsOpen(false)}>For Rent</NavLink>
+                    <NavLink to="/admin/listings/new-projects" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setListingsOpen(false)}>New Projects</NavLink>
+                    <NavLink to="/admin/listings/for-sale" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setListingsOpen(false)}>For Sale</NavLink>
+                    <NavLink to="/admin/listings/for-rent" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setListingsOpen(false)}>For Rent</NavLink>
                   </div>
                 </div>,
                 document.body
@@ -146,8 +154,8 @@ export default function AdminLayout() {
                 onClick={() => setCompanyOpen(!companyOpen)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1 ${
                   companyOpen
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-700 hover:bg-slate-100'
+                    ? 'bg-indigo-600/90 text-white shadow-lg shadow-indigo-500/30 border border-indigo-500/40'
+                    : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`}
               >
                 🏢 Company
@@ -157,7 +165,7 @@ export default function AdminLayout() {
               </button>
               {companyOpen && createPortal(
                 <div 
-                  className="fixed z-[60] mt-0 w-56 rounded-lg border border-slate-200 bg-white shadow-lg" 
+                  className="fixed z-[60] mt-0 w-56 rounded-lg border border-slate-700/80 bg-slate-800/98 backdrop-blur-lg shadow-2xl shadow-slate-950/70" 
                   style={{top: '56px', left: '340px'}}
                   onMouseEnter={() => {
                     if (companyCloseTimer.current) clearTimeout(companyCloseTimer.current)
@@ -167,9 +175,10 @@ export default function AdminLayout() {
                   }}
                 >
                   <div className="p-1">
-                    <NavLink to="/admin/analytics" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-800 hover:bg-slate-100'}`} onClick={() => setCompanyOpen(false)}>Analytics</NavLink>
-                    <NavLink to="/admin/team" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-800 hover:bg-slate-100'}`} onClick={() => setCompanyOpen(false)}>Team</NavLink>
-                    <NavLink to="/admin/site-admin" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-800 hover:bg-slate-100'}`} onClick={() => setCompanyOpen(false)}>Site Admin</NavLink>
+                    <NavLink to="/admin/analytics" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setCompanyOpen(false)}>Analytics</NavLink>
+                    <NavLink to="/admin/team" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setCompanyOpen(false)}>Team</NavLink>
+                    <NavLink to="/admin/site-admin" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setCompanyOpen(false)}>Site Admin</NavLink>
+                    <NavLink to="/admin/website-builder" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/30 text-indigo-200' : 'text-slate-300 hover:bg-slate-700/50 hover:text-slate-100'}`} onClick={() => setCompanyOpen(false)}>Website Builder</NavLink>
                   </div>
                 </div>,
                 document.body
@@ -182,8 +191,8 @@ export default function AdminLayout() {
               className={({ isActive }) =>
                 `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-700 hover:bg-slate-100'
+                    ? 'bg-emerald-600/90 text-white shadow-lg shadow-emerald-500/30 border border-emerald-500/40'
+                    : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
@@ -196,8 +205,8 @@ export default function AdminLayout() {
               className={({ isActive }) =>
                 `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-700 hover:bg-slate-100'
+                    ? 'bg-pink-600/90 text-white shadow-lg shadow-pink-500/30 border border-pink-500/40'
+                    : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
@@ -210,12 +219,26 @@ export default function AdminLayout() {
               className={({ isActive }) =>
                 `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-700 hover:bg-slate-100'
+                    ? 'bg-violet-600/90 text-white shadow-lg shadow-violet-500/30 border border-violet-500/40'
+                    : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
               📱 Social
+            </NavLink>
+
+            {/* Website Builder */}
+            <NavLink
+              to="/admin/website-builder"
+              className={({ isActive }) =>
+                `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'bg-orange-600/90 text-white shadow-lg shadow-orange-500/30 border border-orange-500/40'
+                    : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
+                }`
+              }
+            >
+              🌐 Website Builder
             </NavLink>
 
             {/* Developer */}
@@ -224,8 +247,8 @@ export default function AdminLayout() {
               className={({ isActive }) =>
                 `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-brand-600 text-white shadow-sm'
-                    : 'text-slate-700 hover:bg-slate-100'
+                    ? 'bg-slate-700/90 text-white shadow-lg shadow-slate-600/30 border border-slate-600/40'
+                    : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
@@ -251,8 +274,8 @@ export default function AdminLayout() {
                 onClick={() => setAccountOpen(!accountOpen)}
                 className={`text-sm font-medium px-3 py-1.5 rounded-lg transition-colors inline-flex items-center gap-1 ${
                   accountOpen
-                    ? 'bg-slate-900 text-white'
-                    : 'text-slate-700 hover:bg-slate-100'
+                    ? 'bg-slate-700/90 text-white shadow-lg shadow-slate-600/30'
+                    : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`}
               >
                 👤
@@ -262,7 +285,7 @@ export default function AdminLayout() {
               </button>
               {accountOpen && (
                 <div 
-                  className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-slate-200 bg-white p-1 shadow-lg" 
+                  className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-slate-700/80 bg-slate-800/98 backdrop-blur-lg p-1 shadow-2xl shadow-slate-950/70" 
                   onMouseEnter={() => {
                     if (accountCloseTimer.current) clearTimeout(accountCloseTimer.current)
                   }}
@@ -270,15 +293,15 @@ export default function AdminLayout() {
                     accountCloseTimer.current = setTimeout(() => setAccountOpen(false), 200)
                   }}
                 >
-                  <NavLink to="/admin/account" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm ${isActive ? 'bg-slate-100 text-slate-900' : 'text-slate-800 hover:bg-slate-50'}`} onClick={() => setAccountOpen(false)}>Edit Account</NavLink>
-                  <NavLink to="/admin/calendar" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm ${isActive ? 'bg-slate-100 text-slate-900' : 'text-slate-800 hover:bg-slate-50'}`} onClick={() => setAccountOpen(false)}>Calendar</NavLink>
-                  <NavLink to="/admin/document-vault" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm ${isActive ? 'bg-slate-100 text-slate-900' : 'text-slate-800 hover:bg-slate-50'}`} onClick={() => setAccountOpen(false)}>Document Vault</NavLink>
+                  <NavLink to="/admin/account" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setAccountOpen(false)}>Edit Account</NavLink>
+                  <NavLink to="/admin/calendar" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setAccountOpen(false)}>Calendar</NavLink>
+                  <NavLink to="/admin/document-vault" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setAccountOpen(false)}>Document Vault</NavLink>
                 </div>
               )}
             </div>
 
             {isDemo && (
-              <span className="inline-flex items-center rounded-lg border border-amber-300/80 bg-amber-100/80 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
+              <span className="inline-flex items-center rounded-lg border border-amber-400/50 bg-amber-500/15 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-amber-200">
                 Demo
               </span>
             )}
@@ -287,7 +310,7 @@ export default function AdminLayout() {
               type="button"
               onClick={handleSignOut}
               disabled={authLoading}
-              className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-800 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center rounded-lg border border-slate-700/50 bg-slate-800/50 px-3 py-1.5 text-sm font-medium text-slate-200 hover:border-slate-600 hover:bg-slate-800 hover:text-slate-100 hover:shadow-lg hover:shadow-indigo-500/10 disabled:cursor-not-allowed disabled:opacity-60 transition-all"
             >
               Sign out
             </button>
@@ -301,7 +324,7 @@ export default function AdminLayout() {
             aria-label="Open menu"
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
-            className="inline-flex items-center justify-center rounded-lg p-2 text-slate-700 hover:bg-slate-100 dark:text-slate-800 md:hidden"
+            className="inline-flex items-center justify-center rounded-lg p-2 text-slate-300 hover:bg-slate-800/50 dark:text-slate-800 md:hidden"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
               {mobileOpen ? (
@@ -318,51 +341,52 @@ export default function AdminLayout() {
       {mobileOpen && (
         <div className="md:hidden">
           <div
-            className="fixed inset-0 z-30 bg-black/30 backdrop-blur-[1px]"
+            className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
             aria-hidden="true"
           />
-          <div className="fixed inset-x-0 top-0 z-30 mt-[56px] max-h-[calc(100vh-56px)] overflow-y-auto rounded-b-2xl border border-slate-200 bg-white p-3 shadow-xl">
+          <div className="fixed inset-x-0 top-0 z-30 mt-[56px] max-h-[calc(100vh-56px)] overflow-y-auto rounded-b-2xl border border-slate-800/80 bg-slate-900/98 backdrop-blur-lg p-3 shadow-2xl shadow-slate-950/70">
             <div className="grid gap-2 text-base font-medium">
-              <NavLink to="/admin" end onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 ${isActive ? 'bg-brand-50 text-brand-700' : 'hover:bg-slate-100'}`}>📊 Deal Room</NavLink>
+              <NavLink to="/admin" end onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>📊 Deal Room</NavLink>
 
               {/* Listings */}
-              <div className="rounded-lg border border-slate-200">
-                <div className="px-3 py-2 text-xs font-semibold uppercase text-slate-500">📋 Listings</div>
+              <div className="rounded-lg border border-slate-700/80">
+                <div className="px-3 py-2 text-xs font-semibold uppercase text-slate-300">📋 Listings</div>
                 <div className="grid gap-1 p-2">
-                  <NavLink to="/admin/listings/new-projects" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm ${isActive ? 'bg-brand-50 text-brand-700' : 'hover:bg-slate-100'}`}>New Projects</NavLink>
-                  <NavLink to="/admin/listings/for-sale" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm ${isActive ? 'bg-brand-50 text-brand-700' : 'hover:bg-slate-100'}`}>For Sale</NavLink>
-                  <NavLink to="/admin/listings/for-rent" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm ${isActive ? 'bg-brand-50 text-brand-700' : 'hover:bg-slate-100'}`}>For Rent</NavLink>
+                  <NavLink to="/admin/listings/new-projects" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>New Projects</NavLink>
+                  <NavLink to="/admin/listings/for-sale" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>For Sale</NavLink>
+                  <NavLink to="/admin/listings/for-rent" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>For Rent</NavLink>
                 </div>
               </div>
 
               {/* Company */}
-              <div className="rounded-lg border border-slate-200">
-                <div className="px-3 py-2 text-xs font-semibold uppercase text-slate-500">🏢 Company</div>
+              <div className="rounded-lg border border-slate-700/80">
+                <div className="px-3 py-2 text-xs font-semibold uppercase text-slate-300">🏢 Company</div>
                 <div className="grid gap-1 p-2">
-                  <NavLink to="/admin/analytics" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm ${isActive ? 'bg-brand-50 text-brand-700' : 'hover:bg-slate-100'}`}>Analytics</NavLink>
-                  <NavLink to="/admin/team" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm ${isActive ? 'bg-brand-50 text-brand-700' : 'hover:bg-slate-100'}`}>Team</NavLink>
-                  <NavLink to="/admin/site-admin" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm ${isActive ? 'bg-brand-50 text-brand-700' : 'hover:bg-slate-100'}`}>Site Admin</NavLink>
+                  <NavLink to="/admin/analytics" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>Analytics</NavLink>
+                  <NavLink to="/admin/team" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>Team</NavLink>
+                  <NavLink to="/admin/site-admin" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>Site Admin</NavLink>
+                  <NavLink to="/admin/website-builder" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>Website Builder</NavLink>
                 </div>
               </div>
 
-              <NavLink to="/admin/crm" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 ${isActive ? 'bg-brand-50 text-brand-700' : 'hover:bg-slate-100'}`}>👥 Constelação</NavLink>
-              <NavLink to="/admin/ballet" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 ${isActive ? 'bg-brand-50 text-brand-700' : 'hover:bg-slate-100'}`}>🩰 Ballet</NavLink>
-              <NavLink to="/admin/social-media" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 ${isActive ? 'bg-brand-50 text-brand-700' : 'hover:bg-slate-100'}`}>📱 Social Media</NavLink>
-              <NavLink to="/admin/developer" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 ${isActive ? 'bg-brand-50 text-brand-700' : 'hover:bg-slate-100'}`}>⚙️ Developer</NavLink>
+              <NavLink to="/admin/crm" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-emerald-600/40 text-emerald-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>👥 Constelação</NavLink>
+              <NavLink to="/admin/ballet" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-pink-600/40 text-pink-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>🩰 Ballet</NavLink>
+              <NavLink to="/admin/social-media" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-violet-600/40 text-violet-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>📱 Social Media</NavLink>
+              <NavLink to="/admin/developer" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-slate-700/40 text-slate-50' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>⚙️ Developer</NavLink>
 
               {/* My Account */}
-              <div className="rounded-lg border border-slate-200">
-                <div className="px-3 py-2 text-xs font-semibold uppercase text-slate-500">👤 My Account</div>
+              <div className="rounded-lg border border-slate-700/80">
+                <div className="px-3 py-2 text-xs font-semibold uppercase text-slate-300">👤 My Account</div>
                 <div className="grid gap-1 p-2">
-                  <NavLink to="/admin/account" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm ${isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'}`}>Edit Account</NavLink>
-                  <NavLink to="/admin/calendar" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm ${isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'}`}>Calendar</NavLink>
-                  <NavLink to="/admin/document-vault" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm ${isActive ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'}`}>Document Vault</NavLink>
+                  <NavLink to="/admin/account" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>Edit Account</NavLink>
+                  <NavLink to="/admin/calendar" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>Calendar</NavLink>
+                  <NavLink to="/admin/document-vault" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>Document Vault</NavLink>
                 </div>
               </div>
 
               {isDemo && (
-                <div className="mt-2 rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-amber-700">
+                <div className="mt-2 rounded-lg border border-amber-400/50 bg-amber-500/15 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-amber-200">
                   Demo mode · read-only
                 </div>
               )}
@@ -372,7 +396,7 @@ export default function AdminLayout() {
                   setMobileOpen(false)
                   await handleSignOut()
                 }}
-                className="mt-3 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
+                className="mt-3 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/50 transition-all"
                 disabled={authLoading}
               >
                 Sign out
@@ -384,7 +408,7 @@ export default function AdminLayout() {
 
       {/* Content area - adjusted for fixed header */}
       <div className="pt-20 pb-8 flex-1">
-        <div className="container-padded text-slate-900">
+        <div className="container-padded text-slate-100">
           <Outlet />
         </div>
       </div>

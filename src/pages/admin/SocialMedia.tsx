@@ -1035,7 +1035,7 @@ export default function SocialMedia() {
 
   const publishingView = (
     <>
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-lg font-semibold">Channel connections</h2>
@@ -1067,7 +1067,7 @@ export default function SocialMedia() {
               ? 'bg-red-100 text-red-700'
               : status === 'pending'
               ? 'bg-amber-100 text-amber-700'
-              : 'bg-slate-100 text-slate-600'
+              : 'bg-slate-100 text-slate-400'
             const connectedAtLabel = isConnected && connection?.connectedAt
               ? `Since ${new Date(connection.connectedAt).toLocaleString(undefined, {
                   dateStyle: 'medium',
@@ -1075,12 +1075,12 @@ export default function SocialMedia() {
                 })}`
               : 'Not yet connected'
             return (
-              <div key={connector.provider} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div key={connector.provider} className="rounded-xl border border-slate-700/60 bg-slate-50 p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">{connector.icon}</span>
                     <div>
-                      <div className="text-sm font-semibold text-slate-800">{connector.label}</div>
+                      <div className="text-sm font-semibold text-slate-200">{connector.label}</div>
                       <div className="text-xs text-slate-500">{connectedAtLabel}</div>
                     </div>
                   </div>
@@ -1092,7 +1092,7 @@ export default function SocialMedia() {
                   disabled={isDemo}
                   className={`mt-4 w-full rounded-lg px-3 py-1.5 text-sm font-semibold transition ${
                     isConnected
-                      ? 'border border-slate-300 text-slate-600 hover:bg-white'
+                      ? 'border border-slate-700/60 text-slate-400 hover:bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg'
                       : 'bg-sky-600 text-white hover:bg-sky-700'
                   } disabled:cursor-not-allowed disabled:opacity-60`}
                   title={isDemo ? 'Disabled in demo mode' : undefined}
@@ -1105,7 +1105,7 @@ export default function SocialMedia() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
           <div>
             <h2 className="text-lg font-semibold">Compose</h2>
@@ -1119,13 +1119,13 @@ export default function SocialMedia() {
               <input
                 value={timezone}
                 onChange={(e) => handleTimezoneChange(e.target.value)}
-                className="w-40 rounded border border-slate-300 px-2 py-1"
+                className="w-40 rounded border border-slate-700/60 px-2 py-1"
                 placeholder="UTC"
               />
               <button
                 type="button"
                 onClick={resetTimezoneToAuto}
-                className="rounded-full border border-slate-300 px-2 py-1 text-[11px] font-semibold text-slate-600 hover:bg-slate-100"
+                className="rounded-full border border-slate-700/60 px-2 py-1 text-[11px] font-semibold text-slate-400 hover:bg-slate-100"
               >
                 Auto-detect
               </button>
@@ -1139,7 +1139,7 @@ export default function SocialMedia() {
         <div className="mt-4 grid gap-4 lg:grid-cols-[2fr,1fr]">
           <div className="space-y-4">
             <div>
-              <label className="flex items-center justify-between text-xs font-medium uppercase tracking-wide text-slate-600">
+              <label className="flex items-center justify-between text-xs font-medium uppercase tracking-wide text-slate-400">
                 Primary copy
                 <span className="text-[10px] text-slate-400">{content.length} characters</span>
               </label>
@@ -1147,13 +1147,13 @@ export default function SocialMedia() {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 rows={6}
-                className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-inner focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                className="mt-2 w-full rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg px-3 py-2 text-sm shadow-inner focus:border-indigo-500/60 focus:outline-none focus:ring-2 focus:ring-sky-200"
                 placeholder="Announce something great..."
               />
             </div>
 
             <div>
-              <div className="text-xs font-medium uppercase tracking-wide text-slate-600">Platforms</div>
+              <div className="text-xs font-medium uppercase tracking-wide text-slate-400">Platforms</div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {(Object.keys(platformMeta) as SocialPlatform[]).map((key) => {
                   const selected = platforms.includes(key)
@@ -1168,10 +1168,10 @@ export default function SocialMedia() {
                       title={isConnected ? '' : 'Connect this channel above to enable scheduling.'}
                       className={`flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition ${
                         !isConnected
-                          ? 'cursor-not-allowed border-dashed border-slate-300 bg-slate-100 text-slate-400'
+                          ? 'cursor-not-allowed border-dashed border-slate-700/60 bg-slate-100 text-slate-400'
                           : selected
                           ? 'border-sky-500 bg-sky-50 text-sky-700'
-                          : 'border-slate-300 bg-white text-slate-600 hover:border-slate-400'
+                          : 'border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg text-slate-400 hover:border-slate-400'
                       }`}
                     >
                       <span>{meta.icon}</span>
@@ -1186,42 +1186,42 @@ export default function SocialMedia() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <label className="text-xs font-medium uppercase tracking-wide text-slate-600">
+              <label className="text-xs font-medium uppercase tracking-wide text-slate-400">
                 Schedule
                 <input
                   type="datetime-local"
                   value={scheduledAt}
                   onChange={(e) => setScheduledAt(e.target.value)}
-                  className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                  className="mt-2 w-full rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg px-3 py-2 text-sm focus:border-indigo-500/60 focus:outline-none focus:ring-2 focus:ring-sky-200"
                 />
               </label>
-              <label className="text-xs font-medium uppercase tracking-wide text-slate-600">
+              <label className="text-xs font-medium uppercase tracking-wide text-slate-400">
                 Campaign tag
                 <input
                   value={campaign}
                   onChange={(e) => setCampaign(e.target.value)}
                   placeholder="Autumn launch"
-                  className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                  className="mt-2 w-full rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg px-3 py-2 text-sm focus:border-indigo-500/60 focus:outline-none focus:ring-2 focus:ring-sky-200"
                 />
               </label>
             </div>
 
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-slate-600">
+              <label className="text-xs font-medium uppercase tracking-wide text-slate-400">
                 Internal notes
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   rows={3}
-                  className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                  className="mt-2 w-full rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg px-3 py-2 text-sm focus:border-indigo-500/60 focus:outline-none focus:ring-2 focus:ring-sky-200"
                   placeholder="Call-to-action options, asset references..."
                 />
               </label>
             </div>
 
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+            <div className="flex items-center justify-between rounded-xl border border-slate-700/60 bg-slate-50 px-4 py-3 text-sm text-slate-400">
               <div>
-                <div className="font-medium text-slate-800">Approval required?</div>
+                <div className="font-medium text-slate-200">Approval required?</div>
                 <p className="text-xs text-slate-500">Flag for review so leadership signs off before publishing.</p>
               </div>
               <label className="inline-flex items-center gap-2 text-sm font-medium">
@@ -1229,7 +1229,7 @@ export default function SocialMedia() {
                   type="checkbox"
                   checked={approvalRequired}
                   onChange={(e) => setApprovalRequired(e.target.checked)}
-                  className="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                  className="h-4 w-4 rounded border-slate-700/60 text-sky-600 focus:ring-indigo-500/40"
                 />
                 Required
               </label>
@@ -1237,8 +1237,8 @@ export default function SocialMedia() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-              <div className="font-semibold text-slate-800">Media bucket</div>
+            <div className="rounded-xl border border-slate-700/60 bg-slate-50 p-4 text-sm text-slate-400">
+              <div className="font-semibold text-slate-200">Media bucket</div>
               <p className="mt-1 text-xs text-slate-500">
                 Paste URLs to creative assets (Supabase storage, Drive, etc.). Drag-and-drop upload is on the roadmap.
               </p>
@@ -1247,7 +1247,7 @@ export default function SocialMedia() {
                   value={mediaInput}
                   onChange={(e) => setMediaInput(e.target.value)}
                   placeholder="https://"
-                  className="flex-1 rounded-lg border border-slate-300 bg-white px-2 py-1 text-sm"
+                  className="flex-1 rounded-lg border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg px-2 py-1 text-sm"
                 />
                 <button
                   type="button"
@@ -1279,7 +1279,7 @@ export default function SocialMedia() {
               type="button"
               onClick={handleCreate}
               disabled={scheduleDisabled}
-              className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-300 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
+              className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-950/20 transition hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-300 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
               title={isDemo ? 'Disabled in demo mode' : undefined}
             >
               {scheduledAt ? 'Schedule post' : 'Save draft'}
@@ -1287,7 +1287,7 @@ export default function SocialMedia() {
             <button
               type="button"
               onClick={resetComposer}
-              className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+              className="rounded-xl border border-slate-700/60 px-4 py-2 text-sm font-semibold text-slate-400 hover:bg-slate-50"
             >
               Reset
             </button>
@@ -1295,7 +1295,7 @@ export default function SocialMedia() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-lg font-semibold">Upcoming queue</h2>
@@ -1305,7 +1305,7 @@ export default function SocialMedia() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as any)}
-              className="rounded-lg border border-slate-300 bg-white px-3 py-1"
+              className="rounded-lg border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg px-3 py-1"
             >
               <option value="all">All statuses</option>
               {(Object.keys(statusLabels) as SocialStatus[]).map((status) => (
@@ -1317,7 +1317,7 @@ export default function SocialMedia() {
             <select
               value={platformFilter}
               onChange={(e) => setPlatformFilter(e.target.value as any)}
-              className="rounded-lg border border-slate-300 bg-white px-3 py-1"
+              className="rounded-lg border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg px-3 py-1"
             >
               <option value="all">All platforms</option>
               {(Object.keys(platformMeta) as SocialPlatform[]).map((platform) => (
@@ -1330,7 +1330,7 @@ export default function SocialMedia() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search copy / campaign"
-              className="rounded-lg border border-slate-300 bg-white px-3 py-1"
+              className="rounded-lg border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg px-3 py-1"
             />
           </div>
         </div>
@@ -1343,7 +1343,7 @@ export default function SocialMedia() {
           <div className="mt-6 grid gap-4 lg:grid-cols-2">
             {upcoming.length > 0 ? (
               upcoming.map((post) => (
-                <article key={post.id} className="flex h-full flex-col justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <article key={post.id} className="flex h-full flex-col justify-between rounded-xl border border-slate-700/60 bg-slate-50 p-4">
                   <header className="flex items-start justify-between gap-3">
                     <div>
                       <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -1364,13 +1364,13 @@ export default function SocialMedia() {
                           ? 'bg-emerald-100 text-emerald-700'
                           : post.status === 'scheduled'
                           ? 'bg-sky-100 text-sky-700'
-                          : 'bg-slate-100 text-slate-600'
+                          : 'bg-slate-100 text-slate-400'
                       }`}
                     >
                       {statusLabels[post.status]}
                     </span>
                   </header>
-                  <div className="mt-3 whitespace-pre-line text-sm text-slate-800 line-clamp-4">{post.content}</div>
+                  <div className="mt-3 whitespace-pre-line text-sm text-slate-200 line-clamp-4">{post.content}</div>
                   {post.mediaUrls && post.mediaUrls.length > 0 && (
                     <div className="mt-3 text-xs text-slate-500">
                       Assets:
@@ -1389,7 +1389,7 @@ export default function SocialMedia() {
                     <button
                       type="button"
                       onClick={() => duplicatePost(post)}
-                      className="rounded border border-slate-300 px-3 py-1 text-slate-600 hover:bg-white"
+                      className="rounded border border-slate-700/60 px-3 py-1 text-slate-400 hover:bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg"
                     >
                       Duplicate
                     </button>
@@ -1410,7 +1410,7 @@ export default function SocialMedia() {
         )}
       </section>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <h2 className="text-lg font-semibold">All posts</h2>
         <p className="text-sm text-slate-500">Master list with status controls and quick actions.</p>
 
@@ -1428,12 +1428,12 @@ export default function SocialMedia() {
             </thead>
             <tbody>
               {filtered.map((post) => (
-                <tr key={post.id} className="border-t border-slate-200 text-sm">
+                <tr key={post.id} className="border-t border-slate-700/60 text-sm">
                   <td className="max-w-sm px-3 py-2 align-top">
-                    <div className="whitespace-pre-line text-slate-800 line-clamp-4">{post.content}</div>
+                    <div className="whitespace-pre-line text-slate-200 line-clamp-4">{post.content}</div>
                     {post.notes && <div className="mt-2 text-xs text-slate-500">Notes: {post.notes}</div>}
                   </td>
-                  <td className="px-3 py-2 align-top text-xs text-slate-600">
+                  <td className="px-3 py-2 align-top text-xs text-slate-400">
                     <div className="flex flex-wrap gap-1">
                       {post.platforms.map((platform) => (
                         <span key={platform} className="rounded-full bg-slate-100 px-2 py-0.5">
@@ -1458,7 +1458,7 @@ export default function SocialMedia() {
                           ? 'bg-sky-100 text-sky-700'
                           : post.status === 'queued'
                           ? 'bg-amber-100 text-amber-700'
-                          : 'bg-slate-100 text-slate-600'
+                          : 'bg-slate-100 text-slate-400'
                       }`}
                     >
                       {statusLabels[post.status]}
@@ -1469,12 +1469,12 @@ export default function SocialMedia() {
                     {post.failureReason && <div className="mt-1 text-[10px] text-red-600">{post.failureReason}</div>}
                   </td>
                   <td className="px-3 py-2 align-top text-xs text-slate-500">{post.campaign || '—'}</td>
-                  <td className="px-3 py-2 align-top text-xs text-slate-600">
+                  <td className="px-3 py-2 align-top text-xs text-slate-400">
                     <div className="flex flex-wrap gap-2">
                       <button
                         type="button"
                         onClick={() => duplicatePost(post)}
-                        className="rounded border border-slate-300 px-2 py-1 hover:bg-slate-50"
+                        className="rounded border border-slate-700/60 px-2 py-1 hover:bg-slate-50"
                       >
                         Duplicate
                       </button>
@@ -1504,7 +1504,7 @@ export default function SocialMedia() {
                         type="button"
                         onClick={() => deletePost(post.id)}
                         disabled={isDemo}
-                        className="rounded border border-slate-300 px-2 py-1 text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="rounded border border-slate-700/60 px-2 py-1 text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
                         title={isDemo ? 'Disabled in demo mode' : undefined}
                       >
                         Delete
@@ -1522,7 +1522,7 @@ export default function SocialMedia() {
 
   const analyticsView = (
     <>
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-lg font-semibold">Performance overview</h2>
@@ -1531,19 +1531,19 @@ export default function SocialMedia() {
             </p>
           </div>
           <div className="grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-50 p-3">
               <div className="text-[11px] uppercase tracking-wide text-slate-500">Published</div>
-              <div className="mt-1 text-2xl font-semibold text-slate-900">{stats.published}</div>
+              <div className="mt-1 text-2xl font-semibold text-slate-100">{stats.published}</div>
             </div>
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-50 p-3">
               <div className="text-[11px] uppercase tracking-wide text-slate-500">Scheduled</div>
-              <div className="mt-1 text-2xl font-semibold text-slate-900">{stats.scheduled + stats.queued}</div>
+              <div className="mt-1 text-2xl font-semibold text-slate-100">{stats.scheduled + stats.queued}</div>
             </div>
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-50 p-3">
               <div className="text-[11px] uppercase tracking-wide text-slate-500">Drafts</div>
-              <div className="mt-1 text-2xl font-semibold text-slate-900">{stats.draft}</div>
+              <div className="mt-1 text-2xl font-semibold text-slate-100">{stats.draft}</div>
             </div>
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-50 p-3">
               <div className="text-[11px] uppercase tracking-wide text-slate-500">Attention needed</div>
               <div className="mt-1 text-2xl font-semibold text-red-600">{stats.failed}</div>
             </div>
@@ -1551,7 +1551,7 @@ export default function SocialMedia() {
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-inner">
+          <div className="rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-4 shadow-inner">
             <h3 className="text-sm font-semibold text-slate-700">Platform mix</h3>
             <p className="text-xs text-slate-500">Total scheduled + published posts for each network.</p>
             <ul className="mt-4 space-y-3">
@@ -1583,7 +1583,7 @@ export default function SocialMedia() {
             </ul>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-inner">
+          <div className="rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-4 shadow-inner">
             <h3 className="text-sm font-semibold text-slate-700">Publishing cadence</h3>
             <p className="text-xs text-slate-500">
               Visual summary of the next 14 days. Auto-scheduling will populate this chart with best-time recommendations.
@@ -1595,9 +1595,9 @@ export default function SocialMedia() {
                 const iso = day.toISOString().slice(0, 10)
                 const postsForDay = posts.filter((post) => post.scheduledAt && post.scheduledAt.startsWith(iso))
                 return (
-                  <div key={iso} className="flex flex-col items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-2 py-3">
-                    <div className="font-medium text-slate-600">{day.toLocaleDateString(undefined, { weekday: 'short' })}</div>
-                    <div className="text-lg font-semibold text-slate-900">{postsForDay.length}</div>
+                  <div key={iso} className="flex flex-col items-center gap-2 rounded-lg border border-slate-700/60 bg-slate-50 px-2 py-3">
+                    <div className="font-medium text-slate-400">{day.toLocaleDateString(undefined, { weekday: 'short' })}</div>
+                    <div className="text-lg font-semibold text-slate-100">{postsForDay.length}</div>
                   </div>
                 )
               })}
@@ -1606,13 +1606,13 @@ export default function SocialMedia() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <h2 className="text-lg font-semibold">Report templates</h2>
         <p className="text-sm text-slate-500">Coming soon: export to CSV, PDF, or branded decks. For now, use these sections as a checklist.</p>
         <div className="mt-4 grid gap-4 lg:grid-cols-3">
           {['Engagement snapshot', 'Audience growth', 'Experiment tracker'].map((card) => (
-            <div key={card} className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-              <div className="text-base font-semibold text-slate-800">{card}</div>
+            <div key={card} className="rounded-xl border border-slate-700/60 bg-slate-50 p-4 text-sm text-slate-400">
+              <div className="text-base font-semibold text-slate-200">{card}</div>
               <ul className="mt-2 list-disc space-y-1 pl-4">
                 <li>Pull metrics from scheduled posts once publish API is ready.</li>
                 <li>Tag campaigns for custom breakouts.</li>
@@ -1626,23 +1626,23 @@ export default function SocialMedia() {
   )
 
   const engageView = (
-    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <section className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
       <h2 className="text-lg font-semibold">Engagement inbox (coming soon)</h2>
       <p className="text-sm text-slate-500">
         Aggregate comments and messages from Instagram, Facebook, LinkedIn, Threads, and X. We will mirror Buffer&apos;s unified inbox once API scopes are approved.
       </p>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+        <div className="rounded-xl border border-slate-700/60 bg-slate-50 p-4">
           <h3 className="text-sm font-semibold text-slate-700">Live queue preview</h3>
           <p className="text-xs text-slate-500">These are recent posts that will pull in replies once the webhook layer is online.</p>
           <ul className="mt-3 space-y-3 text-sm">
             {posts.slice(0, 6).map((post) => (
-              <li key={post.id} className="rounded-lg border border-slate-200 bg-white p-3">
+              <li key={post.id} className="rounded-lg border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-3">
                 <div className="text-xs uppercase tracking-wide text-slate-500">
                   {post.platforms.map((platform) => platformMeta[platform]?.label).join(', ') || '—'}
                 </div>
-                <div className="mt-1 text-slate-800 line-clamp-3">{post.content}</div>
+                <div className="mt-1 text-slate-200 line-clamp-3">{post.content}</div>
                 <div className="mt-2 flex items-center justify-between text-[11px] text-slate-500">
                   <span>{post.scheduledAt ? new Date(post.scheduledAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }) : 'Draft'}</span>
                   <span className="font-semibold text-slate-700">{statusLabels[post.status]}</span>
@@ -1653,18 +1653,18 @@ export default function SocialMedia() {
           </ul>
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+        <div className="rounded-xl border border-slate-700/60 bg-slate-50 p-4">
           <h3 className="text-sm font-semibold text-slate-700">Workflow roadmap</h3>
-          <div className="mt-3 space-y-3 text-sm text-slate-600">
-            <div className="rounded-lg border border-slate-200 bg-white p-3">
+          <div className="mt-3 space-y-3 text-sm text-slate-400">
+            <div className="rounded-lg border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-3">
               <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Stage 1</div>
               <div>Fetch comments via Supabase Edge Functions, sync into `social_post_events`, and surface SLA timers.</div>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-3">
+            <div className="rounded-lg border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-3">
               <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Stage 2</div>
               <div>Reply inside the dashboard with canned responses, sentiment tagging, and internal notes for handoffs.</div>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-3">
+            <div className="rounded-lg border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-3">
               <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">Stage 3</div>
               <div>Escalate conversations into CRM opportunities or service tickets with one click.</div>
             </div>
@@ -1675,20 +1675,20 @@ export default function SocialMedia() {
   )
 
   const libraryView = (
-    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <section className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
       <h2 className="text-lg font-semibold">Content library</h2>
       <p className="text-sm text-slate-500">Organize ideas, templates, and evergreen posts so every launch has a head start.</p>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[2fr,1fr]">
         <div className="space-y-4">
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <div className="rounded-xl border border-slate-700/60 bg-slate-50 p-4">
             <h3 className="text-sm font-semibold text-slate-700">Idea inbox</h3>
             <p className="text-xs text-slate-500">Latest drafts (auto-generated from your saved posts).</p>
             <ul className="mt-3 space-y-3 text-sm">
               {posts.slice(0, 8).map((post) => (
-                <li key={post.id} className="rounded-lg border border-slate-200 bg-white p-3">
+                <li key={post.id} className="rounded-lg border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-3">
                   <div className="text-xs uppercase tracking-wide text-slate-500">{post.campaign || 'General'}</div>
-                  <div className="mt-1 text-slate-800 line-clamp-3">{post.content}</div>
+                  <div className="mt-1 text-slate-200 line-clamp-3">{post.content}</div>
                   <div className="mt-2 flex justify-between text-[11px] text-slate-500">
                     <span>{post.platforms.map((platform) => platformMeta[platform]?.icon).join(' ')}</span>
                     <button
@@ -1705,9 +1705,9 @@ export default function SocialMedia() {
             </ul>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <div className="rounded-xl border border-slate-700/60 bg-slate-50 p-4">
             <h3 className="text-sm font-semibold text-slate-700">Template starter kit</h3>
-            <ul className="mt-3 list-disc space-y-1 pl-4 text-sm text-slate-600">
+            <ul className="mt-3 list-disc space-y-1 pl-4 text-sm text-slate-400">
               <li>Brand launch announcement</li>
               <li>Property spotlight carousel</li>
               <li>Client testimonial quote</li>
@@ -1719,19 +1719,19 @@ export default function SocialMedia() {
         </div>
 
         <div className="space-y-4">
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-inner">
+          <div className="rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-4 shadow-inner">
             <h3 className="text-sm font-semibold text-slate-700">Tag manager</h3>
             <p className="text-xs text-slate-500">Keep branding hashtags ready to drop into the composer.</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {['#stellaRealEstate', '#luxuryhomes', '#marketwatch', '#teamlife', '#behindthescenes'].map((tag) => (
-                <span key={tag} className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">{tag}</span>
+                <span key={tag} className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-400">{tag}</span>
               ))}
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-inner">
+          <div className="rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-4 shadow-inner">
             <h3 className="text-sm font-semibold text-slate-700">Workflow checklists</h3>
-            <ul className="mt-3 space-y-2 text-xs text-slate-600">
+            <ul className="mt-3 space-y-2 text-xs text-slate-400">
               <li>🗂️ Assign owner & reviewer</li>
               <li>🖼️ Attach media from Drive or Supabase storage</li>
               <li>📝 Add CTA + campaign tag</li>
@@ -1746,18 +1746,18 @@ export default function SocialMedia() {
 
   const pricingView = (
     <section className="space-y-8">
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <div className="grid gap-6 lg:grid-cols-[1.4fr,1fr] lg:items-center">
           <div>
             <h2 className="text-2xl font-semibold">Flexible pricing for everyone</h2>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-slate-400">
               Pick how many channels you want to manage and whether you want monthly or yearly billing. Prices update instantly—no hidden fees, ever.
             </p>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+          <div className="rounded-xl border border-slate-700/60 bg-slate-50 p-4 text-sm text-slate-400">
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-700">Channels</span>
-              <span className="text-base font-semibold text-slate-900">{channelCount} {channelCount === 1 ? 'channel' : 'channels'}</span>
+              <span className="text-base font-semibold text-slate-100">{channelCount} {channelCount === 1 ? 'channel' : 'channels'}</span>
             </div>
             <input
               type="range"
@@ -1775,7 +1775,7 @@ export default function SocialMedia() {
                   className={`rounded-full px-3 py-1 ${
                     billing === 'monthly'
                       ? 'bg-slate-900 text-white'
-                      : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100'
+                      : 'border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg text-slate-700 hover:bg-slate-100'
                   }`}
                 >
                   Monthly
@@ -1785,7 +1785,7 @@ export default function SocialMedia() {
                   className={`rounded-full px-3 py-1 ${
                     billing === 'yearly'
                       ? 'bg-slate-900 text-white'
-                      : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100'
+                      : 'border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg text-slate-700 hover:bg-slate-100'
                   }`}
                 >
                   Yearly <span className="hidden sm:inline">(save 2 months)</span>
@@ -1799,9 +1799,9 @@ export default function SocialMedia() {
           {tierOrder.map((tier) => {
             const summary = getPlanPricingSummary(tier)
             return (
-              <div key={`${tier}-summary`} className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+              <div key={`${tier}-summary`} className="rounded-xl border border-slate-700/60 bg-slate-50 p-4 text-sm text-slate-400">
                 <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">{planMeta[tier].name}</div>
-                <div className="mt-2 text-base font-semibold text-slate-900">{summary.perChannel}</div>
+                <div className="mt-2 text-base font-semibold text-slate-100">{summary.perChannel}</div>
                 <div className="text-xs text-slate-500">{summary.billed}</div>
               </div>
             )
@@ -1809,7 +1809,7 @@ export default function SocialMedia() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <div className="mt-2 grid gap-4 lg:grid-cols-3">
           {tierOrder.map((tier) => {
             const meta = planMeta[tier]
@@ -1818,22 +1818,22 @@ export default function SocialMedia() {
               <div
                 key={tier}
                 className={`flex h-full flex-col rounded-2xl border ${
-                  meta.highlight ? 'border-sky-500 bg-sky-50 shadow-lg' : 'border-slate-200 bg-white'
+                  meta.highlight ? 'border-sky-500 bg-sky-50 shadow-lg' : 'border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg'
                 } p-6`}
               >
                 <div className="text-sm font-semibold uppercase tracking-wide text-slate-500">{meta.name}</div>
                 <div className="mt-1 text-xs text-slate-500">{meta.tagline}</div>
-                <div className="mt-4 text-lg font-semibold text-slate-900">{summary.perChannel}</div>
+                <div className="mt-4 text-lg font-semibold text-slate-100">{summary.perChannel}</div>
                 <div className="text-xs text-slate-500">{summary.billed}</div>
-                <p className="mt-4 text-sm text-slate-600">{meta.description}</p>
+                <p className="mt-4 text-sm text-slate-400">{meta.description}</p>
                 <button
                   className={`mt-4 w-full rounded-xl px-4 py-2 text-sm font-semibold ${
-                    meta.highlight ? 'bg-sky-600 text-white hover:bg-sky-700' : 'border border-slate-300 text-slate-600 hover:bg-slate-50'
+                    meta.highlight ? 'bg-sky-600 text-white hover:bg-sky-700' : 'border border-slate-700/60 text-slate-400 hover:bg-slate-50'
                   }`}
                 >
                   {meta.cta}
                 </button>
-                <ul className="mt-4 space-y-2 text-xs text-slate-600">
+                <ul className="mt-4 space-y-2 text-xs text-slate-400">
                   {planHighlights[tier].map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <span>✅</span>
@@ -1845,16 +1845,16 @@ export default function SocialMedia() {
             )
           })}
         </div>
-        <div className="mt-6 flex flex-col items-start justify-between gap-3 rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-600 sm:flex-row sm:items-center">
+        <div className="mt-6 flex flex-col items-start justify-between gap-3 rounded-xl border border-dashed border-slate-700/60 bg-slate-50 px-4 py-3 text-sm text-slate-400 sm:flex-row sm:items-center">
           <div>
-            <div className="font-semibold text-slate-800">Need more than 10 channels?</div>
+            <div className="font-semibold text-slate-200">Need more than 10 channels?</div>
             <p>Talk with us about enterprise pricing, dedicated onboarding, and service-level agreements.</p>
           </div>
           <button className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">Get in touch</button>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <h3 className="text-lg font-semibold">Feature comparison</h3>
         <div className="mt-4 overflow-x-auto">
           <table className="min-w-full text-sm text-slate-700">
@@ -1873,13 +1873,13 @@ export default function SocialMedia() {
                     <td className="px-4 py-2" colSpan={1 + tierOrder.length}>{group.section}</td>
                   </tr>
                   {group.rows.map((row) => (
-                    <tr key={row.feature} className="border-b border-slate-200">
+                    <tr key={row.feature} className="border-b border-slate-700/60">
                       <td className="px-4 py-3 text-sm font-medium text-slate-700">
                         {row.feature}
                         {row.notes && <div className="text-xs text-slate-500">{row.notes}</div>}
                       </td>
                       {tierOrder.map((tier) => (
-                        <td key={tier} className="px-4 py-3 text-sm text-slate-600">{row.values[tier] || '—'}</td>
+                        <td key={tier} className="px-4 py-3 text-sm text-slate-400">{row.values[tier] || '—'}</td>
                       ))}
                     </tr>
                   ))}
@@ -1890,12 +1890,12 @@ export default function SocialMedia() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <h3 className="text-lg font-semibold">Connect your favorite accounts</h3>
         <p className="text-sm text-slate-500">Auto-publishing adapters roll out sequentially; your queue and reminders already work for each profile below.</p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {connectorCatalog.map((connector) => (
-            <div key={connector.label} className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-center text-sm text-slate-600">
+            <div key={connector.label} className="rounded-xl border border-slate-700/60 bg-slate-50 p-3 text-center text-sm text-slate-400">
               <div className="text-2xl">{connector.icon}</div>
               <div className="mt-1 font-medium text-slate-700">{connector.label}</div>
             </div>
@@ -1903,11 +1903,11 @@ export default function SocialMedia() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <h3 className="text-lg font-semibold">What people are saying</h3>
         <div className="mt-4 grid gap-4 lg:grid-cols-2">
           {testimonials.map((testimonial) => (
-            <blockquote key={testimonial.author} className="rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
+            <blockquote key={testimonial.author} className="rounded-xl border border-slate-700/60 bg-slate-50 p-5 text-sm text-slate-400">
               <p className="text-slate-700">“{testimonial.quote}”</p>
               <footer className="mt-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
                 {testimonial.author} — {testimonial.role}
@@ -1917,32 +1917,32 @@ export default function SocialMedia() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <h3 className="text-lg font-semibold">FAQs</h3>
         <div className="mt-4 space-y-4">
           {faqs.map((faq) => (
-            <details key={faq.question} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <details key={faq.question} className="rounded-xl border border-slate-700/60 bg-slate-50 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-700">{faq.question}</summary>
-              <p className="mt-2 text-sm text-slate-600">{faq.answer}</p>
+              <p className="mt-2 text-sm text-slate-400">{faq.answer}</p>
             </details>
           ))}
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-6">
           {ecosystemColumns.map((col) => (
-            <div key={col.heading} className="text-sm text-slate-600">
+            <div key={col.heading} className="text-sm text-slate-400">
               <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">{col.heading}</div>
               <ul className="mt-2 space-y-1">
                 {col.links.map((link) => (
-                  <li key={link} className="text-slate-600">{link}</li>
+                  <li key={link} className="text-slate-400">{link}</li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
-        <div className="mt-6 flex flex-col gap-2 border-t border-slate-200 pt-4 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-2 border-t border-slate-700/60 pt-4 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <div className="font-semibold text-slate-700">Stella Social Studio</div>
           <div className="flex flex-wrap gap-3">
             <span>© {new Date().getFullYear()} Stella</span>
@@ -1957,10 +1957,10 @@ export default function SocialMedia() {
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 border-b border-slate-700/60 pb-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Social Media Studio</h1>
-          <p className="mt-1 max-w-2xl text-sm text-slate-600">
+          <p className="mt-1 max-w-2xl text-sm text-slate-400">
             Draft, schedule, analyze, and engage—all in one place. We&apos;re mirroring the Buffer experience so the team can graduate from manual tools without paying a cent.
           </p>
           {!supabaseConfigured && (
@@ -1970,22 +1970,22 @@ export default function SocialMedia() {
         </div>
         <div className="grid grid-cols-2 gap-3 text-center sm:grid-cols-5">
           {(Object.keys(stats) as SocialStatus[]).map((status) => (
-            <div key={status} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+            <div key={status} className="rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-3 shadow-lg shadow-slate-950/20">
               <div className="text-[10px] font-semibold uppercase text-slate-500">{statusLabels[status]}</div>
-              <div className="mt-1 text-xl font-semibold text-slate-900">{stats[status]}</div>
+              <div className="mt-1 text-xl font-semibold text-slate-100">{stats[status]}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <nav className="-mb-2 flex flex-wrap gap-3 border-b border-slate-200 pb-2 text-sm font-medium text-slate-600" aria-label="Social media sub navigation">
+      <nav className="-mb-2 flex flex-wrap gap-3 border-b border-slate-700/60 pb-2 text-sm font-medium text-slate-400" aria-label="Social media sub navigation">
         {subTabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
             className={`rounded-full px-4 py-2 transition ${
               activeTab === tab.key
-                ? 'bg-slate-900 text-white shadow-sm'
+                ? 'bg-slate-900 text-white shadow-lg shadow-slate-950/20'
                 : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
             }`}
           >

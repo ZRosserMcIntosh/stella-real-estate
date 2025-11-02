@@ -100,46 +100,46 @@ const trendStyles: Record<string, string> = {
 }
 
 const healthThemes: Record<AccountRecord['health'], string> = {
-  healthy: 'bg-emerald-50 text-emerald-700 border-emerald-100',
-  warning: 'bg-amber-50 text-amber-700 border-amber-200',
-  risk: 'bg-rose-50 text-rose-700 border-rose-200',
+  healthy: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+  warning: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+  risk: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
 }
 
 const taskPriorityThemes: Record<TaskRecord['priority'], string> = {
-  High: 'bg-rose-50 text-rose-700 border-rose-200',
-  Medium: 'bg-amber-50 text-amber-700 border-amber-200',
-  Low: 'bg-slate-100 text-slate-600 border-slate-200',
+  High: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+  Medium: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+  Low: 'bg-slate-700/30 text-slate-400 border-slate-600/40',
 }
 
 const taskStatusThemes: Record<TaskRecord['status'], string> = {
-  'Upcoming': 'bg-slate-100 text-slate-600 border-slate-200',
-  'In Progress': 'bg-brand-50 text-brand-700 border-brand-100',
-  'Completed': 'bg-emerald-50 text-emerald-700 border-emerald-100',
-  'Blocked': 'bg-rose-50 text-rose-700 border-rose-200',
+  'Upcoming': 'bg-slate-700/30 text-slate-400 border-slate-600/40',
+  'In Progress': 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40',
+  'Completed': 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+  'Blocked': 'bg-rose-500/20 text-rose-300 border-rose-500/40',
 }
 
 const ticketStatusThemes: Record<ServiceTicket['status'], string> = {
-  'New': 'bg-slate-100 text-slate-600 border-slate-200',
-  'Assigned': 'bg-brand-50 text-brand-700 border-brand-100',
-  'In Progress': 'bg-brand-100 text-brand-700 border-brand-200',
-  'Waiting': 'bg-amber-50 text-amber-700 border-amber-200',
-  'Resolved': 'bg-emerald-50 text-emerald-700 border-emerald-100',
+  'New': 'bg-slate-700/30 text-slate-400 border-slate-600/40',
+  'Assigned': 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40',
+  'In Progress': 'bg-indigo-500/30 text-indigo-300 border-indigo-500/50',
+  'Waiting': 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+  'Resolved': 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
 }
 
 const integrationThemes: Record<IntegrationCard['status'], string> = {
-  'Connected': 'bg-emerald-50 text-emerald-700 border-emerald-100',
-  'Available': 'bg-slate-100 text-slate-600 border-slate-200',
+  'Connected': 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+  'Available': 'bg-slate-700/30 text-slate-400 border-slate-600/40',
 }
 
-const sectionContainer = 'rounded-2xl border border-slate-200 bg-white p-5'
+const sectionContainer = 'rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-5 shadow-lg shadow-slate-950/20'
 const tableBase =
   'w-full border-separate border-spacing-y-2 text-sm'
 const tableHeader =
   'text-left text-xs font-semibold uppercase tracking-wide text-slate-500 pb-2'
 const tableRow =
-  'bg-slate-50/60 hover:bg-slate-100 transition-colors rounded-xl overflow-hidden'
+  'bg-slate-800/50 hover:bg-slate-800/70 transition-colors rounded-xl overflow-hidden'
 const cell =
-  'px-4 py-3 text-sm text-slate-700 align-middle'
+  'px-4 py-3 text-sm text-slate-300 align-middle'
 
 function MetricCard({ metric }: { metric: CrmMetric }) {
   return (
@@ -147,7 +147,7 @@ function MetricCard({ metric }: { metric: CrmMetric }) {
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-xs uppercase tracking-wide text-slate-500">{metric.label}</div>
-          <div className="mt-2 text-2xl font-semibold text-slate-900">{metric.value}</div>
+          <div className="mt-2 text-2xl font-semibold text-slate-100">{metric.value}</div>
         </div>
         {metric.change && (
           <div className={`text-xs font-medium ${metric.trend ? trendStyles[metric.trend] : 'text-slate-500'}`}>
@@ -155,7 +155,7 @@ function MetricCard({ metric }: { metric: CrmMetric }) {
           </div>
         )}
       </div>
-      {metric.description && <p className="mt-4 text-sm text-slate-600 leading-relaxed">{metric.description}</p>}
+      {metric.description && <p className="mt-4 text-sm text-slate-400 leading-relaxed">{metric.description}</p>}
     </div>
   )
 }
@@ -175,8 +175,8 @@ function SectionCard({
     <section className={sectionContainer}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h3 className="text-base font-semibold text-slate-900">{title}</h3>
-          {description && <p className="mt-1 text-sm text-slate-600">{description}</p>}
+          <h3 className="text-base font-semibold text-slate-100">{title}</h3>
+          {description && <p className="mt-1 text-sm text-slate-400">{description}</p>}
         </div>
         {actions && <div className="flex gap-2">{actions}</div>}
       </div>
@@ -193,7 +193,7 @@ function PillButton({ icon, children }: { icon?: string; children: React.ReactNo
   return (
     <button
       type="button"
-      className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-brand-300 hover:text-brand-700 hover:shadow"
+      className="inline-flex items-center gap-2 rounded-full border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg px-3 py-1.5 text-sm font-medium text-slate-300 shadow-lg shadow-slate-950/20 transition hover:border-indigo-500/60 hover:text-indigo-300 hover:shadow-lg hover:shadow-indigo-500/20"
     >
       {icon && <span>{icon}</span>}
       {children}
@@ -202,18 +202,18 @@ function PillButton({ icon, children }: { icon?: string; children: React.ReactNo
 }
 
 function TagChip({ label }: { label: string }) {
-  return <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">{label}</span>
+  return <span className="inline-flex items-center rounded-full border border-slate-700/60 bg-slate-800/50 px-2 py-0.5 text-xs font-medium text-slate-400">{label}</span>
 }
 
 function TodoBubble({ text }: { text: string }) {
-  return <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 shadow-sm">{text}</span>
+  return <span className="inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/20 px-3 py-1 text-xs font-semibold text-amber-300 shadow-lg shadow-slate-950/20">{text}</span>
 }
 
 function BlueprintFeatureCard({ feature }: { feature: BlueprintFeature }) {
   return (
-    <div className="rounded-2xl border border-dashed border-slate-300 bg-white/95 p-4 shadow-sm hover:border-brand-200 hover:shadow transition">
-      <div className="text-sm font-semibold text-slate-900">{feature.title}</div>
-      <p className="mt-2 text-sm text-slate-600 leading-relaxed">{feature.summary}</p>
+    <div className="rounded-2xl border border-dashed border-slate-700/60 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-lg p-4 shadow-sm hover:border-slate-600/80 hover:shadow transition">
+      <div className="text-sm font-semibold text-slate-100">{feature.title}</div>
+      <p className="mt-2 text-sm text-slate-400 leading-relaxed">{feature.summary}</p>
       <div className="mt-3">
         <TodoBubble text={feature.todo} />
       </div>
@@ -261,12 +261,12 @@ const TabPills = ({ activeTab, onSelect }: { activeTab: TabKey; onSelect: (tab: 
           onClick={() => onSelect(tab.id)}
           className={`group flex min-w-[140px] flex-col items-start rounded-2xl border px-3 py-3 transition-all ${
             isActive
-              ? 'border-brand-500 bg-brand-50 shadow-sm'
-              : 'border-slate-200 bg-white hover:border-brand-200 hover:bg-brand-50/40'
+              ? 'border-indigo-500/60 bg-gradient-to-br from-indigo-500/20 to-indigo-600/20 backdrop-blur-lg shadow-lg shadow-indigo-500/20'
+              : 'border-slate-700/60 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-lg hover:border-indigo-500/40 hover:from-indigo-500/10 hover:to-indigo-600/10'
           }`}
         >
           <span className="text-base">{tab.icon}</span>
-          <span className={`mt-1 text-sm font-semibold ${isActive ? 'text-brand-700' : 'text-slate-700 group-hover:text-brand-700'}`}>
+          <span className={`mt-1 text-sm font-semibold ${isActive ? 'text-indigo-300' : 'text-slate-300 group-hover:text-indigo-300'}`}>
             {tab.label}
           </span>
           <span className="mt-1 text-xs text-slate-500">{tab.description}</span>
@@ -311,11 +311,11 @@ function OverviewContent({
             {pipeline.map((stage) => (
               <div key={stage.name} className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                 <div>
-                  <div className="text-sm font-semibold text-slate-900">{stage.name}</div>
+                  <div className="text-sm font-semibold text-slate-100">{stage.name}</div>
                   <div className="mt-1 text-xs text-slate-500">Velocity: {stage.velocity} · Conversion: {stage.conversion}</div>
                 </div>
                 <div className="text-right text-sm text-slate-700">
-                  <div className="font-semibold text-slate-900">{stage.amount}</div>
+                  <div className="font-semibold text-slate-100">{stage.amount}</div>
                   <div className="text-xs text-slate-500">{stage.deals} active deals</div>
                 </div>
               </div>
@@ -366,7 +366,7 @@ function OverviewContent({
             {topTasks.map((task) => (
               <div key={task.id} className="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm md:flex-row md:items-center md:justify-between">
                 <div>
-                  <div className="text-sm font-semibold text-slate-900">{task.title}</div>
+                  <div className="text-sm font-semibold text-slate-100">{task.title}</div>
                   <div className="mt-1 text-xs text-slate-500">Related to {task.relatedTo} · Owner: {task.owner}</div>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -389,11 +389,11 @@ function OverviewContent({
               <div key={campaign.id} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <div className="text-sm font-semibold text-slate-900">{campaign.name}</div>
+                    <div className="text-sm font-semibold text-slate-100">{campaign.name}</div>
                     <div className="mt-1 text-xs text-slate-500">{campaign.channel} · Status: {campaign.status}</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-sm font-semibold text-slate-900">{campaign.pipelineInfluence}</div>
+                    <div className="text-sm font-semibold text-slate-100">{campaign.pipelineInfluence}</div>
                     <div className="text-xs text-slate-500">{campaign.mqls} MQLs · Budget {campaign.budget}</div>
                   </div>
                 </div>
@@ -423,11 +423,11 @@ function PipelineContent({
       >
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {pipeline.map((stage) => (
-            <div key={stage.name} className="rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-4 shadow-sm">
-              <div className="text-sm font-semibold text-slate-900">{stage.name}</div>
-              <div className="mt-3 text-2xl font-semibold text-slate-900">{stage.amount}</div>
+            <div key={stage.name} className="rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-lg p-4 shadow-lg shadow-slate-950/20">
+              <div className="text-sm font-semibold text-slate-100">{stage.name}</div>
+              <div className="mt-3 text-2xl font-semibold text-slate-100">{stage.amount}</div>
               <div className="mt-2 text-xs text-slate-500">{stage.deals} deals · Velocity {stage.velocity}</div>
-              <div className="mt-3 rounded-xl border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs font-medium text-emerald-700">
+              <div className="mt-3 rounded-xl border border-emerald-500/40 bg-emerald-500/20 px-3 py-2 text-xs font-medium text-emerald-300">
                 Conversion Rate {stage.conversion}
               </div>
             </div>
@@ -515,7 +515,7 @@ function AccountsContent({ accounts }: { accounts: AccountRecord[] }) {
           <tbody>
             {accounts.map((account) => (
               <tr key={account.id} className={tableRow}>
-                <td className={`${cell} font-semibold text-slate-900`}>
+                <td className={`${cell} font-semibold text-slate-100`}>
                   <div>{account.name}</div>
                   <div className="text-xs font-normal text-slate-500">{account.id}</div>
                 </td>
@@ -547,7 +547,7 @@ function AccountsContent({ accounts }: { accounts: AccountRecord[] }) {
           ].map((card) => (
             <div key={card.title} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <div className="text-xs uppercase tracking-wide text-slate-500">{card.title}</div>
-              <div className="mt-2 text-lg font-semibold text-slate-900">{card.value}</div>
+              <div className="mt-2 text-lg font-semibold text-slate-100">{card.value}</div>
               <div className="mt-1 text-xs text-slate-500">{card.detail}</div>
             </div>
           ))}
@@ -585,14 +585,14 @@ function ContactsContent({ contacts }: { contacts: ContactRecord[] }) {
           <tbody>
             {contacts.map((contact) => (
               <tr key={contact.id} className={tableRow}>
-                <td className={`${cell} font-semibold text-slate-900`}>
+                <td className={`${cell} font-semibold text-slate-100`}>
                   <div>{contact.name}</div>
                   <div className="text-xs font-normal text-slate-500">{contact.id}</div>
                 </td>
                 <td className={cell}>{contact.title}</td>
                 <td className={cell}>{contact.account}</td>
                 <td className={cell}>
-                  <StatusBadge tone="bg-slate-100 text-slate-600 border-slate-200">{contact.status}</StatusBadge>
+                  <StatusBadge tone="bg-slate-100 text-slate-400 border-slate-200">{contact.status}</StatusBadge>
                 </td>
                 <td className={cell}>{contact.owner}</td>
                 <td className={cell}>{contact.lastActivity}</td>
@@ -615,7 +615,7 @@ function ContactsContent({ contacts }: { contacts: ContactRecord[] }) {
           ].map((card) => (
             <div key={card.title} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <div className="text-xs uppercase tracking-wide text-slate-500">{card.title}</div>
-              <div className="mt-2 text-lg font-semibold text-slate-900">{card.value}</div>
+              <div className="mt-2 text-lg font-semibold text-slate-100">{card.value}</div>
               <div className="mt-1 text-xs text-slate-500">{card.detail}</div>
             </div>
           ))}
@@ -653,7 +653,7 @@ function DealsContent({ deals }: { deals: DealRecord[] }) {
           <tbody>
             {deals.map((deal) => (
               <tr key={deal.id} className={tableRow}>
-                <td className={`${cell} font-semibold text-slate-900`}>
+                <td className={`${cell} font-semibold text-slate-100`}>
                   <div>{deal.name}</div>
                   <div className="text-xs font-normal text-slate-500">{deal.id}</div>
                 </td>
@@ -682,7 +682,7 @@ function DealsContent({ deals }: { deals: DealRecord[] }) {
             { title: 'Implementation scoping', detail: 'Atlas Phase II — finalize project plan', owner: 'Amanda Costa', due: '21 Jun' },
           ].map((item) => (
             <div key={item.title} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-              <div className="text-sm font-semibold text-slate-900">{item.title}</div>
+              <div className="text-sm font-semibold text-slate-100">{item.title}</div>
               <div className="mt-1 text-xs text-slate-500">{item.detail}</div>
               <div className="mt-2 flex flex-wrap gap-2 text-xs text-slate-500">
                 <span className="rounded-full bg-slate-100 px-2 py-1">Owner: {item.owner}</span>
@@ -714,7 +714,7 @@ function ActivitiesContent({ activities, tasks }: { activities: ActivityRecord[]
           {activities.map((activity) => (
             <div key={activity.id} className="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm md:flex-row md:items-center md:justify-between">
               <div>
-                <div className="text-sm font-semibold text-slate-900">{activity.summary}</div>
+                <div className="text-sm font-semibold text-slate-100">{activity.summary}</div>
                 <div className="mt-1 text-xs text-slate-500">
                   {activity.type} · {activity.date} · {activity.owner}
                 </div>
@@ -735,7 +735,7 @@ function ActivitiesContent({ activities, tasks }: { activities: ActivityRecord[]
             <div key={task.id} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <div className="text-sm font-semibold text-slate-900">{task.title}</div>
+                  <div className="text-sm font-semibold text-slate-100">{task.title}</div>
                   <div className="mt-1 text-xs text-slate-500">
                     Related to {task.relatedTo} · Owner {task.owner}
                   </div>
@@ -782,13 +782,13 @@ function MarketingContent({ campaigns }: { campaigns: CampaignRecord[] }) {
           <tbody>
             {campaigns.map((campaign) => (
               <tr key={campaign.id} className={tableRow}>
-                <td className={`${cell} font-semibold text-slate-900`}>
+                <td className={`${cell} font-semibold text-slate-100`}>
                   <div>{campaign.name}</div>
                   <div className="text-xs font-normal text-slate-500">{campaign.id}</div>
                 </td>
                 <td className={cell}>{campaign.channel}</td>
                 <td className={cell}>
-                  <StatusBadge tone={campaign.status === 'Live' ? 'bg-brand-50 text-brand-700 border-brand-100' : campaign.status === 'Planning' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-slate-100 text-slate-600 border-slate-200'}>
+                  <StatusBadge tone={campaign.status === 'Live' ? 'bg-brand-50 text-brand-700 border-brand-100' : campaign.status === 'Planning' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-slate-100 text-slate-400 border-slate-200'}>
                     {campaign.status}
                   </StatusBadge>
                 </td>
@@ -814,7 +814,7 @@ function MarketingContent({ campaigns }: { campaigns: CampaignRecord[] }) {
           ].map((card) => (
             <div key={card.title} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <div className="text-xs uppercase tracking-wide text-slate-500">{card.title}</div>
-              <div className="mt-2 text-lg font-semibold text-slate-900">{card.metric}</div>
+              <div className="mt-2 text-lg font-semibold text-slate-100">{card.metric}</div>
               <div className="mt-1 text-xs text-slate-500">{card.detail}</div>
             </div>
           ))}
@@ -843,11 +843,11 @@ function AutomationContent({ flows }: { flows: AutomationFlow[] }) {
             <div key={flow.id} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <div className="text-sm font-semibold text-slate-900">{flow.name}</div>
+                  <div className="text-sm font-semibold text-slate-100">{flow.name}</div>
                   <div className="mt-1 text-xs text-slate-500">Trigger: {flow.trigger}</div>
                   <div className="mt-1 text-xs text-slate-500">{flow.objective}</div>
                 </div>
-                <StatusBadge tone={flow.status === 'Active' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-slate-100 text-slate-600 border-slate-200'}>
+                <StatusBadge tone={flow.status === 'Active' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-slate-100 text-slate-400 border-slate-200'}>
                   {flow.status}
                 </StatusBadge>
               </div>
@@ -869,7 +869,7 @@ function AutomationContent({ flows }: { flows: AutomationFlow[] }) {
           ].map((card) => (
             <div key={card.title} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <div className="text-xs uppercase tracking-wide text-slate-500">{card.title}</div>
-              <div className="mt-2 text-lg font-semibold text-slate-900">{card.metric}</div>
+              <div className="mt-2 text-lg font-semibold text-slate-100">{card.metric}</div>
               <div className="mt-1 text-xs text-slate-500">{card.detail}</div>
             </div>
           ))}
@@ -907,13 +907,13 @@ function ServiceContent({ tickets }: { tickets: ServiceTicket[] }) {
           <tbody>
             {tickets.map((ticket) => (
               <tr key={ticket.id} className={tableRow}>
-                <td className={`${cell} font-semibold text-slate-900`}>
+                <td className={`${cell} font-semibold text-slate-100`}>
                   <div>{ticket.title}</div>
                   <div className="text-xs font-normal text-slate-500">{ticket.id}</div>
                 </td>
                 <td className={cell}>{ticket.account}</td>
                 <td className={cell}>
-                  <StatusBadge tone={ticket.priority === 'High' ? 'bg-rose-50 text-rose-700 border-rose-200' : ticket.priority === 'Medium' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-slate-100 text-slate-600 border-slate-200'}>
+                  <StatusBadge tone={ticket.priority === 'High' ? 'bg-rose-50 text-rose-700 border-rose-200' : ticket.priority === 'Medium' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-slate-100 text-slate-400 border-slate-200'}>
                     {ticket.priority}
                   </StatusBadge>
                 </td>
@@ -941,7 +941,7 @@ function ServiceContent({ tickets }: { tickets: ServiceTicket[] }) {
           ].map((card) => (
             <div key={card.title} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <div className="text-xs uppercase tracking-wide text-slate-500">{card.title}</div>
-              <div className="mt-2 text-lg font-semibold text-slate-900">{card.metric}</div>
+              <div className="mt-2 text-lg font-semibold text-slate-100">{card.metric}</div>
               <div className="mt-1 text-xs text-slate-500">{card.detail}</div>
             </div>
           ))}
@@ -988,7 +988,7 @@ function AnalyticsContent() {
           ].map((card) => (
             <div key={card.title} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
               <div className="text-xs uppercase tracking-wide text-slate-500">{card.title}</div>
-              <div className="mt-2 text-lg font-semibold text-slate-900">{card.metric}</div>
+              <div className="mt-2 text-lg font-semibold text-slate-100">{card.metric}</div>
               <div className="mt-1 text-xs text-slate-500">{card.detail}</div>
             </div>
           ))}
@@ -1012,12 +1012,12 @@ function IntegrationsContent({ integrations }: { integrations: IntegrationCard[]
             <div key={integration.id} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="text-sm font-semibold text-slate-900">{integration.name}</div>
+                  <div className="text-sm font-semibold text-slate-100">{integration.name}</div>
                   <div className="mt-1 text-xs text-slate-500">{integration.category}</div>
                 </div>
                 <StatusBadge tone={integrationThemes[integration.status]}>{integration.status}</StatusBadge>
               </div>
-              <p className="mt-3 text-sm text-slate-600">{integration.description}</p>
+              <p className="mt-3 text-sm text-slate-400">{integration.description}</p>
             </div>
           ))}
         </div>
@@ -1028,7 +1028,7 @@ function IntegrationsContent({ integrations }: { integrations: IntegrationCard[]
         description="Define sync frequency, ownership, and conflict resolution rules."
         actions={<PillButton icon="⚖️">Policies</PillButton>}
       >
-        <div className="space-y-2 text-sm text-slate-600">
+        <div className="space-y-2 text-sm text-slate-400">
           <p>• Schedule nightly full sync and hourly delta sync for critical systems.</p>
           <p>• Ownership: Constelação is source-of-truth for accounts, marketing automation for leads.</p>
           <p>• Conflict resolution: last-touch for contacts, owner hierarchy for accounts.</p>
@@ -1049,16 +1049,16 @@ function SettingsContent() {
       >
         <div className="grid gap-4 md:grid-cols-2">
           <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="text-sm font-semibold text-slate-900">Permission Sets</div>
-            <ul className="mt-3 space-y-2 text-sm text-slate-600">
+            <div className="text-sm font-semibold text-slate-100">Permission Sets</div>
+            <ul className="mt-3 space-y-2 text-sm text-slate-400">
               <li>• Sales · full access to opportunities, read-only to finance data.</li>
               <li>• CS · full access to accounts, limited edit rights on deals.</li>
               <li>• Marketing · campaign builder, attribution dashboards, read-only pipeline.</li>
             </ul>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="text-sm font-semibold text-slate-900">Custom Objects</div>
-            <ul className="mt-3 space-y-2 text-sm text-slate-600">
+            <div className="text-sm font-semibold text-slate-100">Custom Objects</div>
+            <ul className="mt-3 space-y-2 text-sm text-slate-400">
               <li>• Projects / Developments · tie listings, phases, and investors.</li>
               <li>• Units · inventory tracking, price history, release schedule.</li>
               <li>• Service Requests · link to tickets and implementation steps.</li>
@@ -1078,8 +1078,8 @@ function SettingsContent() {
             { title: 'Change History', detail: 'Field level history for critical objects stored 24 months.' },
             { title: 'Security', detail: 'SAML, MFA enforcement, IP restrictions, field encryption.' },
           ].map((card) => (
-            <div key={card.title} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm text-sm text-slate-600">
-              <div className="text-sm font-semibold text-slate-900">{card.title}</div>
+            <div key={card.title} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm text-sm text-slate-400">
+              <div className="text-sm font-semibold text-slate-100">{card.title}</div>
               <p className="mt-1 text-xs text-slate-500">{card.detail}</p>
             </div>
           ))}
@@ -1101,9 +1101,9 @@ function PlaybooksContent({ playbooks }: { playbooks: Playbook[] }) {
         <div className="space-y-3">
           {playbooks.map((playbook) => (
             <div key={playbook.id} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-              <div className="text-sm font-semibold text-slate-900">{playbook.title}</div>
+              <div className="text-sm font-semibold text-slate-100">{playbook.title}</div>
               <div className="mt-1 text-xs text-slate-500">Audience: {playbook.audience}</div>
-              <p className="mt-2 text-sm text-slate-600">{playbook.outcome}</p>
+              <p className="mt-2 text-sm text-slate-400">{playbook.outcome}</p>
             </div>
           ))}
         </div>
@@ -1114,17 +1114,17 @@ function PlaybooksContent({ playbooks }: { playbooks: Playbook[] }) {
         description="Surface assets, templates, and critical documentation inside Constelação."
         actions={<PillButton icon="📚">Open Library</PillButton>}
       >
-        <div className="grid gap-3 md:grid-cols-3 text-sm text-slate-600">
+        <div className="grid gap-3 md:grid-cols-3 text-sm text-slate-400">
           <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-            <div className="text-sm font-semibold text-slate-900">Deal Desk</div>
+            <div className="text-sm font-semibold text-slate-100">Deal Desk</div>
             <p className="mt-2 text-xs text-slate-500">Pricing approvals, commercial guardrails, exceptions matrix.</p>
           </div>
           <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-            <div className="text-sm font-semibold text-slate-900">Implementation Kits</div>
+            <div className="text-sm font-semibold text-slate-100">Implementation Kits</div>
             <p className="mt-2 text-xs text-slate-500">Project timelines, stakeholder templates, status reports.</p>
           </div>
           <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-            <div className="text-sm font-semibold text-slate-900">Partner Programs</div>
+            <div className="text-sm font-semibold text-slate-100">Partner Programs</div>
             <p className="mt-2 text-xs text-slate-500">Referral workflows, co-marketing packages, certification paths.</p>
           </div>
         </div>
@@ -1317,8 +1317,8 @@ function BlueprintsContent() {
         />
       ))}
       <section className={`${sectionContainer} border-dashed`}>
-        <h3 className="text-base font-semibold text-slate-900">Need additional capabilities?</h3>
-        <p className="mt-2 text-sm text-slate-600">
+        <h3 className="text-base font-semibold text-slate-100">Need additional capabilities?</h3>
+        <p className="mt-2 text-sm text-slate-400">
           ⚠️ Build: Document any newly identified feature gaps here so we can extend the backlog and link them to delivery
           milestones.
         </p>
@@ -1377,8 +1377,8 @@ export default function Constellation() {
     <div className="space-y-6">
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">Constelação Control Center</h1>
-          <p className="mt-2 max-w-2xl text-sm text-slate-600">
+          <h1 className="text-2xl font-semibold text-slate-100">Constelação Control Center</h1>
+          <p className="mt-2 max-w-2xl text-sm text-slate-400">
             Manage every relationship, pipeline, and revenue motion from one workspace. This scaffolding mirrors
             enterprise Constelação suites with dedicated areas for sales, marketing, service, and operations.
           </p>

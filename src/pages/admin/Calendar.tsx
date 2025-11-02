@@ -84,10 +84,10 @@ export default function Calendar() {
         </p>
       </header>
 
-      <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
-        <div className="border-b border-slate-200 px-6 py-5">
-          <h2 className="text-lg font-semibold">Calendar integrations</h2>
-          <p className="mt-1 text-sm text-slate-600">
+      <section className="rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg shadow-lg shadow-slate-950/20">
+        <div className="border-b border-slate-700/60 px-6 py-5">
+          <h2 className="text-lg font-semibold text-slate-100">Calendar integrations</h2>
+          <p className="mt-1 text-sm text-slate-400">
             Connect your existing calendars so bookings inside Stella stay in sync with the tools your team already
             uses.
           </p>
@@ -97,16 +97,16 @@ export default function Calendar() {
           {calendarIntegrations.map((integration) => {
             const isConnected = connections[integration.id]
             return (
-              <div key={integration.id} className="flex flex-col justify-between rounded-lg border border-slate-200 p-5">
+              <div key={integration.id} className="flex flex-col justify-between rounded-lg border border-slate-700/60 bg-slate-800/50 p-5">
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="text-base font-semibold text-slate-900">{integration.name}</h3>
-                      <p className="mt-1 text-sm text-slate-600">{integration.description}</p>
+                      <h3 className="text-base font-semibold text-slate-100">{integration.name}</h3>
+                      <p className="mt-1 text-sm text-slate-400">{integration.description}</p>
                     </div>
                     <span
                       className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                        isConnected ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'
+                        isConnected ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-700/60 text-slate-400'
                       }`}
                     >
                       {isConnected ? 'Connected' : 'Not connected'}
@@ -129,8 +129,8 @@ export default function Calendar() {
                   onClick={() => toggleConnection(integration.id)}
                   className={`mt-4 inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-semibold transition-colors ${
                     isConnected
-                      ? 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                      : 'bg-slate-900 text-white hover:bg-slate-800'
+                      ? 'border border-slate-700/60 bg-slate-800/50 text-slate-200 hover:bg-slate-700/60'
+                      : 'bg-indigo-600/90 text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-600'
                   }`}
                 >
                   {isConnected ? 'Disconnect' : 'Connect'}
@@ -141,19 +141,19 @@ export default function Calendar() {
         </div>
       </section>
 
-      <section className="space-y-4 rounded-xl border border-dashed border-slate-200 bg-slate-50 p-6">
+      <section className="space-y-4 rounded-xl border border-dashed border-slate-700/60 bg-slate-800/30 backdrop-blur-lg p-6">
         <div className="space-y-2">
-          <h2 className="text-lg font-semibold text-slate-900">Upcoming & manual options</h2>
-          <p className="text-sm text-slate-600">
+          <h2 className="text-lg font-semibold text-slate-100">Upcoming & manual options</h2>
+          <p className="text-sm text-slate-400">
             If you need another provider today, you can use ICS feeds or CalDAV credentials while we finalize native
             integrations.
           </p>
         </div>
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {upcomingIntegrations.map((integration) => (
-            <li key={integration.id} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-sm font-semibold text-slate-900">{integration.name}</p>
-              <p className="mt-1 text-sm text-slate-600">{integration.description}</p>
+            <li key={integration.id} className="rounded-lg border border-slate-700/60 bg-slate-800/50 p-4 shadow-sm">
+              <p className="text-sm font-semibold text-slate-200">{integration.name}</p>
+              <p className="mt-1 text-sm text-slate-400">{integration.description}</p>
             </li>
           ))}
         </ul>

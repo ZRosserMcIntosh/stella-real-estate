@@ -10,19 +10,19 @@ const developerTabs = [
 export default function DeveloperLayout() {
   return (
     <div className="space-y-8">
-      <header className="overflow-hidden rounded-3xl bg-gradient-to-r from-brand-700 via-brand-600 to-brand-500 p-[1px] shadow-xl">
-        <div className="rounded-3xl bg-white px-6 py-8 text-center shadow-sm dark:bg-slate-900/90 sm:text-left">
-          <span className="inline-flex items-center justify-center rounded-full bg-brand-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-700 dark:bg-brand-500/10 dark:text-brand-200">
+      <header className="overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-500 p-[1px] shadow-xl">
+        <div className="rounded-3xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg px-6 py-8 text-center shadow-sm sm:text-left">
+          <span className="inline-flex items-center justify-center rounded-full bg-indigo-500/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-300">
             Developer
           </span>
-          <h1 className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white">Developer Desk</h1>
-          <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
+          <h1 className="mt-3 text-3xl font-semibold text-slate-100">Developer Desk</h1>
+          <p className="mt-2 max-w-2xl text-sm text-slate-400">
             Coordinate roadmap requests, follow progress, and keep stakeholders in the loop on every release.
           </p>
         </div>
       </header>
 
-      <nav className="rounded-3xl border border-slate-100 bg-white p-3 shadow-lg dark:border-slate-800/70 dark:bg-slate-900/70">
+      <nav className="rounded-3xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-3 shadow-lg shadow-slate-950/20">
         <ul className="grid gap-3 sm:grid-cols-3">
           {developerTabs.map((tab) => (
             <li key={tab.to}>
@@ -31,21 +31,21 @@ export default function DeveloperLayout() {
                 className={({ isActive }) =>
                   `flex h-full flex-col gap-1 rounded-2xl border px-5 py-4 text-left shadow-sm transition-all ${
                     isActive
-                      ? 'border-brand-500 bg-brand-50/80 text-brand-700 shadow-md dark:border-brand-400/80 dark:bg-brand-500/10 dark:text-brand-200'
-                      : 'border-slate-100 text-slate-700 hover:border-brand-200 hover:bg-brand-50/50 hover:shadow-md dark:border-slate-800 dark:text-slate-200 dark:hover:border-brand-500/40 dark:hover:bg-brand-500/10'
+                      ? 'border-indigo-500/40 bg-indigo-600/30 text-indigo-200 shadow-md'
+                      : 'border-slate-700/60 text-slate-300 hover:border-slate-600/80 hover:bg-slate-800/50 hover:text-slate-200 hover:shadow-md'
                   }`
                 }
                 end={false}
               >
                 <span className="text-sm font-semibold">{tab.label}</span>
-                <span className="text-xs text-slate-500 dark:text-slate-400">{tab.description}</span>
+                <span className="text-xs text-slate-500">{tab.description}</span>
               </NavLink>
             </li>
           ))}
         </ul>
       </nav>
 
-      <section className="min-h-[360px] rounded-3xl border border-slate-100 bg-white p-6 shadow-lg dark:border-slate-800 dark:bg-slate-900/80">
+      <section className="min-h-[360px] rounded-3xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 shadow-lg shadow-slate-950/20">
         <Outlet />
       </section>
     </div>

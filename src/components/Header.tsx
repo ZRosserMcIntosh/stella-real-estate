@@ -26,6 +26,7 @@ export default function Header() {
   const [institutionalClosing, setInstitutionalClosing] = useState(false)
   const [projectsClosing, setProjectsClosing] = useState(false)
   const [institutionalButtonCenter, setInstitutionalButtonCenter] = React.useState<number>(0)
+  const [hoveredProjectId, setHoveredProjectId] = useState<string | null>(null)
   const headerRef = React.useRef<HTMLHeadElement>(null)
   const buttonRef = React.useRef<HTMLButtonElement>(null)
   const institutionalButtonRef = React.useRef<HTMLButtonElement>(null)
@@ -114,6 +115,18 @@ export default function Header() {
   {/* Desktop nav */}
   <nav className="hidden sm:flex items-center gap-3 text-sm font-medium">
         <style>{`
+          
+          @keyframes waveBlur {
+            0% {
+              filter: blur(0px);
+            }
+            50% {
+              filter: blur(2px);
+            }
+            100% {
+              filter: blur(2px);
+            }
+          }
           
           @keyframes dropdownRollout {
             from {
@@ -208,6 +221,44 @@ export default function Header() {
               background: rgba(255, 255, 255, 0.18);
             }
           }
+          .cta-button {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            cursor: pointer;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.4px;
+            font-weight: 300;
+            text-transform: uppercase;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ffffff;
+          }
+          .cta-button:hover {
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+          }
+          .cta-button:active {
+            background: rgba(255, 255, 255, 0.25);
+          }
+          @media (prefers-color-scheme: dark) {
+            .cta-button {
+              background: rgba(255, 255, 255, 0.05);
+            }
+            .cta-button:hover {
+              background: rgba(255, 255, 255, 0.12);
+              box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.08);
+            }
+            .cta-button:active {
+              background: rgba(255, 255, 255, 0.18);
+            }
+          }
         `}</style>
           <div
             className="relative"
@@ -262,25 +313,42 @@ export default function Header() {
                 }}
               >
                 <div className="grid grid-cols-1 gap-2">
-                  {projects.map((p) => {
+                  {projects.map((p, index) => {
                     const thumb = (p.media || []).find(m => m.kind === 'thumbnail')?.url || (p.media || [])[0]?.url
                     const slugBase = (p.title || 'project').toString().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')
                     const slug = `${slugBase}-${p.id}`
+                    const isHovered = hoveredProjectId === p.id
+                    const hasHover = hoveredProjectId !== null
+                    
+                    // Calculate distance from hovered item for wave effect
+                    let waveDistance = 0
+                    if (hasHover) {
+                      const hoveredIndex = projects.findIndex(proj => proj.id === hoveredProjectId)
+                      waveDistance = Math.abs(index - hoveredIndex)
+                    }
+                    
+                    // Determine if this item should show the wave animation
+                    const shouldWave = hasHover && !isHovered && waveDistance <= 2
+                    const animationDelay = shouldWave ? `${waveDistance * 80}ms` : '0ms'
+                    
                     return (
                       <button
                         key={p.id}
                         onClick={() => window.open(`/projects/${slug}`, '_blank')}
-                        className={`mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left`}
+                        onMouseEnter={() => setHoveredProjectId(p.id)}
+                        onMouseLeave={() => setHoveredProjectId(null)}
+                        style={shouldWave ? { animation: `waveBlur 0.6s ease-in-out ${animationDelay} forwards` } : {}}
+                        className={`mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-all duration-300 w-full text-left`}
                       >
                         {thumb ? (
                           // eslint-disable-next-line jsx-a11y/alt-text
-                          <img src={thumb} className="h-11 w-11 rounded-md object-cover flex-none pointer-events-none" />
+                          <img src={thumb} className={`h-11 w-11 rounded-md object-cover flex-none pointer-events-none transition-all duration-300 ${hasHover && !isHovered ? 'blur-xs' : 'blur-none'}`} />
                         ) : (
-                          <div className="h-11 w-11 rounded-md bg-slate-100 dark:bg-slate-800 grid place-items-center text-slate-400 text-xs flex-none">No image</div>
+                          <div className={`h-11 w-11 rounded-md bg-slate-100 dark:bg-slate-800 grid place-items-center text-slate-400 text-xs flex-none transition-all duration-300 ${hasHover && !isHovered ? 'blur-xs' : 'blur-none'}`}>No image</div>
                         )}
                         <div className="min-w-0 pr-3 max-w-[22rem] sm:max-w-[25rem]">
-                          <div className="text-sm font-medium truncate text-slate-900 dark:text-slate-100">{p.title}</div>
-                          <div className="text-xs text-slate-600 dark:text-slate-400 truncate">{[p.city, p.state_code].filter(Boolean).join(', ')}</div>
+                          <div className={`text-sm font-medium truncate text-slate-900 dark:text-slate-100 transition-all duration-300 ${hasHover && !isHovered ? 'blur-xs' : 'blur-none'}`}>{p.title}</div>
+                          <div className={`text-xs text-slate-600 dark:text-slate-400 truncate transition-all duration-300 ${hasHover && !isHovered ? 'blur-xs' : 'blur-none'}`}>{[p.city, p.state_code].filter(Boolean).join(', ')}</div>
                         </div>
                       </button>
                     )
@@ -392,7 +460,7 @@ export default function Header() {
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher />
           <CurrencySwitcher />
-          <Link to="/contact" className="hidden sm:inline-flex items-center gap-2 rounded-2xl px-3.5 py-2 text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 transition-colors shadow-soft">
+          <Link to="/contact" className="cta-button hidden sm:inline-flex">
             {t('header.cta')}
           </Link>
           {/* Mobile hamburger */}

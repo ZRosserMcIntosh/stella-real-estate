@@ -185,7 +185,7 @@ export default function DocumentVault() {
       type="button"
       onClick={onClick}
       className={`mt-4 inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-semibold transition-colors ${
-        isConnected ? 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50' : 'bg-slate-900 text-white hover:bg-slate-800'
+        isConnected ? 'border border-slate-700/60 bg-slate-800/50 text-slate-200 hover:bg-slate-700/60' : 'bg-indigo-600/90 text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-600'
       }`}
     >
       {isConnected ? `Disconnect ${label}` : `Connect ${label}`}
@@ -195,17 +195,17 @@ export default function DocumentVault() {
   return (
     <div className="space-y-10">
       <header>
-        <h1 className="text-2xl font-semibold">Document Vault</h1>
-        <p className="mt-2 max-w-3xl text-slate-600">
+        <h1 className="text-2xl font-semibold text-slate-100">Document Vault</h1>
+        <p className="mt-2 max-w-3xl text-slate-400">
           Centralize visibility into contracts, compliance, and collateral while allowing teams to sync files to their preferred cloud
           storage providers.
         </p>
       </header>
 
-      <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
-        <div className="border-b border-slate-200 px-6 py-5">
-          <h2 className="text-lg font-semibold text-slate-900">E-signature providers</h2>
-          <p className="mt-1 text-sm text-slate-600">
+      <section className="rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg shadow-lg shadow-slate-950/20">
+        <div className="border-b border-slate-700/60 px-6 py-5">
+          <h2 className="text-lg font-semibold text-slate-100">E-signature providers</h2>
+          <p className="mt-1 text-sm text-slate-400">
             Route documents to DocuSign or Dropbox Sign and automatically file completed packets into the storage destinations you enable
             below.
           </p>
@@ -219,12 +219,12 @@ export default function DocumentVault() {
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="text-base font-semibold text-slate-900">{integration.name}</h3>
-                      <p className="mt-1 text-sm text-slate-600">{integration.description}</p>
+                      <h3 className="text-base font-semibold text-slate-100">{integration.name}</h3>
+                      <p className="mt-1 text-sm text-slate-400">{integration.description}</p>
                     </div>
                     <span
                       className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                        isConnected ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'
+                        isConnected ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-700/60 text-slate-400'
                       }`}
                     >
                       {isConnected ? 'Connected' : 'Not connected'}
@@ -246,10 +246,10 @@ export default function DocumentVault() {
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
-        <div className="border-b border-slate-200 px-6 py-5">
-          <h2 className="text-lg font-semibold text-slate-900">Storage destinations</h2>
-          <p className="mt-1 text-sm text-slate-600">
+      <section className="rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg shadow-lg shadow-slate-950/20">
+        <div className="border-b border-slate-700/60 px-6 py-5">
+          <h2 className="text-lg font-semibold text-slate-100">Storage destinations</h2>
+          <p className="mt-1 text-sm text-slate-400">
             Decide where signed files and supporting documents live. Mix company-controlled drives with agent-managed storage for a hybrid
             approach.
           </p>
@@ -259,19 +259,19 @@ export default function DocumentVault() {
           {storageIntegrations.map((integration) => {
             const isConnected = storageConnections[integration.id]
             return (
-              <article key={integration.id} className="flex flex-col justify-between rounded-lg border border-slate-200 p-5">
+              <article key={integration.id} className="flex flex-col justify-between rounded-lg border border-slate-700/60 bg-slate-800/50 p-5">
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="text-base font-semibold text-slate-900">{integration.name}</h3>
-                      <p className="mt-1 text-sm text-slate-600">{integration.description}</p>
-                      <p className="mt-2 inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">
+                      <h3 className="text-base font-semibold text-slate-100">{integration.name}</h3>
+                      <p className="mt-1 text-sm text-slate-400">{integration.description}</p>
+                      <p className="mt-2 inline-flex items-center rounded-md bg-slate-700/60 px-2 py-0.5 text-xs font-medium text-slate-400">
                         {integration.ownership === 'company' ? 'Company-managed' : 'Individual agent storage'}
                       </p>
                     </div>
                     <span
                       className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                        isConnected ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'
+                        isConnected ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-700/60 text-slate-400'
                       }`}
                     >
                       {isConnected ? 'Connected' : 'Not connected'}
@@ -293,10 +293,10 @@ export default function DocumentVault() {
         </div>
       </section>
 
-      <section className="rounded-xl border border-dashed border-slate-200 bg-slate-50 p-6">
+      <section className="rounded-xl border border-dashed border-slate-700/60 bg-slate-800/30 backdrop-blur-lg p-6">
         <div className="space-y-2">
-          <h2 className="text-lg font-semibold text-slate-900">Document categories & routing</h2>
-          <p className="text-sm text-slate-600">
+          <h2 className="text-lg font-semibold text-slate-100">Document categories & routing</h2>
+          <p className="text-sm text-slate-400">
             Assign a default destination per document type. Agents can override for their personal storage when the category recommends a
             personal vault.
           </p>
@@ -304,9 +304,9 @@ export default function DocumentVault() {
 
         <ul className="mt-6 grid gap-4 lg:grid-cols-2">
           {documentCategories.map((category) => (
-            <li key={category.id} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm font-semibold text-slate-900">{category.title}</p>
-              <p className="mt-1 text-sm text-slate-600">{category.description}</p>
+            <li key={category.id} className="rounded-lg border border-slate-700/60 bg-slate-800/50 p-5 shadow-sm">
+              <p className="text-sm font-semibold text-slate-200">{category.title}</p>
+              <p className="mt-1 text-sm text-slate-400">{category.description}</p>
               <p className="mt-3 text-xs font-medium uppercase tracking-wide text-slate-500">
                 Recommended storage: {category.recommendedOwnership === 'company' ? 'Company drive' : 'Personal drive'}
               </p>

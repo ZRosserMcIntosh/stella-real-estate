@@ -155,10 +155,10 @@ function FloorplansManager({ title, floorplans, onChange, formatBRLInput, parseB
 	)
 
 	return (
-		<div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4">
+		<div className="rounded-xl border border-slate-700/60 bg-slate-50/80 p-4">
 			<div className="flex items-center justify-between gap-2">
 				<div>
-					<h3 className="text-sm font-semibold text-slate-900">{title}</h3>
+					<h3 className="text-sm font-semibold text-slate-100">{title}</h3>
 					<p className="text-xs text-slate-500">Plans: {floorplans.length} · Units counted: {totalUnits}</p>
 					{totalValue > 0 && <p className="text-xs text-slate-500">Inventory value from plans: {toBRL(totalValue)}</p>}
 				</div>
@@ -171,7 +171,7 @@ function FloorplansManager({ title, floorplans, onChange, formatBRLInput, parseB
 				</button>
 			</div>
 			{floorplans.length === 0 ? (
-				<p className="mt-3 text-sm text-slate-600">No floorplans added yet. Use “Add floorplan” to outline variations.</p>
+				<p className="mt-3 text-sm text-slate-400">No floorplans added yet. Use “Add floorplan” to outline variations.</p>
 			) : (
 				<div className="mt-3 overflow-x-auto">
 					<table className="min-w-full text-left text-sm">
@@ -191,12 +191,12 @@ function FloorplansManager({ title, floorplans, onChange, formatBRLInput, parseB
 								const planTotal = plan.units != null && plan.pricePerUnit != null ? plan.units * plan.pricePerUnit : null
 								return (
 									<tr key={plan.id}>
-										<td className="px-2 py-2 font-medium text-slate-800">{plan.name}</td>
-										<td className="px-2 py-2 text-slate-600">{plan.units ?? '—'}</td>
-										<td className="px-2 py-2 text-slate-600">{plan.pricePerUnit != null ? toBRL(plan.pricePerUnit) : '—'}</td>
-										<td className="px-2 py-2 text-slate-600">{plan.areaM2 != null ? plan.areaM2 : '—'}</td>
-										<td className="px-2 py-2 text-slate-600">{planTotal != null ? toBRL(planTotal) : '—'}</td>
-										<td className="px-2 py-2 text-slate-600">
+										<td className="px-2 py-2 font-medium text-slate-200">{plan.name}</td>
+										<td className="px-2 py-2 text-slate-400">{plan.units ?? '—'}</td>
+										<td className="px-2 py-2 text-slate-400">{plan.pricePerUnit != null ? toBRL(plan.pricePerUnit) : '—'}</td>
+										<td className="px-2 py-2 text-slate-400">{plan.areaM2 != null ? plan.areaM2 : '—'}</td>
+										<td className="px-2 py-2 text-slate-400">{planTotal != null ? toBRL(planTotal) : '—'}</td>
+										<td className="px-2 py-2 text-slate-400">
 											{plan.floorplanUrl ? (
 												<a href={plan.floorplanUrl} target="_blank" rel="noreferrer" className="text-sky-600 hover:underline">
 													View
@@ -229,13 +229,13 @@ function FloorplansManager({ title, floorplans, onChange, formatBRLInput, parseB
 			{modalOpen && (
 				<div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm">
 					<div className="absolute inset-0 overflow-y-auto">
-						<div className="mx-auto mt-16 w-full max-w-lg rounded-xl border border-slate-200 bg-white p-4 shadow-2xl">
+						<div className="mx-auto mt-16 w-full max-w-lg rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-4 shadow-2xl shadow-slate-950/30">
 							<h4 className="text-lg font-semibold">{editIndex != null ? 'Edit floorplan' : 'Add floorplan'}</h4>
 							<div className="mt-3 grid gap-3 text-sm">
 								<label className="grid gap-1">
 									<span className="font-medium">Name</span>
 									<input
-										className="rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+										className="rounded-md border border-slate-700/60 px-3 py-2 outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40"
 										value={draft.name}
 										onChange={(e) => setDraft((prev) => ({ ...prev, name: e.target.value }))}
 										placeholder="Tower A, 3BR Classic, Penthouse"
@@ -247,7 +247,7 @@ function FloorplansManager({ title, floorplans, onChange, formatBRLInput, parseB
 										<input
 											type="number"
 											min={0}
-											className="rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+											className="rounded-md border border-slate-700/60 px-3 py-2 outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40"
 											value={draft.units}
 											onChange={(e) => setDraft((prev) => ({ ...prev, units: e.target.value }))}
 										/>
@@ -258,7 +258,7 @@ function FloorplansManager({ title, floorplans, onChange, formatBRLInput, parseB
 											type="number"
 											min={0}
 											step="0.1"
-											className="rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+											className="rounded-md border border-slate-700/60 px-3 py-2 outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40"
 											value={draft.areaM2}
 											onChange={(e) => setDraft((prev) => ({ ...prev, areaM2: e.target.value }))}
 										/>
@@ -267,7 +267,7 @@ function FloorplansManager({ title, floorplans, onChange, formatBRLInput, parseB
 								<label className="grid gap-1">
 									<span className="font-medium">Price per unit</span>
 									<input
-										className="rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+										className="rounded-md border border-slate-700/60 px-3 py-2 outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40"
 										value={draft.pricePerUnit}
 										onChange={(e) => {
 											const formatted = formatBRLInput(e.target.value)
@@ -279,7 +279,7 @@ function FloorplansManager({ title, floorplans, onChange, formatBRLInput, parseB
 								<label className="grid gap-1">
 									<span className="font-medium">Notes</span>
 									<textarea
-										className="rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+										className="rounded-md border border-slate-700/60 px-3 py-2 outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40"
 										value={draft.description}
 										onChange={(e) => setDraft((prev) => ({ ...prev, description: e.target.value }))}
 										rows={2}
@@ -1202,13 +1202,13 @@ export default function ListingsNewProjects(){
 			return n >= minAllowedYear
 		}
 
-	const inputCls = "w-full rounded-md border border-slate-300 bg-white text-slate-900 placeholder-slate-400 px-3 py-2 shadow-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none"
-	const selectCls = "rounded-md border border-slate-300 bg-white text-slate-900 px-2 py-2 text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none"
+	const inputCls = "w-full rounded-md border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg text-slate-100 placeholder-slate-400 px-3 py-2 shadow-lg shadow-slate-950/20 focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40 outline-none"
+	const selectCls = "rounded-md border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg text-slate-100 px-2 py-2 text-sm focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40 outline-none"
 
-	return <div className="p-4 text-slate-800">
+	return <div className="p-4 text-slate-200">
 	<div>
 		<h1 className="text-xl font-semibold">Listings · New Projects</h1>
-		<p className="mt-1 text-slate-600">Manage new developments.</p>
+		<p className="mt-1 text-slate-400">Manage new developments.</p>
 		{isDemo && (
 			<p className="mt-2 inline-flex items-center gap-2 rounded-full border border-amber-300/80 bg-amber-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
 				Demo mode · changes disabled
@@ -1218,7 +1218,7 @@ export default function ListingsNewProjects(){
 		{error && <p className="text-sm text-red-600 mt-1">{error}</p>}
 	</div>
 
-		<div className="mt-6 rounded-xl border border-slate-200 bg-white">
+		<div className="mt-6 rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg">
 			<button type="button" onClick={()=>setShowForm(s=>!s)} className="w-full flex items-center justify-between px-4 py-3">
 				<span className="font-medium">Add a new project</span>
 				<svg className={"h-5 w-5 text-slate-500 transition-transform " + (showForm ? "rotate-180" : "rotate-0")} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -1226,7 +1226,7 @@ export default function ListingsNewProjects(){
 				</svg>
 			</button>
 			{showForm && (
-				<div className="border-t border-slate-200 p-4">
+				<div className="border-t border-slate-700/60 p-4">
 					<form onSubmit={createListing} className="grid gap-3">
 						<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 							<label className="grid gap-1 text-sm">
@@ -1450,8 +1450,8 @@ export default function ListingsNewProjects(){
 							</button>
 							</div>
 							{diagLog.length > 0 && (
-								<div className="mt-2 rounded border border-slate-200 p-2 bg-slate-50">
-									<ul className="text-xs text-slate-800 space-y-1">
+								<div className="mt-2 rounded border border-slate-700/60 p-2 bg-slate-50">
+									<ul className="text-xs text-slate-200 space-y-1">
 										{diagLog.map((d,i)=> (
 											<li key={i} className="flex items-start gap-2">
 												<span className={"mt-0.5 inline-block h-2 w-2 rounded-full " + (d.ok ? 'bg-green-500' : 'bg-red-500')}></span>
@@ -1481,44 +1481,44 @@ export default function ListingsNewProjects(){
 		</div>
 
 		<div className="mt-6 grid grid-cols-1 sm:grid-cols-[260px,1fr] gap-4 items-start">
-			<aside className="rounded-xl border border-slate-200 p-4 bg-white sticky top-4 h-fit">
+			<aside className="rounded-xl border border-slate-700/60 p-4 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg sticky top-4 h-fit">
 				<h2 className="text-sm font-semibold mb-2">Filters</h2>
 				<div className="grid gap-2 text-sm">
-					<input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search title, city, CEP…" className={"w-full rounded-md border border-slate-300 bg-white text-slate-900 placeholder-slate-400 px-3 py-2 shadow-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none text-sm"} />
+					<input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search title, city, CEP…" className={"w-full rounded-md border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg text-slate-100 placeholder-slate-400 px-3 py-2 shadow-lg shadow-slate-950/20 focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40 outline-none text-sm"} />
 					<label className="grid gap-1">
-						<span className="text-slate-600">City</span>
+						<span className="text-slate-400">City</span>
 						<select value={fCity} onChange={e=>setFCity(e.target.value)} className={selectCls}>
 							<option value="all">All</option>
 							{distinctCities.map(c => <option key={c} value={c}>{c}</option>)}
 						</select>
 					</label>
 					<label className="grid gap-1">
-						<span className="text-slate-600">State</span>
+						<span className="text-slate-400">State</span>
 						<select value={fState} onChange={e=>setFState(e.target.value)} className={selectCls}>
 							<option value="all">All</option>
 							{distinctStates.map(s => <option key={s} value={s}>{s}</option>)}
 						</select>
 					</label>
 					<div className="grid grid-cols-2 gap-2">
-						<input value={minPrice} onChange={e=>setMinPrice(e.target.value === '' ? '' : Number(e.target.value))} type="number" min={0} placeholder="Min" className={"w-full rounded-md border border-slate-300 bg-white text-slate-900 placeholder-slate-400 px-3 py-2 shadow-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none text-sm"} />
-						<input value={maxPrice} onChange={e=>setMaxPrice(e.target.value === '' ? '' : Number(e.target.value))} type="number" min={0} placeholder="Max" className={"w-full rounded-md border border-slate-300 bg-white text-slate-900 placeholder-slate-400 px-3 py-2 shadow-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500 outline-none text-sm"} />
+						<input value={minPrice} onChange={e=>setMinPrice(e.target.value === '' ? '' : Number(e.target.value))} type="number" min={0} placeholder="Min" className={"w-full rounded-md border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg text-slate-100 placeholder-slate-400 px-3 py-2 shadow-lg shadow-slate-950/20 focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40 outline-none text-sm"} />
+						<input value={maxPrice} onChange={e=>setMaxPrice(e.target.value === '' ? '' : Number(e.target.value))} type="number" min={0} placeholder="Max" className={"w-full rounded-md border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg text-slate-100 placeholder-slate-400 px-3 py-2 shadow-lg shadow-slate-950/20 focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40 outline-none text-sm"} />
 					</div>
 					<label className="grid gap-1">
-						<span className="text-slate-600">Beds</span>
+						<span className="text-slate-400">Beds</span>
 						<select value={fBeds} onChange={e=>setFBeds(e.target.value === 'all' ? 'all' : Number(e.target.value))} className={selectCls}>
 							<option value="all">Any</option>
 							{[1,2,3,4,5].map(n => <option key={n} value={n}>{n}+</option>)}
 						</select>
 					</label>
 					<label className="grid gap-1">
-						<span className="text-slate-600">Baths</span>
+						<span className="text-slate-400">Baths</span>
 						<select value={fBaths} onChange={e=>setFBaths(e.target.value === 'all' ? 'all' : Number(e.target.value))} className={selectCls}>
 							<option value="all">Any</option>
 							{[1,2,3,4].map(n => <option key={n} value={n}>{n}+</option>)}
 						</select>
 					</label>
 					<label className="grid gap-1">
-						<span className="text-slate-600">Status</span>
+						<span className="text-slate-400">Status</span>
 						<select value={fStatus} onChange={e=>setFStatus(e.target.value as any)} className={selectCls}>
 							<option value="all">Any</option>
 							{['draft','active','pending','sold','archived'].map(s => <option key={s} value={s}>{s}</option>)}
@@ -1533,7 +1533,7 @@ export default function ListingsNewProjects(){
 					{filtered.map(l => {
 						const thumb = l.media?.find(m => m.kind === 'thumbnail')?.url || l.media?.[0]?.url
 						return (
-							<div key={l.id} className="rounded-xl border border-slate-200 p-3 bg-white text-slate-800">
+							<div key={l.id} className="rounded-xl border border-slate-700/60 p-3 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg text-slate-200">
 								{thumb ? (
 									<img src={thumb} alt={l.title} className="w-full h-40 object-cover rounded-md" />
 								) : (
@@ -1542,7 +1542,7 @@ export default function ListingsNewProjects(){
 								<div className="mt-2 flex items-start justify-between gap-3">
 									<div>
 										<h3 className="font-semibold line-clamp-1">{l.title}</h3>
-										<p className="text-sm text-slate-600">{[l.city, l.state_code].filter(Boolean).join(', ')}</p>
+										<p className="text-sm text-slate-400">{[l.city, l.state_code].filter(Boolean).join(', ')}</p>
 										<p className="text-sm text-slate-700 mt-1">{l.price ? `R$ ${Number(l.price).toLocaleString()}` : '—'}</p>
 									</div>
 									<div className="flex items-center gap-3">
@@ -1571,7 +1571,7 @@ export default function ListingsNewProjects(){
 
 		{editingId && (
 			<div className="fixed inset-0 bg-black/30 grid place-items-center z-50">
-				<div className="w-full max-w-2xl rounded-xl border border-slate-200 bg-white p-4 text-slate-800 shadow-xl">
+				<div className="w-full max-w-2xl rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-4 text-slate-200 shadow-lg shadow-slate-950/25">
 					<h3 className="text-lg font-semibold">Edit project</h3>
 					<div className="mt-3 grid gap-3">
 						<label className="grid gap-1 text-sm">

@@ -221,6 +221,136 @@
       "joinShortlist": "Únete a la lista de probadores",
       "talkStrategists": "Habla con estrategas de producto",
       "footer": "Plataforma Constellation · Construido para agentes con ambición desmedida"
+    },
+    "ecosystem": {
+      "badge": "Ecosistema Multi-Stakeholder",
+      "title": "La Plataforma Inmobiliaria Todo-en-Uno",
+      "subtitle": "Más que un mercado. Un ecosistema unificado conectando cada jugador del mercado inmobiliario—impulsado por narrativas de IA y prueba social.",
+      "coreFeatures": {
+        "ai": {
+          "title": "#1: Narrativas de Propiedades Impulsadas por IA",
+          "subtitle": "Descripciones dinámicas y personalizadas",
+          "description": "Genera descripciones de propiedades atractivas adaptadas a cada tipo de comprador:",
+          "investor": "Tono inversor: Potencial de ROI, trayectoria de apreciación",
+          "family": "Tono familiar: Escuelas, parques, vibraciones del vecindario",
+          "firstTime": "Primer comprador: Listo para mudarse, amigable para principiantes"
+        },
+        "socialProof": {
+          "title": "#2: Feed de Prueba Social",
+          "subtitle": "Señales de mercado en tiempo real y urgencia",
+          "description": "Actividad de mercado agregada automáticamente que impulsa el compromiso del comprador:",
+          "offer": "Múltiples ofertas recibidas en 24 horas",
+          "views": "125+ personas vieron esto esta semana",
+          "instagram": "Posts de Instagram con compromiso social"
+        }
+      },
+      "userTypes": {
+        "title": "8 Tipos de Usuarios Interconectados",
+        "independentRealtors": {
+          "title": "Agentes Inmobiliarios Independientes",
+          "features": ["Generador de narrativas de IA", "Compartir en redes sociales con un clic", "Seguimiento de comisiones", "CRM de leads"]
+        },
+        "brokerages": {
+          "title": "Empresas de Corretaje",
+          "features": ["Panel de control multi-agentes", "Distribución de comisiones", "Análisis de mercado", "Herramientas de cumplimiento"]
+        },
+        "developers": {
+          "title": "Desarrolladores",
+          "features": ["Preventa de unidades", "Red de agentes", "Escaparate de arquitectos", "Seguimiento de inversiones"]
+        },
+        "architects": {
+          "title": "Arquitectos y Diseñadores",
+          "features": ["Escaparate de portafolio", "Recomendaciones inteligentes", "Reserva de consulta", "Testimonios de clientes"]
+        },
+        "strManagers": {
+          "title": "Gestores de Alquiler Corto",
+          "features": ["Gestión de calendario", "Precios dinámicos", "Comunicación con huéspedes", "Seguimiento de ingresos"]
+        },
+        "propertyOwners": {
+          "title": "Propietarios",
+          "features": ["Listar para vender o alquilar", "Encontrar agentes locales", "Gestión de inquilinos", "Seguimiento de ingresos"]
+        },
+        "strOwners": {
+          "title": "Propietarios de STR",
+          "features": ["Colaboración con gestores", "Calendario de reservas", "Reseñas de huéspedes", "Panel de ganancias"]
+        },
+        "shoppers": {
+          "title": "Compradores",
+          "features": ["Todas las propiedades agregadas", "Recomendaciones de IA", "Pre-calificación hipotecaria", "Chat directo con agentes"]
+        }
+      },
+      "pendingServices": {
+        "realtors": {
+          "title": "Agentes Independientes y Corretajes",
+          "deliveryDate": "Q1 2026",
+          "phase1": ["Listados de propiedades con narrativas de IA", "Integración con redes sociales", "Captura de leads y CRM"],
+          "pending": ["Gestión de comisiones", "Red de referidos", "Pre-calificación de compradores", "Agregación MLS"]
+        },
+        "developers": {
+          "title": "Desarrolladores y Preventas",
+          "deliveryDate": "Q2 2026",
+          "phase1": ["Escaparate de desarrollo", "Sistema de pre-reserva de unidades", "Mercado de agentes"],
+          "pending": ["Pre-aprobación de financiamiento", "Plantillas legales", "Personalización de unidades", "Eventos de preventa"]
+        },
+        "architects": {
+          "title": "Arquitectos y Diseñadores",
+          "deliveryDate": "Q3 2026",
+          "phase1": ["Escaparate de portafolio", "Galería de proyectos", "Sistema de recomendación"],
+          "pending": ["Reserva de consulta", "Visualización 3D", "Estimación de presupuesto", "Colaboración con clientes"]
+        },
+        "rentalManagers": {
+          "title": "Gestores y Propietarios de Alquiler",
+          "deliveryDate": "Q4 2026",
+          "phase1": ["Panel de alquiler", "Sincronización de calendario", "Comunicación con huéspedes"],
+          "pending": ["Precios dinámicos", "Coordinación de limpieza", "Solicitudes de mantenimiento", "Integración de seguros"]
+        },
+        "owners": {
+          "title": "Propietarios (Vender/Alquilar)",
+          "deliveryDate": "Q1 2027",
+          "phase1": ["Creación simple de listado", "Búsqueda de agentes locales y conexión", "Gestión de consultas"],
+          "pending": ["Valuación de propiedad", "Evaluación de inquilinos", "Gestión de contrato de alquiler", "Documentación fiscal"]
+        },
+        "buyers": {
+          "title": "Compradores",
+          "deliveryDate": "Q2 2027",
+          "phase1": ["Búsqueda de propiedades global", "Todos los agentes agregados", "Filtros inteligentes y favoritos"],
+          "pending": ["Pre-calificación hipotecaria", "Recomendaciones de IA", "Envío de ofertas", "Herramientas de inspección"]
+        }
+      },
+      "whyStella": {
+        "title": "¿Por Qué Stella Platform?",
+        "aggregated": {
+          "title": "Todos los Listados Agregados",
+          "description": "A diferencia de plataformas fragmentadas, todos los listados de agentes en un único mercado buscable"
+        },
+        "narratives": {
+          "title": "Narrativas Impulsadas por IA",
+          "description": "Una propiedad, historias infinitas. Las narrativas se adaptan al tipo de comprador y se comparten en redes sociales al instante"
+        },
+        "socialProof": {
+          "title": "Prueba Social en Todo",
+          "description": "Las señales de mercado en tiempo real impulsan la urgencia. ¿Múltiples ofertas? ¿Vistas? ¿Compromiso? Todo automático"
+        },
+        "ecosystem": {
+          "title": "Ecosistema de Desarrolladores + Arquitectos",
+          "description": "Los desarrolladores prevenden unidades. Los arquitectos reciben recomendaciones para compradores. Todo conectado"
+        },
+        "str": {
+          "title": "Integración de STR + Largo Plazo",
+          "description": "Los gestores de corto plazo encuentran propietarios. Los propietarios rastrean ingresos. Compite con Airbnb"
+        },
+        "users": {
+          "title": "Una Plataforma, 8 Tipos de Usuarios",
+          "description": "Desde agentes independientes hasta compradores internacionales—todos prosperan. Más usuarios = más valor"
+        }
+      },
+      "cta": {
+        "title": "¿Listo para Transformar el Mercado Inmobiliario?",
+        "subtitle": "Sé uno de los primeros agentes, desarrolladores, arquitectos y compradores en experimentar el ecosistema de Stella Platform.",
+        "joinWaitlist": "Únete a la Lista de Espera",
+        "scheduleDemo": "Programa una Demostración",
+        "footer": "💫 Lanzamiento Q1 2026 | Para agentes, desarrolladores, arquitectos, propietarios y compradores en todo el mundo"
+      }
     }
   },
   "auth": {

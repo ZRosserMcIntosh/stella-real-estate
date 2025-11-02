@@ -221,6 +221,136 @@
       "joinShortlist": "Join the tester shortlist",
       "talkStrategists": "Talk with product strategists",
       "footer": "Constellation Platform · Built for realtors with unreasonable ambition"
+    },
+    "ecosystem": {
+      "badge": "Multi-Stakeholder Ecosystem",
+      "title": "The All-In-One Real Estate Platform",
+      "subtitle": "More than a marketplace. A unified ecosystem connecting every player in real estate—powered by AI narratives and social proof.",
+      "coreFeatures": {
+        "ai": {
+          "title": "#1: AI-Powered Property Narratives",
+          "subtitle": "Dynamic, personalized descriptions",
+          "description": "Generate compelling property descriptions tailored to each buyer type:",
+          "investor": "Investor tone: ROI potential, appreciation trajectory",
+          "family": "Family tone: Schools, parks, neighborhood vibes",
+          "firstTime": "First-time buyer: Move-in ready, beginner-friendly"
+        },
+        "socialProof": {
+          "title": "#2: Social Proof Feed",
+          "subtitle": "Real-time market signals & urgency",
+          "description": "Automatically aggregated market activity that drives buyer engagement:",
+          "offer": "Multiple offers received in 24 hours",
+          "views": "125+ people viewed this week",
+          "instagram": "Instagram posts with social engagement"
+        }
+      },
+      "userTypes": {
+        "title": "8 Interconnected User Types",
+        "independentRealtors": {
+          "title": "Independent Realtors",
+          "features": ["AI narrative generator", "One-click social sharing", "Commission tracking", "Lead CRM"]
+        },
+        "brokerages": {
+          "title": "Brokerage Companies",
+          "features": ["Multi-agent dashboard", "Commission distribution", "Market analytics", "Compliance tools"]
+        },
+        "developers": {
+          "title": "Developers",
+          "features": ["Pre-sale unit booking", "Realtor network", "Architect showcase", "Investment tracking"]
+        },
+        "architects": {
+          "title": "Architects & Designers",
+          "features": ["Portfolio showcase", "Smart recommendations", "Consultation booking", "Client testimonials"]
+        },
+        "strManagers": {
+          "title": "STR Managers",
+          "features": ["Calendar management", "Dynamic pricing", "Guest communication", "Income tracking"]
+        },
+        "propertyOwners": {
+          "title": "Property Owners",
+          "features": ["List to sell or rent", "Find local agents", "Tenant management", "Income tracking"]
+        },
+        "strOwners": {
+          "title": "STR Property Owners",
+          "features": ["Manager collaboration", "Booking calendar", "Guest reviews", "Earnings dashboard"]
+        },
+        "shoppers": {
+          "title": "Shoppers & Buyers",
+          "features": ["All listings aggregated", "AI recommendations", "Mortgage pre-qual", "Direct agent chat"]
+        }
+      },
+      "pendingServices": {
+        "realtors": {
+          "title": "Independent Realtors & Brokerages",
+          "deliveryDate": "Q1 2026",
+          "phase1": ["Property listings with AI narratives", "Social media integration", "Lead capture & CRM"],
+          "pending": ["Commission management", "Referral network", "Buyer pre-qualification", "MLS aggregation"]
+        },
+        "developers": {
+          "title": "Developers & Pre-Sales",
+          "deliveryDate": "Q2 2026",
+          "phase1": ["Development showcase", "Unit pre-booking system", "Realtor marketplace"],
+          "pending": ["Financing pre-approval", "Legal templates", "Unit customization", "Presale events"]
+        },
+        "architects": {
+          "title": "Architects & Designers",
+          "deliveryDate": "Q3 2026",
+          "phase1": ["Portfolio showcase", "Project gallery", "Recommendation system"],
+          "pending": ["Consultation booking", "3D visualization", "Budget estimation", "Client collaboration"]
+        },
+        "rentalManagers": {
+          "title": "Rental Managers & Owners",
+          "deliveryDate": "Q4 2026",
+          "phase1": ["Rental dashboard", "Calendar sync", "Guest communication"],
+          "pending": ["Dynamic pricing", "Cleaning coordination", "Maintenance requests", "Insurance integration"]
+        },
+        "owners": {
+          "title": "Property Owners (Sell/Rent)",
+          "deliveryDate": "Q1 2027",
+          "phase1": ["Simple listing creation", "Realtor search & connection", "Inquiry management"],
+          "pending": ["Property valuation", "Tenant screening", "Lease management", "Tax documentation"]
+        },
+        "buyers": {
+          "title": "Shoppers & Buyers",
+          "deliveryDate": "Q2 2027",
+          "phase1": ["Global property search", "All realtors aggregated", "Smart filters & favorites"],
+          "pending": ["Mortgage pre-qualification", "AI recommendations", "Offer submission", "Inspection tools"]
+        }
+      },
+      "whyStella": {
+        "title": "Why Stella Platform?",
+        "aggregated": {
+          "title": "All Listings Aggregated",
+          "description": "Unlike fragmented platforms, every realtor's listings in one searchable marketplace"
+        },
+        "narratives": {
+          "title": "AI-Powered Narratives",
+          "description": "One property, infinite stories. Narratives adapt to buyer type and share to social instantly"
+        },
+        "socialProof": {
+          "title": "Social Proof Everything",
+          "description": "Real-time market signals drive urgency. Multiple offers? Views? Engagement? All automatic"
+        },
+        "ecosystem": {
+          "title": "Developer + Architect Ecosystem",
+          "description": "Developers pre-sell units. Architects get recommended to buyers. All connected"
+        },
+        "str": {
+          "title": "STR + Long-Term Integration",
+          "description": "Short-term managers find owners. Owners track income. Compete with Airbnb"
+        },
+        "users": {
+          "title": "One Platform, 8 User Types",
+          "description": "From independent agents to international shoppers—everyone thrives. More users = more value"
+        }
+      },
+      "cta": {
+        "title": "Ready to Transform Real Estate?",
+        "subtitle": "Be among the first agents, developers, architects, and shoppers to experience the Stella Platform ecosystem.",
+        "joinWaitlist": "Join the Waitlist",
+        "scheduleDemo": "Schedule a Demo",
+        "footer": "💫 Launching Q1 2026 | For agents, developers, architects, owners, and shoppers worldwide"
+      }
     }
   },
   "auth": {
