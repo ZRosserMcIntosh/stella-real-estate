@@ -4,9 +4,12 @@
     "nav": {
       "projects": "Novos Projetos",
       "listings": "Listagens de Imóveis",
-  "about": "Sobre",
-  "contact": "Contato",
-  "employeeLogin": "Login de Funcionário"
+      "buy": "Comprar",
+      "rent": "Alugar",
+      "institutional": "Institucional",
+      "about": "Sobre",
+      "contact": "Contato",
+      "employeeLogin": "Login de Funcionário"
     },
     "cta": "Começar"
   },

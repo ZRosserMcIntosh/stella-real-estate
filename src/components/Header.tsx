@@ -372,13 +372,13 @@ export default function Header() {
             className="nav-button"
             onClick={() => window.location.href = '/listings?type=buy'}
           >
-            BUY
+            {t('header.nav.buy').toUpperCase?.() || 'BUY'}
           </button>
           <button
             className="nav-button"
             onClick={() => window.location.href = '/listings?type=rent'}
           >
-            RENT
+            {t('header.nav.rent').toUpperCase?.() || 'RENT'}
           </button>
           <button
             className="nav-button"
@@ -419,7 +419,7 @@ export default function Header() {
               ref={institutionalButtonRef}
               className="nav-button"
             >
-              INSTITUTIONAL
+              {t('header.nav.institutional').toUpperCase?.() || 'INSTITUTIONAL'}
             </button>
             {institutionalOpen && (
               <div

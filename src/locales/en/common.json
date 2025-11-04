@@ -4,9 +4,12 @@
     "nav": {
       "projects": "New Projects",
       "listings": "Listings",
+      "buy": "Buy",
+      "rent": "Rent",
+      "institutional": "Institutional",
       "about": "About",
-  "contact": "Contact",
-  "employeeLogin": "Employee Login"
+      "contact": "Contact",
+      "employeeLogin": "Employee Login"
     },
     "cta": "Get Started"
   },
