@@ -5,6 +5,9 @@ const developerTabs = [
   { to: 'submit-ticket', label: 'Submit a Ticket', description: 'Share feature ideas or bug reports.' },
   { to: 'pending-requests', label: 'Pending Requests', description: 'Track items waiting on engineering.' },
   { to: 'updates', label: 'Updates', description: 'Latest changes shipped to Stella Admin.' },
+  { to: 'templates', label: 'Templates', description: 'Curate default site experiences for tenants.' },
+  { to: 'feature-gates', label: 'Feature Gates', description: 'Control rollouts like Ballet and QA automations.' },
+  { to: 'access-codes', label: 'Access Codes', description: 'Generate employee invites and developer sandbox logins.' },
 ]
 
 export default function DeveloperLayout() {
@@ -23,7 +26,7 @@ export default function DeveloperLayout() {
       </header>
 
       <nav className="rounded-3xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-3 shadow-lg shadow-slate-950/20">
-        <ul className="grid gap-3 sm:grid-cols-3">
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {developerTabs.map((tab) => (
             <li key={tab.to}>
               <NavLink

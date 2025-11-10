@@ -19,6 +19,7 @@ export default function Projects() {
   const [items, setItems] = useState<Project[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
 
   useEffect(() => {
     const load = async () => {
@@ -52,6 +53,9 @@ export default function Projects() {
       <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((p) => {
           const thumb = (p.media || []).find((m) => m.kind === 'thumbnail')?.url || (p.media || [])[0]?.url
+          const secondPhoto = (p.media || []).filter(m => m.kind !== 'video_bg' && m.kind !== 'thumbnail')[0]?.url || (p.media || [])[1]?.url
+          const isHovered = hoveredId === p.id
+          const displayImage = isHovered && secondPhoto ? secondPhoto : thumb
           const expected = p.features?.expected_delivery_month || p.features?.expected_delivery_year
           const f = p.features || {}
           const unitsAvailable: number | null =
@@ -73,13 +77,23 @@ export default function Projects() {
               ? unitsAvailable * perUnit
               : null
           return (
-            <div key={p.id} className="rounded-2xl border border-slate-200 dark:border-slate-800 p-4 bg-white/80 dark:bg-slate-900/60 shadow-soft">
-              {thumb ? (
-                // eslint-disable-next-line jsx-a11y/alt-text
-                <img src={thumb} className="w-full h-44 object-cover rounded-xl" />
-              ) : (
-                <div className="w-full h-44 bg-slate-100 rounded-xl grid place-items-center text-slate-400 text-sm">No image</div>
-              )}
+            <div 
+              key={p.id} 
+              className="rounded-2xl border border-slate-200 dark:border-slate-800 p-4 bg-white/80 dark:bg-slate-900/60 shadow-soft"
+              onMouseEnter={() => setHoveredId(p.id)}
+              onMouseLeave={() => setHoveredId(null)}
+            >
+              <div className="relative overflow-hidden rounded-xl">
+                {displayImage ? (
+                  <img 
+                    src={displayImage} 
+                    alt={p.title}
+                    className="w-full h-44 object-cover transition-opacity duration-300" 
+                  />
+                ) : (
+                  <div className="w-full h-44 bg-slate-100 rounded-xl grid place-items-center text-slate-400 text-sm">No image</div>
+                )}
+              </div>
               <h3 className="mt-3 text-lg font-semibold line-clamp-1">{p.title}</h3>
               <p className="text-sm text-slate-600">{[p.city, p.state_code].filter(Boolean).join(', ')}</p>
               {expected && (

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import UserTypeIcon from '../components/icons/UserTypeIcon'
 
 export default function StellaPlatform() {
   const { t } = useTranslation()
@@ -466,7 +467,9 @@ export default function StellaPlatform() {
             <h3 className="text-2xl font-bold text-white mb-8 text-center">{t('stellaPlatform.ecosystem.userTypes.title')}</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-600/15 to-blue-900/10 p-6 hover:border-blue-500/60 transition">
-                <div className="text-3xl mb-3">👤</div>
+                <div className="mb-3 text-blue-400">
+                  <UserTypeIcon type="user" className="w-10 h-10" />
+                </div>
                 <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.independentRealtors.title')}</h4>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {(t('stellaPlatform.ecosystem.userTypes.independentRealtors.features', { returnObjects: true }) as string[]).map((feature, idx) => (
@@ -476,7 +479,9 @@ export default function StellaPlatform() {
               </div>
 
               <div className="rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-600/15 to-emerald-900/10 p-6 hover:border-emerald-500/60 transition">
-                <div className="text-3xl mb-3">🏢</div>
+                <div className="mb-3 text-emerald-400">
+                  <UserTypeIcon type="building" className="w-10 h-10" />
+                </div>
                 <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.brokerages.title')}</h4>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {(t('stellaPlatform.ecosystem.userTypes.brokerages.features', { returnObjects: true }) as string[]).map((feature, idx) => (
@@ -486,7 +491,9 @@ export default function StellaPlatform() {
               </div>
 
               <div className="rounded-2xl border border-orange-500/30 bg-gradient-to-br from-orange-600/15 to-orange-900/10 p-6 hover:border-orange-500/60 transition">
-                <div className="text-3xl mb-3">🏗️</div>
+                <div className="mb-3 text-orange-400">
+                  <UserTypeIcon type="construction" className="w-10 h-10" />
+                </div>
                 <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.developers.title')}</h4>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {(t('stellaPlatform.ecosystem.userTypes.developers.features', { returnObjects: true }) as string[]).map((feature, idx) => (
@@ -496,7 +503,9 @@ export default function StellaPlatform() {
               </div>
 
               <div className="rounded-2xl border border-pink-500/30 bg-gradient-to-br from-pink-600/15 to-pink-900/10 p-6 hover:border-pink-500/60 transition">
-                <div className="text-3xl mb-3">🎨</div>
+                <div className="mb-3 text-pink-400">
+                  <UserTypeIcon type="palette" className="w-10 h-10" />
+                </div>
                 <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.architects.title')}</h4>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {(t('stellaPlatform.ecosystem.userTypes.architects.features', { returnObjects: true }) as string[]).map((feature, idx) => (
@@ -506,7 +515,9 @@ export default function StellaPlatform() {
               </div>
 
               <div className="rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-cyan-600/15 to-cyan-900/10 p-6 hover:border-cyan-500/60 transition">
-                <div className="text-3xl mb-3">🏠</div>
+                <div className="mb-3 text-cyan-400">
+                  <UserTypeIcon type="house" className="w-10 h-10" />
+                </div>
                 <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.strManagers.title')}</h4>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {(t('stellaPlatform.ecosystem.userTypes.strManagers.features', { returnObjects: true }) as string[]).map((feature, idx) => (
@@ -516,7 +527,9 @@ export default function StellaPlatform() {
               </div>
 
               <div className="rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-indigo-600/15 to-indigo-900/10 p-6 hover:border-indigo-500/60 transition">
-                <div className="text-3xl mb-3">🏘️</div>
+                <div className="mb-3 text-indigo-400">
+                  <UserTypeIcon type="houses" className="w-10 h-10" />
+                </div>
                 <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.propertyOwners.title')}</h4>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {(t('stellaPlatform.ecosystem.userTypes.propertyOwners.features', { returnObjects: true }) as string[]).map((feature, idx) => (
@@ -526,7 +539,9 @@ export default function StellaPlatform() {
               </div>
 
               <div className="rounded-2xl border border-red-500/30 bg-gradient-to-br from-red-600/15 to-red-900/10 p-6 hover:border-red-500/60 transition">
-                <div className="text-3xl mb-3">🗝️</div>
+                <div className="mb-3 text-red-400">
+                  <UserTypeIcon type="key" className="w-10 h-10" />
+                </div>
                 <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.strOwners.title')}</h4>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {(t('stellaPlatform.ecosystem.userTypes.strOwners.features', { returnObjects: true }) as string[]).map((feature, idx) => (
@@ -536,7 +551,9 @@ export default function StellaPlatform() {
               </div>
 
               <div className="rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-600/15 to-amber-900/10 p-6 hover:border-amber-500/60 transition">
-                <div className="text-3xl mb-3">🛍️</div>
+                <div className="mb-3 text-amber-400">
+                  <UserTypeIcon type="shopping" className="w-10 h-10" />
+                </div>
                 <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.shoppers.title')}</h4>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {(t('stellaPlatform.ecosystem.userTypes.shoppers.features', { returnObjects: true }) as string[]).map((feature, idx) => (

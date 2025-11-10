@@ -11,7 +11,7 @@
       "contact": "Contato",
       "employeeLogin": "Login de Funcionário"
     },
-    "cta": "Começar"
+    "cta": "Comece Agora"
   },
   "home": {
     "hero": {
@@ -31,15 +31,67 @@
       "send": "Enviar"
     },
     "footer": {
-      "privacy": "Privacidade",
+      "privacyPolicy": "Política de Privacidade",
+      "termsOfUse": "Termos de Uso",
+      "cookiePolicy": "Política de Cookies",
+      "masterSubscriptionAgreement": "Contrato de Assinatura",
+      "serviceLevelAgreement": "Acordo de Nível de Serviço",
+      "dataProcessingAddendum": "Aditivo de Tratamento de Dados",
+      "acceptableUsePolicy": "Política de Uso Aceitável",
+      "supportPolicy": "Política de Suporte",
+      "betaTerms": "Termos de Beta / Preview",
+      "apiTerms": "Termos da API",
+      "referralTerms": "Termos de Indicação / Afiliados",
       "listProperty": "Anuncie seu Imóvel",
       "legal": "Jurídico",
       "admin": "Admin",
-      "institutional": "Institucional"
+      "institutional": "Institucional",
+      "investors": "Investidores",
+      "legalTitle": "Jurídico",
+      "companyTitle": "Empresa",
+      "servicesTitle": "Serviços",
+      "adminTitle": "Admin",
+      "aboutUs": "Sobre Nós",
+      "constellationPlatform": "Plataforma Constellation",
+      "creciCourse": "Curso CRECI",
+      "consumers": "Consumidores",
+      "independentAgents": "Corretores Independentes",
+      "brokerageCompanies": "Empresas Imobiliárias",
+      "propertyDevelopers": "Novos Incorporadores",
+      "longTermManagers": "Gestores de Imóveis de Longo Prazo",
+      "shortTermManagers": "Gestores de Aluguel de Curto Prazo",
+      "financingPartners": "Parceiros de Financiamento",
+      "inspectionsAppraisals": "Inspeções e Avaliações (+ Cartório)",
+      "copyright": "Todos os direitos reservados."
     }
   },
   "pages": {
-    "about": { "title": "Sobre a Stella" },
+    "about": {
+      "title": "Sobre Nós",
+      "subtitle": "Conheça a equipe que constrói o futuro da tecnologia imobiliária no Brasil.",
+      "leadership": {
+        "title": "Nossa Liderança",
+        "subtitle": "Visionários combinando décadas de expertise imobiliária com tecnologia de ponta.",
+        "ceo": {
+          "name": "Stella Mary Barbosa",
+          "title": "Diretora Executiva",
+          "shortBio": "Stella M. é a CEO da Stella Real Estate, uma empresa baseada em São Paulo que está construindo o sistema operacional para o mercado imobiliário moderno. Ela lidera marca, produto e go-to-market, unindo design com tecnologia prática—desde sites cinematográficos e um CRM conectado por grafo (Constellation) até o Balé, uma suíte de tarefas, e tours 3D de propriedades capturados por smartphone. Com foco na produtividade dos corretores e confiança dos compradores, ela está escalando uma plataforma nascida no Brasil e construída para alcance global.",
+          "fullBio": "Stella M. é a Diretora Executiva da Stella Real Estate, onde ela está moldando uma plataforma nascida no Brasil, com mentalidade global para a próxima década da indústria. Seu mandato: ajudar corretores, imobiliárias e incorporadoras a operarem como empresas de primeira linha—sem os custos de primeira linha. Sob a liderança de Stella, a empresa está montando uma stack coesa: Constellation, um CRM conectado por grafo; Balé, uma suíte coreografada de trabalho e tarefas; um construtor de sites para páginas de propriedades cinematográficas e de alta conversão; e tecnologia vídeo-para-3D que transforma simples tours de smartphone em visitas exploráveis. Enraizada em São Paulo e integrada aos fluxos CRECI, Stella defende clareza, velocidade e confiança como as verdadeiras alavancas de crescimento no mercado imobiliário. Ela combina sensibilidade de marca com pensamento sistêmico, impulsionando produtos que parecem elegantes mas são de nível industrial. Além de lançar funcionalidades, ela está comprometida com educação—apoiando preparação para licenciamento e treinamento prático para que profissionais evoluam com as ferramentas. A estrela-guia de Stella é direta: elevar a experiência imobiliária para compradores e vendedores enquanto dá superpoderes aos profissionais—para que cada equipe possa trabalhar como líder de categoria.",
+          "description": "Stella M. é a CEO da Stella Real Estate, uma empresa baseada em São Paulo que está construindo o sistema operacional para o mercado imobiliário moderno."
+        },
+        "cto": {
+          "name": "Z. Rosser McIntosh",
+          "title": "Diretor de Tecnologia",
+          "shortBio": "Rosser M. é o CTO da Stella Real Estate e o arquiteto por trás de sua plataforma completa. Eles supervisionam engenharia de produto, dados e IA—potencializando Constellation (CRM conectado por grafo), Balé (grafo de trabalho/tarefas), o construtor de sites e mapeamento 3D de propriedades por smartphone. Focado em confiabilidade, velocidade e resultados mensuráveis, Rosser M. constrói equipes e sistemas que fazem fluxos de trabalho complexos parecerem sem esforço para corretores, imobiliárias e incorporadoras.",
+          "fullBio": "Como Diretor de Tecnologia, Rosser M. lidera engenharia, dados e segurança na Stella Real Estate, transformando ideias de produto ambiciosas em sistemas rápidos e confiáveis em escala. Sua equipe é responsável pela espinha dorsal da plataforma: Constellation, um CRM conectado por grafo que mapeia pessoas, propriedades e negócios; Balé, um grafo de trabalho coreografado para tarefas e automações; um construtor de sites moderno para listagens cinematográficas; e um pipeline de visão computacional que converte vídeo simples de smartphone em tours de propriedades exploráveis em 3D. Operando de São Paulo com um roteiro global, Rosser M. prioriza arquitetura limpa, orçamentos implacáveis de latência e fluxos de dados prontos para auditoria que funcionam bem com CRECI e conformidade de imobiliárias. Eles defendem ergonomia de desenvolvedor e uma camada de analytics de alto sinal para que decisões de produto se conectem a resultados que os corretores sentem: lançamento mais rápido de listagens, qualidade superior de leads, acompanhamento mais rigoroso. Rosser M. acredita que a melhor tecnologia imobiliária desaparece no trabalho—coordenando silenciosamente pessoas, conteúdo e timing para que profissionais possam focar em relacionamentos e negociação. Seu objetivo: uma plataforma que parece simples na superfície e componível por baixo, construída para servir tanto corretores solo quanto megaimobiliárias.",
+          "description": "Rosser M. é o CTO da Stella Real Estate e o arquiteto por trás de sua plataforma completa."
+        }
+      },
+      "story": {
+        "title": "Nossa História",
+        "content": "A Stella Imóveis foi fundada com a missão de revolucionar o mercado imobiliário brasileiro através de tecnologia inovadora e serviço excepcional."
+      }
+    },
     "contact": { "title": "Contato" },
     "listings": { "title": "Listagens" },
     "projects": { "title": "Novos Projetos" },
@@ -47,6 +99,10 @@
     "legal": { "title": "Jurídico" },
     "listYourProperty": { "title": "Anuncie seu Imóvel" },
     "institutional": { "title": "Institucional" },
+    "investors": { 
+      "title": "Investidores",
+      "subtitle": "Informações para investidores e parceiros estratégicos"
+    },
     "stellaPlatform": { "title": "Plataforma Constellation" },
     "notFound": { "title": "Página não encontrada", "backHome": "Voltar para Home" }
   },
@@ -321,7 +377,7 @@
         }
       },
       "whyStella": {
-        "title": "Por que Stella Platform?",
+        "title": "Por que Constellation?",
         "aggregated": {
           "title": "Todos os Imóveis Agregados",
           "description": "Ao contrário de plataformas fragmentadas, todos os imóveis dos corretores em um único marketplace buscável"
@@ -349,7 +405,7 @@
       },
       "cta": {
         "title": "Pronto para Transformar o Mercado Imobiliário?",
-        "subtitle": "Seja um dos primeiros agentes, desenvolvedoras, arquitetos e compradores a experimentar o ecossistema da Stella Platform.",
+        "subtitle": "Seja um dos primeiros agentes, desenvolvedoras, arquitetos e compradores a experimentar o ecossistema da Constellation.",
         "joinWaitlist": "Junte-se à Lista de Espera",
         "scheduleDemo": "Agende uma Demonstração",
         "footer": "💫 Lançamento Q1 2026 | Para agentes, desenvolvedoras, arquitetos, proprietários e compradores em todo o mundo"
@@ -369,5 +425,8 @@
   "reset": "Redefinir",
   "exploreDemo": "Explorar em modo demo",
   "demoHint": "Você pode usar seu email ou digitar DEMO com a senha stella para explorar."
+  },
+  "ballet": {
+    "loading": "Carregando Ballet..."
   }
 }

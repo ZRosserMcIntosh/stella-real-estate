@@ -8,12 +8,10 @@ export default function Layout() {
   const isHome = location.pathname === '/'
   const isProjectDetail = location.pathname.startsWith('/projects/')
   return (
-    <div className={`relative min-h-screen flex flex-col${(isHome || isProjectDetail) ? '' : ' bg-white'}`}>
+    <div className="relative min-h-screen flex flex-col">
       {/* Fixed header, overlays content; increase z-index above page panels */}
       <div className="fixed top-0 left-0 right-0 z-50">
-        <div className="backdrop-blur-sm bg-white/5 dark:bg-black/20">
-          <Header />
-        </div>
+        <Header />
       </div>
   {/* Offset main to account for fixed header height */}
   <main className="flex-1 pt-20">

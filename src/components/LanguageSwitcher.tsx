@@ -1,5 +1,5 @@
 import React from 'react'
-import i18n from '../i18n'
+import i18n, { setCookie } from '../i18n'
 
 type LangCode = 'pt' | 'es' | 'en'
 
@@ -25,7 +25,7 @@ export default function LanguageSwitcher() {
   const change = (newLang: LangCode) => {
     if (newLang === lang) return setOpen(false)
     i18n.changeLanguage(newLang)
-    localStorage.setItem('lang', newLang)
+    // Cookie and localStorage are now automatically synced by i18n listener
     setLang(newLang)
     setClosing(true)
     setTimeout(() => {

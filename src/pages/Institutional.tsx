@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { trackEvent } from '../lib/telemetry'
 
 const differentiators = [
   {
@@ -81,6 +82,9 @@ const services = [
 
 export default function Institutional() {
   const { t } = useTranslation()
+  const handleHeroCta = React.useCallback(() => {
+    trackEvent('signup_cta_click', { position: 'institucional' })
+  }, [])
   return (
     <div className="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100">
       <section className="bg-gradient-to-br from-brand-600 via-brand-500 to-brand-700 text-white">
@@ -95,8 +99,15 @@ export default function Institutional() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Link
-              to="/contact"
+              to="/criar-site"
+              onClick={handleHeroCta}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-brand-700 px-6 py-3 text-sm font-semibold shadow-lg shadow-brand-800/20 hover:bg-slate-100 transition"
+            >
+              Criar meu site
+            </Link>
+            <Link
+              to="/contato"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 px-6 py-3 text-sm font-semibold hover:bg-white/10 transition"
             >
               Schedule a discovery call
             </Link>
@@ -175,7 +186,7 @@ export default function Institutional() {
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <Link
-                to="/contact"
+                to="/contato"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-brand-700 px-6 py-3 text-sm font-semibold hover:bg-slate-100 transition"
               >
                 Talk to our team
@@ -193,4 +204,3 @@ export default function Institutional() {
     </div>
   )
 }
-

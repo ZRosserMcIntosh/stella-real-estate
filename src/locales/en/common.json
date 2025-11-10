@@ -31,15 +31,65 @@
       "send": "Send"
     },
     "footer": {
-      "privacy": "Privacy",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfUse": "Terms of Use",
+      "cookiePolicy": "Cookie Policy",
+      "masterSubscriptionAgreement": "Master Subscription Agreement",
+      "serviceLevelAgreement": "Service Level Agreement",
+      "dataProcessingAddendum": "Data Processing Addendum",
+      "acceptableUsePolicy": "Acceptable Use Policy",
+      "supportPolicy": "Support Policy",
+      "betaTerms": "Beta / Preview Terms",
+      "apiTerms": "API Terms",
+      "referralTerms": "Referral / Affiliate Terms",
       "listProperty": "List Your Property",
       "legal": "Legal Department",
       "admin": "Admin",
-      "institutional": "Institutional"
+      "institutional": "Institutional",
+      "investors": "Investors",
+      "legalTitle": "Legal",
+      "companyTitle": "Company",
+      "servicesTitle": "Services",
+      "adminTitle": "Admin",
+      "aboutUs": "About Us",
+      "constellationPlatform": "Constellation Platform",
+      "creciCourse": "CRECI Course",
+      "consumers": "Consumers",
+      "independentAgents": "Independent Agents",
+      "brokerageCompanies": "Brokerage Companies",
+      "propertyDevelopers": "New Property Developers",
+      "longTermManagers": "Long-Term Property Managers",
+      "shortTermManagers": "Short-Term Rental Managers",
+      "financingPartners": "Financing Partners",
+      "inspectionsAppraisals": "Inspections & Appraisals (+ Cartório)",
+      "copyright": "All rights reserved."
     }
   },
   "pages": {
-    "about": { "title": "About Stella" },
+    "about": {
+      "title": "About Us",
+      "subtitle": "Meet the team building the future of real estate technology in Brazil.",
+      "leadership": {
+        "title": "Our Leadership",
+        "subtitle": "Visionaries combining decades of real estate expertise with cutting-edge technology.",
+        "ceo": {
+          "name": "Stella Mary Barbosa",
+          "title": "Chief Executive Officer",
+          "shortBio": "Stella M. is the CEO of Stella Real Estate, a São Paulo–based company building the operating system for modern real estate. She leads brand, product, and go-to-market, uniting design craft with practical tech— from cinematic websites and a graph-connected CRM (Constellation) to Balé, a task suite, and smartphone-to-3D property tours. With a focus on agent productivity and buyer trust, she's scaling a Brazil-born platform built for global reach.",
+          "fullBio": "Stella M. is the Chief Executive Officer of Stella Real Estate, where she's shaping a Brazil-born, globally minded platform for the industry's next decade. Her mandate: help agents, brokerages, and developers operate like top-tier firms—without top-tier overhead. Under Stella's leadership, the company is assembling a cohesive stack: Constellation, a graph-connected CRM; Balé, a choreographed work and task suite; a site builder for cinematic, high-converting property pages; and video-to-3D technology that turns simple smartphone walkthroughs into explorable tours. Rooted in São Paulo and integrated with CRECI workflows, Stella champions clarity, speed, and trust as the true growth levers in real estate. She pairs brand sensibility with systems thinking, pushing for products that feel elegant yet industrial-grade. Beyond shipping features, she's committed to education—supporting licensing prep and hands-on training so professionals level up with the tools. Stella's north star is straightforward: elevate the real estate experience for buyers and sellers while giving professionals superpowers—so every team can work like a category leader."
+        },
+        "cto": {
+          "name": "Z. Rosser McIntosh",
+          "title": "Chief Technology Officer",
+          "shortBio": "Rosser M. is the CTO of Stella Real Estate and the architect behind its end-to-end platform. They oversee product engineering, data, and AI—powering Constellation (graph-connected CRM), Balé (task/work graph), the site builder, and smartphone-to-3D property mapping. Focused on reliability, speed, and measurable outcomes, Rosser M. builds teams and systems that make complex workflows feel effortless for agents, brokerages, and developers.",
+          "fullBio": "As Chief Technology Officer, Rosser M. leads engineering, data, and security at Stella Real Estate, turning ambitious product ideas into fast, reliable systems at scale. Their team is responsible for the platform's backbone: Constellation, a graph-connected CRM that maps people, properties, and deals; Balé, a choreographed work graph for tasks and automations; a modern site builder for cinematic listings; and a computer-vision pipeline that converts simple smartphone video into explorable 3D property tours. Operating from São Paulo with a global roadmap, Rosser M. prioritizes clean architecture, ruthless latency budgets, and audit-ready data flows that play nicely with CRECI and brokerage compliance. They champion developer ergonomics and a high-signal analytics layer so product decisions tie back to outcomes agents feel: faster listing launch, higher lead quality, tighter follow-through. Rosser M. believes the best real-estate tech disappears into the work—quietly coordinating people, content, and timing so professionals can focus on relationships and negotiation. Their goal: a platform that feels simple on the surface and composable under the hood, built to serve solo agents and megabrokerages alike."
+        }
+      },
+      "story": {
+        "title": "Our Story",
+        "content": "Stella Real Estate was founded with a mission to revolutionize the Brazilian real estate market through innovative technology and exceptional service."
+      }
+    },
     "contact": { "title": "Contact" },
     "listings": { "title": "Listings" },
     "projects": { "title": "New Projects" },
@@ -47,6 +97,10 @@
     "legal": { "title": "Legal" },
     "listYourProperty": { "title": "List Your Property" },
     "institutional": { "title": "Institutional" },
+    "investors": { 
+      "title": "Investors",
+      "subtitle": "Information for investors and strategic partners"
+    },
     "stellaPlatform": { "title": "Constellation Platform" },
     "notFound": { "title": "Page not found", "backHome": "Back to Home" }
   },
@@ -64,7 +118,7 @@
       "constelacao": {
         "subtitle": "The revenue galaxy",
         "title": "Constelação CRM",
-        "description": "Every relationship, every deal, every whisper of intent captured in a single constellation of truth. Pipeline AI, forecasting rituals, and automations so aggressive they make legacy CRMs look like fax machines. Yes — it absolutely takes a fat shit on anything built in 1999.",
+        "description": "Every relationship, every deal, every whisper of intent captured in a single constellation of truth. Pipeline AI, forecasting rituals, and automations so aggressive they make legacy CRMs look like fax machines. Yes — it absolutely surpasses anything built in 1999.",
         "bullets": [
           "Lead-to-close journeys with predictive nudges and auto-generated next steps",
           "Client dossiers blending listings, contracts, communications, and financials",
@@ -321,7 +375,7 @@
         }
       },
       "whyStella": {
-        "title": "Why Stella Platform?",
+        "title": "Why Constellation?",
         "aggregated": {
           "title": "All Listings Aggregated",
           "description": "Unlike fragmented platforms, every realtor's listings in one searchable marketplace"
@@ -349,7 +403,7 @@
       },
       "cta": {
         "title": "Ready to Transform Real Estate?",
-        "subtitle": "Be among the first agents, developers, architects, and shoppers to experience the Stella Platform ecosystem.",
+        "subtitle": "Be among the first agents, developers, architects, and shoppers to experience the Constellation ecosystem.",
         "joinWaitlist": "Join the Waitlist",
         "scheduleDemo": "Schedule a Demo",
         "footer": "💫 Launching Q1 2026 | For agents, developers, architects, owners, and shoppers worldwide"
@@ -369,5 +423,8 @@
   "reset": "Reset it",
   "exploreDemo": "Explore in demo mode",
   "demoHint": "Use your email or enter DEMO with password stella to explore."
+  },
+  "ballet": {
+    "loading": "Loading Ballet..."
   }
 }

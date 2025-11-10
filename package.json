@@ -7,6 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "i18n:audit": "tsx scripts/i18n-audit.ts",
     "prisma:generate": "prisma generate",
     "prisma:pull": "prisma db pull",
@@ -22,6 +26,7 @@
     "@prisma/client": "^6.17.1",
     "@supabase/supabase-js": "^2.57.2",
     "i18next": "^23.15.2",
+    "lucide-react": "^0.552.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-i18next": "^14.1.2",
@@ -30,16 +35,22 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^7.4.3",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^5.0.2",
+    "@vitest/ui": "^4.0.7",
     "autoprefixer": "^10.4.20",
+    "happy-dom": "^20.0.10",
     "postcss": "^8.4.41",
     "prisma": "^5.22.0",
     "tailwindcss": "^3.4.10",
     "tsx": "^4.19.2",
     "typescript": "^5.5.4",
-    "vite": "^5.4.3"
+    "vite": "^5.4.3",
+    "vitest": "^4.0.7"
   },
   "volta": {
     "node": "20.19.5"

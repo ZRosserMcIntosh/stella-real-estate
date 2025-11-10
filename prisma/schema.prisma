@@ -3,11 +3,13 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["public", "auth"]
   // Ensure your DATABASE_URL includes `?schema=public`.
 }
 
@@ -104,5 +106,216 @@ model SocialAnalytic {
   @@index([postId])
   @@index([platform])
   @@map("social_analytics")
+  @@schema("public")
+}
+
+// Ballet Project Management Models
+
+model BalletWorkspace {
+  id          String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  name        String
+  description String?
+  color       String   @default("#6366f1")
+  icon        String   @default("🏢")
+  ownerId     String   @db.Uuid @map("owner_id")
+  memberIds   String[] @default([]) @map("member_ids") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("ballet_workspaces")
+  @@schema("public")
+}
+
+model BalletProject {
+  id            String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  name          String
+  description   String?
+  workspaceId   String   @db.Uuid @map("workspace_id")
+  ownerId       String   @db.Uuid @map("owner_id")
+  teamIds       String[] @default([]) @map("team_ids") @db.Uuid
+  status        String   @default("active") // 'planning', 'active', 'on-hold', 'completed', 'archived'
+  color         String   @default("#3b82f6")
+  icon          String   @default("📋")
+  privacy       String   @default("public") // 'public', 'private', 'comment-only'
+  dueDate       DateTime? @map("due_date")
+  startDate     DateTime? @map("start_date")
+  customFields  Json     @default("[]") @map("custom_fields")
+  tags          String[] @default([])
+  defaultView   String   @default("board") @map("default_view") // 'list', 'board', 'timeline', 'calendar', 'workload', 'features'
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([workspaceId])
+  @@index([ownerId])
+  @@map("ballet_projects")
+  @@schema("public")
+}
+
+model BalletSection {
+  id        String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  name      String
+  projectId String   @db.Uuid @map("project_id")
+  position  Int      @default(0)
+  collapsed Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([projectId])
+  @@map("ballet_sections")
+  @@schema("public")
+}
+
+model BalletTask {
+  id              String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  title           String
+  description     String?
+  projectId       String   @db.Uuid @map("project_id")
+  sectionId       String?  @db.Uuid @map("section_id")
+  assigneeId      String?  @db.Uuid @map("assignee_id")
+  creatorId       String   @db.Uuid @map("creator_id")
+  status          String   @default("todo") // 'todo', 'in-progress', 'review', 'completed'
+  priority        String   @default("medium") // 'low', 'medium', 'high', 'urgent'
+  dueDate         DateTime? @map("due_date")
+  startDate       DateTime? @map("start_date")
+  completedAt     DateTime? @map("completed_at")
+  estimatedHours  Float?   @map("estimated_hours")
+  actualHours     Float?   @map("actual_hours")
+  tags            String[] @default([])
+  dependsOn       String[] @default([]) @map("depends_on") @db.Uuid
+  blockedBy       String[] @default([]) @map("blocked_by") @db.Uuid
+  subtaskIds      String[] @default([]) @map("subtask_ids") @db.Uuid
+  collaboratorIds String[] @default([]) @map("collaborator_ids") @db.Uuid
+  followerIds     String[] @default([]) @map("follower_ids") @db.Uuid
+  customFields    Json     @default("[]") @map("custom_fields")
+  isMilestone     Boolean  @default(false) @map("is_milestone")
+  position        Int      @default(0)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([projectId])
+  @@index([sectionId])
+  @@index([assigneeId])
+  @@index([creatorId])
+  @@index([status])
+  @@map("ballet_tasks")
+  @@schema("public")
+}
+
+model BalletComment {
+  id          String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  taskId      String   @db.Uuid @map("task_id")
+  text        String
+  authorId    String   @db.Uuid @map("author_id")
+  mentions    String[] @default([]) @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([taskId])
+  @@index([authorId])
+  @@map("ballet_comments")
+  @@schema("public")
+}
+
+model BalletAttachment {
+  id         String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  taskId     String?  @db.Uuid @map("task_id")
+  commentId  String?  @db.Uuid @map("comment_id")
+  name       String
+  url        String
+  type       String
+  size       Int
+  uploadedBy String   @db.Uuid @map("uploaded_by")
+  uploadedAt DateTime @default(now()) @map("uploaded_at")
+
+  @@index([taskId])
+  @@index([commentId])
+  @@map("ballet_attachments")
+  @@schema("public")
+}
+
+model BalletGoal {
+  id                String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  title             String
+  description       String?
+  workspaceId       String   @db.Uuid @map("workspace_id")
+  ownerId           String   @db.Uuid @map("owner_id")
+  status            String   @default("on-track") // 'on-track', 'at-risk', 'off-track', 'achieved'
+  progress          Int      @default(0) // 0-100
+  dueDate           DateTime? @map("due_date")
+  startDate         DateTime? @map("start_date")
+  parentGoalId      String?  @db.Uuid @map("parent_goal_id")
+  linkedProjectIds  String[] @default([]) @map("linked_project_ids") @db.Uuid
+  linkedTaskIds     String[] @default([]) @map("linked_task_ids") @db.Uuid
+  keyResults        Json     @default("[]") @map("key_results")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([workspaceId])
+  @@index([ownerId])
+  @@map("ballet_goals")
+  @@schema("public")
+}
+
+model BalletPortfolio {
+  id          String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  name        String
+  description String?
+  workspaceId String   @db.Uuid @map("workspace_id")
+  ownerId     String   @db.Uuid @map("owner_id")
+  projectIds  String[] @default([]) @map("project_ids") @db.Uuid
+  color       String   @default("#6366f1")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([workspaceId])
+  @@map("ballet_portfolios")
+  @@schema("public")
+}
+
+model BalletAutomationRule {
+  id        String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  name      String
+  projectId String   @db.Uuid @map("project_id")
+  enabled   Boolean  @default(true)
+  trigger   Json     // { type, conditions }
+  actions   Json     @default("[]") // [{ type, params }]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([projectId])
+  @@map("ballet_automation_rules")
+  @@schema("public")
+}
+
+model BalletNotification {
+  id        String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  userId    String   @db.Uuid @map("user_id")
+  type      String   // 'mention', 'assignment', 'comment', 'due-soon', 'completed', 'status-change'
+  title     String
+  message   String
+  linkTo    String?  @map("link_to")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([read])
+  @@map("ballet_notifications")
+  @@schema("public")
+}
+
+model BalletActivityEvent {
+  id          String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  type        String
+  userId      String   @db.Uuid @map("user_id")
+  projectId   String?  @db.Uuid @map("project_id")
+  taskId      String?  @db.Uuid @map("task_id")
+  description String
+  metadata    Json     @default("{}")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([taskId])
+  @@map("ballet_activity_events")
   @@schema("public")
 }

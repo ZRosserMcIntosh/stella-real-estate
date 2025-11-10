@@ -366,8 +366,11 @@
     "signingIn": "Iniciando...",
     "creating": "Creando...",
     "forgotPrompt": "¿Olvidaste tu contraseña?",
-  "reset": "Restablécela",
-  "exploreDemo": "Explorar en modo demo",
-  "demoHint": "Puedes usar tu email o escribir DEMO con la contraseña stella para explorar."
+    "reset": "Restablécela",
+    "exploreDemo": "Explorar en modo demo",
+    "demoHint": "Puedes usar tu email o escribir DEMO con la contraseña stella para explorar."
+  },
+  "ballet": {
+    "loading": "Cargando Ballet..."
   }
 }

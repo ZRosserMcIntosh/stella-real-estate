@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AnimatedBackground } from '../../../../components/AnimatedBackground';
 
 interface Feature {
   id: string;
@@ -521,38 +522,40 @@ export const FeaturesChecklist: React.FC = () => {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'text-red-600 dark:text-red-400';
-      case 'medium': return 'text-yellow-600 dark:text-yellow-400';
-      case 'low': return 'text-green-600 dark:text-green-400';
-      default: return 'text-gray-600 dark:text-gray-400';
+      case 'high': return 'text-red-300 bg-red-500/20 border-red-500/30';
+      case 'medium': return 'text-yellow-300 bg-yellow-500/20 border-yellow-500/30';
+      case 'low': return 'text-green-300 bg-green-500/20 border-green-500/30';
+      default: return 'text-slate-300 bg-slate-600/20 border-slate-500/30';
     }
   };
 
   return (
-    <div className="h-full bg-white dark:bg-gray-900">
+    <div className="h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative">
+      <AnimatedBackground variant="ballet" interactive={true} />
       {/* Header */}
-      <div className="border-b border-gray-200 dark:border-gray-700 p-6">
+      <div className="border-b border-slate-700/50 p-6 bg-slate-800/40 backdrop-blur-sm relative z-10">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-2xl font-bold text-slate-100 mb-2 flex items-center gap-3">
+            <img src="/ballet-logo.png" alt="Ballet Logo" className="w-8 h-8" />
             Ballet Features Checklist
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className="text-slate-400 mb-4">
             Track the implementation of Asana-like features in Ballet project management tool
           </p>
           
           {/* Progress Bar */}
-          <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <div className="bg-slate-800/60 backdrop-blur-sm rounded-xl p-4 border border-slate-700/50 shadow-lg shadow-pink-500/5">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium text-slate-300">
                 Overall Progress
               </span>
-              <span className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
+              <span className="text-sm font-bold bg-gradient-to-r from-pink-500 to-pink-600 text-transparent bg-clip-text">
                 {stats.implemented} / {stats.total} ({stats.percentage}%)
               </span>
             </div>
-            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+            <div className="w-full bg-slate-700/40 rounded-full h-3 border border-slate-600/30">
               <div
-                className="bg-gradient-to-r from-indigo-500 to-purple-500 h-3 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-pink-600 via-pink-500 to-pink-600 h-full rounded-full transition-all duration-300 shadow-lg shadow-pink-500/50"
                 style={{ width: `${stats.percentage}%` }}
               />
             </div>
@@ -561,7 +564,7 @@ export const FeaturesChecklist: React.FC = () => {
       </div>
 
       {/* Features List */}
-      <div className="overflow-y-auto" style={{ height: 'calc(100vh - 250px)' }}>
+      <div className="overflow-y-auto relative z-10" style={{ height: 'calc(100vh - 250px)' }}>
         <div className="max-w-6xl mx-auto p-6 space-y-4">
           {categories.map(category => {
             const categoryStats = {
@@ -573,39 +576,39 @@ export const FeaturesChecklist: React.FC = () => {
             return (
               <div
                 key={category.id}
-                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden"
+                className="bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 rounded-xl shadow-xl shadow-pink-500/5 overflow-hidden"
               >
                 {/* Category Header */}
                 <button
                   onClick={() => toggleCategory(category.id)}
-                  className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  className="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-700/40 transition-all group"
                 >
                   <div className="flex items-center gap-3">
                     {category.expanded ? (
-                      <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-5 h-5 text-slate-400 group-hover:text-pink-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     ) : (
-                      <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-5 h-5 text-slate-400 group-hover:text-pink-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     )}
                     <div className="text-left">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      <h3 className="text-lg font-semibold text-slate-100 group-hover:text-pink-200 transition-colors">
                         {category.name}
                       </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-slate-400">
                         {category.description}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                    <span className="text-sm font-medium text-slate-300">
                       {categoryStats.implemented}/{categoryStats.total}
                     </span>
-                    <div className="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div className="w-24 bg-slate-700/40 rounded-full h-2 border border-slate-600/30">
                       <div
-                        className="bg-indigo-500 h-2 rounded-full transition-all duration-300"
+                        className="bg-gradient-to-r from-pink-600 to-pink-500 h-full rounded-full transition-all duration-300 shadow-md shadow-pink-500/30"
                         style={{ width: `${categoryPercentage}%` }}
                       />
                     </div>
@@ -614,23 +617,23 @@ export const FeaturesChecklist: React.FC = () => {
 
                 {/* Features List */}
                 {category.expanded && (
-                  <div className="border-t border-gray-200 dark:border-gray-700">
+                  <div className="border-t border-slate-700/50">
                     {category.features.map(feature => (
                       <div
                         key={feature.id}
-                        className="px-6 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 border-b border-gray-100 dark:border-gray-700/50 last:border-b-0"
+                        className="px-6 py-3 hover:bg-slate-700/30 border-b border-slate-700/30 last:border-b-0 transition-colors group"
                       >
                         <div className="flex items-start gap-3">
                           <button
                             onClick={() => toggleFeature(category.id, feature.id)}
-                            className="mt-0.5 flex-shrink-0 focus:outline-none hover:opacity-70 transition-opacity"
+                            className="mt-0.5 flex-shrink-0 focus:outline-none hover:scale-110 transition-transform"
                           >
                             {feature.implemented ? (
-                              <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                              <svg className="w-5 h-5 text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.5)]" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                               </svg>
                             ) : (
-                              <svg className="w-5 h-5 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <svg className="w-5 h-5 text-slate-600 group-hover:text-slate-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <circle cx="12" cy="12" r="10" strokeWidth={2} />
                               </svg>
                             )}
@@ -639,16 +642,16 @@ export const FeaturesChecklist: React.FC = () => {
                             <div className="flex items-center gap-2 mb-1">
                               <h4 className={`font-medium ${
                                 feature.implemented
-                                  ? 'text-gray-500 dark:text-gray-400 line-through'
-                                  : 'text-gray-900 dark:text-white'
-                              }`}>
+                                  ? 'text-slate-500 line-through'
+                                  : 'text-slate-200 group-hover:text-pink-200'
+                              } transition-colors`}>
                                 {feature.name}
                               </h4>
-                              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getPriorityColor(feature.priority)}`}>
+                              <span className={`text-xs px-2 py-0.5 rounded-full font-medium border ${getPriorityColor(feature.priority)}`}>
                                 {feature.priority}
                               </span>
                             </div>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                            <p className="text-sm text-slate-400">
                               {feature.description}
                             </p>
                           </div>

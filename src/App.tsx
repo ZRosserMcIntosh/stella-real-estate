@@ -25,6 +25,7 @@ export default function App() {
   const [featuredProjects, setFeaturedProjects] = useState<any[]>([])
   const [projectsError, setProjectsError] = useState<string | null>(null)
   const { formatPrice } = useCurrency()
+  const [hoveredProjectId, setHoveredProjectId] = useState<string | null>(null)
 
   // video aspect & computed min size so iframe behaves like background-size: cover
   const videoAspect = 16 / 9
@@ -474,7 +475,7 @@ export default function App() {
                     return (
                       <Link
                         key={p.id}
-                        to={`/projects/${slug}`}
+                        to={`/projetos/${slug}`}
                         className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                         aria-label={p.title}
                       >
@@ -504,6 +505,9 @@ export default function App() {
             <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {projects.map((p) => {
                 const thumb = (p.media || []).find((m: any) => m.kind === 'thumbnail')?.url || (p.media || [])[0]?.url
+                const secondPhoto = (p.media || []).filter((m: any) => m.kind !== 'video_bg' && m.kind !== 'thumbnail')[0]?.url || (p.media || [])[1]?.url
+                const isHovered = hoveredProjectId === p.id
+                const displayImage = isHovered && secondPhoto ? secondPhoto : thumb
                 const expected = p.features?.expected_delivery_month || p.features?.expected_delivery_year
                 const f = (p as any).features || {}
                 const perUnit: number | null =
@@ -511,12 +515,23 @@ export default function App() {
                     ? f.unit_price
                     : (typeof (p as any).price === 'number' && Number.isFinite((p as any).price) ? (p as any).price : null)
                 return (
-                  <div key={p.id} className="rounded-2xl border border-slate-200 dark:border-slate-800 p-4 bg-white/80 dark:bg-slate-900/60 shadow-soft">
-                    {thumb ? (
-                      <img src={thumb} alt={p.title} className="w-full h-40 object-cover rounded-xl" />
-                    ) : (
-                      <div className="w-full h-40 bg-slate-100 rounded-xl grid place-items-center text-slate-400 text-sm">No image</div>
-                    )}
+                  <div 
+                    key={p.id} 
+                    className="rounded-2xl border border-slate-200 dark:border-slate-800 p-4 bg-white/80 dark:bg-slate-900/60 shadow-soft"
+                    onMouseEnter={() => setHoveredProjectId(p.id)}
+                    onMouseLeave={() => setHoveredProjectId(null)}
+                  >
+                    <div className="relative overflow-hidden rounded-xl">
+                      {displayImage ? (
+                        <img 
+                          src={displayImage} 
+                          alt={p.title} 
+                          className="w-full h-40 object-cover transition-opacity duration-300" 
+                        />
+                      ) : (
+                        <div className="w-full h-40 bg-slate-100 rounded-xl grid place-items-center text-slate-400 text-sm">No image</div>
+                      )}
+                    </div>
                     <h3 className="mt-3 text-lg font-semibold line-clamp-1">{p.title}</h3>
                     <p className="text-sm text-slate-600">{[p.city, p.state_code].filter(Boolean).join(', ')}</p>
                     {expected && (

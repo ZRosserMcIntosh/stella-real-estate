@@ -57,6 +57,7 @@ export interface Task {
   collaboratorIds: string[]
   followerIds: string[]
   customFields: CustomField[]
+  isMilestone?: boolean
   attachments: Attachment[]
   comments: Comment[]
   position: number
@@ -154,6 +155,8 @@ export interface Portfolio {
   createdAt: string
   updatedAt: string
 }
+
+export type ProjectFolder = Portfolio
 
 export interface AutomationRule {
   id: string

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from './LanguageSwitcher'
 import CurrencySwitcher from './CurrencySwitcher'
 import { supabase } from '../lib/supabaseClient'
+import { trackEvent } from '../lib/telemetry'
 
 type ProjectLite = {
   id: string
@@ -17,6 +18,8 @@ export default function Header() {
   const { t } = useTranslation()
   const location = useLocation()
   const isHome = location.pathname === '/'
+  // Pages that need solid header background
+  const needsSolidHeader = ['/investidores', '/investors'].includes(location.pathname)
   const [hoverOpen, setHoverOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [projects, setProjects] = useState<ProjectLite[]>([])
@@ -32,6 +35,9 @@ export default function Header() {
   const institutionalButtonRef = React.useRef<HTMLButtonElement>(null)
   const [buttonCenter, setButtonCenter] = React.useState<number>(0)
   const closeTimerRef = React.useRef<NodeJS.Timeout | null>(null)
+  const handleSignupClick = React.useCallback(() => {
+    trackEvent('signup_cta_click', { position: 'header' })
+  }, [])
 
   useEffect(() => {
     const updateHeaderHeight = () => {
@@ -60,7 +66,6 @@ export default function Header() {
   useEffect(() => {
     let cancelled = false
     const load = async () => {
-      if (!isHome) return
       if (!(import.meta as any).env?.VITE_SUPABASE_URL) return
       setLoading(true)
       try {
@@ -93,7 +98,7 @@ export default function Header() {
   }, [location.pathname])
 
   return (
-  <header ref={headerRef} className="z-50 backdrop-blur bg-white/70 dark:bg-slate-900/50">
+  <header ref={headerRef} className={`z-50 ${needsSolidHeader ? 'bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800' : 'backdrop-blur-md bg-white/60 dark:bg-slate-900/60 border-b border-white/10 dark:border-slate-800/50'}`}>
       <div className="container-padded flex items-center justify-between py-3">
         <Link to="/" className="flex items-center gap-3">
           {!logoFailed ? (
@@ -288,7 +293,7 @@ export default function Header() {
             <button 
               ref={buttonRef}
               className="nav-button"
-              onClick={() => window.location.href = '/projects'}
+              onClick={() => window.location.href = '/projetos'}
             >
               {t('header.nav.projects').toUpperCase?.() || 'NEW PROJECTS'}
             </button>
@@ -334,7 +339,7 @@ export default function Header() {
                     return (
                       <button
                         key={p.id}
-                        onClick={() => window.open(`/projects/${slug}`, '_blank')}
+                        onClick={() => window.open(`/projetos/${slug}`, '_blank')}
                         onMouseEnter={() => setHoveredProjectId(p.id)}
                         onMouseLeave={() => setHoveredProjectId(null)}
                         style={shouldWave ? { animation: `waveBlur 0.6s ease-in-out ${animationDelay} forwards` } : {}}
@@ -359,7 +364,7 @@ export default function Header() {
                 </div>
                 <div className="mt-2 border-t border-slate-200/40 dark:border-slate-800/40 pt-2 px-2 text-center">
                   <button
-                    onClick={() => window.open('/projects', '_blank')}
+                    onClick={() => window.open('/projetos', '_blank')}
                     className="text-xs text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors font-medium"
                   >
                     View all
@@ -370,99 +375,35 @@ export default function Header() {
           </div>
           <button
             className="nav-button"
-            onClick={() => window.location.href = '/listings?type=buy'}
+            onClick={() => window.location.href = '/imoveis?type=buy'}
           >
             {t('header.nav.buy').toUpperCase?.() || 'BUY'}
           </button>
           <button
             className="nav-button"
-            onClick={() => window.location.href = '/listings?type=rent'}
+            onClick={() => window.location.href = '/imoveis?type=rent'}
           >
             {t('header.nav.rent').toUpperCase?.() || 'RENT'}
           </button>
           <button
             className="nav-button"
-            onClick={() => window.location.href = '/about'}
+            onClick={() => window.location.href = '/sobre'}
           >
             {t('header.nav.about').toUpperCase?.() || 'ABOUT'}
           </button>
           <button
             className="nav-button"
-            onClick={() => window.location.href = '/contact'}
+            onClick={() => window.location.href = '/plataforma-stella'}
           >
-            {t('header.nav.contact').toUpperCase?.() || 'CONTACT'}
+            CONSTELLATION PLATFORM
           </button>
-          <div
-            className="relative"
-            onMouseEnter={() => {
-              if (closeTimerRef.current) {
-                clearTimeout(closeTimerRef.current)
-                closeTimerRef.current = null
-              }
-              if (institutionalButtonRef.current) {
-                const rect = institutionalButtonRef.current.getBoundingClientRect()
-                setInstitutionalButtonCenter(rect.left + rect.width / 2)
-              }
-              setInstitutionalOpen(true)
-            }}
-            onMouseLeave={() => {
-              closeTimerRef.current = setTimeout(() => {
-                setInstitutionalClosing(true)
-                setTimeout(() => {
-                  setInstitutionalOpen(false)
-                  setInstitutionalClosing(false)
-                }, 350)
-              }, 500)
-            }}
-          >
-            <button 
-              ref={institutionalButtonRef}
-              className="nav-button"
-            >
-              {t('header.nav.institutional').toUpperCase?.() || 'INSTITUTIONAL'}
-            </button>
-            {institutionalOpen && (
-              <div
-                className={`dropdown-menu fixed z-[60] inline-block backdrop-blur bg-white/70 dark:bg-slate-900/50 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-xl w-fit min-w-[200px] max-w-[90vw] sm:max-w-[320px] overflow-hidden ${institutionalClosing ? 'closing' : ''}`}
-                style={{ top: 'calc(var(--header-height, 60px) + 6px)', left: `${institutionalButtonCenter}px`, transform: 'translateX(-50%)' }}
-                onMouseEnter={() => {
-                  if (closeTimerRef.current) {
-                    clearTimeout(closeTimerRef.current)
-                    closeTimerRef.current = null
-                  }
-                }}
-                onMouseLeave={() => {
-                  closeTimerRef.current = setTimeout(() => {
-                    setInstitutionalClosing(true)
-                    setTimeout(() => {
-                      setInstitutionalOpen(false)
-                      setInstitutionalClosing(false)
-                    }, 350)
-                  }, 500)
-                }}
-              >
-                <button
-                  onClick={() => window.open('/stella-platform', '_blank')}
-                  className={`mirage-button flex items-center rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
-                >
-                  Constellation Platform
-                </button>
-                <button
-                  onClick={() => window.location.href = '/login'}
-                  className={`mirage-button flex items-center rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
-                >
-                  Employee Login
-                </button>
-              </div>
-            )}
-          </div>
         </nav>
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher />
           <CurrencySwitcher />
-          <Link to="/contact" className="cta-button hidden sm:inline-flex">
-            {t('header.cta')}
-          </Link>
+          <span className="hidden sm:inline text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+            CRECI 309568
+          </span>
           {/* Mobile hamburger */}
           <button
             type="button"
@@ -492,28 +433,17 @@ export default function Header() {
           />
           <div className="fixed inset-x-0 top-0 z-50 mt-[60px] max-h-[calc(100vh-60px)] overflow-y-auto rounded-b-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-800 dark:bg-slate-900">
             <div className="grid gap-2 text-base font-medium">
-              <Link to="/projects" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+              <Link to="/projetos" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 {t('header.nav.projects')}
               </Link>
-              <Link to="/listings" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+              <Link to="/imoveis" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 {t('header.nav.listings')}
               </Link>
-              <Link to="/about" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+              <Link to="/sobre" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 {t('header.nav.about')}
               </Link>
-              <Link to="/stella-platform" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+              <Link to="/plataforma-stella" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 Constellation Platform
-              </Link>
-              <Link to="/contact" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-                {t('header.nav.contact')}
-              </Link>
-              <Link to="/login" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-                {t('header.nav.employeeLogin')}
-              </Link>
-            </div>
-            <div className="mt-3 border-t border-slate-200 pt-3 dark:border-slate-800">
-              <Link to="/contact" onClick={() => setMobileOpen(false)} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-700">
-                {t('header.cta')}
               </Link>
             </div>
           </div>

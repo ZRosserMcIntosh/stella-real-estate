@@ -489,8 +489,8 @@ export default function ListingsNewProjects(){
 	const [condoFee, setCondoFee] = useState<string>('')
 	const [iptuFee, setIptuFee] = useState<string>('')
 	const [unitNumber, setUnitNumber] = useState('')
-	const [thumbFile, setThumbFile] = useState<File | null>(null)
 	const [galleryFiles, setGalleryFiles] = useState<FileList | null>(null)
+	const [showExactAddress, setShowExactAddress] = useState(false)
 	// Optional YouTube background video for new projects
 	const [youtubeBg, setYoutubeBg] = useState('')
 	const [saving, setSaving] = useState(false)
@@ -554,6 +554,17 @@ export default function ListingsNewProjects(){
 	const [eCity, setECity] = useState('')
 	const [eState, setEState] = useState('')
 	const [ePostal, setEPostal] = useState('')
+	const [eAddress, setEAddress] = useState('')
+	const [eAddressNumber, setEAddressNumber] = useState('')
+	const [eUnitNumber, setEUnitNumber] = useState('')
+	const [eNeighborhood, setENeighborhood] = useState('')
+	const [eExpectedMonth, setEExpectedMonth] = useState('')
+	const [eExpectedYear, setEExpectedYear] = useState('')
+	const [eCondoFee, setECondoFee] = useState<string>('')
+	const [eIptuFee, setEIptuFee] = useState<string>('')
+	const [eParkingSpaces, setEParkingSpaces] = useState<number | ''>('')
+	const [eUnitFloor, setEUnitFloor] = useState<number | ''>('')
+	const [eLandAreaM2, setELandAreaM2] = useState<number | ''>('')
 	const [ePrice, setEPrice] = useState<string>('')
 	const [eUnitPrice, setEUnitPrice] = useState<string>('')
 	const [eUnitsAvailable, setEUnitsAvailable] = useState<string>('')
@@ -563,8 +574,9 @@ export default function ListingsNewProjects(){
 	const [eBaths, setEBaths] = useState<number | ''>('')
 	const [eStatus, setEStatus] = useState<Listing['status']>('draft')
 	const [eYoutubeBg, setEYoutubeBg] = useState('')
-	const [eThumbFile, setEThumbFile] = useState<File | null>(null)
+	const [eShowExactAddress, setEShowExactAddress] = useState(false)
 	const [eGalleryFiles, setEGalleryFiles] = useState<FileList | null>(null)
+	const [eExistingMedia, setEExistingMedia] = useState<Array<{ kind: string; url: string }>>([])
 
 	const parsedEUnitsAvailableValue = useMemo<number | null>(() => {
 		const digits = (eUnitsAvailable || '').replace(/[^0-9]/g, '')
@@ -698,8 +710,8 @@ export default function ListingsNewProjects(){
 		setLandAreaM2('')
 		setCondoFee('')
 		setIptuFee('')
-		setThumbFile(null)
 		setGalleryFiles(null)
+		setShowExactAddress(false)
 		setFloorplans([])
 		setYoutubeBg('')
 	}
@@ -776,6 +788,8 @@ export default function ListingsNewProjects(){
 			if (derivedTotalValue != null) {
 				features.total_inventory_value = derivedTotalValue
 			}
+			// Store address display preference
+			features.show_exact_address = showExactAddress
 			const floorplansNeedingUpload = floorplans.filter(fp => fp.floorplanFile)
 
 			const insert = {
@@ -835,18 +849,10 @@ export default function ListingsNewProjects(){
 				}
 			}
 			if (!created) throw (lastErr ?? new Error('Failed to create listing'))
-			// Upload images to storage like ForSale page
+			// Upload images to storage - first photo becomes thumbnail
 			const uploads: Array<{ kind: string; url: string }> = []
 			try {
 				const bucket = supabase.storage.from('listings')
-				if (thumbFile) {
-					const ext = thumbFile.name.split('.').pop() || 'jpg'
-					const path = `${created.id}/thumbnail-${Date.now()}.${ext}`
-					const { error: upErr } = await bucket.upload(path, thumbFile, { cacheControl: '3600', upsert: true })
-					if (upErr) throw upErr
-					const { data: pub } = bucket.getPublicUrl(path)
-					if (pub?.publicUrl) uploads.push({ kind: 'thumbnail', url: pub.publicUrl })
-				}
 				if (galleryFiles && galleryFiles.length > 0) {
 					for (let i = 0; i < galleryFiles.length; i++) {
 						const f = galleryFiles.item(i)!
@@ -855,7 +861,8 @@ export default function ListingsNewProjects(){
 						const { error: upErr } = await bucket.upload(path, f, { cacheControl: '3600', upsert: true })
 						if (upErr) throw upErr
 						const { data: pub } = bucket.getPublicUrl(path)
-						if (pub?.publicUrl) uploads.push({ kind: 'image', url: pub.publicUrl })
+						// First photo is thumbnail, rest are regular images
+						if (pub?.publicUrl) uploads.push({ kind: i === 0 ? 'thumbnail' : 'image', url: pub.publicUrl })
 					}
 				}
 			} catch (e: any) {
@@ -925,25 +932,43 @@ export default function ListingsNewProjects(){
 		setECity(l.city || '')
 		setEState(l.state_code || '')
 		setEPostal(l.postal_code || '')
-	setEPrice(l.price != null ? toBRL(l.price) : '')
-	setEArea(l.area_m2 ?? '')
-	setEBeds(l.bedrooms ?? '')
-	setEBaths(l.bathrooms ?? '')
-	setEStatus(l.status)
-	const bgUrl = l.media?.find(m => m.kind === 'video_bg')?.url || ''
-	setEYoutubeBg(bgUrl)
-	const features = l.features ?? {}
-	const plans = parseFloorplansFromFeatures(features)
-	setEFloorplans(plans)
-	const storedUnits =
-		features?.units_available ??
-		features?.unitsAvailable ??
-		(null as number | null)
-	const derivedUnits = storedUnits != null ? storedUnits : (plans.length ? sumFloorplanUnits(plans) : null)
-	setEUnitsAvailable(derivedUnits != null ? String(derivedUnits) : '')
-	const storedUnitPrice = features?.unit_price ?? features?.unitPrice ?? null
-	setEUnitPrice(storedUnitPrice != null ? toBRL(storedUnitPrice) : '')
-}
+		setEAddress(l.address_line1 || '')
+		const features = l.features ?? {}
+		setEAddressNumber(features?.address_number ?? '')
+		setEUnitNumber(features?.unit_number ?? '')
+		setENeighborhood(features?.neighborhood ?? '')
+		setEExpectedMonth(features?.expected_delivery_month ?? '')
+		setEExpectedYear(features?.expected_delivery_year ?? '')
+		setECondoFee(features?.condo_fee != null ? toBRL(features.condo_fee) : '')
+		setEIptuFee(features?.iptu_fee != null ? toBRL(features.iptu_fee) : '')
+		setEParkingSpaces(l.parking_spaces ?? '')
+		setEUnitFloor(features?.unit_floor ?? '')
+		setELandAreaM2(features?.land_area_m2 ?? '')
+		setEPrice(l.price != null ? toBRL(l.price) : '')
+		setEArea(l.area_m2 ?? '')
+		setEBeds(l.bedrooms ?? '')
+		setEBaths(l.bathrooms ?? '')
+		setEStatus(l.status)
+		const bgUrl = l.media?.find(m => m.kind === 'video_bg')?.url || ''
+		setEYoutubeBg(bgUrl)
+		const plans = parseFloorplansFromFeatures(features)
+		setEFloorplans(plans)
+		const storedUnits =
+			features?.units_available ??
+			features?.unitsAvailable ??
+			(null as number | null)
+		const derivedUnits = storedUnits != null ? storedUnits : (plans.length ? sumFloorplanUnits(plans) : null)
+		setEUnitsAvailable(derivedUnits != null ? String(derivedUnits) : '')
+		const storedUnitPrice = features?.unit_price ?? features?.unitPrice ?? null
+		setEUnitPrice(storedUnitPrice != null ? toBRL(storedUnitPrice) : '')
+		
+		// Load address display preference
+		setEShowExactAddress(features?.show_exact_address ?? false)
+		
+		// Populate existing media (excluding video_bg which is handled separately)
+		const existingMedia = (Array.isArray(l.media) ? l.media : []).filter(m => m.kind !== 'video_bg')
+		setEExistingMedia(existingMedia)
+	}
 
 	async function saveEdit() {
 		if (isDemo) {
@@ -957,11 +982,15 @@ export default function ListingsNewProjects(){
 		const current = items.find(i => i.id === editingId)
 		const floorplanPayload = serializeFloorplansForFeatures(eFloorplans)
 		const baseFeatures: Record<string, any> = { ...(current?.features ?? {}) }
+		
+		// Store floorplans
 		if (floorplanPayload.length) {
 			baseFeatures.floorplans = floorplanPayload
 		} else {
 			delete baseFeatures.floorplans
 		}
+		
+		// Store units and pricing
 		const unitsAvailableValue = parsedEUnitsAvailableValue ?? (eFloorplanUnitsTotal || null)
 		if (unitsAvailableValue != null) {
 			baseFeatures.units_available = unitsAvailableValue
@@ -980,10 +1009,48 @@ export default function ListingsNewProjects(){
 		} else {
 			delete baseFeatures.total_inventory_value
 		}
+		
+		// Store address details
+		if (eAddressNumber) baseFeatures.address_number = eAddressNumber
+		else delete baseFeatures.address_number
+		
+		if (eUnitNumber) baseFeatures.unit_number = eUnitNumber
+		else delete baseFeatures.unit_number
+		
+		if (eNeighborhood) baseFeatures.neighborhood = eNeighborhood
+		else delete baseFeatures.neighborhood
+		
+		// Store expected delivery
+		if (eExpectedMonth) baseFeatures.expected_delivery_month = eExpectedMonth
+		else delete baseFeatures.expected_delivery_month
+		
+		if (eExpectedYear) baseFeatures.expected_delivery_year = eExpectedYear
+		else delete baseFeatures.expected_delivery_year
+		
+		// Store fees
+		const condoFeeValue = parseBRL(eCondoFee)
+		if (condoFeeValue != null) baseFeatures.condo_fee = condoFeeValue
+		else delete baseFeatures.condo_fee
+		
+		const iptuFeeValue = parseBRL(eIptuFee)
+		if (iptuFeeValue != null) baseFeatures.iptu_fee = iptuFeeValue
+		else delete baseFeatures.iptu_fee
+		
+		// Store additional property details
+		if (eUnitFloor !== '') baseFeatures.unit_floor = Number(eUnitFloor)
+		else delete baseFeatures.unit_floor
+		
+		if (eLandAreaM2 !== '') baseFeatures.land_area_m2 = Number(eLandAreaM2)
+		else delete baseFeatures.land_area_m2
+		
+		// Store address display preference
+		baseFeatures.show_exact_address = eShowExactAddress
+		
 		const floorplansNeedingUpload = eFloorplans.filter(fp => fp.floorplanFile)
 		const update: any = {
 			title: eTitle,
 			description: eDescription || null,
+			address_line1: eAddress || null,
 			city: eCity || null,
 			state_code: eState || null,
 			postal_code: ePostal || null,
@@ -991,43 +1058,38 @@ export default function ListingsNewProjects(){
 			area_m2: eArea === '' ? null : Number(eArea),
 			bedrooms: eBeds === '' ? null : Number(eBeds),
 			bathrooms: eBaths === '' ? null : Number(eBaths),
+			parking_spaces: eParkingSpaces === '' ? null : Number(eParkingSpaces),
 			status: eStatus,
 			features: baseFeatures,
 		}
 			if (current) {
-				let media = Array.isArray(current.media) ? [...current.media] : []
+				// Start with existing media from our managed state (already reordered/deleted by user)
+				let media = [...eExistingMedia]
+				
+				// Handle YouTube video background
 				const parts = extractYouTubeParts(eYoutubeBg)
-				const idx = media.findIndex(m => m.kind === 'video_bg')
 				if (parts.id) {
 					const url = 'https://www.youtube.com/watch?v=' + parts.id + (parts.start ? '&t=' + parts.start : '')
-					const obj = { kind: 'video_bg', url }
-					if (idx >= 0) media[idx] = obj; else media.push(obj)
-				} else if (idx >= 0) {
-					media.splice(idx, 1)
+					media.push({ kind: 'video_bg', url })
 				}
+				
 				// If new files selected, upload and append
 				const uploads: Array<{ kind: string; url: string }> = []
 				try {
-					if (eThumbFile || (eGalleryFiles && eGalleryFiles.length)) {
+					if (eGalleryFiles && eGalleryFiles.length) {
 						const bucket = supabase.storage.from('listings')
-						if (eThumbFile) {
-							const ext = eThumbFile.name.split('.').pop() || 'jpg'
-							const path = `${editingId}/thumbnail-${Date.now()}.${ext}`
-							const { error: upErr } = await bucket.upload(path, eThumbFile, { cacheControl: '3600', upsert: true })
+						// Check if we already have a thumbnail in existing media
+						const hasThumbnail = media.some(m => m.kind === 'thumbnail')
+						
+						for (let i = 0; i < eGalleryFiles.length; i++) {
+							const f = eGalleryFiles.item(i)!
+							const ext = f.name.split('.').pop() || 'jpg'
+							const path = `${editingId}/gallery/${Date.now()}-${i}.${ext}`
+							const { error: upErr } = await bucket.upload(path, f, { cacheControl: '3600', upsert: true })
 							if (upErr) throw upErr
 							const { data: pub } = bucket.getPublicUrl(path)
-							if (pub?.publicUrl) uploads.push({ kind: 'thumbnail', url: pub.publicUrl })
-						}
-						if (eGalleryFiles && eGalleryFiles.length) {
-							for (let i = 0; i < eGalleryFiles.length; i++) {
-								const f = eGalleryFiles.item(i)!
-								const ext = f.name.split('.').pop() || 'jpg'
-								const path = `${editingId}/gallery/${Date.now()}-${i}.${ext}`
-								const { error: upErr } = await bucket.upload(path, f, { cacheControl: '3600', upsert: true })
-								if (upErr) throw upErr
-								const { data: pub } = bucket.getPublicUrl(path)
-								if (pub?.publicUrl) uploads.push({ kind: 'image', url: pub.publicUrl })
-							}
+							// First new photo becomes thumbnail if no thumbnail exists
+							if (pub?.publicUrl) uploads.push({ kind: !hasThumbnail && i === 0 ? 'thumbnail' : 'image', url: pub.publicUrl })
 						}
 					}
 				} catch (e: any) {
@@ -1084,8 +1146,12 @@ export default function ListingsNewProjects(){
 	setEUnitsAvailable(updatedUnitsAvailableValue != null ? String(updatedUnitsAvailableValue) : '')
 	const updatedUnitPriceValue = updatedFeatures?.unit_price ?? updatedFeatures?.unitPrice ?? null
 	setEUnitPrice(updatedUnitPriceValue != null ? toBRL(updatedUnitPriceValue) : '')
+	
+	// Update existing media state with saved media
+	const savedMedia = (Array.isArray(updated.media) ? updated.media : []).filter(m => m.kind !== 'video_bg')
+	setEExistingMedia(savedMedia)
+	
 	setEditingId(null)
-	setEThumbFile(null)
 	setEGalleryFiles(null)
 		} catch (e: any) {
 			setError(e?.message || 'Failed to update listing')
@@ -1324,6 +1390,24 @@ export default function ListingsNewProjects(){
 							</label>
 						</div>
 
+						{/* Map Address Display Toggle */}
+						<div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+							<label className="flex items-center gap-3 cursor-pointer">
+								<input
+									type="checkbox"
+									checked={showExactAddress}
+									onChange={(e) => setShowExactAddress(e.target.checked)}
+									className="w-4 h-4 text-sky-600 rounded focus:ring-sky-500"
+								/>
+								<div>
+									<span className="font-medium text-sm text-slate-900">Show exact address on map</span>
+									<p className="text-xs text-slate-500 mt-0.5">
+										When unchecked, the map will only show the neighborhood for privacy. When checked, it will show the full street address.
+									</p>
+								</div>
+							</label>
+						</div>
+
 		<div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
 			<label className="grid gap-1 text-sm">
 				<span className="font-medium">Units available</span>
@@ -1414,11 +1498,7 @@ export default function ListingsNewProjects(){
 
 						<div className="grid gap-2">
 							<label className="grid gap-1 text-sm">
-								<span className="font-medium">Thumbnail</span>
-								<input type="file" accept="image/*" onChange={e=>setThumbFile(e.target.files?.[0] ?? null)} className="text-slate-700" />
-							</label>
-							<label className="grid gap-1 text-sm">
-								<span className="font-medium">Gallery</span>
+								<span className="font-medium">Photos (first photo will be the thumbnail)</span>
 								<input type="file" accept="image/*" multiple onChange={e=>setGalleryFiles(e.target.files)} className="text-slate-700" />
 							</label>
 						</div>
@@ -1532,6 +1612,12 @@ export default function ListingsNewProjects(){
 				<div className="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
 					{filtered.map(l => {
 						const thumb = l.media?.find(m => m.kind === 'thumbnail')?.url || l.media?.[0]?.url
+						const features = l.features ?? {}
+						const floorplans = parseFloorplansFromFeatures(features)
+						const unitsAvailable = features?.units_available ?? features?.unitsAvailable ?? (floorplans.length ? sumFloorplanUnits(floorplans) : null)
+						const pricePerUnit = features?.unit_price ?? features?.unitPrice ?? l.price ?? null
+						const totalInventoryValue = features?.total_inventory_value ?? (unitsAvailable && pricePerUnit ? unitsAvailable * pricePerUnit : null)
+						
 						return (
 							<div key={l.id} className="rounded-xl border border-slate-700/60 p-3 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg text-slate-200">
 								{thumb ? (
@@ -1539,24 +1625,53 @@ export default function ListingsNewProjects(){
 								) : (
 									<div className="w-full h-40 bg-slate-100 rounded-md grid place-items-center text-slate-400 text-sm">No image</div>
 								)}
-								<div className="mt-2 flex items-start justify-between gap-3">
-									<div>
-										<h3 className="font-semibold line-clamp-1">{l.title}</h3>
-										<p className="text-sm text-slate-400">{[l.city, l.state_code].filter(Boolean).join(', ')}</p>
-										<p className="text-sm text-slate-700 mt-1">{l.price ? `R$ ${Number(l.price).toLocaleString()}` : '—'}</p>
+								<div className="mt-2">
+									<div className="flex items-start justify-between gap-3">
+										<div className="flex-1">
+											<h3 className="font-semibold line-clamp-1">{l.title}</h3>
+											<p className="text-sm text-slate-400">{[l.city, l.state_code].filter(Boolean).join(', ')}</p>
+										</div>
+										<div className="flex items-center gap-3">
+											<button className="text-sm text-slate-700 hover:underline" onClick={() => startEdit(l)}>Edit</button>
+											<button
+												className="text-sm text-red-600 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+												onClick={async ()=>{
+													if (isDemo) return
+													await supabase.from('listings').delete().eq('id', l.id)
+													setItems(prev => prev.filter(i => i.id !== l.id))
+												}}
+												disabled={isDemo}
+												title={isDemo ? 'Disabled in demo mode' : undefined}
+											>Delete</button>
+										</div>
 									</div>
-									<div className="flex items-center gap-3">
-						<button className="text-sm text-slate-700 hover:underline" onClick={() => startEdit(l)}>Edit</button>
-						<button
-							className="text-sm text-red-600 hover:underline disabled:cursor-not-allowed disabled:opacity-50"
-							onClick={async ()=>{
-								if (isDemo) return
-								await supabase.from('listings').delete().eq('id', l.id)
-								setItems(prev => prev.filter(i => i.id !== l.id))
-							}}
-							disabled={isDemo}
-							title={isDemo ? 'Disabled in demo mode' : undefined}
-						>Delete</button>
+									
+									{/* New Project Metrics */}
+									<div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+										<div className="bg-slate-700/30 rounded px-2 py-1.5">
+											<div className="text-slate-400">Price per Unit</div>
+											<div className="font-semibold text-slate-100 mt-0.5">
+												{pricePerUnit ? `R$ ${Number(pricePerUnit).toLocaleString('pt-BR')}` : '—'}
+											</div>
+										</div>
+										<div className="bg-slate-700/30 rounded px-2 py-1.5">
+											<div className="text-slate-400">Floor Plans</div>
+											<div className="font-semibold text-slate-100 mt-0.5">
+												{floorplans.length || '—'}
+											</div>
+										</div>
+										<div className="bg-slate-700/30 rounded px-2 py-1.5">
+											<div className="text-slate-400">Units Available</div>
+											<div className="font-semibold text-slate-100 mt-0.5">
+												{unitsAvailable ?? '—'}
+											</div>
+										</div>
+										<div className="bg-slate-700/30 rounded px-2 py-1.5">
+											<div className="text-slate-400">Total Inventory</div>
+											<div className="font-semibold text-slate-100 mt-0.5">
+												{totalInventoryValue ? `R$ ${Number(totalInventoryValue).toLocaleString('pt-BR')}` : '—'}
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -1570,105 +1685,327 @@ export default function ListingsNewProjects(){
 		</div>
 
 		{editingId && (
-			<div className="fixed inset-0 bg-black/30 grid place-items-center z-50">
-				<div className="w-full max-w-2xl rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-4 text-slate-200 shadow-lg shadow-slate-950/25">
-					<h3 className="text-lg font-semibold">Edit project</h3>
-					<div className="mt-3 grid gap-3">
+			<div className="fixed inset-0 bg-black/30 grid place-items-center z-50 overflow-y-auto py-8">
+				<div className="w-full max-w-4xl rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg p-6 text-slate-200 shadow-lg shadow-slate-950/25 my-8">
+					<h3 className="text-xl font-semibold">Edit project</h3>
+					<div className="mt-4 grid gap-4 max-h-[80vh] overflow-y-auto pr-2">
+						{/* Basic Info */}
+						<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Title</span>
+								<input className={inputCls} value={eTitle} onChange={e=>setETitle(e.target.value)} required />
+							</label>
+							<div className="grid grid-cols-2 gap-2">
+								<label className="grid gap-1 text-sm">
+									<span className="font-medium">Expected delivery (month)</span>
+									<select className={selectCls} value={eExpectedMonth} onChange={e=>setEExpectedMonth(e.target.value)}>
+										<option value="">—</option>
+										{MONTHS.map(m => <option key={m} value={m}>{m}</option>)}
+									</select>
+								</label>
+								<label className="grid gap-1 text-sm">
+									<span className="font-medium">Expected delivery (year)</span>
+									<input className={inputCls} value={eExpectedYear} onChange={e=>{
+										const raw = (e.target.value || '').replace(/\D/g,'').slice(0,4)
+										setEExpectedYear(raw)
+									}} placeholder="YYYY" inputMode="numeric" maxLength={4} />
+								</label>
+							</div>
+						</div>
+
 						<label className="grid gap-1 text-sm">
-							<span className="font-medium">Title</span>
-							<input className={inputCls} value={eTitle} onChange={e=>setETitle(e.target.value)} />
-						</label>
-						<label className="grid gap-1 text-sm">
-							<span className="font-medium">Description</span>
+							<span className="font-medium">Brief description</span>
 							<textarea className={inputCls} rows={3} value={eDescription} onChange={e=>setEDescription(e.target.value)} />
 						</label>
+
+						<label className="grid gap-1 text-sm">
+							<span className="font-medium">YouTube background video (optional)</span>
+							<input className={inputCls} value={eYoutubeBg} onChange={e=>setEYoutubeBg(e.target.value)} placeholder="Paste a YouTube link or ID" />
+						</label>
+
+						{/* Location */}
 						<div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
 							<label className="grid gap-1 text-sm">
+								<span className="font-medium">CEP</span>
+								<input
+									className={inputCls}
+									value={ePostal}
+									maxLength={9}
+									onChange={async e=>{
+										const raw = e.target.value || ''
+										const digits = raw.replace(/\D/g,'').slice(0,8)
+										const formatted = digits.length > 5 ? `${digits.slice(0,5)}-${digits.slice(5)}` : digits
+										setEPostal(formatted)
+										if (digits.length === 8) {
+											try {
+												const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`)
+												if (res.ok) {
+													const data = await res.json()
+													if (!data.erro) {
+														if (data.logradouro) setEAddress(data.logradouro)
+														if (data.bairro) setENeighborhood(data.bairro)
+														if (data.localidade) setECity(data.localidade)
+														if (data.uf) setEState(data.uf)
+													}
+												}
+											} catch { /* ignore */ }
+										}
+									}}
+									placeholder="00000-000"
+								/>
+							</label>
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Street name</span>
+								<input className={inputCls} value={eAddress} onChange={e=>setEAddress(e.target.value)} placeholder="Street" />
+							</label>
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Street number</span>
+								<input className={inputCls} value={eAddressNumber} onChange={e=>setEAddressNumber(e.target.value)} placeholder="Number" />
+							</label>
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Apt / Unit / Suite (optional)</span>
+								<input className={inputCls} value={eUnitNumber} onChange={e=>setEUnitNumber(e.target.value)} placeholder="e.g., Tower B" />
+							</label>
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Neighborhood (Bairro)</span>
+								<input className={inputCls} value={eNeighborhood} onChange={e=>setENeighborhood(e.target.value)} placeholder="Bairro" />
+							</label>
+							<label className="grid gap-1 text-sm">
 								<span className="font-medium">City</span>
-								<input className={inputCls} value={eCity} onChange={e=>setECity(e.target.value)} />
+								<input className={inputCls} value={eCity} onChange={e=>setECity(e.target.value)} placeholder="City" />
 							</label>
 							<label className="grid gap-1 text-sm">
 								<span className="font-medium">State</span>
-								<input className={inputCls} value={eState} onChange={e=>setEState(e.target.value)} />
-							</label>
-							<label className="grid gap-1 text-sm">
-								<span className="font-medium">CEP</span>
-								<input className={inputCls} value={ePostal} onChange={e=>setEPostal(e.target.value)} />
+								<select className={selectCls} value={eState} onChange={e=>setEState(e.target.value)}>
+									<option value="">Select state</option>
+									{BR_STATES_FULL.map(s => <option key={s.code} value={s.code}>{s.name}</option>)}
+								</select>
 							</label>
 						</div>
-		<div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-			<label className="grid gap-1 text-sm">
-				<span className="font-medium">Units available</span>
-				<input
-					className={inputCls}
-					type="number"
-					min={0}
-					value={eUnitsAvailable}
-					onChange={(e) => setEUnitsAvailable(e.target.value)}
-				/>
-			</label>
-			<label className="grid gap-1 text-sm">
-				<span className="font-medium">Base price per unit (optional)</span>
-				<input
-					className={inputCls}
-					type="text"
-					inputMode="numeric"
-					value={eUnitPrice}
-					onChange={(e) => setEUnitPrice(formatBRLInput(e.target.value))}
-				/>
-			</label>
-			<label className="grid gap-1 text-sm">
-				<span className="font-medium">Total inventory value (auto)</span>
-				<input className={`${inputCls} bg-slate-100`} value={ePrice} readOnly onChange={() => {}} />
-			</label>
-		</div>
-		<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-			<label className="grid gap-1 text-sm">
-				<span className="font-medium">Area (m²)</span>
-				<input type="number" className={inputCls} value={eArea} onChange={e=>setEArea(e.target.value === '' ? '' : Number(e.target.value))} />
-			</label>
-			<label className="grid gap-1 text-sm">
-				<span className="font-medium">Status</span>
-				<select className={selectCls} value={eStatus} onChange={e=>setEStatus(e.target.value as any)}>
-					{['draft','active','pending','sold','rented','archived'].map(s => <option key={s} value={s}>{s}</option>)}
-				</select>
-			</label>
-		</div>
-		<label className="grid gap-1 text-sm">
-			<span className="font-medium">YouTube background video (optional)</span>
-			<input className={inputCls} value={eYoutubeBg} onChange={e=>setEYoutubeBg(e.target.value)} placeholder="Paste a YouTube link or ID" />
-		</label>
 
-		<FloorplansManager
-			title="Floorplans"
-			floorplans={eFloorplans}
-			onChange={setEFloorplans}
-			formatBRLInput={formatBRLInput}
-			parseBRL={parseBRL}
-			toBRL={toBRL}
-		/>
+						{/* Map Address Display Toggle */}
+						<div className="rounded-lg border border-slate-700/60 bg-slate-800/50 p-4">
+							<label className="flex items-center gap-3 cursor-pointer">
+								<input
+									type="checkbox"
+									checked={eShowExactAddress}
+									onChange={(e) => setEShowExactAddress(e.target.checked)}
+									className="w-4 h-4 text-sky-600 rounded focus:ring-sky-500"
+								/>
+								<div>
+									<span className="font-medium text-sm text-slate-200">Show exact address on map</span>
+									<p className="text-xs text-slate-400 mt-0.5">
+										When unchecked, the map will only show the neighborhood for privacy. When checked, it will show the full street address.
+									</p>
+								</div>
+							</label>
+						</div>
+
+						{/* Pricing & Inventory */}
+						<div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Units available</span>
+								<input
+									type="number"
+									min={0}
+									className={inputCls}
+									value={eUnitsAvailable}
+									onChange={(e) => setEUnitsAvailable(e.target.value)}
+									placeholder="e.g., 23"
+								/>
+								{eFloorplans.length > 0 && (
+									<span className="text-xs text-slate-500">Floorplans currently sum to {eFloorplanUnitsTotal} units.</span>
+								)}
+							</label>
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Base price per unit (optional)</span>
+								<input
+									type="text"
+									inputMode="numeric"
+									className={inputCls}
+									value={eUnitPrice}
+									onChange={(e) => setEUnitPrice(formatBRLInput(e.target.value))}
+									placeholder={toBRL(0)}
+								/>
+							</label>
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Total inventory value (auto)</span>
+								<input
+									className={`${inputCls} bg-slate-700/50`}
+									value={ePrice}
+									onChange={() => {}}
+									placeholder="Calculated automatically"
+									readOnly
+								/>
+							</label>
+						</div>
+
+						{/* Fees */}
+						<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Condominium fee</span>
+								<input type="text" inputMode="numeric" className={inputCls} value={eCondoFee} onChange={e=>setECondoFee(formatBRLInput(e.target.value))} placeholder={toBRL(0)} />
+							</label>
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">IPTU</span>
+								<input type="text" inputMode="numeric" className={inputCls} value={eIptuFee} onChange={e=>setEIptuFee(formatBRLInput(e.target.value))} placeholder={toBRL(0)} />
+							</label>
+						</div>
+
+						{/* Property Details */}
+						<div className="grid grid-cols-2 gap-3">
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Area (m²)</span>
+								<input type="number" min={0} step="0.1" className={inputCls} value={eArea} onChange={e=>setEArea(e.target.value === '' ? '' : Number(e.target.value))} placeholder="0" />
+							</label>
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Bedrooms</span>
+								<input type="number" min={0} step="1" className={inputCls} value={eBeds} onChange={e=>setEBeds(e.target.value === '' ? '' : Number(e.target.value))} placeholder="0" />
+							</label>
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Bathrooms</span>
+								<input type="number" min={0} step="0.5" className={inputCls} value={eBaths} onChange={e=>setEBaths(e.target.value === '' ? '' : Number(e.target.value))} placeholder="0" />
+							</label>
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Parking spaces</span>
+								<input type="number" min={0} step="1" className={inputCls} value={eParkingSpaces} onChange={e=>setEParkingSpaces(e.target.value === '' ? '' : Number(e.target.value))} placeholder="0" />
+							</label>
+						</div>
 
 						<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 							<label className="grid gap-1 text-sm">
-								<span className="font-medium">Thumbnail (replace or add)</span>
-								<input type="file" accept="image/*" onChange={e=>setEThumbFile(e.target.files?.[0] ?? null)} className="text-slate-700" />
+								<span className="font-medium">Unit floor (optional)</span>
+								<input type="number" min={0} step="1" className={inputCls} value={eUnitFloor} onChange={e=>setEUnitFloor(e.target.value === '' ? '' : Number(e.target.value))} placeholder="e.g., 5" />
 							</label>
 							<label className="grid gap-1 text-sm">
-								<span className="font-medium">Add gallery photos</span>
-								<input type="file" accept="image/*" multiple onChange={e=>setEGalleryFiles(e.target.files)} className="text-slate-700" />
+								<span className="font-medium">Land area (m²) (optional)</span>
+								<input type="number" min={0} step="0.1" className={inputCls} value={eLandAreaM2} onChange={e=>setELandAreaM2(e.target.value === '' ? '' : Number(e.target.value))} placeholder="e.g., 300" />
 							</label>
 						</div>
-						<div className="mt-2 flex items-center gap-3">
+
+						<label className="grid gap-1 text-sm">
+							<span className="font-medium">Status</span>
+							<select className={selectCls} value={eStatus} onChange={e=>setEStatus(e.target.value as any)}>
+								{['draft','active','pending','sold','rented','archived'].map(s => <option key={s} value={s}>{s}</option>)}
+							</select>
+						</label>
+
+						<FloorplansManager
+							title="Floorplans"
+							floorplans={eFloorplans}
+							onChange={setEFloorplans}
+							formatBRLInput={formatBRLInput}
+							parseBRL={parseBRL}
+							toBRL={toBRL}
+						/>
+
+						{/* Existing Media Manager */}
+						{eExistingMedia.length > 0 && (
+							<div className="border border-slate-700/60 rounded-lg p-4">
+								<h4 className="text-sm font-semibold mb-3">Existing Photos</h4>
+								<div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+									{eExistingMedia.map((media, index) => (
+										<div key={index} className="relative group">
+											<img 
+												src={media.url} 
+												alt={media.kind} 
+												className="w-full h-32 object-cover rounded-lg border border-slate-700/60"
+											/>
+											<div className="absolute top-1 right-1 flex gap-1">
+												{/* Move Up */}
+												{index > 0 && (
+													<button
+														type="button"
+														onClick={() => {
+															const newMedia = [...eExistingMedia]
+															const temp = newMedia[index]
+															newMedia[index] = newMedia[index - 1]
+															newMedia[index - 1] = temp
+															setEExistingMedia(newMedia)
+														}}
+														className="p-1 bg-slate-800/90 hover:bg-slate-700 rounded text-slate-200 text-xs"
+														title="Move up"
+													>
+														<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+															<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+														</svg>
+													</button>
+												)}
+												{/* Move Down */}
+												{index < eExistingMedia.length - 1 && (
+													<button
+														type="button"
+														onClick={() => {
+															const newMedia = [...eExistingMedia]
+															const temp = newMedia[index]
+															newMedia[index] = newMedia[index + 1]
+															newMedia[index + 1] = temp
+															setEExistingMedia(newMedia)
+														}}
+														className="p-1 bg-slate-800/90 hover:bg-slate-700 rounded text-slate-200 text-xs"
+														title="Move down"
+													>
+														<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+															<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+														</svg>
+													</button>
+												)}
+												{/* Delete */}
+												<button
+													type="button"
+													onClick={() => {
+														setEExistingMedia(eExistingMedia.filter((_, i) => i !== index))
+													}}
+													className="p-1 bg-red-600/90 hover:bg-red-700 rounded text-white text-xs"
+													title="Delete"
+												>
+													<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+													</svg>
+												</button>
+											</div>
+											<button
+												type="button"
+												onClick={() => {
+													const updated = [...eExistingMedia]
+													// Remove thumbnail from all photos
+													updated.forEach(m => {
+														if (m.kind === 'thumbnail') m.kind = 'image'
+													})
+													// Set this one as thumbnail
+													updated[index].kind = 'thumbnail'
+													setEExistingMedia(updated)
+												}}
+												className="absolute bottom-1 left-1 px-2 py-0.5 bg-slate-800/90 hover:bg-slate-700 rounded text-xs text-slate-200 cursor-pointer"
+												title="Click to set as thumbnail"
+											>
+												{media.kind === 'thumbnail' ? '⭐ Thumbnail' : `#${index + 1} (click to make thumbnail)`}
+											</button>
+										</div>
+									))}
+								</div>
+								<p className="text-xs text-slate-400 mt-2">Use arrows to reorder, × to delete, or click photo label to set as thumbnail</p>
+							</div>
+						)}
+
+						<div className="grid gap-3">
+							<label className="grid gap-1 text-sm">
+								<span className="font-medium">Add more photos (first new photo will become thumbnail if none selected above)</span>
+								<input type="file" accept="image/*" multiple onChange={e=>setEGalleryFiles(e.target.files)} className="text-slate-300 text-sm" />
+							</label>
+						</div>
+					</div>
+					
+					<div className="mt-4 pt-4 border-t border-slate-700/60 flex items-center gap-3">
 						<button
 							onClick={isDemo ? undefined : saveEdit}
-							disabled={isDemo}
-							className="inline-flex items-center rounded-md px-3 py-1.5 text-white bg-sky-600 hover:bg-sky-700 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+							disabled={isDemo || saving}
+							className="inline-flex items-center rounded-md px-4 py-2 text-white bg-sky-600 hover:bg-sky-700 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60"
 							type="button"
 							title={isDemo ? 'Disabled in demo mode' : undefined}
-						>Save</button>
-							<button onClick={()=>setEditingId(null)} className="inline-flex items-center rounded-md px-3 py-1.5 text-slate-700 bg-slate-100 hover:bg-slate-200 text-sm" type="button">Cancel</button>
-						</div>
-						{error && <p className="text-sm text-red-600 mt-1">{error}</p>}
+						>{saving ? 'Saving...' : 'Save Changes'}</button>
+						<button onClick={()=>setEditingId(null)} className="inline-flex items-center rounded-md px-4 py-2 text-slate-200 bg-slate-700 hover:bg-slate-600 text-sm font-medium" type="button">Cancel</button>
+						{error && <p className="text-sm text-red-600 ml-2">{error}</p>}
 					</div>
 				</div>
 			</div>

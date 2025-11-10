@@ -43,7 +43,7 @@ export default function AdminLayout() {
       { label: 'Website Builder', path: '/admin/website-builder' },
     ]},
     { icon: '👥', label: 'Constelação', path: '/admin/crm' },
-    { icon: '🩰', label: 'Ballet', path: '/admin/ballet' },
+    { icon: <img src="/ballet-logo.png" alt="" className="w-5 h-5" />, label: 'Ballet', path: '/admin/ballet' },
     { icon: '📱', label: 'Social Media', path: '/admin/social-media' },
     { icon: '⚙️', label: 'Developer', path: '/admin/developer' },
   ]
@@ -210,7 +210,8 @@ export default function AdminLayout() {
                 }`
               }
             >
-              🩰 Ballet
+              <img src="/ballet-logo.png" alt="" className="w-5 h-5 inline-block mr-2" />
+              Ballet
             </NavLink>
 
             {/* Social Media */}
@@ -371,7 +372,10 @@ export default function AdminLayout() {
               </div>
 
               <NavLink to="/admin/crm" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-emerald-600/40 text-emerald-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>👥 Constelação</NavLink>
-              <NavLink to="/admin/ballet" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-pink-600/40 text-pink-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>🩰 Ballet</NavLink>
+              <NavLink to="/admin/ballet" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-pink-600/40 text-pink-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>
+                <img src="/ballet-logo.png" alt="" className="w-5 h-5 inline-block mr-2" />
+                Ballet
+              </NavLink>
               <NavLink to="/admin/social-media" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-violet-600/40 text-violet-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>📱 Social Media</NavLink>
               <NavLink to="/admin/developer" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-slate-700/40 text-slate-50' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>⚙️ Developer</NavLink>
 
@@ -408,7 +412,7 @@ export default function AdminLayout() {
 
       {/* Content area - adjusted for fixed header */}
       <div className="pt-20 pb-8 flex-1">
-        <div className="container-padded text-slate-100">
+        <div className={location.pathname === '/admin/ballet' ? 'text-slate-100' : 'container-padded text-slate-100'}>
           <Outlet />
         </div>
       </div>

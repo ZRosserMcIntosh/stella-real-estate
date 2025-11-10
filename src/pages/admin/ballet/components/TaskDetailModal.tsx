@@ -8,19 +8,26 @@ interface TaskDetailModalProps {
   task: Task
   project: Project | null
   users: User[]
+  projectTasks: Task[]
+  currentUser: User | null
   onClose: () => void
   onUpdate: (taskId: string, updates: Partial<Task>) => void
   onDelete: (taskId: string) => void
   onComplete: (taskId: string) => void
 }
 
-export function TaskDetailModal({ task, project, users, onClose, onUpdate, onDelete, onComplete }: TaskDetailModalProps) {
+export function TaskDetailModal({ task, project, users, projectTasks, currentUser, onClose, onUpdate, onDelete, onComplete }: TaskDetailModalProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [editedTask, setEditedTask] = useState(task)
   const [newComment, setNewComment] = useState('')
+  const [selectedDependency, setSelectedDependency] = useState('')
 
   const assignee = task.assigneeId ? getUserById(users, task.assigneeId) : null
   const creator = getUserById(users, task.creatorId)
+  const dependencyOptions = projectTasks.filter(t => t.id !== task.id)
+  const dependencyDetails = task.dependsOn
+    .map(depId => projectTasks.find(t => t.id === depId))
+    .filter((t): t is Task => Boolean(t))
 
   const handleSave = () => {
     onUpdate(task.id, editedTask)
@@ -33,7 +40,7 @@ export function TaskDetailModal({ task, project, users, onClose, onUpdate, onDel
     const comment = {
       id: `comment-${Date.now()}`,
       text: newComment,
-      authorId: '1', // Current user
+      authorId: currentUser?.id || task.creatorId,
       mentions: [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -44,6 +51,20 @@ export function TaskDetailModal({ task, project, users, onClose, onUpdate, onDel
       comments: [...task.comments, comment]
     })
     setNewComment('')
+  }
+
+  const handleAddDependency = () => {
+    if (!selectedDependency || task.dependsOn.includes(selectedDependency)) return
+    onUpdate(task.id, { dependsOn: [...task.dependsOn, selectedDependency] })
+    setSelectedDependency('')
+  }
+
+  const handleRemoveDependency = (dependencyId: string) => {
+    onUpdate(task.id, { dependsOn: task.dependsOn.filter(id => id !== dependencyId) })
+  }
+
+  const toggleMilestone = () => {
+    onUpdate(task.id, { isMilestone: !task.isMilestone })
   }
 
   const formatDate = (dateStr?: string) => {
@@ -98,6 +119,16 @@ export function TaskDetailModal({ task, project, users, onClose, onUpdate, onDel
             </span>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              onClick={toggleMilestone}
+              className={`rounded p-2 text-sm ${
+                task.isMilestone
+                  ? 'text-yellow-400 bg-yellow-100/20 border border-yellow-300/40'
+                  : 'text-slate-500 hover:bg-slate-100'
+              }`}
+            >
+              {task.isMilestone ? '★ Milestone' : '☆ Mark milestone'}
+            </button>
             {!isEditing && (
               <button
                 onClick={() => setIsEditing(true)}
@@ -303,6 +334,51 @@ export function TaskDetailModal({ task, project, users, onClose, onUpdate, onDel
                   </div>
                 </div>
               )}
+
+              {/* Dependencies */}
+              <div>
+                <div className="text-xs font-semibold text-slate-500 uppercase mb-2">Dependencies</div>
+                {task.dependsOn.length === 0 ? (
+                  <p className="text-xs text-slate-500">No blocking tasks.</p>
+                ) : (
+                  <div className="space-y-1">
+                    {dependencyDetails.map(dep => (
+                      <div key={dep.id} className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-slate-600">
+                        <span className="truncate">{dep.title}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveDependency(dep.id)}
+                          className="text-slate-400 hover:text-red-500"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="mt-2 flex gap-1">
+                  <select
+                    value={selectedDependency}
+                    onChange={(e) => setSelectedDependency(e.target.value)}
+                    className="flex-1 rounded-lg border border-slate-300 px-2 py-1 text-xs focus:border-pink-500 focus:outline-none"
+                  >
+                    <option value="">Select task</option>
+                    {dependencyOptions.map(option => (
+                      <option key={option.id} value={option.id}>
+                        {option.title}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={handleAddDependency}
+                    disabled={!selectedDependency}
+                    className="rounded-lg bg-pink-600 px-3 py-1 text-xs font-semibold text-white disabled:opacity-40"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
 
               {/* Created By */}
               <div>

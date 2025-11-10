@@ -175,8 +175,8 @@ export default function ProjectDetail() {
   const formatArea = (m2?: number | null): string | null => {
     if (m2 == null) return null
     if (areaUnit === 'ft2') {
-      const ft2 = Math.round((m2 * 10.7639) * 10) / 10 // nearest tenth
-      return `${ft2.toLocaleString(numberLocale, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} ft²`
+      const ft2 = Math.round(m2 * 10.7639) // round to nearest whole number
+      return `${ft2.toLocaleString(numberLocale)} ft²`
     }
     // m²: show without decimals
     const val = Math.round(m2)
@@ -241,7 +241,7 @@ export default function ProjectDetail() {
   const videoStart = useMemo(() => youtubeStartFromUrl(project?.videoBgUrl), [project?.videoBgUrl])
 
   if (project === undefined) return <div className="container-padded py-12">Loading…</div>
-  if (!project) return <Navigate to="/projects" replace />
+  if (!project) return <Navigate to="/projetos" replace />
 
   return (
     <div className="relative min-h-screen flex flex-col">
@@ -283,14 +283,15 @@ export default function ProjectDetail() {
       </header>
       <main className="flex-1 relative z-40">
         <section className="container-padded py-10">
-          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+          <div className="mx-auto max-w-6xl space-y-6">
+            {/* Photo Gallery - Full Width */}
             <div>
               {activeImage ? (
                 <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
                   <img
                     src={activeImage.url}
                     alt={activeImage.alt || activeImage.caption || project.name}
-                    className="h-[420px] w-full object-cover"
+                    className="w-full h-auto"
                   />
                   {activeImage.caption && (
                     <div className="border-t border-slate-200 px-4 py-3 text-sm text-slate-600">{activeImage.caption}</div>
@@ -302,25 +303,94 @@ export default function ProjectDetail() {
                 </div>
               )}
               {galleryImages.length > 1 && (
-                <div className="mt-4 grid gap-3 sm:grid-cols-4">
-                  {galleryImages.map((image, idx) => (
-                    <button
-                      key={image.url}
-                      type="button"
-                      onClick={() => setActiveImageIndex(idx)}
-                      className={`group overflow-hidden rounded-2xl border ${idx === activeImageIndex ? 'border-brand-600 ring-2 ring-brand-400' : 'border-transparent hover:border-slate-300'}`}
-                    >
-                      <img
-                        src={image.url}
-                        alt={image.alt || image.caption || `${project.name} ${idx + 1}`}
-                        className="h-24 w-full object-cover transition-transform duration-200 group-hover:scale-105"
-                      />
-                    </button>
-                  ))}
+                <div className="mt-4">
+                  {/* Photo counter */}
+                  <div className="mb-3 text-center text-sm text-slate-600 font-medium">
+                    Viewing photo {activeImageIndex + 1} / {galleryImages.length}
+                  </div>
+                  
+                  {/* Thumbnail gallery with navigation */}
+                  <div className="relative flex items-center gap-3">
+                    {/* Left arrow */}
+                    {galleryImages.length > 7 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newIndex = Math.max(0, activeImageIndex - 1)
+                          setActiveImageIndex(newIndex)
+                        }}
+                        disabled={activeImageIndex === 0}
+                        className="flex-shrink-0 p-2 rounded-full bg-white border border-slate-300 shadow-sm hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                        aria-label="Previous photo"
+                      >
+                        <svg className="w-5 h-5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                    )}
+                    
+                    {/* Thumbnail grid - single row, dynamic sizing */}
+                    <div className="flex-1 overflow-hidden">
+                      <div 
+                        className="flex gap-3 transition-transform duration-300"
+                        style={{
+                          transform: galleryImages.length > 7 
+                            ? `translateX(-${Math.max(0, Math.min(activeImageIndex - 3, galleryImages.length - 7)) * (100 / 7)}%)`
+                            : 'translateX(0)'
+                        }}
+                      >
+                        {galleryImages.map((image, idx) => {
+                          const visibleCount = Math.min(galleryImages.length, 7)
+                          const thumbnailWidth = `calc(${100 / visibleCount}% - ${(visibleCount - 1) * 12 / visibleCount}px)`
+                          
+                          return (
+                            <button
+                              key={image.url}
+                              type="button"
+                              onClick={() => setActiveImageIndex(idx)}
+                              className={`flex-shrink-0 overflow-hidden rounded-2xl border transition-all ${
+                                idx === activeImageIndex 
+                                  ? 'border-brand-600 ring-2 ring-brand-400' 
+                                  : 'border-slate-300 hover:border-slate-400'
+                              }`}
+                              style={{ width: thumbnailWidth }}
+                            >
+                              <img
+                                src={image.url}
+                                alt={image.alt || image.caption || `${project.name} ${idx + 1}`}
+                                className="w-full aspect-[4/3] object-cover transition-transform duration-200 hover:scale-105"
+                              />
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                    
+                    {/* Right arrow */}
+                    {galleryImages.length > 7 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newIndex = Math.min(galleryImages.length - 1, activeImageIndex + 1)
+                          setActiveImageIndex(newIndex)
+                        }}
+                        disabled={activeImageIndex === galleryImages.length - 1}
+                        className="flex-shrink-0 p-2 rounded-full bg-white border border-slate-300 shadow-sm hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                        aria-label="Next photo"
+                      >
+                        <svg className="w-5 h-5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
-            <aside className="space-y-6">
+
+            {/* Two Column Info Boxes */}
+            <div className="grid gap-6 lg:grid-cols-2">
+              {/* Valor Solicitado */}
               <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-soft">
                 <div className="text-xs uppercase tracking-[0.3em] text-slate-500">Valor solicitado</div>
                 <div className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
@@ -332,6 +402,8 @@ export default function ProjectDetail() {
                   </p>
                 )}
               </div>
+
+              {/* Ficha Técnica */}
               {stats.length > 0 && (
                 <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-soft">
                   <div className="flex items-center justify-between gap-3">
@@ -363,7 +435,9 @@ export default function ProjectDetail() {
                   </div>
                 </div>
               )}
-              {highlights.length > 0 && (
+
+              {/* Highlights (if no stats, show in second column) */}
+              {!stats.length && highlights.length > 0 && (
                 <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-soft">
                   <h2 className="text-base font-semibold text-slate-900">Diferenciais</h2>
                   <ul className="mt-3 space-y-2 text-sm text-slate-700">
@@ -376,7 +450,22 @@ export default function ProjectDetail() {
                   </ul>
                 </div>
               )}
-            </aside>
+            </div>
+
+            {/* Highlights (below if stats exist) */}
+            {stats.length > 0 && highlights.length > 0 && (
+              <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-soft">
+                <h2 className="text-base font-semibold text-slate-900">Diferenciais</h2>
+                <ul className="mt-3 grid gap-2 sm:grid-cols-2 text-sm text-slate-700">
+                  {highlights.map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand-600" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
           {unitSummaries.length > 0 && (
             <div className="mx-auto mt-10 max-w-5xl rounded-3xl border border-slate-200 bg-white/95 p-8 shadow-soft">
@@ -480,6 +569,62 @@ export default function ProjectDetail() {
                   Detalhes adicionais serão publicados em breve. Solicite uma apresentação exclusiva para conhecer plantas, memoriais e condições comerciais.
                 </p>
               )}
+            </div>
+          )}
+          {/* Map Location */}
+          {(project.city) && (
+            <div className="mx-auto mt-10 max-w-5xl">
+              <div className="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-soft">
+                <h2 className="text-lg font-semibold text-slate-900 mb-4">Localização</h2>
+                <div className="aspect-[16/9] w-full overflow-hidden rounded-2xl">
+                  <iframe
+                    src={(() => {
+                      const addressLine1 = (project.rawFeatures as any)?.address_line1
+                      const addressNumber = (project.rawFeatures as any)?.address_number
+                      const neighborhood = (project.rawFeatures as any)?.neighborhood
+                      const showExactAddress = (project.rawFeatures as any)?.show_exact_address ?? false
+                      
+                      // Build address parts based on privacy setting
+                      const addressParts = []
+                      
+                      if (showExactAddress) {
+                        // Show exact address when enabled
+                        if (addressLine1 && addressNumber) {
+                          addressParts.push(`${addressLine1}, ${addressNumber}`)
+                        } else if (addressLine1) {
+                          addressParts.push(addressLine1)
+                          if (neighborhood) addressParts.push(neighborhood)
+                        } else if (neighborhood) {
+                          addressParts.push(neighborhood)
+                        }
+                      } else {
+                        // Only show neighborhood for privacy
+                        if (neighborhood) {
+                          addressParts.push(neighborhood)
+                        } else if (addressLine1) {
+                          // Fallback to street name if no neighborhood
+                          addressParts.push(addressLine1)
+                        }
+                      }
+                      
+                      // Add city, state, country
+                      if (project.city) addressParts.push(project.city)
+                      if (project.state) addressParts.push(project.state)
+                      addressParts.push('Brazil')
+                      
+                      const fullAddress = addressParts.filter(Boolean).join(', ')
+                      return `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(fullAddress)}`
+                    })()}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title={`Localização de ${project.name}`}
+                  />
+                </div>
+              </div>
             </div>
           )}
         </section>
