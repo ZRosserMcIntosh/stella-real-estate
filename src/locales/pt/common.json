@@ -285,6 +285,8 @@
       "badge": "Ecossistema Multi-Stakeholder",
       "title": "A Plataforma Imobiliária Tudo-em-Um",
       "subtitle": "Mais que um marketplace. Um ecossistema unificado conectando cada agente do mercado imobiliário—alimentado por narrativas de IA e comprovação social.",
+      "phaseLabel": "Fase",
+      "pendingLabel": "Recursos Pendentes",
       "coreFeatures": {
         "ai": {
           "title": "#1: Narrativas de Propriedade Alimentadas por IA",

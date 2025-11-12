@@ -1,23 +1,292 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import UserTypeIcon from '../components/icons/UserTypeIcon'
 
 export default function StellaPlatform() {
   const { t } = useTranslation()
+  const [triggerAnimation, setTriggerAnimation] = useState(1) // Start with 1 to trigger initial animation
+  const constellationCardRef = useRef<HTMLDivElement>(null)
+  const balletCardRef = useRef<HTMLDivElement>(null)
+  const hasShootingStarTriggered = useRef(false) // Only trigger shooting star once ever
+  const hasBalletEnteredRef = useRef(false)
+  const hasBalletExitedRef = useRef(false)
+  const [balletSpotlightActive, setBalletSpotlightActive] = useState(false)
+  const [balletSpotlightExit, setBalletSpotlightExit] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Constellation card scroll detection - trigger shooting star only once
+      if (constellationCardRef.current && !hasShootingStarTriggered.current) {
+        const rect = constellationCardRef.current.getBoundingClientRect()
+        const viewportHeight = window.innerHeight
+        const cardCenter = rect.top + rect.height / 2
+        const viewportCenter = viewportHeight / 2
+        
+        // Check if card center is near viewport center (within 100px tolerance)
+        const isNearCenter = Math.abs(cardCenter - viewportCenter) < 100
+        
+        if (isNearCenter) {
+          hasShootingStarTriggered.current = true
+          setTriggerAnimation(prev => prev + 1)
+        }
+      }
+
+      // Ballet card scroll detection
+      if (balletCardRef.current) {
+        const rect = balletCardRef.current.getBoundingClientRect()
+        const viewportHeight = window.innerHeight
+        const cardTop = rect.top
+        const cardBottom = rect.bottom
+        
+        // Check if card is leaving the viewport (scrolled past)
+        const hasScrolledPast = cardBottom < 0
+        
+        // Check if card is visible in viewport
+        const isVisible = cardTop < viewportHeight && cardBottom > 0
+        
+        // Entry: Card becomes visible and hasn't entered yet
+        if (isVisible && !hasBalletEnteredRef.current) {
+          hasBalletEnteredRef.current = true
+          hasBalletExitedRef.current = false
+          setBalletSpotlightActive(true)
+          setBalletSpotlightExit(false)
+        } 
+        // Exit: Card scrolled past bottom and hasn't exited yet
+        else if (hasScrolledPast && hasBalletEnteredRef.current && !hasBalletExitedRef.current) {
+          hasBalletExitedRef.current = true
+          setBalletSpotlightExit(true)
+          setTimeout(() => {
+            setBalletSpotlightActive(false)
+            setBalletSpotlightExit(false)
+          }, 1000)
+        } 
+        // Reset: Card is back in view from top (user scrolled back up)
+        else if (!isVisible && !hasScrolledPast) {
+          hasBalletEnteredRef.current = false
+          hasBalletExitedRef.current = false
+          setBalletSpotlightActive(false)
+          setBalletSpotlightExit(false)
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const handleMouseEnter = () => {
+    setTriggerAnimation(prev => prev + 1)
+  }
 
   return (
     <div className="bg-slate-950 text-slate-100">
-      <section className="relative overflow-hidden -mt-20 pt-20">
+      <style>{`
+        @keyframes shootingStar {
+          0% {
+            left: var(--star-start-x, 100%);
+            top: var(--star-start-y, 0%);
+            opacity: 0;
+          }
+          5% {
+            opacity: 1;
+          }
+          95% {
+            opacity: 1;
+          }
+          100% {
+            left: var(--star-end-x, 0%);
+            top: var(--star-end-y, 66%);
+            opacity: 0;
+          }
+        }
+        
+        .shooting-star {
+          animation: shootingStar 0.4s ease-in 0s 1 forwards;
+          width: 2px;
+          height: 2px;
+          position: absolute;
+          --star-start-x: 100%;
+          --star-start-y: 0%;
+          --star-end-x: 0%;
+          --star-end-y: 110%;
+          --tail-angle: -33deg;
+        }
+        
+        /* Mobile optimization: adjust travel path and tail angle for portrait screens */
+        @media (max-width: 768px) {
+          .shooting-star {
+            /* Adjust path to be more diagonal on mobile (accounting for portrait aspect ratio) */
+            --star-start-x: 95%;
+            --star-start-y: 5%;
+            --star-end-x: 5%;
+            --star-end-y: 85%;
+            /* Steeper tail angle for mobile to match the travel angle */
+            --tail-angle: -51deg;
+          }
+        }
+        
+        /* Smaller mobile screens (iPhone SE, etc) */
+        @media (max-width: 430px) {
+          .shooting-star {
+            --star-start-x: 92%;
+            --star-start-y: 8%;
+            --star-end-x: 8%;
+            --star-end-y: 80%;
+            --tail-angle: -50deg;
+          }
+        }
+        
+        .shooting-star::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 2px;
+          width: 150px;
+          height: 2px;
+          background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9) 30%, rgba(147, 197, 253, 0.7));
+          filter: blur(1.5px);
+          transform: translateY(-50%) rotate(var(--tail-angle));
+          transform-origin: left center;
+        }
+        
+        /* Shorter tail on mobile for better proportions */
+        @media (max-width: 768px) {
+          .shooting-star::before {
+            width: 100px;
+          }
+        }
+        
+        .shooting-star::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          right: 0;
+          width: 4px;
+          height: 4px;
+          background: white;
+          border-radius: 50%;
+          box-shadow: 0 0 12px rgba(255, 255, 255, 1), 0 0 24px rgba(147, 197, 253, 0.8);
+          filter: blur(0.5px);
+          transform: translate(50%, -50%);
+        }
+        
+        .shooting-star-container {
+          animation: hideAfter 0s linear 1.3s 1 forwards;
+        }
+        
+        @keyframes hideAfter {
+          to {
+            display: none;
+            visibility: hidden;
+          }
+        }
+
+        @keyframes spotlightMergeLeft {
+          0% {
+            left: -10%;
+            opacity: 0;
+          }
+          50% {
+            opacity: 0.8;
+          }
+          100% {
+            left: 50%;
+            opacity: 1;
+          }
+        }
+        
+        @keyframes spotlightMergeRight {
+          0% {
+            left: 110%;
+            opacity: 0;
+          }
+          50% {
+            opacity: 0.8;
+          }
+          100% {
+            left: 50%;
+            opacity: 1;
+          }
+        }
+
+        @keyframes spotlightExitLeft {
+          0% {
+            left: 50%;
+            opacity: 1;
+          }
+          100% {
+            left: -10%;
+            opacity: 0;
+          }
+        }
+        
+        @keyframes spotlightExitRight {
+          0% {
+            left: 50%;
+            opacity: 1;
+          }
+          100% {
+            left: 110%;
+            opacity: 0;
+          }
+        }
+        
+        @keyframes balletPirouette {
+          0% {
+            transform: rotateY(0deg);
+          }
+          100% {
+            transform: rotateY(360deg);
+          }
+        }
+        
+        .spotlight-merge-left {
+          animation: spotlightMergeLeft 2s ease-out forwards;
+        }
+        
+        .spotlight-merge-right {
+          animation: spotlightMergeRight 2s ease-out forwards;
+        }
+
+        .spotlight-exit-left {
+          animation: spotlightExitLeft 1s ease-in forwards;
+        }
+        
+        .spotlight-exit-right {
+          animation: spotlightExitRight 1s ease-in forwards;
+        }
+        
+        .ballet-pirouette {
+          animation: balletPirouette 2s ease-in-out 1;
+          transform-style: preserve-3d;
+        }
+      `}</style>
+      <section className="relative overflow-hidden -mt-20 pt-12">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(146,171,255,0.28),_rgba(15,23,42,0.95))]" />
         <div className="relative z-10 mx-auto max-w-6xl px-6 py-24 text-center">
+          {/* Constellation Logo */}
+          <div className="flex justify-center mb-6 relative">
+            <img 
+              src="/contellation-logo.png" 
+              alt="Constellation Logo" 
+              className="h-40 sm:h-52 md:h-64 w-auto opacity-95 drop-shadow-2xl"
+            />
+            {/* Shooting Star Effect - streaks from top-right to bottom-left */}
+            {triggerAnimation > 0 && (
+              <div key={triggerAnimation} className="shooting-star-container fixed inset-0 pointer-events-none z-50">
+                <div className="shooting-star"></div>
+              </div>
+            )}
+          </div>
+          
           <span className="inline-flex items-center gap-2 rounded-full border border-indigo-400/40 bg-indigo-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-200">
             {t('stellaPlatform.badge')}
           </span>
-          <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
+          <h1 className="mt-6 text-4xl font-light tracking-tight text-white sm:text-5xl md:text-6xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
             {t('stellaPlatform.hero.title')}
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-200">
+          <p className="mx-auto mt-6 max-w-2xl text-lg font-light text-slate-200 leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
             {t('stellaPlatform.hero.subtitle')}
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
@@ -46,7 +315,7 @@ export default function StellaPlatform() {
               <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/50 bg-emerald-500/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.35em] text-emerald-200 mb-4 shadow-lg shadow-emerald-500/20">
                 {t('stellaPlatform.video3d.badge')}
               </div>
-              <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl mb-4 leading-tight">
+              <h2 className="text-3xl font-light text-white sm:text-4xl lg:text-5xl mb-4 leading-tight" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
                 {t('stellaPlatform.video3d.title')}
               </h2>
               <p className="text-base text-slate-300 leading-relaxed mb-6">
@@ -100,7 +369,7 @@ export default function StellaPlatform() {
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-indigo-950/20 to-slate-950" />
         <div className="relative z-10 mx-auto max-w-6xl px-6">
-          <h2 className="text-center text-3xl font-semibold text-white sm:text-4xl mb-4">
+          <h2 className="text-center text-3xl font-light text-white sm:text-4xl mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
             {t('stellaPlatform.metrics.title')}
           </h2>
           <div className="grid gap-6 mt-12 md:grid-cols-2 lg:grid-cols-4">
@@ -142,15 +411,30 @@ export default function StellaPlatform() {
 
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl font-semibold text-white sm:text-4xl">{t('stellaPlatform.pillars.title')}</h2>
+          <h2 className="text-3xl font-light text-white sm:text-4xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.pillars.title')}</h2>
           <p className="mt-4 text-base text-slate-300">
             {t('stellaPlatform.pillars.subtitle')}
           </p>
         </div>
-        <div className="mt-12 grid gap-8 md:grid-cols-3">
-          <article className="flex h-full flex-col rounded-3xl border border-indigo-400/20 bg-white/5 p-6 shadow-[0_30px_80px_-40px_rgba(37,99,235,0.5)] transition hover:-translate-y-1 hover:border-indigo-300/50 hover:shadow-[0_40px_120px_-40px_rgba(37,99,235,0.65)]">
-            <div className="text-sm font-semibold uppercase tracking-wider text-indigo-200">{t('stellaPlatform.pillars.constelacao.subtitle')}</div>
-            <h3 className="mt-3 text-2xl font-semibold text-white">{t('stellaPlatform.pillars.constelacao.title')}</h3>
+        <div className="mt-12 grid gap-8 md:grid-cols-2">
+          <article 
+            ref={constellationCardRef}
+            onMouseEnter={handleMouseEnter}
+            className="flex h-full flex-col rounded-3xl border border-indigo-400/20 bg-white/5 p-6 shadow-[0_30px_80px_-40px_rgba(37,99,235,0.5)] transition hover:-translate-y-1 hover:border-indigo-300/50 hover:shadow-[0_40px_120px_-40px_rgba(37,99,235,0.65)]"
+          >
+            {/* Constellation Logo */}
+            <div className="flex justify-center mb-4 relative">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-32 h-32 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-2xl"></div>
+              </div>
+              <img 
+                src="/contellation-logo.png" 
+                alt="Constellation Logo" 
+                className="h-24 w-auto opacity-95 relative z-10"
+              />
+            </div>
+            <div className="text-sm font-semibold uppercase tracking-wider text-indigo-200 text-center">{t('stellaPlatform.pillars.constelacao.subtitle')}</div>
+            <h3 className="mt-3 text-2xl font-light text-white text-center" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.pillars.constelacao.title')}</h3>
             <p className="mt-4 text-sm leading-relaxed text-slate-200">{t('stellaPlatform.pillars.constelacao.description')}</p>
             <ul className="mt-6 space-y-3 text-sm text-slate-300">
               {(t('stellaPlatform.pillars.constelacao.bullets', { returnObjects: true }) as string[]).map((item, idx) => (
@@ -161,25 +445,50 @@ export default function StellaPlatform() {
               ))}
             </ul>
           </article>
-          <article className="flex h-full flex-col rounded-3xl border border-indigo-400/20 bg-white/5 p-6 shadow-[0_30px_80px_-40px_rgba(37,99,235,0.5)] transition hover:-translate-y-1 hover:border-indigo-300/50 hover:shadow-[0_40px_120px_-40px_rgba(37,99,235,0.65)]">
-            <div className="text-sm font-semibold uppercase tracking-wider text-indigo-200">{t('stellaPlatform.pillars.bale.subtitle')}</div>
-            <h3 className="mt-3 text-2xl font-semibold text-white">{t('stellaPlatform.pillars.bale.title')}</h3>
-            <p className="mt-4 text-sm leading-relaxed text-slate-200">{t('stellaPlatform.pillars.bale.description')}</p>
-            <ul className="mt-6 space-y-3 text-sm text-slate-300">
+          <article 
+            ref={balletCardRef}
+            className="flex h-full flex-col rounded-3xl border border-indigo-400/20 bg-white/5 p-6 shadow-[0_30px_80px_-40px_rgba(37,99,235,0.5)] transition hover:-translate-y-1 hover:border-indigo-300/50 hover:shadow-[0_40px_120px_-40px_rgba(37,99,235,0.65)] relative overflow-hidden"
+          >
+            {/* Ballet Logo */}
+            <div className="flex justify-center mb-4 relative" style={{ perspective: '1000px' }}>
+              {/* Spotlight from Left */}
+              {balletSpotlightActive && (
+                <div 
+                  className={balletSpotlightExit ? 'spotlight-exit-left absolute top-1/2 w-[250px] h-[250px] rounded-full pointer-events-none z-0' : 'spotlight-merge-left absolute top-1/2 w-[250px] h-[250px] rounded-full pointer-events-none z-0'}
+                  style={{
+                    transform: 'translate(-50%, -50%)',
+                    background: 'radial-gradient(circle, rgba(236,72,153,0.6) 0%, rgba(236,72,153,0.4) 30%, rgba(236,72,153,0.15) 50%, transparent 70%)',
+                    filter: 'blur(40px)',
+                  }}
+                />
+              )}
+              
+              {/* Spotlight from Right */}
+              {balletSpotlightActive && (
+                <div 
+                  className={balletSpotlightExit ? 'spotlight-exit-right absolute top-1/2 w-[250px] h-[250px] rounded-full pointer-events-none z-0' : 'spotlight-merge-right absolute top-1/2 w-[250px] h-[250px] rounded-full pointer-events-none z-0'}
+                  style={{
+                    transform: 'translate(-50%, -50%)',
+                    background: 'radial-gradient(circle, rgba(236,72,153,0.6) 0%, rgba(236,72,153,0.4) 30%, rgba(236,72,153,0.15) 50%, transparent 70%)',
+                    filter: 'blur(40px)',
+                  }}
+                />
+              )}
+              
+              <img 
+                src="/ballet-logo.png" 
+                alt="Ballet Logo" 
+                className={`h-24 w-auto opacity-95 relative z-10 ${balletSpotlightActive && !balletSpotlightExit ? 'ballet-pirouette' : ''}`}
+                style={{
+                  filter: balletSpotlightActive ? 'drop-shadow(0 0 15px rgba(236,72,153,0.8))' : 'none'
+                }}
+              />
+            </div>
+            <div className="text-sm font-semibold uppercase tracking-wider text-indigo-200 text-center relative z-20">{t('stellaPlatform.pillars.bale.subtitle')}</div>
+            <h3 className="mt-3 text-2xl font-light text-white text-center relative z-20" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.pillars.bale.title')}</h3>
+            <p className="mt-4 text-sm leading-relaxed text-slate-200 relative z-20">{t('stellaPlatform.pillars.bale.description')}</p>
+            <ul className="mt-6 space-y-3 text-sm text-slate-300 relative z-20">
               {(t('stellaPlatform.pillars.bale.bullets', { returnObjects: true }) as string[]).map((item, idx) => (
-                <li key={idx} className="flex items-start gap-2">
-                  <span className="mt-1 inline-flex h-2 w-2 shrink-0 rounded-full bg-indigo-300" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </article>
-          <article className="flex h-full flex-col rounded-3xl border border-indigo-400/20 bg-white/5 p-6 shadow-[0_30px_80px_-40px_rgba(37,99,235,0.5)] transition hover:-translate-y-1 hover:border-indigo-300/50 hover:shadow-[0_40px_120px_-40px_rgba(37,99,235,0.65)]">
-            <div className="text-sm font-semibold uppercase tracking-wider text-indigo-200">{t('stellaPlatform.pillars.sites.subtitle')}</div>
-            <h3 className="mt-3 text-2xl font-semibold text-white">{t('stellaPlatform.pillars.sites.title')}</h3>
-            <p className="mt-4 text-sm leading-relaxed text-slate-200">{t('stellaPlatform.pillars.sites.description')}</p>
-            <ul className="mt-6 space-y-3 text-sm text-slate-300">
-              {(t('stellaPlatform.pillars.sites.bullets', { returnObjects: true }) as string[]).map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2">
                   <span className="mt-1 inline-flex h-2 w-2 shrink-0 rounded-full bg-indigo-300" />
                   <span>{item}</span>
@@ -194,7 +503,7 @@ export default function StellaPlatform() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-10 md:grid-cols-[1.1fr,0.9fr] md:items-center">
             <div>
-              <h2 className="text-3xl font-semibold text-white sm:text-4xl">{t('stellaPlatform.stack.title')}</h2>
+              <h2 className="text-3xl font-light text-white sm:text-4xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.stack.title')}</h2>
               <p className="mt-4 text-base text-slate-300">{t('stellaPlatform.stack.subtitle')}</p>
               <div className="mt-8 grid gap-6 sm:grid-cols-2">
                 <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-5 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
@@ -249,7 +558,7 @@ export default function StellaPlatform() {
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900/50 to-slate-950" />
         <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white sm:text-5xl mb-4">
+            <h2 className="text-4xl font-light text-white sm:text-5xl mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
               {t('stellaPlatform.mobile.title')}
             </h2>
             <p className="text-lg text-slate-300 max-w-3xl mx-auto">
@@ -257,16 +566,16 @@ export default function StellaPlatform() {
             </p>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-2 mb-12">
+          <div className="grid gap-8 lg:grid-cols-3 mb-12">
             {/* Client Apps Card */}
             <div className="relative overflow-hidden rounded-3xl border border-indigo-400/20 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-slate-900/50 p-8 shadow-[0_30px_80px_-30px_rgba(99,102,241,0.5)]">
               <div className="flex items-start gap-4 mb-6">
                 <div className="flex gap-3">
                   <img src="/ios.png" alt="iOS" className="h-12 w-12 object-contain" />
-                  <img src="/android-white.png" alt="Android" className="h-12 w-12 object-contain" />
+                  <img src="/andriod-white.png" alt="Android" className="h-12 w-12 object-contain" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-white mb-2">
+                  <h3 className="text-2xl font-light text-white mb-2" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
                     {t('stellaPlatform.mobile.clientApps.title')}
                   </h3>
                   <p className="text-sm text-indigo-200">
@@ -294,7 +603,7 @@ export default function StellaPlatform() {
               <div className="flex items-start gap-4 mb-6">
                 <img src="/apple-wallet.svg" alt="Apple Wallet" className="h-12 w-12" />
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-white mb-2">
+                  <h3 className="text-2xl font-light text-white mb-2" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
                     {t('stellaPlatform.mobile.appleWallet.title')}
                   </h3>
                   <p className="text-sm text-slate-400">
@@ -313,6 +622,21 @@ export default function StellaPlatform() {
                   {t('stellaPlatform.mobile.appleWallet.benefit.description')}
                 </div>
               </div>
+            </div>
+
+            {/* Supernova Site Builder Card */}
+            <div className="relative overflow-hidden rounded-3xl border border-emerald-400/20 bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-slate-900/50 p-8 shadow-[0_30px_80px_-30px_rgba(16,185,129,0.5)]">
+              <div className="text-sm font-semibold uppercase tracking-wider text-emerald-200 text-center mb-3">{t('stellaPlatform.pillars.sites.subtitle')}</div>
+              <h3 className="text-2xl font-light text-white text-center mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.pillars.sites.title')}</h3>
+              <p className="text-sm leading-relaxed text-slate-200 mb-6">{t('stellaPlatform.pillars.sites.description')}</p>
+              <ul className="space-y-3 text-sm text-slate-300">
+                {(t('stellaPlatform.pillars.sites.bullets', { returnObjects: true }) as string[]).map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="mt-1 inline-flex h-2 w-2 shrink-0 rounded-full bg-emerald-300" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
@@ -338,7 +662,7 @@ export default function StellaPlatform() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <img src="/android-white.png" alt="Android" className="h-16 w-16 object-contain" />
+                <img src="/andriod-white.png" alt="Android" className="h-16 w-16 object-contain" />
                 <div className="text-left">
                   <div className="text-sm font-semibold text-purple-200">Android</div>
                   <div className="text-xs text-slate-400">{t('stellaPlatform.mobile.platformApps.android')}</div>
@@ -355,7 +679,7 @@ export default function StellaPlatform() {
       </section>
 
       <section id="beta" className="mx-auto max-w-4xl px-6 py-20 text-center">
-        <h2 className="text-3xl font-semibold text-white sm:text-4xl">{t('stellaPlatform.beta.title')}</h2>
+        <h2 className="text-3xl font-light text-white sm:text-4xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.beta.title')}</h2>
         <p className="mt-4 text-base text-slate-300">{t('stellaPlatform.beta.subtitle')}</p>
         <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-slate-200">
           {(t('stellaPlatform.beta.badges', { returnObjects: true }) as string[]).map((badge, idx) => (
@@ -389,7 +713,7 @@ export default function StellaPlatform() {
             <span className="inline-flex items-center gap-2 rounded-full border border-blue-400/40 bg-blue-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-blue-200 mb-6">
               {t('stellaPlatform.ecosystem.badge')}
             </span>
-            <h2 className="text-4xl font-bold text-white sm:text-5xl mb-4">
+            <h2 className="text-4xl font-light text-white sm:text-5xl mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
               {t('stellaPlatform.ecosystem.title')}
             </h2>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto">
@@ -407,7 +731,7 @@ export default function StellaPlatform() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-white">{t('stellaPlatform.ecosystem.coreFeatures.ai.title')}</h3>
+                  <h3 className="text-xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.ecosystem.coreFeatures.ai.title')}</h3>
                   <p className="text-xs text-blue-200 mt-1">{t('stellaPlatform.ecosystem.coreFeatures.ai.subtitle')}</p>
                 </div>
               </div>
@@ -438,7 +762,7 @@ export default function StellaPlatform() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-white">{t('stellaPlatform.ecosystem.coreFeatures.socialProof.title')}</h3>
+                  <h3 className="text-xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.ecosystem.coreFeatures.socialProof.title')}</h3>
                   <p className="text-xs text-purple-200 mt-1">{t('stellaPlatform.ecosystem.coreFeatures.socialProof.subtitle')}</p>
                 </div>
               </div>
@@ -464,7 +788,7 @@ export default function StellaPlatform() {
 
           {/* 8 User Types Grid */}
           <div className="mb-16">
-            <h3 className="text-2xl font-bold text-white mb-8 text-center">{t('stellaPlatform.ecosystem.userTypes.title')}</h3>
+            <h3 className="text-2xl font-light text-white mb-8 text-center" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.ecosystem.userTypes.title')}</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-600/15 to-blue-900/10 p-6 hover:border-blue-500/60 transition">
                 <div className="mb-3 text-blue-400">
@@ -567,13 +891,14 @@ export default function StellaPlatform() {
           {/* Pending Services */}
           <div className="grid md:grid-cols-2 gap-6 mb-16">
             {[
-              { key: 'realtors', icon: '👤', titleKey: 'stellaPlatform.ecosystem.pendingServices.realtors.title' },
-              { key: 'developers', icon: '🏗️', titleKey: 'stellaPlatform.ecosystem.pendingServices.developers.title' },
-              { key: 'architects', icon: '🎨', titleKey: 'stellaPlatform.ecosystem.pendingServices.architects.title' },
-              { key: 'rentalManagers', icon: '🏠', titleKey: 'stellaPlatform.ecosystem.pendingServices.rentalManagers.title' },
-              { key: 'owners', icon: '🏘️', titleKey: 'stellaPlatform.ecosystem.pendingServices.owners.title' },
-              { key: 'buyers', icon: '🛍️', titleKey: 'stellaPlatform.ecosystem.pendingServices.buyers.title' }
-            ].map(({ key, icon, titleKey }) => (
+              { key: 'realtors', icon: '👤', titleKey: 'stellaPlatform.ecosystem.pendingServices.realtors.title', phaseNum: 1 },
+              { key: 'developers', icon: '🏗️', titleKey: 'stellaPlatform.ecosystem.pendingServices.developers.title', phaseNum: 2 },
+              { key: 'architects', icon: '🎨', titleKey: 'stellaPlatform.ecosystem.pendingServices.architects.title', phaseNum: 3 },
+              { key: 'rentalManagers', icon: '🏠', titleKey: 'stellaPlatform.ecosystem.pendingServices.rentalManagers.title', phaseNum: 4 },
+              { key: 'owners', icon: '🏘️', titleKey: 'stellaPlatform.ecosystem.pendingServices.owners.title', phaseNum: 5 },
+              { key: 'buyers', icon: '🛍️', titleKey: 'stellaPlatform.ecosystem.pendingServices.buyers.title', phaseNum: 6 },
+              { key: 'insurance', icon: '🛡️', titleKey: 'stellaPlatform.ecosystem.pendingServices.insurance.title', phaseNum: 7 }
+            ].map(({ key, icon, titleKey, phaseNum }) => (
               <div key={key} className="rounded-2xl border border-slate-700/50 bg-slate-800/30 p-6">
                 <div className="flex items-start justify-between mb-4">
                   <h4 className="text-slate-200 font-semibold text-lg flex items-center gap-2">
@@ -585,7 +910,7 @@ export default function StellaPlatform() {
                 </div>
                 <div className="space-y-3 text-sm">
                   <div>
-                    <p className="text-blue-400 font-semibold mb-1">Phase 1 (MVP):</p>
+                    <p className="text-blue-400 font-semibold mb-1">{t('stellaPlatform.ecosystem.phaseLabel')} {phaseNum} (MVP):</p>
                     <ul className="space-y-1 ml-2 text-slate-300">
                       {(t(`stellaPlatform.ecosystem.pendingServices.${key}.phase1`, { returnObjects: true }) as string[]).map((item, idx) => (
                         <li key={idx}>✓ {item}</li>
@@ -593,7 +918,7 @@ export default function StellaPlatform() {
                     </ul>
                   </div>
                   <div>
-                    <p className="text-slate-400 font-semibold mb-1">Pending Features:</p>
+                    <p className="text-slate-400 font-semibold mb-1">{t('stellaPlatform.ecosystem.pendingLabel')}:</p>
                     <ul className="space-y-1 ml-2 text-slate-400">
                       {(t(`stellaPlatform.ecosystem.pendingServices.${key}.pending`, { returnObjects: true }) as string[]).map((item, idx) => (
                         <li key={idx}>{item}</li>
@@ -607,7 +932,7 @@ export default function StellaPlatform() {
 
           {/* Why Stella */}
           <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 rounded-3xl p-8 md:p-12">
-            <h3 className="text-2xl font-bold text-white mb-8">{t('stellaPlatform.ecosystem.whyStella.title')}</h3>
+            <h3 className="text-2xl font-light text-white mb-8" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.ecosystem.whyStella.title')}</h3>
             <div className="grid md:grid-cols-2 gap-6">
               {[
                 { key: 'aggregated', emoji: '✓' },
@@ -632,10 +957,106 @@ export default function StellaPlatform() {
         </div>
       </section>
 
+      {/* Seguro Fiança Section */}
+      <section className="relative py-20 overflow-hidden bg-gradient-to-br from-blue-950 via-indigo-950 to-slate-950">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+        <div className="relative z-10 container-padded">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-400/40 px-4 py-2 rounded-full mb-6">
+                <span className="text-2xl">🛡️</span>
+                <span className="text-sm font-semibold text-blue-300 uppercase tracking-wider">Julho 2027</span>
+              </div>
+              <h3 className="text-4xl font-light text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+                Seguro Fiança que Redefine o Mercado
+              </h3>
+              <p className="text-lg font-light text-slate-300 mb-8 max-w-3xl mx-auto" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Vamos substituir todo o seguro fiança convencional com uma experiência que faz os locadores se perguntarem como viveram sem isso.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <div className="bg-gradient-to-br from-blue-900/30 to-indigo-900/20 border border-blue-500/30 rounded-2xl p-8">
+                <div className="text-4xl mb-4">⚡</div>
+                <h4 className="text-xl font-semibold text-white mb-3">Cotação & Aprovação em 60 Segundos</h4>
+                <p className="text-slate-300 mb-4">
+                  Open Finance + IA para avaliar estabilidade de renda instantaneamente. Score portátil que segue o inquilino. 
+                  Proprietários veem banda A-D simples. Sem burocracia, sem espera.
+                </p>
+                <ul className="space-y-2 text-sm text-slate-400">
+                  <li>✓ Conexão Open Finance em um clique</li>
+                  <li>✓ Análise de renda, buffers e volatilidade via IA</li>
+                  <li>✓ RentScore portátil entre prédios</li>
+                </ul>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/20 border border-green-500/30 rounded-2xl p-8">
+                <div className="text-4xl mb-4">💸</div>
+                <h4 className="text-xl font-semibold text-white mb-3">Pix Imediato em Sinistros</h4>
+                <p className="text-slate-300 mb-4">
+                  Um toque no WhatsApp → Pix instantâneo para o proprietário. Fazemos verificação/cobrança depois. 
+                  O SLA não é promessa, é o produto. Meta: 60 segundos.
+                </p>
+                <ul className="space-y-2 text-sm text-slate-400">
+                  <li>✓ Reconhecimento de sinistro em {'<'}2h</li>
+                  <li>✓ Pagamento garantido no mesmo dia útil</li>
+                  <li>✓ SLA perdido? Crédito automático no prêmium</li>
+                </ul>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/20 border border-purple-500/30 rounded-2xl p-8">
+                <div className="text-4xl mb-4">📅</div>
+                <h4 className="text-xl font-semibold text-white mb-3">Rent Day Guarantee</h4>
+                <p className="text-slate-300 mb-4">
+                  Proprietário escolhe o dia (ex: dia 1). Pagamos nesse dia todo mês, independente do inquilino. 
+                  Nós absorvemos a variação. Sleep tax = 0.
+                </p>
+                <ul className="space-y-2 text-sm text-slate-400">
+                  <li>✓ Escolha seu dia de pagamento fixo</li>
+                  <li>✓ Receba sempre nesse dia, sem exceção</li>
+                  <li>✓ Eliminamos estresse de atraso</li>
+                </ul>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-900/30 to-orange-900/20 border border-amber-500/30 rounded-2xl p-8">
+                <div className="text-4xl mb-4">🏠</div>
+                <h4 className="text-xl font-semibold text-white mb-3">Vacancy Shield + Despejo Concierge</h4>
+                <p className="text-slate-300 mb-4">
+                  Inquilino sai cedo? Pagamos 1 mês + verba marketing + fotos pro. Despejo necessário? 
+                  Advogados pré-selecionados, processo digital, pacote de re-locação.
+                </p>
+                <ul className="space-y-2 text-sm text-slate-400">
+                  <li>✓ Proteção contra vacância inesperada</li>
+                  <li>✓ Processo de despejo sem drama</li>
+                  <li>✓ Re-locação prioritária integrada</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-slate-800/50 to-slate-700/50 border border-slate-600/50 rounded-2xl p-8 text-center">
+              <h4 className="text-2xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Nossa Meta: Fazer o Seguro Fiança Convencional Obsoleto
+              </h4>
+              <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
+                Quando lançarmos em Q3 2027, proprietários mudarão pela certeza do SLA. Inquilinos aceitarão pela 
+                portabilidade do score. Concorrentes ficarão discutindo brochures enquanto transferimos Pix.
+              </p>
+              <Link
+                to="/seguro-fianca"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
+              >
+                Saiba Mais sobre Seguro Fiança
+                <span>→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Ecosystem CTA */}
       <section className="relative py-16 overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800">
         <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-          <h3 className="text-3xl font-bold text-white mb-4">
+          <h3 className="text-3xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
             {t('stellaPlatform.ecosystem.cta.title')}
           </h3>
           <p className="text-lg text-slate-300 mb-8">

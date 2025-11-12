@@ -129,27 +129,73 @@ export default function LanguageSwitcher() {
           font-weight: 300;
           text-transform: uppercase;
           white-space: nowrap;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.375rem;
+          color: #ffffff;
         }
         .lang-trigger:hover {
-          background: rgba(255, 255, 255, 0.18);
-          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+          background: rgba(201, 179, 130, 0.18);
+          box-shadow: 0 8px 32px 0 rgba(201, 179, 130, 0.25);
+          color: #C9B382;
         }
         .lang-trigger:active {
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(201, 179, 130, 0.25);
+          color: #C9B382;
         }
         @media (prefers-color-scheme: dark) {
           .lang-trigger {
             background: rgba(255, 255, 255, 0.05);
           }
           .lang-trigger:hover {
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.08);
+            background: rgba(201, 179, 130, 0.12);
+            box-shadow: 0 8px 32px 0 rgba(201, 179, 130, 0.18);
+            color: #C9B382;
           }
           .lang-trigger:active {
-            background: rgba(255, 255, 255, 0.18);
+            background: rgba(201, 179, 130, 0.18);
+            color: #C9B382;
           }
         }
         .lang-menu {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+          font-size: 0.75rem;
+          letter-spacing: 0.4px;
+          font-weight: 300;
+          text-transform: uppercase;
+        }
+        .lang-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          width: 100%;
+          text-align: left;
+          padding: 0.5rem 0.75rem;
+          border-radius: 0.5rem;
+          transition: all 0.3s ease;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+          font-size: 0.75rem;
+          letter-spacing: 0.4px;
+          font-weight: 300;
+          text-transform: uppercase;
+          color: #1e293b;
+        }
+        .lang-item:hover {
+          background: rgba(201, 179, 130, 0.15);
+          color: #C9B382;
+        }
+        @media (prefers-color-scheme: dark) {
+          .lang-item {
+            color: #e2e8f0;
+          }
+          .lang-item:hover {
+            background: rgba(201, 179, 130, 0.12);
+            color: #C9B382;
+          }
+        }
           animation: dropdownRollout 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .lang-menu.closing {
@@ -162,7 +208,7 @@ export default function LanguageSwitcher() {
       <button
         ref={buttonRef}
         type="button"
-        className={`${triggerCls} flex items-center gap-1.5`}
+        className={triggerCls}
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={() => {
@@ -175,7 +221,7 @@ export default function LanguageSwitcher() {
           })
         }}
       >
-        <span className="font-medium tracking-wide">{current.name}</span>
+        <span>{current.name}</span>
         <svg className="h-3 w-3 opacity-60 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
           <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
         </svg>
@@ -190,32 +236,32 @@ export default function LanguageSwitcher() {
           <button
             id="lang-pt"
             onClick={() => change('pt')}
-            className={`lang-item flex items-center gap-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
+            className="lang-item"
             role="option"
             aria-selected={lang === 'pt'}
           >
             <span aria-hidden>🇧🇷</span>
-            <span className="font-medium">Português</span>
+            <span>Português</span>
           </button>
           <button
             id="lang-es"
             onClick={() => change('es')}
-            className={`lang-item flex items-center gap-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
+            className="lang-item"
             role="option"
             aria-selected={lang === 'es'}
           >
             <span aria-hidden>🇪🇸</span>
-            <span className="font-medium">Español</span>
+            <span>Español</span>
           </button>
           <button
             id="lang-en"
             onClick={() => change('en')}
-            className={`lang-item flex items-center gap-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
+            className="lang-item"
             role="option"
             aria-selected={lang === 'en'}
           >
             <span aria-hidden>🇺🇸</span>
-            <span className="font-medium">English</span>
+            <span>English</span>
           </button>
         </div>
       )}

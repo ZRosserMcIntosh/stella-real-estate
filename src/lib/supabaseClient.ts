@@ -28,4 +28,18 @@ if (import.meta.env.DEV) {
 	console.debug('[Supabase] URL:', supabaseUrl, 'Key:', supabaseAnon ? supabaseAnon.slice(0, 8) + '...' : '(empty)')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnon)
+export const supabase = createClient(supabaseUrl, supabaseAnon, {
+	auth: {
+		// Use localStorage instead of cookies for better Safari compatibility
+		storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+		storageKey: 'stella-supabase-auth',
+		// Automatically refresh tokens before they expire
+		autoRefreshToken: true,
+		// Persist the session
+		persistSession: true,
+		// Detect session from URL (for OAuth callbacks and magic links)
+		detectSessionInUrl: true,
+		// Flow type for better Safari compatibility
+		flowType: 'pkce'
+	}
+})

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { makeProjectSlug } from './utils/slug'
 import { useCurrency } from './context/CurrencyContext'
 import WatermarkedImage from './components/WatermarkedImage'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 export default function App() {
   const { t } = useTranslation()
@@ -23,11 +24,15 @@ export default function App() {
   const [heroUploadedUrl, setHeroUploadedUrl] = useState<string>('')
   const [heroFallbackImage, setHeroFallbackImage] = useState<string>('')
   const [heroLogoUrl, setHeroLogoUrl] = useState<string>('')
+  const [heroLogoLoading, setHeroLogoLoading] = useState(true)
   const [projects, setProjects] = useState<any[]>([])
   const [featuredProjects, setFeaturedProjects] = useState<any[]>([])
   const [projectsError, setProjectsError] = useState<string | null>(null)
   const { formatPrice } = useCurrency()
   const [hoveredProjectId, setHoveredProjectId] = useState<string | null>(null)
+  const [carouselIndex, setCarouselIndex] = useState(0)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
   // video aspect & computed min size so iframe behaves like background-size: cover
   const videoAspect = 16 / 9
@@ -62,6 +67,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    let cancelled = false
     const loadVideo = async () => {
       try {
   const s = await getSiteSettings([
@@ -75,10 +81,14 @@ export default function App() {
     'disable_text_selection',
     'disable_image_dragging'
   ])
+        if (cancelled) return
         if (s.video_home_id) setHomeVideoId(s.video_home_id)
   if (s.video_home_uploaded_url) setHeroUploadedUrl(s.video_home_uploaded_url)
   if (s.video_home_fallback_image) setHeroFallbackImage(s.video_home_fallback_image)
-        if (s.hero_logo_url) setHeroLogoUrl(s.hero_logo_url)
+        if (s.hero_logo_url) {
+          console.log('Hero logo URL loaded:', s.hero_logo_url)
+          setHeroLogoUrl(s.hero_logo_url)
+        }
         
         // Update favicon
         if (s.favicon_url) {
@@ -136,9 +146,18 @@ export default function App() {
             }
           }
         }
-      } catch { /* ignore */ }
+      } catch (err) {
+        console.error('Failed to load video settings:', err)
+      } finally {
+        if (!cancelled) {
+          setHeroLogoLoading(false)
+        }
+      }
     }
     loadVideo()
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   useEffect(() => {
@@ -195,6 +214,40 @@ export default function App() {
         return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center sm:justify-items-center w-full max-w-6xl'
     }
   }, [heroFeatured.length])
+
+  // Carousel controls for mobile
+  const nextSlide = () => {
+    setCarouselIndex((prev) => (prev + 1) % heroFeatured.length)
+  }
+
+  const prevSlide = () => {
+    setCarouselIndex((prev) => (prev - 1 + heroFeatured.length) % heroFeatured.length)
+  }
+
+  // Swipe detection for mobile
+  const minSwipeDistance = 50
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    if (isLeftSwipe) {
+      nextSlide()
+    }
+    if (isRightSwipe) {
+      prevSlide()
+    }
+  }
 
   // YouTube fallback overlay support
   const ytPlayerRef = useRef<any>(null)
@@ -262,6 +315,120 @@ export default function App() {
       setYtPlaying(false)
     }
   }, [homeVideoId, heroUploadedUrl, heroFallbackImage])
+
+  // Helper function to render a featured card
+  const renderFeaturedCard = (p: any) => {
+    const mediaItems = Array.isArray(p.media) ? p.media : []
+    const thumb = mediaItems.find((m: any) => m.kind === 'thumbnail')?.url || mediaItems[0]?.url
+    const secondImage = mediaItems[1]?.url || null
+    const videoCandidate = mediaItems.find(
+      (m: any) =>
+        typeof m?.url === 'string' &&
+        ((m.kind || '').toLowerCase().includes('video') || /\.mp4($|\?)/i.test(m.url)),
+    )
+    const videoUrl = videoCandidate?.url as string | undefined
+    // Prefer per-unit price: features.unit_price, else min floorplan/units price, else row price
+    const f = (p.features || {}) as any
+    const toNum = (v: any): number | null => {
+      const n = typeof v === 'number' ? v : Number(v)
+      return Number.isFinite(n) ? n : null
+    }
+    let perUnit: number | null = toNum(f.unit_price ?? f.unitPrice)
+    if (perUnit == null && Array.isArray(f.floorplans)) {
+      for (const plan of f.floorplans) {
+        const v = toNum(plan?.pricePerUnit ?? plan?.price_per_unit ?? plan?.price)
+        if (v != null) perUnit = perUnit == null ? v : Math.min(perUnit, v)
+      }
+    }
+    if (perUnit == null && Array.isArray(f.units)) {
+      for (const u of f.units) {
+        const v = toNum(u?.price ?? u?.valor)
+        if (v != null) perUnit = perUnit == null ? v : Math.min(perUnit, v)
+      }
+    }
+    const fallbackPrice = toNum(p.price)
+    const displayPrice = perUnit != null ? perUnit : (fallbackPrice != null ? fallbackPrice : null)
+    const price = displayPrice != null ? formatPrice(displayPrice) : null
+    
+    return (
+      <article className="group relative flex flex-col w-full sm:w-[22rem] min-h-[360px] overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-4 text-left text-slate-900 shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:border-white/60">
+        {thumb ? (
+          <div className="relative overflow-hidden rounded-2xl">
+            {/* On hover, if videoUrl exists, show video; else show second image if available */}
+            {videoUrl ? (
+              <div className="relative h-52 w-full">
+                <img
+                  src={thumb}
+                  alt={p.title}
+                  className="absolute inset-0 h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-0"
+                />
+                <video
+                  className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  src={videoUrl}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  onMouseEnter={(e) => {
+                    try {
+                      const vid = e.currentTarget as HTMLVideoElement
+                      vid.currentTime = 0
+                      void vid.play()
+                    } catch {
+                      /* ignore */
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    try {
+                      const vid = e.currentTarget as HTMLVideoElement
+                      vid.pause()
+                      vid.currentTime = 0
+                    } catch {
+                      /* ignore */
+                    }
+                  }}
+                />
+              </div>
+            ) : secondImage ? (
+              <div className="relative h-52 w-full">
+                <img
+                  src={thumb}
+                  alt={p.title}
+                  className="absolute inset-0 h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-0"
+                />
+                <img
+                  src={secondImage}
+                  alt={`${p.title} - alternate`}
+                  className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                />
+              </div>
+            ) : (
+              <img
+                src={thumb}
+                alt={p.title}
+                className="h-52 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+              />
+            )}
+          </div>
+        ) : (
+          <div className="grid h-52 w-full place-items-center rounded-2xl bg-slate-100/80 text-slate-400">
+            {t('home.featured.noImage', { defaultValue: 'No image' })}
+          </div>
+        )}
+        <div className="mt-3 space-y-2 min-h-[92px]">
+          <h3 className="text-lg font-semibold text-slate-900 line-clamp-1">{p.title}</h3>
+          <p className="text-sm text-slate-600">{[p.city, p.state_code].filter(Boolean).join(', ')}</p>
+          {price ? (
+            <p className="text-xl font-bold text-brand-700 tracking-tight truncate">{price}</p>
+          ) : (
+            <p className="text-xs uppercase tracking-[0.25em] text-slate-500">
+              {t('home.featured.priceUnavailable', { defaultValue: 'Price on request' })}
+            </p>
+          )}
+        </div>
+      </article>
+    )
+  }
 
   return (
   <div className="relative min-h-screen flex flex-col">
@@ -391,143 +558,116 @@ export default function App() {
       >
         <div className="container-padded relative z-20 flex h-full w-full items-center justify-center py-12">
           <div className="w-full max-w-6xl flex flex-col items-center gap-6">
-            <img
-              src={heroLogoUrl || "/Stella.png"}
-              alt="Stella"
-              className="h-32 sm:h-40 md:h-48 lg:h-56 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]"
-            />
+            {!heroLogoLoading && heroLogoUrl ? (
+              <img
+                src={heroLogoUrl}
+                alt="Stella"
+                className="h-32 sm:h-40 md:h-48 lg:h-56 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]"
+              />
+            ) : heroLogoLoading ? (
+              <div className="h-32 sm:h-40 md:h-48 lg:h-56 w-64 bg-white/10 animate-pulse rounded-lg" />
+            ) : null}
             {heroFeatured.length > 0 && (
-              <div className={`mx-auto grid gap-4 text-slate-900 ${heroGridClasses}`}>
-                {heroFeatured.map((p: any) => {
-                  const mediaItems = Array.isArray(p.media) ? p.media : []
-                  const thumb = mediaItems.find((m: any) => m.kind === 'thumbnail')?.url || mediaItems[0]?.url
-                  const secondImage = mediaItems[1]?.url || null
-                  const videoCandidate = mediaItems.find(
-                    (m: any) =>
-                      typeof m?.url === 'string' &&
-                      ((m.kind || '').toLowerCase().includes('video') || /\.mp4($|\?)/i.test(m.url)),
-                  )
-                  const videoUrl = videoCandidate?.url as string | undefined
-                  // Prefer per-unit price: features.unit_price, else min floorplan/units price, else row price
-                  const f = (p.features || {}) as any
-                  const toNum = (v: any): number | null => {
-                    const n = typeof v === 'number' ? v : Number(v)
-                    return Number.isFinite(n) ? n : null
-                  }
-                  let perUnit: number | null = toNum(f.unit_price ?? f.unitPrice)
-                  if (perUnit == null && Array.isArray(f.floorplans)) {
-                    for (const plan of f.floorplans) {
-                      const v = toNum(plan?.pricePerUnit ?? plan?.price_per_unit ?? plan?.price)
-                      if (v != null) perUnit = perUnit == null ? v : Math.min(perUnit, v)
-                    }
-                  }
-                  if (perUnit == null && Array.isArray(f.units)) {
-                    for (const u of f.units) {
-                      const v = toNum(u?.price ?? u?.valor)
-                      if (v != null) perUnit = perUnit == null ? v : Math.min(perUnit, v)
-                    }
-                  }
-                  const fallbackPrice = toNum(p.price)
-                  const displayPrice = perUnit != null ? perUnit : (fallbackPrice != null ? fallbackPrice : null)
-                  const price = displayPrice != null ? formatPrice(displayPrice) : null
-                  const card = (
-                    <article className="group relative flex flex-col w-full sm:w-[22rem] min-h-[360px] overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-4 text-left text-slate-900 shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:border-white/60">
-                      {thumb ? (
-                        <div className="relative overflow-hidden rounded-2xl">
-                          {/* On hover, if videoUrl exists, show video; else show second image if available */}
-                          {videoUrl ? (
-                            <div className="relative h-52 w-full">
-                              <img
-                                src={thumb}
-                                alt={p.title}
-                                className="absolute inset-0 h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-0"
-                              />
-                              <video
-                                className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                                src={videoUrl}
-                                muted
-                                loop
-                                playsInline
-                                preload="metadata"
-                                onMouseEnter={(e) => {
-                                  try {
-                                    const vid = e.currentTarget as HTMLVideoElement
-                                    vid.currentTime = 0
-                                    void vid.play()
-                                  } catch {
-                                    /* ignore */
-                                  }
-                                }}
-                                onMouseLeave={(e) => {
-                                  try {
-                                    const vid = e.currentTarget as HTMLVideoElement
-                                    vid.pause()
-                                    vid.currentTime = 0
-                                  } catch {
-                                    /* ignore */
-                                  }
-                                }}
-                              />
+              <>
+                {/* Mobile Carousel (< md breakpoint) */}
+                <div 
+                  className="md:hidden relative w-full max-w-[22rem] mx-auto"
+                  onTouchStart={onTouchStart}
+                  onTouchMove={onTouchMove}
+                  onTouchEnd={onTouchEnd}
+                >
+                  <div className="relative overflow-hidden">
+                    <div 
+                      className="flex transition-transform duration-300 ease-out"
+                      style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
+                    >
+                      {heroFeatured.map((p: any) => {
+                        const card = renderFeaturedCard(p)
+                        if (p.listing_type === 'new_project') {
+                          const slug = makeProjectSlug(p.title || 'project', p.id)
+                          return (
+                            <div key={p.id} className="min-w-full px-2">
+                              <Link
+                                to={`/projetos/${slug}`}
+                                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                                aria-label={p.title}
+                              >
+                                {card}
+                              </Link>
                             </div>
-                          ) : secondImage ? (
-                            <div className="relative h-52 w-full">
-                              <img
-                                src={thumb}
-                                alt={p.title}
-                                className="absolute inset-0 h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-0"
-                              />
-                              <img
-                                src={secondImage}
-                                alt={`${p.title} - alternate`}
-                                className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                              />
-                            </div>
-                          ) : (
-                            <img
-                              src={thumb}
-                              alt={p.title}
-                              className="h-52 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                            />
-                          )}
-                        </div>
-                      ) : (
-                        <div className="grid h-52 w-full place-items-center rounded-2xl bg-slate-100/80 text-slate-400">
-                          {t('home.featured.noImage', { defaultValue: 'No image' })}
-                        </div>
-                      )}
-                      <div className="mt-3 space-y-2 min-h-[92px]">
-                        <h3 className="text-lg font-semibold text-slate-900 line-clamp-1">{p.title}</h3>
-                        <p className="text-sm text-slate-600">{[p.city, p.state_code].filter(Boolean).join(', ')}</p>
-                        {price ? (
-                          <p className="text-xl font-bold text-brand-700 tracking-tight truncate">{price}</p>
-                        ) : (
-                          <p className="text-xs uppercase tracking-[0.25em] text-slate-500">
-                            {t('home.featured.priceUnavailable', { defaultValue: 'Price on request' })}
-                          </p>
-                        )}
-                      </div>
-                    </article>
-                  )
-                  if (p.listing_type === 'new_project') {
-                    const slug = makeProjectSlug(p.title || 'project', p.id)
-                    return (
-                      <Link
-                        key={p.id}
-                        to={`/projetos/${slug}`}
-                        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-                        aria-label={p.title}
-                      >
-                        {card}
-                      </Link>
-                    )
-                  }
-                  return (
-                    <div key={p.id}>
-                      {card}
+                          )
+                        }
+                        return (
+                          <div key={p.id} className="min-w-full px-2">
+                            {card}
+                          </div>
+                        )
+                      })}
                     </div>
-                  )
-                })}
-              </div>
+                  </div>
+                  
+                  {/* Carousel Controls */}
+                  {heroFeatured.length > 1 && (
+                    <>
+                      <button
+                        onClick={prevSlide}
+                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-10 p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-lg hover:bg-white transition-colors"
+                        aria-label="Previous"
+                      >
+                        <ChevronLeft className="w-5 h-5 text-slate-900" />
+                      </button>
+                      <button
+                        onClick={nextSlide}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-10 p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-lg hover:bg-white transition-colors"
+                        aria-label="Next"
+                      >
+                        <ChevronRight className="w-5 h-5 text-slate-900" />
+                      </button>
+                      
+                      {/* Dots Indicator */}
+                      <div className="flex justify-center gap-2 mt-4">
+                        {heroFeatured.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setCarouselIndex(idx)}
+                            className={`w-2 h-2 rounded-full transition-all ${
+                              idx === carouselIndex 
+                                ? 'bg-white w-6' 
+                                : 'bg-white/50 hover:bg-white/75'
+                            }`}
+                            aria-label={`Go to slide ${idx + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Desktop Grid (>= md breakpoint) */}
+                <div className={`hidden md:grid gap-4 text-slate-900 ${heroGridClasses}`}>
+                  {heroFeatured.map((p: any) => {
+                    const card = renderFeaturedCard(p)
+                    if (p.listing_type === 'new_project') {
+                      const slug = makeProjectSlug(p.title || 'project', p.id)
+                      return (
+                        <Link
+                          key={p.id}
+                          to={`/projetos/${slug}`}
+                          className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                          aria-label={p.title}
+                        >
+                          {card}
+                        </Link>
+                      )
+                    }
+                    return (
+                      <div key={p.id}>
+                        {card}
+                      </div>
+                    )
+                  })}
+                </div>
+              </>
             )}
           </div>
         </div>

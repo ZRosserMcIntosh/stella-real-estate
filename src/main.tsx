@@ -34,6 +34,7 @@ import Institutional from './pages/Institutional'
 import Investors from './pages/Investors'
 import LuisaMarketing from './pages/LuisaMarketing'
 import LegalServices from './pages/LegalServices'
+import SeguroFianca from './pages/SeguroFianca'
 import InvestorLogin from './pages/investors/Login'
 import RequestAccess from './pages/investors/RequestAccess'
 import StellaPlatform from './pages/StellaPlatform'
@@ -104,6 +105,7 @@ const router = createBrowserRouter([
       { path: 'investidores', element: <Investors /> },
       { path: 'luisa-marketing', element: <LuisaMarketing /> },
       { path: 'servicos-juridicos', element: <LegalServices /> },
+      { path: 'seguro-fianca', element: <SeguroFianca /> },
       { path: 'plataforma-stella', element: <StellaPlatform /> },
       { path: 'anuncie-seu-imovel', element: <ListYourProperty /> },
       { path: 'consumidores', element: <ListYourProperty /> },

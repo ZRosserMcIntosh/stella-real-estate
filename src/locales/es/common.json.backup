@@ -58,6 +58,129 @@
       "inquire": "Consultar",
       "reserveBeta": "Reservar acceso beta"
     },
+    "ecosystem": {
+      "badge": "Ecosistema Multi-Stakeholder",
+      "title": "La Plataforma Inmobiliaria Todo-en-Uno",
+      "subtitle": "Más que un mercado. Un ecosistema unificado que conecta a cada actor inmobiliario—impulsado por narrativas de IA y prueba social.",
+      "phaseLabel": "Fase",
+      "pendingLabel": "Características Pendientes",
+      "coreFeatures": {
+        "ai": {
+          "title": "#1: Narrativas de Propiedades Impulsadas por IA",
+          "subtitle": "Descripciones dinámicas y personalizadas",
+          "description": "Genere descripciones de propiedades convincentes adaptadas a cada tipo de comprador:",
+          "investor": "Tono inversor: Potencial de ROI, trayectoria de apreciación",
+          "family": "Tono familiar: Escuelas, parques, ambiente del vecindario",
+          "firstTime": "Primer comprador: Listo para mudarse, amigable para principiantes"
+        },
+        "socialProof": {
+          "title": "#2: Feed de Prueba Social",
+          "subtitle": "Señales de mercado en tiempo real y urgencia",
+          "description": "Actividad de mercado agregada automáticamente que impulsa el compromiso del comprador:",
+          "offer": "Múltiples ofertas recibidas en 24 horas",
+          "views": "125+ personas vieron esta semana",
+          "instagram": "Publicaciones de Instagram con compromiso social"
+        }
+      },
+      "userTypes": {
+        "title": "8 Tipos de Usuarios Interconectados",
+        "independentRealtors": {
+          "title": "Agentes Independientes",
+          "features": ["Generador de narrativas de IA", "Compartir en redes sociales con un clic", "Seguimiento de comisiones", "CRM de clientes potenciales"]
+        },
+        "brokerages": {
+          "title": "Empresas de Corretaje",
+          "features": ["Panel multi-agente", "División de comisiones", "Análisis de mercado", "Herramientas de cumplimiento"]
+        },
+        "developers": {
+          "title": "Desarrolladores",
+          "features": ["Preventa de unidades", "Red de corredores", "Exposición de arquitectos", "Seguimiento de inversiones"]
+        },
+        "architects": {
+          "title": "Arquitectos y Diseñadores",
+          "features": ["Exposición de portafolio", "Recomendaciones inteligentes", "Reserva de consultoría", "Testimonios de clientes"]
+        },
+        "strManagers": {
+          "title": "Gestores de Alquiler Turístico",
+          "features": ["Gestión de calendario", "Precios dinámicos", "Comunicación con huéspedes", "Seguimiento de ingresos"]
+        },
+        "propertyOwners": {
+          "title": "Propietarios",
+          "features": ["Publicar para vender o alquilar", "Encontrar agentes locales", "Gestión de inquilinos", "Seguimiento de ingresos"]
+        },
+        "strOwners": {
+          "title": "Propietarios de Alquiler Turístico",
+          "features": ["Colaborar con gestores", "Calendario de reservas", "Reseñas de huéspedes", "Panel de ganancias"]
+        },
+        "shoppers": {
+          "title": "Compradores",
+          "features": ["Todas las propiedades agregadas", "Recomendaciones de IA", "Precalificación hipotecaria", "Chat directo con agentes"]
+        }
+      },
+      "pendingServices": {
+        "realtors": {
+          "title": "Agentes Independientes y Corredurías",
+          "deliveryDate": "Enero 2026",
+          "phase1": ["Listados de propiedades con narrativas de IA", "Integración de redes sociales", "Captura de clientes potenciales y CRM"],
+          "pending": ["Gestión de comisiones", "Red de referencias", "Precalificación de compradores", "Agregación MLS"]
+        },
+        "developers": {
+          "title": "Desarrolladores y Preventas",
+          "deliveryDate": "Febrero 2026",
+          "phase1": ["Exposición de desarrollo", "Sistema de prereserva de unidades", "Mercado de corredores"],
+          "pending": ["Preaprobación de financiamiento", "Plantillas legales", "Personalización de unidades", "Eventos de preventa"]
+        },
+        "architects": {
+          "title": "Arquitectos y Diseñadores",
+          "deliveryDate": "Marzo 2026",
+          "phase1": ["Exposición de portafolio", "Galería de proyectos", "Motor de recomendaciones"],
+          "pending": ["Reserva de consultoría", "Visualización 3D", "Estimación de presupuesto", "Colaboración con clientes"]
+        },
+        "rentalManagers": {
+          "title": "Gestores de Alquiler y Propietarios",
+          "deliveryDate": "Abril 2026",
+          "phase1": ["Panel de alquiler", "Sincronización de calendario", "Comunicación con huéspedes"],
+          "pending": ["Precios dinámicos", "Coordinación de limpieza", "Solicitudes de mantenimiento", "Integración de seguros"]
+        },
+        "owners": {
+          "title": "Propietarios (Vender/Alquilar)",
+          "deliveryDate": "Mayo 2026",
+          "phase1": ["Creación simple de listado", "Búsqueda y conexión con agentes locales", "Gestión de consultas"],
+          "pending": ["Valoración de propiedad", "Selección de inquilinos", "Gestión de contrato de arrendamiento", "Documentación fiscal"]
+        },
+        "buyers": {
+          "title": "Compradores",
+          "deliveryDate": "Junio 2026",
+          "phase1": ["Búsqueda global de propiedades", "Todos los agentes agregados", "Filtros inteligentes y favoritos"],
+          "pending": ["Precalificación hipotecaria", "Recomendaciones de IA", "Envío de ofertas", "Herramientas de inspección"]
+        },
+        "insurance": {
+          "title": "Seguro Fiança",
+          "deliveryDate": "Julio 2027",
+          "phase1": ["Cotización instantánea vía Open Finance", "Aprobación en 60 segundos", "RentScore portátil", "Pix instantáneo en reclamos"],
+          "pending": ["Garantía Rent Day", "Concierge de Desalojo", "Escudo de Vacantes", "Pólizas de edificio"]
+        }
+      },
+      "whyStella": {
+        "title": "¿Por qué Constellation?",
+        "aggregated": {
+          "title": "Todas las Propiedades Agregadas",
+          "description": "A diferencia de plataformas fragmentadas, todas las propiedades de los agentes en un mercado único y buscable"
+        },
+        "narratives": {
+          "title": "Narrativas Impulsadas por IA",
+          "description": "Una propiedad, historias infinitas. Las narrativas se adaptan al tipo de comprador y se comparten en redes sociales al instante"
+        },
+        "socialProof": {
+          "title": "Prueba Social en Todas Partes",
+          "description": "Las señales de mercado en tiempo real crean urgencia. ¿Múltiples ofertas? ¿Vistas? ¿Compromiso? Todo automático"
+        },
+        "unified": {
+          "title": "Experiencia Unificada",
+          "description": "Todos los tipos de usuarios bajo un mismo techo. Agentes, desarrolladores, arquitectos, compradores y administradores de propiedades todos interconectados"
+        }
+      }
+    },
     "pillars": {
       "title": "Pilares de la Plataforma",
       "subtitle": "Todo funciona en un núcleo de datos unificado. Sin entradas duplicadas. Sin integraciones frágiles. Solo velocidad y claridad ultrajantes para corredurías que se niegan a ser promedio.",
@@ -229,8 +352,6 @@
       "badge": "Ecosistema Multi-Stakeholder",
       "title": "La Plataforma Inmobiliaria Todo-en-Uno",
       "subtitle": "Más que un mercado. Un ecosistema unificado conectando cada jugador del mercado inmobiliario—impulsado por narrativas de IA y prueba social.",
-      "phaseLabel": "Fase",
-      "pendingLabel": "Características Pendientes",
       "coreFeatures": {
         "ai": {
           "title": "#1: Narrativas de Propiedades Impulsadas por IA",
@@ -287,39 +408,45 @@
       "pendingServices": {
         "realtors": {
           "title": "Agentes Independientes y Corretajes",
-          "deliveryDate": "Q1 2026",
+          "deliveryDate": "Enero 2026",
           "phase1": ["Listados de propiedades con narrativas de IA", "Integración con redes sociales", "Captura de leads y CRM"],
           "pending": ["Gestión de comisiones", "Red de referidos", "Pre-calificación de compradores", "Agregación MLS"]
         },
         "developers": {
           "title": "Desarrolladores y Preventas",
-          "deliveryDate": "Q2 2026",
+          "deliveryDate": "Febrero 2026",
           "phase1": ["Escaparate de desarrollo", "Sistema de pre-reserva de unidades", "Mercado de agentes"],
           "pending": ["Pre-aprobación de financiamiento", "Plantillas legales", "Personalización de unidades", "Eventos de preventa"]
         },
         "architects": {
           "title": "Arquitectos y Diseñadores",
-          "deliveryDate": "Q3 2026",
+          "deliveryDate": "Marzo 2026",
           "phase1": ["Escaparate de portafolio", "Galería de proyectos", "Sistema de recomendación"],
           "pending": ["Reserva de consulta", "Visualización 3D", "Estimación de presupuesto", "Colaboración con clientes"]
         },
         "rentalManagers": {
           "title": "Gestores y Propietarios de Alquiler",
-          "deliveryDate": "Q4 2026",
+          "deliveryDate": "Abril 2026",
           "phase1": ["Panel de alquiler", "Sincronización de calendario", "Comunicación con huéspedes"],
           "pending": ["Precios dinámicos", "Coordinación de limpieza", "Solicitudes de mantenimiento", "Integración de seguros"]
         },
         "owners": {
           "title": "Propietarios (Vender/Alquilar)",
-          "deliveryDate": "Q1 2027",
+          "deliveryDate": "Mayo 2026",
           "phase1": ["Creación simple de listado", "Búsqueda de agentes locales y conexión", "Gestión de consultas"],
           "pending": ["Valuación de propiedad", "Evaluación de inquilinos", "Gestión de contrato de alquiler", "Documentación fiscal"]
         },
         "buyers": {
           "title": "Compradores",
-          "deliveryDate": "Q2 2027",
+          "deliveryDate": "Junio 2026",
           "phase1": ["Búsqueda de propiedades global", "Todos los agentes agregados", "Filtros inteligentes y favoritos"],
           "pending": ["Pre-calificación hipotecaria", "Recomendaciones de IA", "Envío de ofertas", "Herramientas de inspección"]
+        },
+        "insurance": {
+          "title": "Seguro de Fianza",
+          "deliveryDate": "Julio 2027",
+          "phase1": ["Cotización instantánea vía Open Finance", "Aprobación en 60 segundos", "RentScore portátil", "Pix inmediato en siniestros"],
+          "pending": ["Garantía de Día de Renta", "Concierge de Desalojo", "Escudo de Vacancia", "Políticas de edificio"]
         }
       },
       "whyStella": {

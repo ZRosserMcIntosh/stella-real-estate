@@ -8,6 +8,7 @@ export default function Footer() {
   const { t } = useTranslation()
   const location = useLocation()
   const [footerLogoUrl, setFooterLogoUrl] = useState<string>('')
+  const [logoLoading, setLogoLoading] = useState(true)
   
   // Load footer logo from settings
   useEffect(() => {
@@ -19,6 +20,8 @@ export default function Footer() {
         }
       } catch (error) {
         console.error('Failed to load footer logo:', error)
+      } finally {
+        setLogoLoading(false)
       }
     }
     loadFooterLogo()
@@ -135,6 +138,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/seguro-fianca" className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                  Seguro Fiança
+                </Link>
+              </li>
+              <li>
                 <Link to="/criar-site" onClick={() => trackEvent('signup_cta_click', { position: 'footer' })} className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Criar meu site
                 </Link>
@@ -231,7 +239,7 @@ export default function Footer() {
         </div>
 
         {/* Footer Logo - Centered at Bottom */}
-        {footerLogoUrl && (
+        {!logoLoading && footerLogoUrl && (
           <div className="pt-6 flex justify-center">
             <img 
               src={footerLogoUrl} 

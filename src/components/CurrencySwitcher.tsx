@@ -117,24 +117,68 @@ export default function CurrencySwitcher() {
           display: inline-flex;
           align-items: center;
           gap: 0.375rem;
+          color: #ffffff;
         }
         .currency-trigger:hover {
-          background: rgba(255, 255, 255, 0.18);
-          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+          background: rgba(201, 179, 130, 0.18);
+          box-shadow: 0 8px 32px 0 rgba(201, 179, 130, 0.25);
+          color: #C9B382;
         }
         .currency-trigger:active {
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(201, 179, 130, 0.25);
+          color: #C9B382;
         }
         @media (prefers-color-scheme: dark) {
           .currency-trigger {
             background: rgba(255, 255, 255, 0.05);
           }
           .currency-trigger:hover {
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.08);
+            background: rgba(201, 179, 130, 0.12);
+            box-shadow: 0 8px 32px 0 rgba(201, 179, 130, 0.18);
+            color: #C9B382;
           }
           .currency-trigger:active {
-            background: rgba(255, 255, 255, 0.18);
+            background: rgba(201, 179, 130, 0.18);
+            color: #C9B382;
+          }
+        }
+        .cur-menu {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+          font-size: 0.75rem;
+          letter-spacing: 0.4px;
+          font-weight: 300;
+          text-transform: uppercase;
+        }
+        .cur-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          width: 100%;
+          text-align: left;
+          padding: 0.5rem 0.75rem;
+          border-radius: 0.5rem;
+          transition: all 0.3s ease;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+          font-size: 0.75rem;
+          letter-spacing: 0.4px;
+          font-weight: 300;
+          text-transform: uppercase;
+          color: #1e293b;
+        }
+        .cur-item:hover {
+          background: rgba(201, 179, 130, 0.15);
+          color: #C9B382;
+        }
+        @media (prefers-color-scheme: dark) {
+          .cur-item {
+            color: #e2e8f0;
+          }
+          .cur-item:hover {
+            background: rgba(201, 179, 130, 0.12);
+            color: #C9B382;
           }
         }
       `}</style>
@@ -153,7 +197,7 @@ export default function CurrencySwitcher() {
           })
         }}
       >
-        <span className="font-medium tracking-wide">{currency}</span>
+        <span>{currency}</span>
         <span aria-hidden className="opacity-80">{current.symbol}</span>
         <svg className="h-3.5 w-3.5 opacity-80" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
           <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
@@ -171,7 +215,7 @@ export default function CurrencySwitcher() {
               key={c}
               id={`cur-${c}`}
               onClick={() => change(c)}
-              className={`cur-item flex items-center gap-2 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-colors w-full text-left text-sm`}
+              className="cur-item"
               role="option"
               aria-selected={currency === c}
             >
@@ -180,8 +224,8 @@ export default function CurrencySwitcher() {
               ) : (
                 <span aria-hidden className="w-4" />
               )}
-              <span className="font-medium">{c}</span>
-              <span className="ml-auto text-xs">{CURRENCY_META[c].symbol}</span>
+              <span>{c}</span>
+              <span className="ml-auto opacity-70">{CURRENCY_META[c].symbol}</span>
             </button>
           ))}
         </div>

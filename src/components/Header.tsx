@@ -28,6 +28,7 @@ export default function Header() {
   const [logoFailed, setLogoFailed] = useState(false)
   const [headerLogoUrl, setHeaderLogoUrl] = useState<string>('')
   const [headerLogoSize, setHeaderLogoSize] = useState<string>('medium')
+  const [logoLoading, setLogoLoading] = useState(true)
   const [institutionalOpen, setInstitutionalOpen] = useState(false)
   const [institutionalClosing, setInstitutionalClosing] = useState(false)
   const [projectsClosing, setProjectsClosing] = useState(false)
@@ -93,9 +94,11 @@ export default function Header() {
   
   // Load header logo from settings
   useEffect(() => {
+    let cancelled = false
     const loadHeaderLogo = async () => {
       try {
         const settings = await getSiteSettings(['header_logo_url', 'header_logo_size'])
+        if (cancelled) return
         console.log('Header logo settings loaded:', settings)
         if (settings.header_logo_url) {
           setHeaderLogoUrl(settings.header_logo_url)
@@ -106,9 +109,19 @@ export default function Header() {
         }
       } catch (error) {
         console.error('Failed to load header logo:', error)
+        if (!cancelled) {
+          setLogoFailed(true)
+        }
+      } finally {
+        if (!cancelled) {
+          setLogoLoading(false)
+        }
       }
     }
     loadHeaderLogo()
+    return () => {
+      cancelled = true
+    }
   }, [])
   
   // Close mobile menu on route change
@@ -122,22 +135,19 @@ export default function Header() {
   }, [location.pathname])
 
   // Dynamic sizing based on header_logo_size setting
-  // Optimized: Less padding, larger logos for better visual balance
+  // Using more dramatic size differences and minimal padding
   const logoSizeConfig = {
     small: {
-      heightPx: 64,              // 64px mobile
-      heightSmPx: 80,            // 80px desktop
-      padding: 'py-2'            
+      height: 'h-12',           // 48px - compact
+      padding: 'py-1.5'         // minimal padding
     },
     medium: {
-      heightPx: 80,              // 80px mobile
-      heightSmPx: 96,            // 96px desktop
-      padding: 'py-2.5'          
+      height: 'h-20',           // 80px - standard  
+      padding: 'py-2'           // small padding
     },
     large: {
-      heightPx: 96,              // 96px mobile
-      heightSmPx: 112,           // 112px desktop
-      padding: 'py-3'            
+      height: 'h-28',           // 112px - prominent
+      padding: 'py-2.5'         // moderate padding
     }
   }
   
@@ -145,26 +155,24 @@ export default function Header() {
   
   // Debug: log what size is being applied
   console.log('Current headerLogoSize state:', headerLogoSize)
-  console.log('Current logo height pixels:', currentLogoSize.heightPx, currentLogoSize.heightSmPx)
+  console.log('Current logo height class:', currentLogoSize.height)
 
   return (
   <header ref={headerRef} className={`z-50 ${needsSolidHeader ? 'bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800' : 'backdrop-blur-md bg-white/60 dark:bg-slate-900/60 border-b border-white/10 dark:border-slate-800/50'}`}>
       <div className={`container-padded flex items-center justify-between ${currentLogoSize.padding}`}>
         <Link to="/" className="flex items-center gap-3 pr-6">
-          {!logoFailed ? (
+          {!logoLoading && !logoFailed && headerLogoUrl ? (
             <img
-              src={headerLogoUrl || "/stella-favicon.png"}
-              className="w-auto object-contain drop-shadow-sm"
-              style={{
-                height: `${currentLogoSize.heightPx}px`,
-              }}
+              src={headerLogoUrl}
+              className={`${currentLogoSize.height} w-auto object-contain drop-shadow-sm transition-all duration-300`}
               alt={t('header.brand') as string}
               onError={() => setLogoFailed(true)}
             />
+          ) : logoLoading ? (
+            <div className={`${currentLogoSize.height} aspect-square rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse`} />
           ) : (
             <div 
-              className="aspect-square rounded-full bg-gradient-to-br from-brand-400 to-brand-700 shadow-soft grid place-items-center text-white"
-              style={{ height: `${currentLogoSize.heightPx}px` }}
+              className={`${currentLogoSize.height} aspect-square rounded-full bg-gradient-to-br from-brand-400 to-brand-700 shadow-soft grid place-items-center text-white transition-all duration-300`}
             >
               <div className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wide leading-3 text-center">
                 <div>STELLA</div>
@@ -262,24 +270,32 @@ export default function Header() {
             font-weight: 300;
             text-transform: uppercase;
             white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            color: #ffffff;
           }
           .nav-button:hover {
-            background: rgba(255, 255, 255, 0.18);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            background: rgba(201, 179, 130, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(201, 179, 130, 0.25);
+            color: #C9B382;
           }
           .nav-button:active {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(201, 179, 130, 0.25);
+            color: #C9B382;
           }
           @media (prefers-color-scheme: dark) {
             .nav-button {
               background: rgba(255, 255, 255, 0.05);
             }
             .nav-button:hover {
-              background: rgba(255, 255, 255, 0.12);
-              box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.08);
+              background: rgba(201, 179, 130, 0.12);
+              box-shadow: 0 8px 32px 0 rgba(201, 179, 130, 0.18);
+              color: #C9B382;
             }
             .nav-button:active {
-              background: rgba(255, 255, 255, 0.18);
+              background: rgba(201, 179, 130, 0.18);
+              color: #C9B382;
             }
           }
           .cta-button {
@@ -451,24 +467,19 @@ export default function Header() {
             className="nav-button"
             onClick={() => window.location.href = '/plataforma-stella'}
           >
-            CONSTELLATION PLATFORM
+            CONSTELLATION
           </button>
         </nav>
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher />
-          <CurrencySwitcher />
-          <span 
-            className="hidden sm:inline text-[10px] font-mono font-bold tracking-wider text-slate-400 dark:text-slate-500" 
-            style={{ 
-              textShadow: '1px 1px 0px rgba(255,255,255,0.15), -1px -1px 0px rgba(0,0,0,0.3)',
-              background: 'linear-gradient(135deg, #94a3b8 0%, #64748b 50%, #475569 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}
-          >
-            CRECI 309568
-          </span>
+          <div className="hidden sm:block">
+            <CurrencySwitcher />
+          </div>
+          <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30 mx-1"></div>
+          <div className="hidden sm:flex flex-col items-center text-[#C9B382] px-2">
+            <div className="text-[9px] font-mono font-bold tracking-[0.8px] leading-tight">CRECI</div>
+            <div className="text-[11px] font-mono font-bold tracking-[0.5px] leading-tight">309568</div>
+          </div>
           {/* Mobile hamburger */}
           <button
             type="button"
@@ -510,6 +521,10 @@ export default function Header() {
               <Link to="/plataforma-stella" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 Constellation Platform
               </Link>
+              <div className="border-t border-slate-200 dark:border-slate-800 my-2"></div>
+              <div className="px-3 py-2">
+                <CurrencySwitcher />
+              </div>
             </div>
           </div>
         </div>

@@ -539,12 +539,12 @@ export default function SiteAdmin() {
                   setHeaderLogoSize(e.target.value)
                 }}
               >
-                <option value="small">Small (Compact Header)</option>
-                <option value="medium">Medium (Standard)</option>
-                <option value="large">Large (Prominent)</option>
+                <option value="small">Small (Compact - 48px)</option>
+                <option value="medium">Medium (Standard - 80px)</option>
+                <option value="large">Large (Prominent - 112px)</option>
               </select>
               <div className="text-xs text-slate-500">
-                Adjusts logo height. Small: h-16-20 (64-80px), Medium: h-20-24 (80-96px), Large: h-24-28 (96-112px)
+                Adjusts logo height with minimal padding. Small: 48px, Medium: 80px, Large: 112px
                 <br />
                 <strong className="text-sky-400">Remember to click "Save Settings" below to persist changes!</strong>
               </div>
@@ -623,24 +623,24 @@ export default function SiteAdmin() {
                 Preview (Header Size) - {headerLogoSize.toUpperCase()}
               </div>
               <div className={`relative bg-gradient-to-br from-slate-800 to-slate-700 rounded-md flex items-center justify-center ${
-                headerLogoSize === 'small' ? 'h-24 py-2' :
-                headerLogoSize === 'large' ? 'h-32 py-3' :
-                'h-28 py-2.5'
+                headerLogoSize === 'small' ? 'h-16 py-1.5' :
+                headerLogoSize === 'large' ? 'h-32 py-2.5' :
+                'h-24 py-2'
               }`}>
                 <img 
                   src={headerLogoUrl || '/contellation-logo.png'} 
                   alt="Preview" 
                   className={`w-auto transition-all duration-300 ${
-                    headerLogoSize === 'small' ? 'h-16 sm:h-20' :
-                    headerLogoSize === 'large' ? 'h-24 sm:h-28' :
-                    'h-20 sm:h-24'
+                    headerLogoSize === 'small' ? 'h-12' :
+                    headerLogoSize === 'large' ? 'h-28' :
+                    'h-20'
                   }`}
                 />
               </div>
               <p className="text-xs text-slate-500 mt-2">
                 {headerLogoUrl ? 'Custom header logo' : 'Default constellation logo'}
                 {' · '}
-                Size: {headerLogoSize === 'small' ? 'h-16 to h-20 (64-80px)' : headerLogoSize === 'large' ? 'h-24 to h-28 (96-112px)' : 'h-20 to h-24 (80-96px)'}
+                Size: {headerLogoSize === 'small' ? '48px (compact)' : headerLogoSize === 'large' ? '112px (prominent)' : '80px (standard)'}
               </p>
             </div>
           </div>
