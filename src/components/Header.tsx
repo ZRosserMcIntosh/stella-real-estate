@@ -101,16 +101,21 @@ export default function Header() {
         if (cancelled) return
         console.log('Header logo settings loaded:', settings)
         if (settings.header_logo_url) {
+          console.log('Using header logo from Supabase:', settings.header_logo_url)
           setHeaderLogoUrl(settings.header_logo_url)
+        } else {
+          console.log('No header logo in Supabase, using local fallback: /Variação de logotipo 6.png')
+          setHeaderLogoUrl('/Variação de logotipo 6.png')
         }
         if (settings.header_logo_size) {
           setHeaderLogoSize(settings.header_logo_size)
           console.log('Header logo size set to:', settings.header_logo_size)
         }
       } catch (error) {
-        console.error('Failed to load header logo:', error)
+        console.error('Failed to load header logo, using local fallback:', error)
         if (!cancelled) {
-          setLogoFailed(true)
+          setHeaderLogoUrl('/Variação de logotipo 6.png')
+          setLogoFailed(false) // Don't mark as failed since we have fallback
         }
       } finally {
         if (!cancelled) {
