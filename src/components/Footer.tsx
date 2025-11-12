@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { trackEvent } from '../lib/telemetry'
+import { getSiteSettings } from '../lib/siteSettings'
 
 export default function Footer() {
   const { t } = useTranslation()
   const location = useLocation()
+  const [footerLogoUrl, setFooterLogoUrl] = useState<string>('')
+  
+  // Load footer logo from settings
+  useEffect(() => {
+    const loadFooterLogo = async () => {
+      try {
+        const settings = await getSiteSettings(['footer_logo_url'])
+        if (settings.footer_logo_url) {
+          setFooterLogoUrl(settings.footer_logo_url)
+        }
+      } catch (error) {
+        console.error('Failed to load footer logo:', error)
+      }
+    }
+    loadFooterLogo()
+  }, [])
   
   // Determine if we're on a page with a gradient/colored background
   const isSpecialPage = ['/privacidade', '/termos', '/cookies', '/msa', '/sla', '/dpa', '/aup', '/politica-suporte', '/termos-beta', '/termos-api', '/termos-indicacao', '/sobre', '/investidores'].includes(location.pathname)
@@ -108,6 +125,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/luisa-marketing" className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                  Luisa Marketing Agency
+                </Link>
+              </li>
+              <li>
+                <Link to="/servicos-juridicos" className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                  Serviços Jurídicos
+                </Link>
+              </li>
+              <li>
                 <Link to="/criar-site" onClick={() => trackEvent('signup_cta_click', { position: 'footer' })} className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Criar meu site
                 </Link>
@@ -202,6 +229,17 @@ export default function Footer() {
             &copy; <span id="year">{new Date().getFullYear()}</span> Stella Mary Lima Barbosa · CNPJ: 53.152.795/0001-10 · CRECI 309568 · {t('home.footer.copyright')}
           </p>
         </div>
+
+        {/* Footer Logo - Centered at Bottom */}
+        {footerLogoUrl && (
+          <div className="pt-6 flex justify-center">
+            <img 
+              src={footerLogoUrl} 
+              alt="Footer Logo" 
+              className="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity"
+            />
+          </div>
+        )}
       </div>
     </footer>
   )

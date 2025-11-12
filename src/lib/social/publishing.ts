@@ -330,7 +330,7 @@ export class PublishingOrchestrator {
     return prisma.socialPost.findFirst({
       where: {
         id: postId,
-        userId, // Ensure user owns this post
+        ownerId: userId, // Ensure user owns this post
       },
     })
   }
@@ -349,13 +349,10 @@ export class PublishingOrchestrator {
     return prisma.socialConnection.findMany({
       where: {
         userId,
-        platform: {
+        provider: {
           in: platforms,
         },
-        isConnected: true,
-        accessToken: {
-          not: null,
-        },
+        status: 'connected',
       },
     })
   }
@@ -381,8 +378,8 @@ export class PublishingOrchestrator {
       where: { id: postId },
       data: {
         status: newStatus as any,
-        publishedAt: overallSuccess ? new Date() : null,
-        platformResults: results as any, // Store full results
+        postedAt: overallSuccess ? new Date() : null,
+        // platformResults field doesn't exist in schema, removing it
       },
     })
 

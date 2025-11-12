@@ -428,5 +428,88 @@
   },
   "ballet": {
     "loading": "Carregando Ballet..."
+  },
+  "budget": {
+    "title": "Orçamento Rosser & Stella",
+    "subtitle": "Gestão financeira conjunta e controle de despesas",
+    "tabs": {
+      "overview": "Visão Geral",
+      "expenses": "Despesas",
+      "income": "Receitas",
+      "history": "Histórico"
+    },
+    "cards": {
+      "totalExpenses": "Total de Despesas",
+      "totalIncome": "Total de Receitas",
+      "stellaExpensesPaid": "Despesas Pagas - Stella",
+      "overdue": "Atrasadas",
+      "items": "itens",
+      "dueSoon": "vencendo em breve"
+    },
+    "actions": {
+      "addExpense": "Adicionar Despesa",
+      "addIncome": "Adicionar Receita",
+      "addHistoricalExpense": "Adicionar Despesa Histórica",
+      "addHistoricalIncome": "Adicionar Receita Histórica",
+      "fixUsdValues": "Corrigir Valores USD"
+    },
+    "status": {
+      "paid": "Pago",
+      "pending": "Pendente",
+      "overdue": "Atrasado"
+    },
+    "fields": {
+      "date": "Data",
+      "description": "Descrição",
+      "amount": "Valor",
+      "person": "Pessoa",
+      "status": "Status",
+      "category": "Categoria",
+      "dueInfo": "Info de Vencimento",
+      "actions": "Ações",
+      "optional": "Opcional"
+    },
+    "history": {
+      "title": "Histórico de Pagamentos",
+      "subtitle": "Meses passados com todas as despesas pagas",
+      "summary": "Resumo do Histórico de Pagamentos",
+      "billsPaid": "Contas Pagas",
+      "noHistory": "Ainda Sem Histórico",
+      "noHistoryDesc": "Os meses aparecerão aqui quando todas as despesas forem marcadas como pagas.",
+      "noHistoryHint": "Ou adicione pagamentos históricos usando os botões acima."
+    },
+    "monthly": {
+      "expense": "despesa",
+      "expenses": "despesas",
+      "incomeEntry": "entrada de receita",
+      "incomeEntries": "entradas de receita",
+      "netForMonth": "Líquido do mês",
+      "billsPaidLabel": "Contas Pagas"
+    },
+    "modal": {
+      "addExpense": "Adicionar Despesa",
+      "editExpense": "Editar Despesa",
+      "addIncome": "Adicionar Receita",
+      "editIncome": "Editar Receita",
+      "cancel": "Cancelar",
+      "save": "Salvar",
+      "update": "Atualizar",
+      "updateExpense": "Atualizar Despesa",
+      "updateIncome": "Atualizar Receita",
+      "amountBRL": "Valor (BRL)",
+      "amountUSD": "Valor (USD)",
+      "exchangeRateHint": "Digite o valor em BRL ou USD - o outro será calculado automaticamente usando a taxa de câmbio atual (1 USD ≈ {rate} BRL)",
+      "fillRequired": "Por favor, preencha data, valor e descrição"
+    },
+    "dueInfo": {
+      "paid": "Pago",
+      "overdue": "{days} dias atrasado",
+      "dueToday": "Vence hoje",
+      "dueTomorrow": "Vence amanhã",
+      "dueInDays": "Vence em {days} dias",
+      "daysAway": "{days} dias restantes"
+    },
+    "rosser": "Rosser",
+    "stella": "Stella"
   }
 }

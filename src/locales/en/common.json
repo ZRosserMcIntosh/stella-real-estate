@@ -426,5 +426,88 @@
   },
   "ballet": {
     "loading": "Loading Ballet..."
+  },
+  "budget": {
+    "title": "Rosser & Stella Budget",
+    "subtitle": "Joint financial management and expense tracking",
+    "tabs": {
+      "overview": "Overview",
+      "expenses": "Expenses",
+      "income": "Income",
+      "history": "History"
+    },
+    "cards": {
+      "totalExpenses": "Total Expenses",
+      "totalIncome": "Total Income",
+      "stellaExpensesPaid": "Stella Expenses Paid",
+      "overdue": "Overdue",
+      "items": "items",
+      "dueSoon": "due soon"
+    },
+    "actions": {
+      "addExpense": "Add Expense",
+      "addIncome": "Add Income",
+      "addHistoricalExpense": "Add Historical Expense",
+      "addHistoricalIncome": "Add Historical Income",
+      "fixUsdValues": "Fix USD Values"
+    },
+    "status": {
+      "paid": "Paid",
+      "pending": "Pending",
+      "overdue": "Overdue"
+    },
+    "fields": {
+      "date": "Date",
+      "description": "Description",
+      "amount": "Amount",
+      "person": "Person",
+      "status": "Status",
+      "category": "Category",
+      "dueInfo": "Due Info",
+      "actions": "Actions",
+      "optional": "Optional"
+    },
+    "history": {
+      "title": "Payment History",
+      "subtitle": "Past months with all expenses paid",
+      "summary": "Payment History Summary",
+      "billsPaid": "Bills Paid",
+      "noHistory": "No History Yet",
+      "noHistoryDesc": "Months will appear here once all expenses are marked as paid.",
+      "noHistoryHint": "Or add historical payments using the buttons above."
+    },
+    "monthly": {
+      "expense": "expense",
+      "expenses": "expenses",
+      "incomeEntry": "income entry",
+      "incomeEntries": "income entries",
+      "netForMonth": "Net for month",
+      "billsPaidLabel": "Bills Paid"
+    },
+    "modal": {
+      "addExpense": "Add Expense",
+      "editExpense": "Edit Expense",
+      "addIncome": "Add Income",
+      "editIncome": "Edit Income",
+      "cancel": "Cancel",
+      "save": "Save",
+      "update": "Update",
+      "updateExpense": "Update Expense",
+      "updateIncome": "Update Income",
+      "amountBRL": "Amount (BRL)",
+      "amountUSD": "Amount (USD)",
+      "exchangeRateHint": "Enter amount in either BRL or USD - the other will auto-calculate using current exchange rate (1 USD ≈ {rate} BRL)",
+      "fillRequired": "Please fill in date, amount, and description"
+    },
+    "dueInfo": {
+      "paid": "Paid",
+      "overdue": "{days} days overdue",
+      "dueToday": "Due today",
+      "dueTomorrow": "Due tomorrow",
+      "dueInDays": "Due in {days} days",
+      "daysAway": "{days} days away"
+    },
+    "rosser": "Rosser",
+    "stella": "Stella"
   }
 }

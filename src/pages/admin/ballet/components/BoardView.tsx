@@ -11,9 +11,10 @@ interface BoardViewProps {
   onTaskClick: (taskId: string) => void
   onTaskUpdate: (taskId: string, updates: Partial<Task>) => void
   onTaskComplete: (taskId: string) => void
+  onAddTask?: (sectionId?: string) => void
 }
 
-export function BoardView({ project, tasks, users, onTaskClick, onTaskUpdate, onTaskComplete }: BoardViewProps) {
+export function BoardView({ project, tasks, users, onTaskClick, onTaskUpdate, onTaskComplete, onAddTask }: BoardViewProps) {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'urgent': return 'bg-red-500/20 text-red-300 border-red-500/30'
@@ -132,7 +133,10 @@ export function BoardView({ project, tasks, users, onTaskClick, onTaskUpdate, on
               })}
 
               {/* Add Task Button */}
-              <button className="w-full rounded-lg border border-dashed border-slate-700/50 bg-slate-800/20 p-3 text-sm text-slate-500 transition-all hover:border-pink-500/50 hover:bg-slate-800/40 hover:text-pink-400 hover:shadow-lg hover:shadow-pink-500/10">
+              <button
+                onClick={() => onAddTask?.(section.id)}
+                className="w-full rounded-lg border border-dashed border-slate-700/50 bg-slate-800/20 p-3 text-sm text-slate-500 transition-all hover:border-pink-500/50 hover:bg-slate-800/40 hover:text-pink-400 hover:shadow-lg hover:shadow-pink-500/10"
+              >
                 + Add task
               </button>
             </div>

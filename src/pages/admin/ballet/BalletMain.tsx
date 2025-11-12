@@ -48,7 +48,9 @@ export default function BalletMain() {
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
   const [showProjectList, setShowProjectList] = useState(false)
   const [showCreateProject, setShowCreateProject] = useState(false)
+  const [showEditProject, setShowEditProject] = useState(false)
   const [showFoldersDrawer, setShowFoldersDrawer] = useState(false)
+  const [taskModalSectionId, setTaskModalSectionId] = useState<string | undefined>(undefined)
 
   const currentProject = projects.find(p => p.id === currentProjectId) || null
   const currentWorkspace = workspaces.find(w => w.id === currentWorkspaceId) || null
@@ -161,9 +163,10 @@ export default function BalletMain() {
       const activeWorkspace = loadedWorkspaces.find(ws => ws.id === preferredWorkspaceId) || loadedWorkspaces[0]
       setCurrentWorkspaceId(activeWorkspace.id)
 
-      await loadWorkspaceFolders(activeWorkspace.id, source)
-
-      const workspaceProjects = await api.fetchProjects(activeWorkspace.id)
+      const [workspaceProjects, workspaceUsers] = await Promise.all([
+        api.fetchProjects(activeWorkspace.id),
+        api.fetchWorkspaceUsers(activeWorkspace),
+      ])
       setProjects(workspaceProjects)
 
       if (workspaceProjects.length > 0) {
@@ -176,7 +179,6 @@ export default function BalletMain() {
         setTasks([])
       }
 
-      const workspaceUsers = await api.fetchWorkspaceUsers(activeWorkspace)
       setUsers(workspaceUsers)
 
       const profile = source === 'remote'
@@ -241,6 +243,7 @@ export default function BalletMain() {
         setProjects(refreshedProjects)
       }
       setShowCreateTask(false)
+      setTaskModalSectionId(undefined)
     } catch (err) {
       console.error('Failed to create task:', err)
       alert('Failed to create task: ' + (err instanceof Error ? err.message : 'Unknown error'))
@@ -285,6 +288,68 @@ export default function BalletMain() {
     })
   }
 
+  async function createSubtask(parentTaskId: string, title: string) {
+    if (!currentProjectId || !title.trim()) return
+    const parentTask = tasks.find(t => t.id === parentTaskId)
+    if (!parentTask) return
+    const api = dataSource === 'local' ? localBalletApi : balletApi
+    const sectionId = parentTask.sectionId ?? currentProject?.sections?.[0]?.id
+    try {
+      const subtask = await api.createTask({
+        title: title.trim(),
+        description: '',
+        projectId: parentTask.projectId,
+        sectionId: sectionId || undefined,
+        assigneeId: undefined,
+        creatorId: currentUser?.id || parentTask.creatorId,
+        status: 'todo',
+        priority: 'medium',
+        dueDate: undefined,
+        startDate: undefined,
+        tags: [],
+        dependsOn: [],
+        blockedBy: [],
+        subtasks: [],
+        collaboratorIds: [],
+        followerIds: [],
+        customFields: [],
+        isMilestone: false,
+        position: tasks.length + 1,
+      })
+
+      await api.updateTask(parentTaskId, {
+        subtasks: [...parentTask.subtasks, subtask.id],
+      })
+
+      await loadTasks(parentTask.projectId, dataSource)
+    } catch (err) {
+      console.error('Failed to create subtask:', err)
+      alert('Could not create subtask.')
+    }
+  }
+
+  async function removeSubtask(parentTaskId: string, subtaskId: string) {
+    if (!currentProjectId) return
+    const parentTask = tasks.find(t => t.id === parentTaskId)
+    if (!parentTask) return
+    const api = dataSource === 'local' ? localBalletApi : balletApi
+    try {
+      const nextSubtasks = parentTask.subtasks.filter(id => id !== subtaskId)
+      await api.updateTask(parentTaskId, { subtasks: nextSubtasks })
+      await api.deleteTask(subtaskId)
+      await loadTasks(parentTask.projectId, dataSource)
+    } catch (err) {
+      console.error('Failed to remove subtask:', err)
+    }
+  }
+
+  async function toggleSubtaskCompletion(subtaskId: string, complete: boolean) {
+    await updateTask(subtaskId, {
+      status: complete ? 'completed' : 'todo',
+      completedAt: complete ? new Date().toISOString() : undefined,
+    })
+  }
+
   function handleSetCurrentProject(projectId: string) {
     setCurrentProjectId(projectId)
     setShowProjectList(false)
@@ -295,6 +360,11 @@ export default function BalletMain() {
     setDataSource('remote')
     setLocalModeReason(null)
     await loadInitialData('remote')
+  }
+
+  function openCreateTask(sectionId?: string) {
+    setTaskModalSectionId(sectionId || currentProject?.sections?.[0]?.id || undefined)
+    setShowCreateTask(true)
   }
 
   async function handleCreateProject(payload: CreateProjectPayload) {
@@ -335,6 +405,27 @@ export default function BalletMain() {
     } catch (err) {
       console.error('Failed to create project:', err)
       alert('Failed to create project.')
+    }
+  }
+
+  async function handleUpdateProject(projectId: string, payload: CreateProjectPayload) {
+    const api = dataSource === 'local' ? localBalletApi : balletApi
+    try {
+      const updatedProject = await api.updateProject(projectId, {
+        name: payload.name,
+        description: payload.description,
+        color: payload.color,
+        icon: payload.icon,
+        defaultView: payload.defaultView,
+      })
+      setProjects(prev => prev.map(project => project.id === projectId ? updatedProject : project))
+      if (projectId === currentProjectId) {
+        setCurrentView(payload.defaultView)
+      }
+      setShowEditProject(false)
+    } catch (err) {
+      console.error('Failed to update project:', err)
+      alert('Could not save project changes.')
     }
   }
 
@@ -384,37 +475,39 @@ export default function BalletMain() {
     }
   }
 
+  const offsetViewportClass = 'min-h-[calc(100vh-5rem)]'
+
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+      <div className={`relative ${offsetViewportClass} bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden flex items-center justify-center`}>
         <AnimatedBackground variant="ballet" interactive={true} />
         
         {/* Spotlight Animation */}
         <style>{`
-          @keyframes spotlightMerge {
+          @keyframes spotlightMergeLeft {
             0% {
-              transform: translate(-50%, -50%) translateX(-200px);
+              left: -10%;
               opacity: 0;
             }
             50% {
-              opacity: 1;
+              opacity: 0.8;
             }
             100% {
-              transform: translate(-50%, -50%) translateX(0);
+              left: 50%;
               opacity: 1;
             }
           }
           
           @keyframes spotlightMergeRight {
             0% {
-              transform: translate(-50%, -50%) translateX(200px);
+              left: 110%;
               opacity: 0;
             }
             50% {
-              opacity: 1;
+              opacity: 0.8;
             }
             100% {
-              transform: translate(-50%, -50%) translateX(0);
+              left: 50%;
               opacity: 1;
             }
           }
@@ -429,7 +522,7 @@ export default function BalletMain() {
           }
           
           .spotlight-merge-left {
-            animation: spotlightMerge 2s ease-out forwards;
+            animation: spotlightMergeLeft 2s ease-out forwards;
           }
           
           .spotlight-merge-right {
@@ -437,26 +530,28 @@ export default function BalletMain() {
           }
           
           .ballerina-spin {
-            animation: ballerinaSpin 1s ease-in-out infinite;
+            animation: ballerinaSpin 2s linear infinite;
             transform-style: preserve-3d;
           }
         `}</style>
         
-        {/* Merged Spotlight - Left */}
+        {/* Spotlight from Left */}
         <div 
-          className="spotlight-merge-left absolute top-1/2 left-1/2 w-96 h-96 rounded-full pointer-events-none z-0"
+          className="spotlight-merge-left absolute top-1/2 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
           style={{
-            background: 'radial-gradient(circle, rgba(236,72,153,0.4) 0%, rgba(236,72,153,0.2) 40%, transparent 70%)',
-            filter: 'blur(40px)',
+            transform: 'translate(-50%, -50%)',
+            background: 'radial-gradient(circle, rgba(236,72,153,0.5) 0%, rgba(236,72,153,0.3) 30%, rgba(236,72,153,0.1) 50%, transparent 70%)',
+            filter: 'blur(60px)',
           }}
         />
         
-        {/* Merged Spotlight - Right */}
+        {/* Spotlight from Right */}
         <div 
-          className="spotlight-merge-right absolute top-1/2 left-1/2 w-96 h-96 rounded-full pointer-events-none z-0"
+          className="spotlight-merge-right absolute top-1/2 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
           style={{
-            background: 'radial-gradient(circle, rgba(236,72,153,0.4) 0%, rgba(236,72,153,0.2) 40%, transparent 70%)',
-            filter: 'blur(40px)',
+            transform: 'translate(-50%, -50%)',
+            background: 'radial-gradient(circle, rgba(236,72,153,0.5) 0%, rgba(236,72,153,0.3) 30%, rgba(236,72,153,0.1) 50%, transparent 70%)',
+            filter: 'blur(60px)',
           }}
         />
         
@@ -478,9 +573,9 @@ export default function BalletMain() {
   if (error) {
     if (error === 'DATABASE_NOT_SETUP') {
       return (
-        <div className="flex h-screen items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative">
+        <div className={`relative ${offsetViewportClass} bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden`}>
           <AnimatedBackground variant="ballet" interactive={true} />
-          <div className="text-center max-w-2xl mx-auto p-8 relative z-10">
+          <div className="text-center max-w-2xl mx-auto p-8 pt-16 relative z-10">
             <div className="mb-4 drop-shadow-[0_0_15px_rgba(236,72,153,0.5)] flex justify-center">
               <img src="/ballet-logo.png" alt="Ballet Logo" className="w-24 h-24" />
             </div>
@@ -540,9 +635,9 @@ export default function BalletMain() {
     }
     
     return (
-      <div className="flex h-screen items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative">
+      <div className={`relative ${offsetViewportClass} bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden`}>
         <AnimatedBackground variant="ballet" interactive={true} />
-        <div className="text-center max-w-md relative z-10">
+        <div className="text-center max-w-md relative z-10 pt-16">
           <div className="text-6xl mb-4">⚠️</div>
           <h2 className="text-2xl font-semibold text-slate-100 mb-2">Error Loading Ballet</h2>
           <p className="text-slate-400 mb-4">{error}</p>
@@ -558,10 +653,10 @@ export default function BalletMain() {
   }
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className={`relative ${offsetViewportClass} bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pt-12`}>
       <AnimatedBackground variant="ballet" interactive={true} />
       {dataSource === 'local' && (
-        <div className="fixed right-6 top-24 z-40 max-w-sm rounded-xl border border-pink-500/40 bg-pink-500/10 px-4 py-3 text-pink-100 backdrop-blur">
+        <div className="absolute right-6 top-28 z-40 max-w-sm rounded-xl border border-pink-500/40 bg-pink-500/10 px-4 py-3 text-pink-100 backdrop-blur">
           <div className="flex items-start gap-3">
             <div className="flex-1 text-xs">
               <p className="text-sm font-semibold text-pink-100">Local mode</p>
@@ -588,7 +683,7 @@ export default function BalletMain() {
         </div>
       )}
       {/* Top Header */}
-      <div className="fixed top-0 left-0 right-0 z-30 border-b border-slate-700/50 bg-slate-900/80 backdrop-blur-xl shadow-lg shadow-pink-500/5">
+      <div className="sticky top-4 z-30 border-b border-slate-700/50 bg-slate-900/80 backdrop-blur-xl shadow-lg shadow-pink-500/5 rounded-b-2xl">
         <div className="flex items-center gap-4 px-6 py-3">
           {/* Workspace & Project Selector */}
           <div className="flex items-center gap-2">
@@ -667,8 +762,16 @@ export default function BalletMain() {
             >
               <span>➕</span> New Project
             </button>
+            {currentProject && (
+              <button
+                onClick={() => setShowEditProject(true)}
+                className="hidden md:flex items-center gap-2 rounded-lg border border-slate-600/60 bg-slate-800/40 px-4 py-1.5 text-sm font-medium text-slate-200 hover:text-white hover:border-pink-500/50"
+              >
+                ⚙️ Edit
+              </button>
+            )}
             <button
-              onClick={() => setShowCreateTask(true)}
+              onClick={() => openCreateTask()}
               className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-pink-600 to-pink-500 px-4 py-1.5 text-sm font-medium text-white shadow-lg shadow-pink-500/30 hover:from-pink-700 hover:to-pink-600 transition-all duration-200 hover:scale-105 hover:shadow-pink-500/40"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -681,7 +784,7 @@ export default function BalletMain() {
       </div>
 
       {/* Main Content */}
-      <div className="flex h-screen pt-[52px]">
+      <div className="flex h-full pt-6">
         {/* Left Sidebar */}
         <ProjectSidebar
           project={currentProject}
@@ -725,6 +828,7 @@ export default function BalletMain() {
                   onTaskClick={setSelectedTaskId}
                   onTaskUpdate={updateTask}
                   onTaskComplete={completeTask}
+                  onAddTask={openCreateTask}
                 />
               )}
               {currentView === 'timeline' && (
@@ -754,6 +858,7 @@ export default function BalletMain() {
           project={currentProject}
           users={users}
           currentUser={currentUser}
+          defaultSectionId={taskModalSectionId}
           existingTasks={projectTasks}
           onClose={() => setShowCreateTask(false)}
           onCreate={createTask}
@@ -772,6 +877,9 @@ export default function BalletMain() {
           onUpdate={updateTask}
           onDelete={deleteTask}
           onComplete={completeTask}
+          onCreateSubtask={createSubtask}
+          onRemoveSubtask={removeSubtask}
+          onToggleSubtaskComplete={toggleSubtaskCompletion}
         />
       )}
 
@@ -779,8 +887,20 @@ export default function BalletMain() {
         <CreateProjectModal
           open={showCreateProject}
           workspaceName={currentWorkspace.name}
+          mode="create"
           onCreate={handleCreateProject}
           onClose={() => setShowCreateProject(false)}
+        />
+      )}
+
+      {currentWorkspace && currentProject && (
+        <CreateProjectModal
+          open={showEditProject}
+          workspaceName={currentWorkspace.name}
+          mode="edit"
+          project={currentProject}
+          onUpdate={handleUpdateProject}
+          onClose={() => setShowEditProject(false)}
         />
       )}
 

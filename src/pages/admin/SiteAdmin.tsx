@@ -31,14 +31,82 @@ export default function SiteAdmin() {
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState<string | null>(null)
 
+  // Watermark settings
+  const [watermarkEnabled, setWatermarkEnabled] = useState(false)
+  const [watermarkText, setWatermarkText] = useState('STELLA')
+  const [watermarkOpacity, setWatermarkOpacity] = useState('0.15')
+  const [watermarkPosition, setWatermarkPosition] = useState('center')
+  const [watermarkType, setWatermarkType] = useState('text')
+  const [watermarkImageUrl, setWatermarkImageUrl] = useState('')
+  const [watermarkSize, setWatermarkSize] = useState('medium')
+  
+  // Logo URLs
+  const [heroLogoUrl, setHeroLogoUrl] = useState('')
+  const [headerLogoUrl, setHeaderLogoUrl] = useState('')
+  const [headerLogoSize, setHeaderLogoSize] = useState('medium')
+  const [footerLogoUrl, setFooterLogoUrl] = useState('')
+  
+  // Favicon URL
+  const [faviconUrl, setFaviconUrl] = useState('')
+  
+  // Privacy settings
+  const [disableRightClick, setDisableRightClick] = useState(false)
+  const [disableTextSelection, setDisableTextSelection] = useState(false)
+  const [disableImageDragging, setDisableImageDragging] = useState(false)
+
   useEffect(() => {
     const load = async () => {
-  const s = await getSiteSettings(['video_home_id','video_login_id','featured_projects','video_home_fallback_image','video_home_uploaded_url'])
+  const s = await getSiteSettings([
+    'video_home_id',
+    'video_login_id',
+    'featured_projects',
+    'video_home_fallback_image',
+    'video_home_uploaded_url',
+    'watermark_enabled',
+    'watermark_text',
+    'watermark_opacity',
+    'watermark_position',
+    'watermark_type',
+    'watermark_image_url',
+    'watermark_size',
+    'hero_logo_url',
+    'header_logo_url',
+    'header_logo_size',
+    'footer_logo_url',
+    'favicon_url',
+    'disable_right_click',
+    'disable_text_selection',
+    'disable_image_dragging'
+  ])
       setHomeId(s.video_home_id || '')
       setLoginId(s.video_login_id || '')
   setFeaturedRaw(s.featured_projects || '')
       setHeroFallbackUrl(s.video_home_fallback_image || '')
       setHeroVideoUploadedUrl(s.video_home_uploaded_url || '')
+      
+      // Load watermark settings
+      setWatermarkEnabled(s.watermark_enabled === 'true')
+      setWatermarkText(s.watermark_text || 'STELLA')
+      setWatermarkOpacity(s.watermark_opacity || '0.15')
+      setWatermarkPosition(s.watermark_position || 'center')
+      setWatermarkType(s.watermark_type || 'text')
+      setWatermarkImageUrl(s.watermark_image_url || '')
+      setWatermarkSize(s.watermark_size || 'medium')
+      
+      // Load logo URLs
+      setHeroLogoUrl(s.hero_logo_url || '')
+      setHeaderLogoUrl(s.header_logo_url || '')
+      setHeaderLogoSize(s.header_logo_size || 'medium')
+      setFooterLogoUrl(s.footer_logo_url || '')
+      
+      // Load favicon URL
+      setFaviconUrl(s.favicon_url || '')
+      
+      // Load privacy settings
+      setDisableRightClick(s.disable_right_click === 'true')
+      setDisableTextSelection(s.disable_text_selection === 'true')
+      setDisableImageDragging(s.disable_image_dragging === 'true')
+      
       const [hh, lh] = await Promise.all([
         getSiteSettingHistory('video_home_id', 10),
         getSiteSettingHistory('video_login_id', 10),
@@ -334,6 +402,770 @@ export default function SiteAdmin() {
           </div>
           <div className="text-xs text-slate-500">Saving will store the selected IDs in settings and update the homepage Featured section.</div>
         </div>
+
+        {/* Hero Logo Configuration Section */}
+        <div className="grid gap-4 border border-slate-700/60 rounded-xl p-4 bg-slate-800/30">
+          <div>
+            <h3 className="text-base font-semibold text-slate-100">Homepage Hero Logo</h3>
+            <p className="text-sm text-slate-400 mt-1">Customize the logo displayed on the homepage hero overlay</p>
+          </div>
+          
+          <div className="grid gap-3">
+            <label className="grid gap-2 text-sm">
+              <span className="font-medium text-slate-200">Logo Image URL</span>
+              <input 
+                className={inputCls}
+                value={heroLogoUrl}
+                onChange={(e) => setHeroLogoUrl(e.target.value)}
+                placeholder="https://... or leave empty to use default Stella.png"
+              />
+              <div className="text-xs text-slate-500">Paste a URL or upload an image. Leave empty to use the default logo.</div>
+            </label>
+
+            <div>
+              <label className="cursor-pointer inline-flex items-center gap-2 text-sm">
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                  className="hidden"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0]
+                    if (!file) return
+                    
+                    try {
+                      // Sanitize filename
+                      const sanitized = file.name
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .replace(/[^a-zA-Z0-9._-]/g, '_')
+                      
+                      const bucket = supabase.storage.from('listings')
+                      const path = `hero-logo/${Date.now()}_${sanitized}`
+                      
+                      const { error } = await bucket.upload(path, file, { 
+                        upsert: true, 
+                        cacheControl: '3600',
+                        contentType: file.type 
+                      })
+                      
+                      if (error) throw new Error(error.message || 'Upload failed')
+                      
+                      const { data: pub } = bucket.getPublicUrl(path)
+                      
+                      if (pub?.publicUrl) {
+                        setHeroLogoUrl(pub.publicUrl)
+                        setMsg('✓ Logo uploaded successfully!')
+                        setTimeout(() => setMsg(null), 2000)
+                      } else {
+                        throw new Error('Failed to get public URL')
+                      }
+                    } catch (err: any) {
+                      console.error('Hero logo upload error:', err)
+                      const errorMsg = err?.message || 'Upload failed'
+                      
+                      if (errorMsg.includes('row-level security') || errorMsg.includes('policy')) {
+                        setMsg('Upload failed: Storage bucket permissions not configured. Using local preview.')
+                        const url = URL.createObjectURL(file)
+                        setHeroLogoUrl(url)
+                      } else {
+                        setMsg(`Upload failed: ${errorMsg}`)
+                      }
+                      
+                      setTimeout(() => setMsg(null), 5000)
+                    }
+                    e.target.value = ''
+                  }}
+                />
+                <span className="rounded-md bg-slate-700/60 px-3 py-2 border border-slate-600 hover:bg-slate-600 text-slate-200">Upload Logo</span>
+              </label>
+            </div>
+
+            {heroLogoUrl && (
+              <div className="rounded-lg bg-slate-900/50 p-3 border border-slate-700/40">
+                <div className="text-xs font-semibold text-slate-300 mb-2">Current Hero Logo</div>
+                <img 
+                  src={heroLogoUrl} 
+                  alt="Hero Logo" 
+                  className="h-24 w-auto rounded-md bg-slate-800/50 p-2"
+                />
+              </div>
+            )}
+
+            <div className="rounded-lg bg-slate-900/50 p-3 border border-slate-700/40">
+              <div className="text-xs font-semibold text-slate-300 mb-2">Preview on Dark Background</div>
+              <div className="relative h-32 bg-gradient-to-br from-slate-900 to-slate-800 rounded-md flex items-center justify-center">
+                <img 
+                  src={heroLogoUrl || '/Stella.png'} 
+                  alt="Preview" 
+                  className="h-20 w-auto drop-shadow-lg"
+                />
+              </div>
+              <p className="text-xs text-slate-500 mt-2">
+                {heroLogoUrl ? 'This is your custom hero logo' : 'Using default Stella.png logo'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Header Logo Configuration Section */}
+        <div className="grid gap-4 border border-slate-700/60 rounded-xl p-4 bg-slate-800/30">
+          <div>
+            <h3 className="text-base font-semibold text-slate-100">Header Logo</h3>
+            <p className="text-sm text-slate-400 mt-1">Customize the logo displayed in the top navigation header</p>
+          </div>
+          
+          <div className="grid gap-3">
+            <label className="grid gap-2 text-sm">
+              <span className="font-medium text-slate-200">Logo Image URL</span>
+              <input 
+                className={inputCls}
+                value={headerLogoUrl}
+                onChange={(e) => setHeaderLogoUrl(e.target.value)}
+                placeholder="https://... or leave empty to use default constellation logo"
+              />
+              <div className="text-xs text-slate-500">Paste a URL or upload an image. Leave empty to use the default header logo.</div>
+            </label>
+            
+            <label className="grid gap-2 text-sm">
+              <span className="font-medium text-slate-200">
+                Header Logo Size 
+                <span className="ml-2 text-xs text-sky-400">(Current: {headerLogoSize})</span>
+              </span>
+              <select
+                className={inputCls}
+                value={headerLogoSize}
+                onChange={(e) => {
+                  console.log('Header logo size changed to:', e.target.value)
+                  setHeaderLogoSize(e.target.value)
+                }}
+              >
+                <option value="small">Small (Compact Header)</option>
+                <option value="medium">Medium (Standard)</option>
+                <option value="large">Large (Prominent)</option>
+              </select>
+              <div className="text-xs text-slate-500">
+                Adjusts logo height. Small: h-16-20 (64-80px), Medium: h-20-24 (80-96px), Large: h-24-28 (96-112px)
+                <br />
+                <strong className="text-sky-400">Remember to click "Save Settings" below to persist changes!</strong>
+              </div>
+            </label>
+
+            <div>
+              <label className="cursor-pointer inline-flex items-center gap-2 text-sm">
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                  className="hidden"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0]
+                    if (!file) return
+                    
+                    try {
+                      const sanitized = file.name
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .replace(/[^a-zA-Z0-9._-]/g, '_')
+                      
+                      const bucket = supabase.storage.from('listings')
+                      const path = `header-logo/${Date.now()}_${sanitized}`
+                      
+                      const { error } = await bucket.upload(path, file, { 
+                        upsert: true, 
+                        cacheControl: '3600',
+                        contentType: file.type 
+                      })
+                      
+                      if (error) throw new Error(error.message || 'Upload failed')
+                      
+                      const { data: pub } = bucket.getPublicUrl(path)
+                      
+                      if (pub?.publicUrl) {
+                        setHeaderLogoUrl(pub.publicUrl)
+                        setMsg('✓ Header logo uploaded successfully!')
+                        setTimeout(() => setMsg(null), 2000)
+                      } else {
+                        throw new Error('Failed to get public URL')
+                      }
+                    } catch (err: any) {
+                      console.error('Header logo upload error:', err)
+                      const errorMsg = err?.message || 'Upload failed'
+                      
+                      if (errorMsg.includes('row-level security') || errorMsg.includes('policy')) {
+                        setMsg('Upload failed: Storage bucket permissions not configured. Using local preview.')
+                        const url = URL.createObjectURL(file)
+                        setHeaderLogoUrl(url)
+                      } else {
+                        setMsg(`Upload failed: ${errorMsg}`)
+                      }
+                      
+                      setTimeout(() => setMsg(null), 5000)
+                    }
+                    e.target.value = ''
+                  }}
+                />
+                <span className="rounded-md bg-slate-700/60 px-3 py-2 border border-slate-600 hover:bg-slate-600 text-slate-200">Upload Logo</span>
+              </label>
+            </div>
+
+            {headerLogoUrl && (
+              <div className="rounded-lg bg-slate-900/50 p-3 border border-slate-700/40">
+                <div className="text-xs font-semibold text-slate-300 mb-2">Current Header Logo</div>
+                <img 
+                  src={headerLogoUrl} 
+                  alt="Header Logo" 
+                  className="h-16 w-auto rounded-md bg-slate-800/50 p-2"
+                />
+              </div>
+            )}
+
+            <div className="rounded-lg bg-slate-900/50 p-3 border border-slate-700/40">
+              <div className="text-xs font-semibold text-slate-300 mb-2">
+                Preview (Header Size) - {headerLogoSize.toUpperCase()}
+              </div>
+              <div className={`relative bg-gradient-to-br from-slate-800 to-slate-700 rounded-md flex items-center justify-center ${
+                headerLogoSize === 'small' ? 'h-24 py-2' :
+                headerLogoSize === 'large' ? 'h-32 py-3' :
+                'h-28 py-2.5'
+              }`}>
+                <img 
+                  src={headerLogoUrl || '/contellation-logo.png'} 
+                  alt="Preview" 
+                  className={`w-auto transition-all duration-300 ${
+                    headerLogoSize === 'small' ? 'h-16 sm:h-20' :
+                    headerLogoSize === 'large' ? 'h-24 sm:h-28' :
+                    'h-20 sm:h-24'
+                  }`}
+                />
+              </div>
+              <p className="text-xs text-slate-500 mt-2">
+                {headerLogoUrl ? 'Custom header logo' : 'Default constellation logo'}
+                {' · '}
+                Size: {headerLogoSize === 'small' ? 'h-16 to h-20 (64-80px)' : headerLogoSize === 'large' ? 'h-24 to h-28 (96-112px)' : 'h-20 to h-24 (80-96px)'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Logo Configuration Section */}
+        <div className="grid gap-4 border border-slate-700/60 rounded-xl p-4 bg-slate-800/30">
+          <div>
+            <h3 className="text-base font-semibold text-slate-100">Footer Logo</h3>
+            <p className="text-sm text-slate-400 mt-1">Customize the logo displayed centered at the bottom of the footer</p>
+          </div>
+          
+          <div className="grid gap-3">
+            <label className="grid gap-2 text-sm">
+              <span className="font-medium text-slate-200">Logo Image URL</span>
+              <input 
+                className={inputCls}
+                value={footerLogoUrl}
+                onChange={(e) => setFooterLogoUrl(e.target.value)}
+                placeholder="https://... or leave empty for no footer logo"
+              />
+              <div className="text-xs text-slate-500">Paste a URL or upload an image. Leave empty for no footer logo.</div>
+            </label>
+
+            <div>
+              <label className="cursor-pointer inline-flex items-center gap-2 text-sm">
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                  className="hidden"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0]
+                    if (!file) return
+                    
+                    try {
+                      const sanitized = file.name
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .replace(/[^a-zA-Z0-9._-]/g, '_')
+                      
+                      const bucket = supabase.storage.from('listings')
+                      const path = `footer-logo/${Date.now()}_${sanitized}`
+                      
+                      const { error } = await bucket.upload(path, file, { 
+                        upsert: true, 
+                        cacheControl: '3600',
+                        contentType: file.type 
+                      })
+                      
+                      if (error) throw new Error(error.message || 'Upload failed')
+                      
+                      const { data: pub } = bucket.getPublicUrl(path)
+                      
+                      if (pub?.publicUrl) {
+                        setFooterLogoUrl(pub.publicUrl)
+                        setMsg('✓ Footer logo uploaded successfully!')
+                        setTimeout(() => setMsg(null), 2000)
+                      } else {
+                        throw new Error('Failed to get public URL')
+                      }
+                    } catch (err: any) {
+                      console.error('Footer logo upload error:', err)
+                      const errorMsg = err?.message || 'Upload failed'
+                      
+                      if (errorMsg.includes('row-level security') || errorMsg.includes('policy')) {
+                        setMsg('Upload failed: Storage bucket permissions not configured. Using local preview.')
+                        const url = URL.createObjectURL(file)
+                        setFooterLogoUrl(url)
+                      } else {
+                        setMsg(`Upload failed: ${errorMsg}`)
+                      }
+                      
+                      setTimeout(() => setMsg(null), 5000)
+                    }
+                    e.target.value = ''
+                  }}
+                />
+                <span className="rounded-md bg-slate-700/60 px-3 py-2 border border-slate-600 hover:bg-slate-600 text-slate-200">Upload Logo</span>
+              </label>
+            </div>
+
+            {footerLogoUrl && (
+              <div className="rounded-lg bg-slate-900/50 p-3 border border-slate-700/40">
+                <div className="text-xs font-semibold text-slate-300 mb-2">Current Footer Logo</div>
+                <img 
+                  src={footerLogoUrl} 
+                  alt="Footer Logo" 
+                  className="h-16 w-auto rounded-md bg-slate-800/50 p-2"
+                />
+              </div>
+            )}
+
+            <div className="rounded-lg bg-slate-900/50 p-3 border border-slate-700/40">
+              <div className="text-xs font-semibold text-slate-300 mb-2">Preview (Footer Size)</div>
+              <div className="relative h-24 bg-gradient-to-br from-slate-900 to-slate-800 rounded-md flex items-center justify-center border-t border-slate-700">
+                {footerLogoUrl ? (
+                  <img 
+                    src={footerLogoUrl} 
+                    alt="Preview" 
+                    className="h-16 w-auto"
+                  />
+                ) : (
+                  <div className="text-slate-500 text-sm">No footer logo set</div>
+                )}
+              </div>
+              <p className="text-xs text-slate-500 mt-2">
+                {footerLogoUrl ? 'This logo will appear centered at the bottom of the footer' : 'No footer logo will be displayed'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Favicon Configuration Section */}
+        <div className="grid gap-4 border border-slate-700/60 rounded-xl p-4 bg-slate-800/30">
+          <div>
+            <h3 className="text-base font-semibold text-slate-100">Favicon</h3>
+            <p className="text-xs text-slate-400 mt-1">The small icon that appears in browser tabs and bookmarks.</p>
+          </div>
+          
+          <div className="grid gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-2">Favicon URL</label>
+              <input
+                type="text"
+                value={faviconUrl}
+                onChange={(e) => setFaviconUrl(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-sm text-slate-100 placeholder-slate-500 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500"
+                placeholder="https://... or upload an image"
+              />
+              <div className="text-xs text-slate-500">Paste a URL or upload an image. Recommended size: 32x32 or 64x64 pixels.</div>
+            </div>
+            
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-2">Upload Favicon Image</label>
+              <input 
+                type="file" 
+                accept="image/*"
+                className="block w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 file:cursor-pointer cursor-pointer"
+                onChange={async (e) => {
+                  const f = e.target.files?.[0]
+                  if (!f) return
+                  try {
+                    const sanitized = f.name.replace(/[^a-zA-Z0-9._-]/g, '_')
+                    const path = `favicon/${Date.now()}-${sanitized}`
+                    const { data, error } = await supabase.storage.from('listings').upload(path, f, { upsert: false })
+                    if (error) throw error
+                    const { data: { publicUrl } } = supabase.storage.from('listings').getPublicUrl(path)
+                    setFaviconUrl(publicUrl)
+                    setMsg('✓ Favicon uploaded successfully!')
+                    setTimeout(() => setMsg(null), 2500)
+                  } catch (err: any) {
+                    if (err?.message?.includes('duplicate')) {
+                      console.error('Favicon upload error:', err)
+                      setMsg('File already exists. Using local file URL.')
+                      const localUrl = URL.createObjectURL(f)
+                      setFaviconUrl(localUrl)
+                    } else {
+                      console.error('Favicon upload error:', err)
+                      setMsg(`Upload error: ${err?.message || 'Unknown'}`)
+                    }
+                    setTimeout(() => setMsg(null), 3000)
+                  } finally {
+                    e.target.value = ''
+                  }
+                }}
+              />
+            </div>
+            
+            <div className="flex items-center gap-4 p-4 bg-slate-900/50 rounded-lg border border-slate-700/50">
+              <div className="flex-1">
+                <div className="text-xs font-semibold text-slate-300 mb-2">Current Favicon</div>
+                {faviconUrl ? (
+                  <img 
+                    src={faviconUrl} 
+                    alt="Favicon" 
+                    className="h-8 w-8 object-contain"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                      const parent = e.currentTarget.parentElement
+                      if (parent) {
+                        const err = document.createElement('div')
+                        err.className = 'text-red-400 text-xs'
+                        err.textContent = 'Failed to load favicon'
+                        parent.appendChild(err)
+                      }
+                    }}
+                  />
+                ) : (
+                  <div className="text-slate-500 text-sm">No favicon set</div>
+                )}
+              </div>
+              <div className="flex-1">
+                <div className="text-xs font-semibold text-slate-300 mb-2">Preview</div>
+                {faviconUrl ? (
+                  <img 
+                    src={faviconUrl} 
+                    alt="Preview" 
+                    className="h-8 w-8 object-contain"
+                  />
+                ) : (
+                  <div className="text-slate-500 text-sm">No favicon set</div>
+                )}
+              </div>
+              <p className="text-xs text-slate-500 mt-2">
+                {faviconUrl ? 'This icon will appear in browser tabs and bookmarks' : 'Default favicon will be used'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Privacy Settings Section */}
+        <div className="grid gap-4 border border-slate-700/60 rounded-xl p-4 bg-slate-800/30">
+          <div>
+            <h3 className="text-base font-semibold text-slate-100">Site Privacy & Protection</h3>
+            <p className="text-xs text-slate-400 mt-1">Protect your content from being easily copied or stolen.</p>
+          </div>
+          
+          <div className="grid gap-3">
+            <label className="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-slate-900/30 transition-colors">
+              <input 
+                type="checkbox" 
+                checked={disableRightClick}
+                onChange={(e) => setDisableRightClick(e.target.checked)}
+                className="w-4 h-4 rounded border-slate-600 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-slate-800"
+              />
+              <div className="flex-1">
+                <div className="text-sm font-medium text-slate-200">Disable Right-Click</div>
+                <div className="text-xs text-slate-500">Prevents users from right-clicking to access context menus</div>
+              </div>
+            </label>
+            
+            <label className="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-slate-900/30 transition-colors">
+              <input 
+                type="checkbox" 
+                checked={disableTextSelection}
+                onChange={(e) => setDisableTextSelection(e.target.checked)}
+                className="w-4 h-4 rounded border-slate-600 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-slate-800"
+              />
+              <div className="flex-1">
+                <div className="text-sm font-medium text-slate-200">Disable Text Selection</div>
+                <div className="text-xs text-slate-500">Prevents users from selecting and copying text content</div>
+              </div>
+            </label>
+            
+            <label className="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-slate-900/30 transition-colors">
+              <input 
+                type="checkbox" 
+                checked={disableImageDragging}
+                onChange={(e) => setDisableImageDragging(e.target.checked)}
+                className="w-4 h-4 rounded border-slate-600 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-slate-800"
+              />
+              <div className="flex-1">
+                <div className="text-sm font-medium text-slate-200">Disable Image Dragging</div>
+                <div className="text-xs text-slate-500">Prevents users from dragging images to save them</div>
+              </div>
+            </label>
+          </div>
+          
+          <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3">
+            <p className="text-xs text-amber-300">
+              <strong>Note:</strong> These measures provide basic protection but are not foolproof. 
+              Determined users can still access content through browser developer tools or screenshots.
+            </p>
+          </div>
+        </div>
+
+        {/* Watermark Configuration Section */}
+        <div className="grid gap-4 border border-slate-700/60 rounded-xl p-4 bg-slate-800/30">
+          <div>
+            <h3 className="text-base font-semibold text-slate-100">Image Watermark</h3>
+            <p className="text-xs text-slate-400 mt-1">Apply a subtle watermark to all listing photos on the public site.</p>
+          </div>
+          
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input 
+              type="checkbox" 
+              checked={watermarkEnabled}
+              onChange={(e) => setWatermarkEnabled(e.target.checked)}
+              className="w-4 h-4 rounded border-slate-600 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-slate-800"
+            />
+            <span className="text-sm font-medium text-slate-200">Enable watermark on listing images</span>
+          </label>
+
+          {watermarkEnabled && (
+            <div className="grid gap-4 pl-7 border-l-2 border-slate-700/60">
+              <label className="grid gap-1 text-sm">
+                <span className="font-medium text-slate-200">Watermark Type</span>
+                <select 
+                  className={inputCls}
+                  value={watermarkType}
+                  onChange={e => setWatermarkType(e.target.value)}
+                >
+                  <option value="text">Text Watermark</option>
+                  <option value="image">Image/Logo Watermark</option>
+                </select>
+              </label>
+
+              {watermarkType === 'text' ? (
+                <label className="grid gap-1 text-sm">
+                  <span className="font-medium text-slate-200">Watermark Text</span>
+                  <input 
+                    className={inputCls} 
+                    value={watermarkText} 
+                    onChange={e => setWatermarkText(e.target.value)} 
+                    placeholder="e.g., STELLA, © STELLA REAL ESTATE"
+                    maxLength={50}
+                  />
+                  <span className="text-xs text-slate-500">Keep it short for best visibility</span>
+                </label>
+              ) : (
+                <div className="grid gap-3 border border-slate-700/60 rounded-md p-3">
+                  <div className="text-sm font-medium text-slate-200">Watermark Image/Logo</div>
+                  <div className="text-xs text-slate-400">Upload a PNG logo with transparent background for best results</div>
+                  <div className="grid gap-2 sm:grid-cols-[1fr_auto] items-center">
+                    <input 
+                      className={inputCls} 
+                      value={watermarkImageUrl} 
+                      onChange={e => setWatermarkImageUrl(e.target.value)} 
+                      placeholder="https://.../watermark-logo.png" 
+                    />
+                    <label className="inline-flex items-center gap-2 text-sm cursor-pointer">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={async (e) => {
+                          if (isDemo) {
+                            setMsg('Demo mode: uploads are disabled.')
+                            setTimeout(() => setMsg(null), 2500)
+                            e.target.value = ''
+                            return
+                          }
+                          const file = e.target.files?.[0]
+                          if (!file) return
+                          
+                          // Show uploading message
+                          setMsg('Uploading...')
+                          
+                          try {
+                            // Check if Supabase is configured
+                            if (!(import.meta as any).env?.VITE_SUPABASE_URL) {
+                              // Fallback: create local blob URL
+                              const url = URL.createObjectURL(file)
+                              setWatermarkImageUrl(url)
+                              setMsg('Image loaded (local preview)')
+                              setTimeout(() => setMsg(null), 2000)
+                              e.target.value = ''
+                              return
+                            }
+                            
+                            // Sanitize filename: remove special characters and spaces
+                            const sanitizedName = file.name
+                              .normalize('NFD') // Normalize accented characters
+                              .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+                              .replace(/[^a-zA-Z0-9._-]/g, '_') // Replace invalid chars with underscore
+                              .replace(/_+/g, '_') // Replace multiple underscores with single
+                              .toLowerCase()
+                            
+                            // Upload to Supabase with sanitized filename
+                            const path = `watermark/${Date.now()}_${sanitizedName}`
+                            const bucket = supabase.storage.from('listings')
+                            
+                            const { data, error } = await bucket.upload(path, file, { 
+                              upsert: true, 
+                              cacheControl: '3600',
+                              contentType: file.type 
+                            })
+                            
+                            if (error) {
+                              console.error('Upload error:', error)
+                              throw new Error(error.message || 'Upload failed')
+                            }
+                            
+                            // Get public URL
+                            const { data: pub } = bucket.getPublicUrl(path)
+                            
+                            if (pub?.publicUrl) {
+                              setWatermarkImageUrl(pub.publicUrl)
+                              setMsg('✓ Upload successful!')
+                              setTimeout(() => setMsg(null), 2000)
+                            } else {
+                              throw new Error('Failed to get public URL')
+                            }
+                          } catch (err: any) {
+                            console.error('Watermark upload error:', err)
+                            const errorMsg = err?.message || 'Upload failed'
+                            
+                            // Provide helpful error messages
+                            if (errorMsg.includes('row-level security') || errorMsg.includes('policy')) {
+                              setMsg('Upload failed: Storage bucket permissions not configured. Using local preview.')
+                              // Fallback to local preview
+                              const url = URL.createObjectURL(file)
+                              setWatermarkImageUrl(url)
+                            } else if (errorMsg.includes('not found')) {
+                              setMsg('Upload failed: Storage bucket "listings" not found. Please create it in Supabase.')
+                            } else {
+                              setMsg(`Upload failed: ${errorMsg}`)
+                            }
+                            
+                            setTimeout(() => setMsg(null), 5000)
+                          }
+                          e.target.value = ''
+                        }}
+                      />
+                      <span className="rounded-md bg-slate-700/60 px-3 py-2 border border-slate-600 hover:bg-slate-600 text-slate-200">Upload</span>
+                    </label>
+                  </div>
+                  {watermarkImageUrl && (
+                    <div className="mt-2">
+                      <div className="text-xs text-slate-500 mb-1">Current watermark image</div>
+                      <img src={watermarkImageUrl} alt="Watermark" className="h-16 w-auto rounded-md border border-slate-700 bg-slate-800/50 p-2" />
+                    </div>
+                  )}
+                  <div className="mt-1 text-xs text-slate-500">
+                    💡 Tip: Paste a URL or upload a file. If upload fails, the image will still work as a local preview.
+                  </div>
+                </div>
+              )}
+
+              <label className="grid gap-1 text-sm">
+                <span className="font-medium text-slate-200">Opacity: {(parseFloat(watermarkOpacity) * 100).toFixed(0)}%</span>
+                <input 
+                  type="range" 
+                  min="0.05" 
+                  max="0.5" 
+                  step="0.05"
+                  value={watermarkOpacity}
+                  onChange={e => setWatermarkOpacity(e.target.value)}
+                  className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                />
+                <div className="flex justify-between text-xs text-slate-500">
+                  <span>Subtle (5%)</span>
+                  <span>Visible (50%)</span>
+                </div>
+              </label>
+
+              <label className="grid gap-1 text-sm">
+                <span className="font-medium text-slate-200">Position</span>
+                <select 
+                  className={inputCls}
+                  value={watermarkPosition}
+                  onChange={e => setWatermarkPosition(e.target.value)}
+                >
+                  <option value="top-left">Top Left</option>
+                  <option value="top-center">Top Center</option>
+                  <option value="top-right">Top Right</option>
+                  <option value="center-left">Center Left</option>
+                  <option value="center">Center</option>
+                  <option value="center-right">Center Right</option>
+                  <option value="bottom-left">Bottom Left</option>
+                  <option value="bottom-center">Bottom Center</option>
+                  <option value="bottom-right">Bottom Right</option>
+                </select>
+              </label>
+
+              <label className="grid gap-1 text-sm">
+                <span className="font-medium text-slate-200">Size</span>
+                <select 
+                  className={inputCls}
+                  value={watermarkSize}
+                  onChange={e => setWatermarkSize(e.target.value)}
+                >
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
+                </select>
+                <div className="text-xs text-slate-500">
+                  {watermarkSize === 'small' && '📏 Small: Subtle, minimal presence'}
+                  {watermarkSize === 'medium' && '📏 Medium: Balanced visibility'}
+                  {watermarkSize === 'large' && '📏 Large: Maximum prominence'}
+                </div>
+              </label>
+
+              <div className="rounded-lg bg-slate-900/50 p-3 border border-slate-700/40">
+                <div className="text-xs font-semibold text-slate-300 mb-2">Preview</div>
+                <div className="relative h-32 bg-gradient-to-br from-slate-700 to-slate-800 rounded-md overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&h=300&fit=crop" 
+                    alt="Preview" 
+                    className="w-full h-full object-cover"
+                  />
+                  <div 
+                    className={`absolute pointer-events-none select-none ${
+                      watermarkPosition === 'top-left' ? 'top-2 left-2' :
+                      watermarkPosition === 'top-center' ? 'top-2 left-1/2 -translate-x-1/2' :
+                      watermarkPosition === 'top-right' ? 'top-2 right-2' :
+                      watermarkPosition === 'center-left' ? 'top-1/2 left-2 -translate-y-1/2' :
+                      watermarkPosition === 'center' ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' :
+                      watermarkPosition === 'center-right' ? 'top-1/2 right-2 -translate-y-1/2' :
+                      watermarkPosition === 'bottom-left' ? 'bottom-2 left-2' :
+                      watermarkPosition === 'bottom-center' ? 'bottom-2 left-1/2 -translate-x-1/2' :
+                      'bottom-2 right-2'
+                    }`}
+                    style={{ opacity: parseFloat(watermarkOpacity) }}
+                  >
+                    {watermarkType === 'image' && watermarkImageUrl ? (
+                      <img 
+                        src={watermarkImageUrl} 
+                        alt="Watermark preview"
+                        className={`object-contain drop-shadow-lg ${
+                          watermarkSize === 'small' ? 'max-w-[15%] max-h-[15%]' :
+                          watermarkSize === 'large' ? 'max-w-[35%] max-h-[35%]' :
+                          'max-w-[25%] max-h-[25%]'
+                        }`}
+                      />
+                    ) : (
+                      <div 
+                        className="text-white font-bold tracking-widest drop-shadow-lg"
+                        style={{
+                          fontSize: watermarkSize === 'small' ? 'clamp(0.75rem, 2vw, 1rem)' :
+                                   watermarkSize === 'large' ? 'clamp(1.25rem, 4vw, 2rem)' :
+                                   'clamp(1rem, 3vw, 1.5rem)'
+                        }}
+                      >
+                        {watermarkText || 'STELLA'}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <p className="text-xs text-slate-500 mt-2">This is how your watermark will appear on listing images</p>
+              </div>
+            </div>
+          )}
+        </div>
+
         {loginHistory.length > 0 && (
           <div className="-mt-2">
             <div className="text-xs text-slate-500 mb-2">Previously used</div>
@@ -371,12 +1203,28 @@ export default function SiteAdmin() {
               setSaving(true); setMsg(null)
               const hv = homeId.trim()
               const lv = loginId.trim()
+              console.log('💾 Saving header_logo_size:', headerLogoSize)
               await Promise.all([
                 setSiteSetting('video_home_id', hv),
                 setSiteSetting('video_login_id', lv),
                 setSiteSetting('featured_projects', JSON.stringify(selected.map(s => s.id))),
                 setSiteSetting('video_home_fallback_image', heroFallbackUrl.trim()),
                 setSiteSetting('video_home_uploaded_url', heroVideoUploadedUrl.trim()),
+                setSiteSetting('watermark_enabled', watermarkEnabled ? 'true' : 'false'),
+                setSiteSetting('watermark_text', watermarkText.trim() || 'STELLA'),
+                setSiteSetting('watermark_opacity', watermarkOpacity),
+                setSiteSetting('watermark_position', watermarkPosition),
+                setSiteSetting('watermark_type', watermarkType),
+                setSiteSetting('watermark_image_url', watermarkImageUrl.trim()),
+                setSiteSetting('watermark_size', watermarkSize),
+                setSiteSetting('hero_logo_url', heroLogoUrl.trim()),
+                setSiteSetting('header_logo_url', headerLogoUrl.trim()),
+                setSiteSetting('header_logo_size', headerLogoSize),
+                setSiteSetting('footer_logo_url', footerLogoUrl.trim()),
+                setSiteSetting('favicon_url', faviconUrl.trim()),
+                setSiteSetting('disable_right_click', disableRightClick ? 'true' : 'false'),
+                setSiteSetting('disable_text_selection', disableTextSelection ? 'true' : 'false'),
+                setSiteSetting('disable_image_dragging', disableImageDragging ? 'true' : 'false'),
                 addSiteSettingToHistory('video_home_id', hv),
                 addSiteSettingToHistory('video_login_id', lv),
               ])

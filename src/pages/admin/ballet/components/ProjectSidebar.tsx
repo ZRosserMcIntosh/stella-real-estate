@@ -11,7 +11,7 @@ interface ProjectSidebarProps {
   onProjectSelect: (projectId: string) => void
 }
 
-export function ProjectSidebar({ project, workspace, projects, folders, onProjectSelect }: ProjectSidebarProps) {
+export function ProjectSidebar({ project, workspace, projects, folders = [], onProjectSelect }: ProjectSidebarProps) {
   const projectFolders = project ? folders.filter(folder => folder.projectIds.includes(project.id)) : []
   if (!project) {
     return (

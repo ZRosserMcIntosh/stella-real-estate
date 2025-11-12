@@ -319,3 +319,42 @@ model BalletActivityEvent {
   @@map("ballet_activity_events")
   @@schema("public")
 }
+
+// Personal Finance Models for Rosser & Stella
+model PersonalExpense {
+  id          String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  date        DateTime
+  amount      Float
+  description String
+  status      String   @default("pending") // 'paid', 'pending', 'overdue'
+  person      String   // 'Rosser', 'Stella'
+  usdAmount   Float?   @map("usd_amount")
+  category    String?
+  notes       String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([person])
+  @@index([status])
+  @@index([date])
+  @@map("personal_expenses")
+  @@schema("public")
+}
+
+model PersonalIncome {
+  id          String   @id @db.Uuid @default(dbgenerated("gen_random_uuid()"))
+  date        DateTime
+  brlAmount   Float    @map("brl_amount")
+  usdAmount   Float    @map("usd_amount")
+  description String
+  category    String?
+  person      String   // 'Rosser', 'Stella'
+  notes       String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([person])
+  @@index([date])
+  @@map("personal_income")
+  @@schema("public")
+}

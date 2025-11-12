@@ -255,6 +255,20 @@ export default function AdminLayout() {
             >
               ⚙️ Dev
             </NavLink>
+
+            {/* Rosser & Stella */}
+            <NavLink
+              to="/admin/rosser-stella"
+              className={({ isActive }) =>
+                `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'bg-amber-600/90 text-white shadow-lg shadow-amber-500/30 border border-amber-500/40'
+                    : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
+                }`
+              }
+            >
+              💼 Rosser & Stella
+            </NavLink>
           </nav>
 
           {/* Right side actions */}
@@ -378,6 +392,7 @@ export default function AdminLayout() {
               </NavLink>
               <NavLink to="/admin/social-media" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-violet-600/40 text-violet-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>📱 Social Media</NavLink>
               <NavLink to="/admin/developer" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-slate-700/40 text-slate-50' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>⚙️ Developer</NavLink>
+              <NavLink to="/admin/rosser-stella" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-amber-600/40 text-amber-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>💼 Rosser & Stella</NavLink>
 
               {/* My Account */}
               <div className="rounded-lg border border-slate-700/80">

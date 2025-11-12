@@ -32,6 +32,8 @@ import ListYourProperty from './pages/ListYourProperty'
 import NotFound from './pages/NotFound'
 import Institutional from './pages/Institutional'
 import Investors from './pages/Investors'
+import LuisaMarketing from './pages/LuisaMarketing'
+import LegalServices from './pages/LegalServices'
 import InvestorLogin from './pages/investors/Login'
 import RequestAccess from './pages/investors/RequestAccess'
 import StellaPlatform from './pages/StellaPlatform'
@@ -59,6 +61,7 @@ import Analytics from './pages/admin/Analytics'
 import DocumentVault from './pages/admin/DocumentVault'
 import SiteAdmin from './pages/admin/SiteAdmin'
 import Equity from './pages/admin/Equity'
+import RosserStella from './pages/admin/RosserStella'
 import DeveloperLayout from './pages/admin/DeveloperLayout'
 import SubmitTicket from './pages/admin/developer/SubmitTicket'
 import DeveloperUpdates from './pages/admin/developer/Updates'
@@ -99,6 +102,8 @@ const router = createBrowserRouter([
       { path: 'juridico', element: <Legal /> },
       { path: 'institucional', element: <Institutional /> },
       { path: 'investidores', element: <Investors /> },
+      { path: 'luisa-marketing', element: <LuisaMarketing /> },
+      { path: 'servicos-juridicos', element: <LegalServices /> },
       { path: 'plataforma-stella', element: <StellaPlatform /> },
       { path: 'anuncie-seu-imovel', element: <ListYourProperty /> },
       { path: 'consumidores', element: <ListYourProperty /> },
@@ -160,6 +165,7 @@ const router = createBrowserRouter([
   { path: 'document-vault', element: <DocumentVault /> },
   { path: 'site-admin', element: <SiteAdmin /> },
       { path: 'equity', element: <Equity /> },
+      { path: 'rosser-stella', element: <RosserStella /> },
       {
         path: 'developer',
         element: <DeveloperLayout />,

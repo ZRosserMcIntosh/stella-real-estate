@@ -451,32 +451,43 @@ export async function handleOAuthCallback(
     },
   })
   
-  // Store or update tokens
-  await prisma.socialAccountToken.upsert({
-    where: {
-      connectionId: connection.id,
-    },
-    update: {
-      accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken || undefined,
-      tokenExpiresAt: tokens.expiresIn
-        ? new Date(Date.now() + tokens.expiresIn * 1000)
-        : null,
-      updatedAt: new Date(),
-    },
-    create: {
-      connectionId: connection.id,
-      accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken || null,
-      tokenExpiresAt: tokens.expiresIn
-        ? new Date(Date.now() + tokens.expiresIn * 1000)
-        : null,
-      accountHandle: profile.handle,
-      displayName: profile.displayName || null,
-      profileImageUrl: profile.profileImageUrl || null,
-      platformAccountId: profile.id,
-    },
+  // Store or update tokens - find existing token first
+  const existingToken = await prisma.socialAccountToken.findFirst({
+    where: { connectionId: connection.id }
   })
+  
+  if (existingToken) {
+    await prisma.socialAccountToken.update({
+      where: { id: existingToken.id },
+      data: {
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken || undefined,
+        tokenExpiresAt: tokens.expiresIn
+          ? new Date(Date.now() + tokens.expiresIn * 1000)
+          : null,
+        accountHandle: profile.handle,
+        displayName: profile.displayName || null,
+        profileImageUrl: profile.profileImageUrl || null,
+        platformAccountId: profile.id,
+        updatedAt: new Date(),
+      },
+    })
+  } else {
+    await prisma.socialAccountToken.create({
+      data: {
+        connectionId: connection.id,
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken || null,
+        tokenExpiresAt: tokens.expiresIn
+          ? new Date(Date.now() + tokens.expiresIn * 1000)
+          : null,
+        accountHandle: profile.handle,
+        displayName: profile.displayName || null,
+        profileImageUrl: profile.profileImageUrl || null,
+        platformAccountId: profile.id,
+      },
+    })
+  }
   
   return { connectionId: connection.id, userId }
 }
@@ -487,7 +498,7 @@ export async function handleOAuthCallback(
  * @param connectionId - ID of the social connection
  */
 export async function refreshOAuthToken(connectionId: string): Promise<void> {
-  const token = await prisma.socialAccountToken.findUnique({
+  const token = await prisma.socialAccountToken.findFirst({
     where: { connectionId },
   })
   
@@ -543,7 +554,7 @@ export async function refreshOAuthToken(connectionId: string): Promise<void> {
     
     // Update tokens
     await prisma.socialAccountToken.update({
-      where: { connectionId },
+      where: { id: token.id },
       data: {
         accessToken: data.access_token,
         refreshToken: data.refresh_token || token.refreshToken,

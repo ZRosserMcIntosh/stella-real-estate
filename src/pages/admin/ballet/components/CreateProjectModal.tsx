@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { ViewType } from '../types'
+import React, { useEffect, useState } from 'react'
+import { Project, ViewType } from '../types'
 
 const colorPresets = ['#3b82f6', '#8b5cf6', '#ec4899', '#f97316', '#14b8a6', '#f59e0b']
 const iconPresets = ['📋', '🚀', '🎨', '🏗️', '🧭', '📈']
@@ -15,11 +15,22 @@ export interface CreateProjectPayload {
 interface CreateProjectModalProps {
   open: boolean
   workspaceName?: string
-  onCreate: (payload: CreateProjectPayload) => Promise<void> | void
+  mode?: 'create' | 'edit'
+  project?: Project
+  onCreate?: (payload: CreateProjectPayload) => Promise<void> | void
+  onUpdate?: (projectId: string, payload: CreateProjectPayload) => Promise<void> | void
   onClose: () => void
 }
 
-export function CreateProjectModal({ open, workspaceName, onCreate, onClose }: CreateProjectModalProps) {
+export function CreateProjectModal({
+  open,
+  workspaceName,
+  mode = 'create',
+  project,
+  onCreate,
+  onUpdate,
+  onClose,
+}: CreateProjectModalProps) {
   const [form, setForm] = useState<CreateProjectPayload>({
     name: '',
     description: '',
@@ -29,6 +40,26 @@ export function CreateProjectModal({ open, workspaceName, onCreate, onClose }: C
   })
   const [submitting, setSubmitting] = useState(false)
 
+  useEffect(() => {
+    if (mode === 'edit' && project) {
+      setForm({
+        name: project.name,
+        description: project.description,
+        color: project.color,
+        icon: project.icon,
+        defaultView: project.defaultView || 'board',
+      })
+    } else if (mode === 'create') {
+      setForm({
+        name: '',
+        description: '',
+        color: colorPresets[0],
+        icon: iconPresets[0],
+        defaultView: 'board',
+      })
+    }
+  }, [mode, project, open])
+
   if (!open) return null
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,8 +67,12 @@ export function CreateProjectModal({ open, workspaceName, onCreate, onClose }: C
     if (!form.name.trim()) return
     setSubmitting(true)
     try {
-      await onCreate(form)
-      setForm({ ...form, name: '', description: '' })
+      if (mode === 'edit' && project && onUpdate) {
+        await onUpdate(project.id, form)
+      } else if (onCreate) {
+        await onCreate(form)
+        setForm({ ...form, name: '', description: '' })
+      }
     } finally {
       setSubmitting(false)
     }
@@ -48,7 +83,9 @@ export function CreateProjectModal({ open, workspaceName, onCreate, onClose }: C
       <div className="w-full max-w-2xl rounded-2xl border border-slate-700/60 bg-slate-900/90 backdrop-blur-xl shadow-2xl shadow-pink-500/20">
         <div className="flex items-center justify-between border-b border-slate-800 px-6 py-4">
           <div>
-            <h2 className="text-xl font-semibold text-white">Create Project</h2>
+            <h2 className="text-xl font-semibold text-white">
+              {mode === 'edit' ? 'Edit Project' : 'Create Project'}
+            </h2>
             {workspaceName && <p className="text-xs text-slate-400">Workspace: {workspaceName}</p>}
           </div>
           <button onClick={onClose} className="rounded-lg p-2 text-slate-400 hover:bg-slate-800/80 hover:text-white transition-colors">
@@ -152,7 +189,13 @@ export function CreateProjectModal({ open, workspaceName, onCreate, onClose }: C
               disabled={!form.name.trim() || submitting}
               className="rounded-xl bg-gradient-to-r from-pink-600 to-pink-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-pink-500/30 hover:from-pink-500 hover:to-pink-400 disabled:opacity-50"
             >
-              {submitting ? 'Creating…' : 'Create Project'}
+              {submitting
+                ? mode === 'edit'
+                  ? 'Saving…'
+                  : 'Creating…'
+                : mode === 'edit'
+                  ? 'Save Changes'
+                  : 'Create Project'}
             </button>
           </div>
         </form>

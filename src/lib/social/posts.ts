@@ -511,9 +511,6 @@ export async function getPostWithConnections(
       userId,
       status: 'connected',
     },
-    include: {
-      tokens: true,
-    },
   })
 
   return {

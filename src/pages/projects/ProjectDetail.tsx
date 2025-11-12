@@ -4,6 +4,7 @@ import { useParams, Navigate } from 'react-router-dom'
 import { fetchProjectBySlug } from '../../services/projects'
 import type { Project, ProjectMediaItem, ProjectUnitSummary } from '../../types/projects'
 import { useCurrency } from '../../context/CurrencyContext'
+import WatermarkedImage from '../../components/WatermarkedImage'
 
 const youtubeIdFromUrl = (input?: string | null): string => {
   if (!input) return ''
@@ -84,6 +85,8 @@ export default function ProjectDetail() {
   const computedMinHeight = Math.max(viewportH, requiredHeightForWidth)
   const computedMinWidth = Math.ceil(computedMinHeight * videoAspect)
   const [activeImageIndex, setActiveImageIndex] = useState(0)
+  const [floorplanModalOpen, setFloorplanModalOpen] = useState(false)
+  const [activeFloorplanUrl, setActiveFloorplanUrl] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -232,10 +235,26 @@ export default function ProjectDetail() {
     return selected.map((item) => item.trim()).filter(Boolean)
   }, [project])
 
-  const locationLabel = useMemo(
-    () => [project?.city, project?.state].filter(Boolean).join(', '),
-    [project?.city, project?.state],
-  )
+  const locationLabel = useMemo(() => {
+    const neighborhood = (project?.rawFeatures as any)?.neighborhood ?? null
+    const parts = [neighborhood, project?.city, project?.state].filter(Boolean)
+    return parts.join(', ')
+  }, [project?.city, project?.state, project?.rawFeatures])
+
+  const floorplans = useMemo(() => {
+    if (!project?.rawFeatures) return []
+    const raw = (project.rawFeatures as any).floorplans
+    if (!Array.isArray(raw)) return []
+    return raw.map((fp: any) => ({
+      id: fp?.id ?? `fp-${Math.random().toString(36).slice(2, 8)}`,
+      name: fp?.name ?? fp?.label ?? fp?.title ?? 'Floorplan',
+      units: fp?.units ?? fp?.quantity ?? null,
+      pricePerUnit: fp?.pricePerUnit ?? fp?.price_per_unit ?? fp?.price ?? null,
+      areaM2: fp?.areaM2 ?? fp?.area_m2 ?? fp?.area ?? null,
+      description: fp?.description ?? fp?.notes ?? null,
+      floorplanUrl: fp?.floorplanUrl ?? fp?.floorplan_url ?? fp?.url ?? null,
+    }))
+  }, [project?.rawFeatures])
 
   const videoId = useMemo(() => youtubeIdFromUrl(project?.videoBgUrl), [project?.videoBgUrl])
   const videoStart = useMemo(() => youtubeStartFromUrl(project?.videoBgUrl), [project?.videoBgUrl])
@@ -288,7 +307,7 @@ export default function ProjectDetail() {
             <div>
               {activeImage ? (
                 <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
-                  <img
+                  <WatermarkedImage
                     src={activeImage.url}
                     alt={activeImage.alt || activeImage.caption || project.name}
                     className="w-full h-auto"
@@ -355,7 +374,7 @@ export default function ProjectDetail() {
                               }`}
                               style={{ width: thumbnailWidth }}
                             >
-                              <img
+                              <WatermarkedImage
                                 src={image.url}
                                 alt={image.alt || image.caption || `${project.name} ${idx + 1}`}
                                 className="w-full aspect-[4/3] object-cover transition-transform duration-200 hover:scale-105"
@@ -552,6 +571,77 @@ export default function ProjectDetail() {
               </div>
             </div>
           )}
+          {floorplans.length > 0 && (
+            <div className="mx-auto mt-10 max-w-5xl rounded-3xl border border-slate-200 bg-white/95 p-8 shadow-soft">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">Plantas disponíveis</h2>
+                <p className="text-sm text-slate-500">Modelos de plantas com especificações técnicas.</p>
+              </div>
+              <div className="mt-6 grid gap-6 md:grid-cols-2">
+                {floorplans.map((fp: any) => {
+                  const displayPrice = fp.pricePerUnit != null && Number.isFinite(Number(fp.pricePerUnit))
+                    ? formatPrice(Number(fp.pricePerUnit))
+                    : null
+                  return (
+                    <article key={fp.id} className="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm">
+                      {/* Title */}
+                      <h3 className="text-base font-semibold text-slate-900 mb-3">{fp.name}</h3>
+                      
+                      {/* Compact info grid */}
+                      <dl className="grid grid-cols-3 gap-x-4 gap-y-2 text-sm mb-3">
+                        {displayPrice && (
+                          <div>
+                            <dt className="text-[10px] uppercase tracking-wider text-slate-500">Valor</dt>
+                            <dd className="text-sm font-semibold text-slate-900 leading-tight">{displayPrice}</dd>
+                          </div>
+                        )}
+                        {fp.units != null && (
+                          <div>
+                            <dt className="text-[10px] uppercase tracking-wider text-slate-500">Unidades</dt>
+                            <dd className="text-sm font-semibold text-slate-900 leading-tight">{fp.units}</dd>
+                          </div>
+                        )}
+                        {fp.areaM2 != null && (
+                          <div>
+                            <dt className="text-[10px] uppercase tracking-wider text-slate-500">Área</dt>
+                            <dd className="text-sm font-semibold text-slate-900 leading-tight">
+                              {formatArea(Number(fp.areaM2))}
+                            </dd>
+                          </div>
+                        )}
+                      </dl>
+
+                      {/* Description */}
+                      {fp.description && (
+                        <p className="text-xs text-slate-600 mb-3 line-clamp-2">{fp.description}</p>
+                      )}
+
+                      {/* Thumbnail at bottom */}
+                      {fp.floorplanUrl && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveFloorplanUrl(fp.floorplanUrl)
+                            setFloorplanModalOpen(true)
+                          }}
+                          className="w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all group cursor-pointer"
+                        >
+                          <img
+                            src={fp.floorplanUrl}
+                            alt={fp.name}
+                            className="w-full h-32 object-contain bg-white group-hover:scale-105 transition-transform duration-300"
+                          />
+                          <div className="px-2 py-1.5 bg-slate-50 text-[10px] text-slate-600 text-center group-hover:bg-slate-100 transition-colors">
+                            Click to view full size
+                          </div>
+                        </button>
+                      )}
+                    </article>
+                  )
+                })}
+              </div>
+            </div>
+          )}
           {(project.description || locationLabel) && (
             <div className="mx-auto mt-10 max-w-5xl rounded-3xl border border-slate-200 bg-white/95 p-8 shadow-soft">
               <h2 className="text-lg font-semibold text-slate-900">Sobre o empreendimento</h2>
@@ -629,6 +719,40 @@ export default function ProjectDetail() {
           )}
         </section>
       </main>
+
+      {/* Floorplan Lightbox Modal */}
+      {floorplanModalOpen && activeFloorplanUrl && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          onClick={() => setFloorplanModalOpen(false)}
+        >
+          <div className="relative max-w-7xl max-h-[90vh] w-full">
+            {/* Close button */}
+            <button
+              type="button"
+              onClick={() => setFloorplanModalOpen(false)}
+              className="absolute -top-12 right-0 p-2 text-white hover:text-slate-300 transition-colors"
+              aria-label="Close"
+            >
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            
+            {/* Image */}
+            <div
+              className="overflow-auto max-h-[90vh] rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={activeFloorplanUrl}
+                alt="Floorplan"
+                className="w-full h-auto bg-white rounded-lg shadow-2xl"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

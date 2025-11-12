@@ -332,6 +332,25 @@ export async function createProject(project: Omit<Project, 'id' | 'createdAt' | 
   return clone(newProject)
 }
 
+export async function updateProject(projectId: string, updates: Partial<Project>): Promise<Project> {
+  const snapshot = getSnapshot()
+  const index = snapshot.projects.findIndex(p => p.id === projectId)
+  if (index === -1) {
+    throw new Error(`Project with id ${projectId} not found`)
+  }
+  
+  const updatedProject = normalizeProject({
+    ...snapshot.projects[index],
+    ...updates,
+    id: projectId,
+    updatedAt: now(),
+  })
+  
+  snapshot.projects[index] = updatedProject
+  persistSnapshot(snapshot)
+  return clone(updatedProject)
+}
+
 export async function fetchTasks(projectId: string): Promise<Task[]> {
   const snapshot = getSnapshot()
   const tasks = snapshot.tasks.filter(task => task.projectId === projectId)

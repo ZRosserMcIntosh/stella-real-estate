@@ -5,6 +5,7 @@ import LanguageSwitcher from './LanguageSwitcher'
 import CurrencySwitcher from './CurrencySwitcher'
 import { supabase } from '../lib/supabaseClient'
 import { trackEvent } from '../lib/telemetry'
+import { getSiteSettings } from '../lib/siteSettings'
 
 type ProjectLite = {
   id: string
@@ -25,6 +26,8 @@ export default function Header() {
   const [projects, setProjects] = useState<ProjectLite[]>([])
   const [loading, setLoading] = useState(false)
   const [logoFailed, setLogoFailed] = useState(false)
+  const [headerLogoUrl, setHeaderLogoUrl] = useState<string>('')
+  const [headerLogoSize, setHeaderLogoSize] = useState<string>('medium')
   const [institutionalOpen, setInstitutionalOpen] = useState(false)
   const [institutionalClosing, setInstitutionalClosing] = useState(false)
   const [projectsClosing, setProjectsClosing] = useState(false)
@@ -87,6 +90,27 @@ export default function Header() {
     load()
     return () => { cancelled = true }
   }, [isHome])
+  
+  // Load header logo from settings
+  useEffect(() => {
+    const loadHeaderLogo = async () => {
+      try {
+        const settings = await getSiteSettings(['header_logo_url', 'header_logo_size'])
+        console.log('Header logo settings loaded:', settings)
+        if (settings.header_logo_url) {
+          setHeaderLogoUrl(settings.header_logo_url)
+        }
+        if (settings.header_logo_size) {
+          setHeaderLogoSize(settings.header_logo_size)
+          console.log('Header logo size set to:', settings.header_logo_size)
+        }
+      } catch (error) {
+        console.error('Failed to load header logo:', error)
+      }
+    }
+    loadHeaderLogo()
+  }, [])
+  
   // Close mobile menu on route change
   useEffect(() => {
     setMobileOpen(false)
@@ -97,19 +121,51 @@ export default function Header() {
     }
   }, [location.pathname])
 
+  // Dynamic sizing based on header_logo_size setting
+  // Optimized: Less padding, larger logos for better visual balance
+  const logoSizeConfig = {
+    small: {
+      heightPx: 64,              // 64px mobile
+      heightSmPx: 80,            // 80px desktop
+      padding: 'py-2'            
+    },
+    medium: {
+      heightPx: 80,              // 80px mobile
+      heightSmPx: 96,            // 96px desktop
+      padding: 'py-2.5'          
+    },
+    large: {
+      heightPx: 96,              // 96px mobile
+      heightSmPx: 112,           // 112px desktop
+      padding: 'py-3'            
+    }
+  }
+  
+  const currentLogoSize = logoSizeConfig[headerLogoSize as keyof typeof logoSizeConfig] || logoSizeConfig.medium
+  
+  // Debug: log what size is being applied
+  console.log('Current headerLogoSize state:', headerLogoSize)
+  console.log('Current logo height pixels:', currentLogoSize.heightPx, currentLogoSize.heightSmPx)
+
   return (
   <header ref={headerRef} className={`z-50 ${needsSolidHeader ? 'bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800' : 'backdrop-blur-md bg-white/60 dark:bg-slate-900/60 border-b border-white/10 dark:border-slate-800/50'}`}>
-      <div className="container-padded flex items-center justify-between py-3">
-        <Link to="/" className="flex items-center gap-3">
+      <div className={`container-padded flex items-center justify-between ${currentLogoSize.padding}`}>
+        <Link to="/" className="flex items-center gap-3 pr-6">
           {!logoFailed ? (
             <img
-              src="/stella-favicon.png"
-              className="h-10 sm:h-12 w-auto object-contain drop-shadow-sm"
+              src={headerLogoUrl || "/stella-favicon.png"}
+              className="w-auto object-contain drop-shadow-sm"
+              style={{
+                height: `${currentLogoSize.heightPx}px`,
+              }}
               alt={t('header.brand') as string}
               onError={() => setLogoFailed(true)}
             />
           ) : (
-            <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-gradient-to-br from-brand-400 to-brand-700 shadow-soft grid place-items-center text-white">
+            <div 
+              className="aspect-square rounded-full bg-gradient-to-br from-brand-400 to-brand-700 shadow-soft grid place-items-center text-white"
+              style={{ height: `${currentLogoSize.heightPx}px` }}
+            >
               <div className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wide leading-3 text-center">
                 <div>STELLA</div>
                 <div>LOGO</div>
@@ -401,7 +457,16 @@ export default function Header() {
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher />
           <CurrencySwitcher />
-          <span className="hidden sm:inline text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+          <span 
+            className="hidden sm:inline text-[10px] font-mono font-bold tracking-wider text-slate-400 dark:text-slate-500" 
+            style={{ 
+              textShadow: '1px 1px 0px rgba(255,255,255,0.15), -1px -1px 0px rgba(0,0,0,0.3)',
+              background: 'linear-gradient(135deg, #94a3b8 0%, #64748b 50%, #475569 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
+          >
             CRECI 309568
           </span>
           {/* Mobile hamburger */}

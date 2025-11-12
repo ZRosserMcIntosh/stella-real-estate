@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { makeProjectSlug } from './utils/slug'
 import { useCurrency } from './context/CurrencyContext'
+import WatermarkedImage from './components/WatermarkedImage'
 
 export default function App() {
   const { t } = useTranslation()
@@ -21,6 +22,7 @@ export default function App() {
   const [homeVideoId, setHomeVideoId] = useState<string>('bv2x5gn_Tc0')
   const [heroUploadedUrl, setHeroUploadedUrl] = useState<string>('')
   const [heroFallbackImage, setHeroFallbackImage] = useState<string>('')
+  const [heroLogoUrl, setHeroLogoUrl] = useState<string>('')
   const [projects, setProjects] = useState<any[]>([])
   const [featuredProjects, setFeaturedProjects] = useState<any[]>([])
   const [projectsError, setProjectsError] = useState<string | null>(null)
@@ -62,10 +64,46 @@ export default function App() {
   useEffect(() => {
     const loadVideo = async () => {
       try {
-  const s = await getSiteSettings(['video_home_id','featured_projects','video_home_uploaded_url','video_home_fallback_image'])
+  const s = await getSiteSettings([
+    'video_home_id',
+    'featured_projects',
+    'video_home_uploaded_url',
+    'video_home_fallback_image',
+    'hero_logo_url',
+    'favicon_url',
+    'disable_right_click',
+    'disable_text_selection',
+    'disable_image_dragging'
+  ])
         if (s.video_home_id) setHomeVideoId(s.video_home_id)
   if (s.video_home_uploaded_url) setHeroUploadedUrl(s.video_home_uploaded_url)
   if (s.video_home_fallback_image) setHeroFallbackImage(s.video_home_fallback_image)
+        if (s.hero_logo_url) setHeroLogoUrl(s.hero_logo_url)
+        
+        // Update favicon
+        if (s.favicon_url) {
+          const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement
+          if (link) {
+            link.href = s.favicon_url
+          }
+        }
+        
+        // Privacy settings
+        if (s.disable_right_click === 'true') {
+          document.addEventListener('contextmenu', (e) => e.preventDefault())
+        }
+        if (s.disable_text_selection === 'true') {
+          document.body.style.userSelect = 'none'
+          document.body.style.webkitUserSelect = 'none'
+        }
+        if (s.disable_image_dragging === 'true') {
+          document.addEventListener('dragstart', (e) => {
+            if ((e.target as HTMLElement).tagName === 'IMG') {
+              e.preventDefault()
+            }
+          })
+        }
+        
         // Featured projects: accept JSON array of ids/slugs or a single string
         const raw = (s.featured_projects || '').trim()
         if (raw && (import.meta as any).env?.VITE_SUPABASE_URL) {
@@ -354,7 +392,7 @@ export default function App() {
         <div className="container-padded relative z-20 flex h-full w-full items-center justify-center py-12">
           <div className="w-full max-w-6xl flex flex-col items-center gap-6">
             <img
-              src="/Stella.png"
+              src={heroLogoUrl || "/Stella.png"}
               alt="Stella"
               className="h-32 sm:h-40 md:h-48 lg:h-56 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]"
             />
