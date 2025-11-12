@@ -35,6 +35,87 @@ interface IncomeItem {
 
 export default function RosserStella() {
   const { t, i18n } = useTranslation()
+  
+  // Password protection
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [passwordInput, setPasswordInput] = useState('')
+  const [passwordError, setPasswordError] = useState(false)
+  
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (passwordInput === '777') {
+      setIsAuthenticated(true)
+      setPasswordError(false)
+      // Store in sessionStorage so user doesn't need to re-enter during session
+      sessionStorage.setItem('rosser_stella_auth', 'true')
+    } else {
+      setPasswordError(true)
+      setPasswordInput('')
+    }
+  }
+  
+  // Check if already authenticated in this session
+  useEffect(() => {
+    if (sessionStorage.getItem('rosser_stella_auth') === 'true') {
+      setIsAuthenticated(true)
+    }
+  }, [])
+  
+  // Show password form if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+        <div className="w-full max-w-md p-8">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-4">
+                <User className="w-8 h-8 text-white" />
+              </div>
+              <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                Rosser & Stella Admin
+              </h1>
+              <p className="text-slate-600 dark:text-slate-400">
+                Enter password to access
+              </p>
+            </div>
+            
+            <form onSubmit={handlePasswordSubmit} className="space-y-4">
+              <div>
+                <input
+                  type="password"
+                  value={passwordInput}
+                  onChange={(e) => {
+                    setPasswordInput(e.target.value)
+                    setPasswordError(false)
+                  }}
+                  placeholder="Enter password"
+                  className={`w-full px-4 py-3 rounded-lg border ${
+                    passwordError 
+                      ? 'border-red-500 focus:ring-red-500' 
+                      : 'border-slate-300 dark:border-slate-600 focus:ring-blue-500'
+                  } bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 transition-colors`}
+                  autoFocus
+                />
+                {passwordError && (
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+                    Incorrect password. Please try again.
+                  </p>
+                )}
+              </div>
+              
+              <button
+                type="submit"
+                className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all"
+              >
+                Access
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  
   const [activeTab, setActiveTab] = useState<'overview' | 'expenses' | 'income' | 'history'>('overview')
   const [showAddExpense, setShowAddExpense] = useState(false)
   const [showAddIncome, setShowAddIncome] = useState(false)

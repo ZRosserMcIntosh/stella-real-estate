@@ -125,10 +125,10 @@ export default function StellaPlatform() {
             /* Adjust path to be more diagonal on mobile (accounting for portrait aspect ratio) */
             --star-start-x: 95%;
             --star-start-y: 5%;
-            --star-end-x: 5%;
-            --star-end-y: 85%;
+            --star-end-x: 0%;
+            --star-end-y: 90%;
             /* Steeper tail angle for mobile to match the travel angle */
-            --tail-angle: -65deg;
+            --tail-angle: -55deg;
           }
         }
         
@@ -137,9 +137,9 @@ export default function StellaPlatform() {
           .shooting-star {
             --star-start-x: 92%;
             --star-start-y: 8%;
-            --star-end-x: 8%;
+            --star-end-x: 0%;
             --star-end-y: 80%;
-            --tail-angle: -65deg;
+            --tail-angle: -55deg;
           }
         }
         

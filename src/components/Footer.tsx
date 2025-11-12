@@ -16,10 +16,15 @@ export default function Footer() {
       try {
         const settings = await getSiteSettings(['footer_logo_url'])
         if (settings.footer_logo_url) {
+          console.log('Using footer logo from Supabase:', settings.footer_logo_url)
           setFooterLogoUrl(settings.footer_logo_url)
+        } else {
+          console.log('No footer logo in Supabase, using local fallback: /Variação de logotipo 6.png')
+          setFooterLogoUrl('/Variação de logotipo 6.png')
         }
       } catch (error) {
-        console.error('Failed to load footer logo:', error)
+        console.error('Failed to load footer logo, using local fallback:', error)
+        setFooterLogoUrl('/Variação de logotipo 6.png')
       } finally {
         setLogoLoading(false)
       }
