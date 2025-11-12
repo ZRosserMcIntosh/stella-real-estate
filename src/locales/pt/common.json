@@ -513,5 +513,16 @@
     },
     "rosser": "Rosser",
     "stella": "Stella"
+  },
+  "seguroFianca": {
+    "badge": "Seguro Fiança Garantida por Pix",
+    "hero": {
+      "comingSoon": "Em Breve · Julho 2027",
+      "title": "Pague Aluguel Instantâneo. Cobre Depois.",
+      "subtitle": "Adiantamento de aluguel em 60 segundos via Pix. Open Finance cotação automática. Despejo? Nós resolvemos.",
+      "getQuote": "Solicitar Cotação Instantânea",
+      "foundersCohort": "🚀 Primeira coorte de proprietários: 50% off, beta vitalício"
+    }
   }
 }
+

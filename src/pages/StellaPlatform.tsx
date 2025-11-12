@@ -128,7 +128,7 @@ export default function StellaPlatform() {
             --star-end-x: 5%;
             --star-end-y: 85%;
             /* Steeper tail angle for mobile to match the travel angle */
-            --tail-angle: -51deg;
+            --tail-angle: -65deg;
           }
         }
         
@@ -139,7 +139,7 @@ export default function StellaPlatform() {
             --star-start-y: 8%;
             --star-end-x: 8%;
             --star-end-y: 80%;
-            --tail-angle: -50deg;
+            --tail-angle: -65deg;
           }
         }
         

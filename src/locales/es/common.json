@@ -374,5 +374,16 @@
   },
   "ballet": {
     "loading": "Cargando Ballet..."
+  },
+  "seguroFianca": {
+    "badge": "Seguro de Garantía respaldado por Pix",
+    "hero": {
+      "comingSoon": "Próximamente · Julio 2027",
+      "title": "Paga Alquiler al Instante. Cobra Después.",
+      "subtitle": "Adelanto de alquiler en 60 segundos vía Pix. Cotización automática vía Open Finance. ¿Desalojo? Nosotros lo manejamos.",
+      "getQuote": "Solicitar Cotización Instantánea",
+      "foundersCohort": "🚀 Primera cohorte de propietarios: 50% de descuento, beta de por vida"
+    }
   }
 }
+

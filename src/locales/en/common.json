@@ -511,5 +511,16 @@
     },
     "rosser": "Rosser",
     "stella": "Stella"
+  },
+  "seguroFianca": {
+    "badge": "Pix-Backed Rent Insurance",
+    "hero": {
+      "comingSoon": "Coming Soon · July 2027",
+      "title": "Pay Rent Instantly. Collect Later.",
+      "subtitle": "60-second rent advance via Pix. Auto-quote via Open Finance. Eviction? We handle it.",
+      "getQuote": "Request Instant Quote",
+      "foundersCohort": "🚀 First cohort of property owners: 50% off, lifetime beta"
+    }
   }
 }
+

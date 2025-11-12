@@ -86,8 +86,11 @@ export default function App() {
   if (s.video_home_uploaded_url) setHeroUploadedUrl(s.video_home_uploaded_url)
   if (s.video_home_fallback_image) setHeroFallbackImage(s.video_home_fallback_image)
         if (s.hero_logo_url) {
-          console.log('Hero logo URL loaded:', s.hero_logo_url)
+          console.log('Hero logo URL loaded from Supabase:', s.hero_logo_url)
           setHeroLogoUrl(s.hero_logo_url)
+        } else {
+          console.log('No hero logo URL in Supabase, using local fallback')
+          setHeroLogoUrl('/Variação de logotipo 6.png')
         }
         
         // Update favicon
@@ -135,15 +138,25 @@ export default function App() {
           ))
           if (ids.length === 1) {
             const { data } = await supabase.from('listings').select('*').eq('id', ids[0]).single()
-            if (data) setFeaturedProjects([data])
+            if (data) {
+              console.log('Featured project loaded (single):', data)
+              setFeaturedProjects([data])
+            } else {
+              console.log('No featured project found for ID:', ids[0])
+            }
           } else if (ids.length > 1) {
             const { data } = await supabase.from('listings').select('*').in('id', ids)
             if (data && Array.isArray(data)) {
+              console.log('Featured projects loaded (multiple):', data.length, 'projects')
               // preserve the admin's order
               const order: Record<string, number> = ids.reduce((acc, id, i) => { acc[id] = i; return acc }, {} as Record<string, number>)
               data.sort((a: any, b: any) => (order[a.id] ?? 0) - (order[b.id] ?? 0))
               setFeaturedProjects(data)
+            } else {
+              console.log('No featured projects found for IDs:', ids)
             }
+          } else {
+            console.log('No featured project IDs configured')
           }
         }
       } catch (err) {
@@ -203,7 +216,11 @@ export default function App() {
     loadProjects()
   }, [])
 
-  const heroFeatured = useMemo(() => featuredProjects.slice(0, 3), [featuredProjects])
+  const heroFeatured = useMemo(() => {
+    const featured = featuredProjects.slice(0, 3)
+    console.log('Hero featured projects:', featured.length, 'projects')
+    return featured
+  }, [featuredProjects])
   const heroGridClasses = useMemo(() => {
     switch (heroFeatured.length) {
       case 1:
