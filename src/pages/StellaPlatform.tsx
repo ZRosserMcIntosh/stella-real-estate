@@ -14,6 +14,12 @@ export default function StellaPlatform() {
   const [balletSpotlightActive, setBalletSpotlightActive] = useState(false)
   const [balletSpotlightExit, setBalletSpotlightExit] = useState(false)
 
+  // Helper function to safely get translation arrays
+  const getTranslationArray = (key: string): string[] => {
+    const result = t(key, { returnObjects: true })
+    return Array.isArray(result) ? result as string[] : []
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       // Constellation card scroll detection - trigger shooting star only once
@@ -912,7 +918,7 @@ export default function StellaPlatform() {
                   <div>
                     <p className="text-blue-400 font-semibold mb-1">{t('stellaPlatform.ecosystem.phaseLabel')} {phaseNum} (MVP):</p>
                     <ul className="space-y-1 ml-2 text-slate-300">
-                      {(t(`stellaPlatform.ecosystem.pendingServices.${key}.phase1`, { returnObjects: true }) as string[]).map((item, idx) => (
+                      {getTranslationArray(`stellaPlatform.ecosystem.pendingServices.${key}.phase1`).map((item, idx) => (
                         <li key={idx}>✓ {item}</li>
                       ))}
                     </ul>
@@ -920,7 +926,7 @@ export default function StellaPlatform() {
                   <div>
                     <p className="text-slate-400 font-semibold mb-1">{t('stellaPlatform.ecosystem.pendingLabel')}:</p>
                     <ul className="space-y-1 ml-2 text-slate-400">
-                      {(t(`stellaPlatform.ecosystem.pendingServices.${key}.pending`, { returnObjects: true }) as string[]).map((item, idx) => (
+                      {getTranslationArray(`stellaPlatform.ecosystem.pendingServices.${key}.pending`).map((item, idx) => (
                         <li key={idx}>{item}</li>
                       ))}
                     </ul>
