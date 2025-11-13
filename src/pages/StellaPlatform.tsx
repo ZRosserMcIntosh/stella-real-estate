@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 import UserTypeIcon from '../components/icons/UserTypeIcon'
 
 export default function StellaPlatform() {
@@ -13,6 +14,13 @@ export default function StellaPlatform() {
   const hasBalletExitedRef = useRef(false)
   const [balletSpotlightActive, setBalletSpotlightActive] = useState(false)
   const [balletSpotlightExit, setBalletSpotlightExit] = useState(false)
+
+  // SEO metadata
+  const siteUrl = window.location.origin
+  const pageUrl = `${siteUrl}/plataforma-stella`
+  const logoUrl = `${siteUrl}/contellation-logo.png`
+  const pageTitle = 'Plataforma Stella - Tecnologia Imobiliária Completa'
+  const pageDescription = 'A Plataforma Stella oferece soluções integradas de CRM, automação de tarefas, gestão de leads e muito mais para profissionais do mercado imobiliário.'
 
   // Helper function to safely get translation arrays
   const getTranslationArray = (key: string): string[] => {
@@ -87,6 +95,36 @@ export default function StellaPlatform() {
 
   return (
     <div className="bg-slate-950 text-slate-100">
+      <Helmet>
+        {/* Basic Meta Tags */}
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={logoUrl} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Stella Real Estate" />
+        <meta property="og:locale" content="pt_BR" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={pageUrl} />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={logoUrl} />
+        
+        {/* WhatsApp specific */}
+        <meta property="og:image:alt" content="Stella Platform - Constellation Logo" />
+        
+        {/* Additional SEO */}
+        <link rel="canonical" href={pageUrl} />
+      </Helmet>
+      
       <style>{`
         @keyframes shootingStar {
           0% {
@@ -247,6 +285,18 @@ export default function StellaPlatform() {
           }
         }
         
+        @keyframes shadowFadeIn {
+          0% {
+            opacity: 0;
+          }
+          70% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 0.35;
+          }
+        }
+        
         .spotlight-merge-left {
           animation: spotlightMergeLeft 2s ease-out forwards;
         }
@@ -266,6 +316,10 @@ export default function StellaPlatform() {
         .ballet-pirouette {
           animation: balletPirouette 2s ease-in-out 1;
           transform-style: preserve-3d;
+        }
+        
+        .shadow-fade-in {
+          animation: shadowFadeIn 2s ease-out forwards;
         }
       `}</style>
       <section className="relative overflow-hidden -mt-20 pt-12">
@@ -457,26 +511,70 @@ export default function StellaPlatform() {
           >
             {/* Ballet Logo */}
             <div className="flex justify-center mb-4 relative" style={{ perspective: '1000px' }}>
-              {/* Spotlight from Left */}
+              {/* Horizontal Elliptical Spotlight from Left - 5x wider than tall, positioned at bottom */}
               {balletSpotlightActive && (
                 <div 
-                  className={balletSpotlightExit ? 'spotlight-exit-left absolute top-1/2 w-[250px] h-[250px] rounded-full pointer-events-none z-0' : 'spotlight-merge-left absolute top-1/2 w-[250px] h-[250px] rounded-full pointer-events-none z-0'}
+                  className={balletSpotlightExit ? 'spotlight-exit-left absolute pointer-events-none z-0' : 'spotlight-merge-left absolute pointer-events-none z-0'}
                   style={{
+                    width: '350px',
+                    height: '70px',
+                    top: '85%',
                     transform: 'translate(-50%, -50%)',
-                    background: 'radial-gradient(circle, rgba(236,72,153,0.6) 0%, rgba(236,72,153,0.4) 30%, rgba(236,72,153,0.15) 50%, transparent 70%)',
-                    filter: 'blur(40px)',
+                    background: 'radial-gradient(ellipse, rgba(236,72,153,0.5) 0%, rgba(236,72,153,0.35) 30%, rgba(236,72,153,0.12) 50%, transparent 70%)',
+                    filter: 'blur(30px)',
+                    borderRadius: '50%',
                   }}
                 />
               )}
               
-              {/* Spotlight from Right */}
+              {/* Horizontal Elliptical Spotlight from Right - 5x wider than tall, positioned at bottom */}
               {balletSpotlightActive && (
                 <div 
-                  className={balletSpotlightExit ? 'spotlight-exit-right absolute top-1/2 w-[250px] h-[250px] rounded-full pointer-events-none z-0' : 'spotlight-merge-right absolute top-1/2 w-[250px] h-[250px] rounded-full pointer-events-none z-0'}
+                  className={balletSpotlightExit ? 'spotlight-exit-right absolute pointer-events-none z-0' : 'spotlight-merge-right absolute pointer-events-none z-0'}
                   style={{
+                    width: '350px',
+                    height: '70px',
+                    top: '85%',
                     transform: 'translate(-50%, -50%)',
-                    background: 'radial-gradient(circle, rgba(236,72,153,0.6) 0%, rgba(236,72,153,0.4) 30%, rgba(236,72,153,0.15) 50%, transparent 70%)',
-                    filter: 'blur(40px)',
+                    background: 'radial-gradient(ellipse, rgba(236,72,153,0.5) 0%, rgba(236,72,153,0.35) 30%, rgba(236,72,153,0.12) 50%, transparent 70%)',
+                    filter: 'blur(30px)',
+                    borderRadius: '50%',
+                  }}
+                />
+              )}
+              
+              {/* Logo Shadow from Left - actual logo flattened and cast up and to the right */}
+              {balletSpotlightActive && !balletSpotlightExit && (
+                <img 
+                  src="/ballet-logo.png" 
+                  alt="" 
+                  className="shadow-fade-in absolute pointer-events-none z-0"
+                  style={{
+                    height: '96px',
+                    width: 'auto',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-45%, -8%) scaleY(0.2) scaleX(1.2) skewX(-8deg)',
+                    opacity: 0,
+                    filter: 'blur(3px) brightness(0)',
+                  }}
+                />
+              )}
+              
+              {/* Logo Shadow from Right - actual logo flattened and cast up and to the right */}
+              {balletSpotlightActive && !balletSpotlightExit && (
+                <img 
+                  src="/ballet-logo.png" 
+                  alt="" 
+                  className="shadow-fade-in absolute pointer-events-none z-0"
+                  style={{
+                    height: '96px',
+                    width: 'auto',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-45%, -8%) scaleY(0.2) scaleX(1.2) skewX(-8deg)',
+                    opacity: 0,
+                    filter: 'blur(3px) brightness(0)',
                   }}
                 />
               )}

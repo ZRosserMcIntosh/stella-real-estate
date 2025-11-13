@@ -250,6 +250,13 @@ export default function Footer() {
               src={footerLogoUrl} 
               alt="Footer Logo" 
               className="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                if (target.src !== '/Variação de logotipo 6.png') {
+                  console.log('Footer logo failed to load, using fallback: /Variação de logotipo 6.png');
+                  target.src = '/Variação de logotipo 6.png';
+                }
+              }}
             />
           </div>
         )}

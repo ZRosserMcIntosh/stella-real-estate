@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { NavLink, Outlet, useLocation, useNavigate, Link } from 'react-router-dom'
 import LanguageSwitcher from '../../components/LanguageSwitcher'
 import { useAuth } from '../../context/AuthContext'
+import { getSiteSettings } from '../../lib/siteSettings'
 
 export default function AdminLayout() {
   const navigate = useNavigate()
@@ -13,6 +14,8 @@ export default function AdminLayout() {
   const [companyOpen, setCompanyOpen] = React.useState(false)
   const [accountOpen, setAccountOpen] = React.useState(false)
   const [logoFailed, setLogoFailed] = React.useState(false)
+  const [headerLogoUrl, setHeaderLogoUrl] = React.useState<string>('')
+  const [logoLoading, setLogoLoading] = React.useState(true)
   const listingsCloseTimer = React.useRef<NodeJS.Timeout | null>(null)
   const companyCloseTimer = React.useRef<NodeJS.Timeout | null>(null)
   const accountCloseTimer = React.useRef<NodeJS.Timeout | null>(null)
@@ -25,6 +28,37 @@ export default function AdminLayout() {
     if (authLoading) return
     if (!session && !isDemo) navigate('/login', { replace: true })
   }, [authLoading, session, isDemo, navigate])
+
+  // Load header logo from settings (same as retail header)
+  React.useEffect(() => {
+    let cancelled = false
+    const loadHeaderLogo = async () => {
+      try {
+        const settings = await getSiteSettings(['header_logo_url'])
+        if (cancelled) return
+        if (settings.header_logo_url) {
+          setHeaderLogoUrl(settings.header_logo_url)
+        } else {
+          setHeaderLogoUrl('/Variação de logotipo 6.png')
+        }
+      } catch (error) {
+        console.error('Failed to load header logo, using local fallback:', error)
+        if (!cancelled) {
+          setHeaderLogoUrl('/Variação de logotipo 6.png')
+          setLogoFailed(false)
+        }
+      } finally {
+        if (!cancelled) {
+          setLogoLoading(false)
+        }
+      }
+    }
+    loadHeaderLogo()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   if (authLoading) return null
   if (!session && !isDemo) return null
   
@@ -62,17 +96,18 @@ export default function AdminLayout() {
         <div className="flex flex-nowrap items-center gap-2 px-4 py-3 md:gap-6 md:px-6">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0 hover:opacity-80 transition-opacity">
-            {!logoFailed ? (
+            {!logoLoading && !logoFailed && headerLogoUrl ? (
               <img
-                src="/stella-favicon.png"
-                className="h-8 w-auto object-contain"
+                src={headerLogoUrl}
+                className="h-16 w-auto object-contain drop-shadow-sm"
                 alt="Stella"
                 onError={() => setLogoFailed(true)}
               />
+            ) : logoLoading ? (
+              <div className="h-16 w-16 rounded-full bg-slate-700 animate-pulse" />
             ) : (
-              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 grid place-items-center text-white text-xs font-bold">S</div>
+              <div className="h-16 w-16 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 grid place-items-center text-white text-sm font-bold">S</div>
             )}
-            <span className="hidden sm:inline text-sm font-semibold text-slate-100">Stella</span>
           </Link>
 
           {/* Desktop Navigation - Horizontal tabs */}

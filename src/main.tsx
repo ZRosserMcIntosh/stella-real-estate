@@ -4,6 +4,7 @@ import './index.css'
 import App from './App'
 import { createBrowserRouter, RouterProvider, Navigate, useParams } from 'react-router-dom'
 import './i18n'
+import { HelmetProvider } from 'react-helmet-async'
 
 // Helper component for dynamic project redirects
 const ProjectRedirect = () => {
@@ -189,12 +190,14 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <AuthProvider>
-      <OnboardingProvider>
-        <CurrencyProvider>
-          <RouterProvider router={router} />
-        </CurrencyProvider>
-      </OnboardingProvider>
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider>
+        <OnboardingProvider>
+          <CurrencyProvider>
+            <RouterProvider router={router} />
+          </CurrencyProvider>
+        </OnboardingProvider>
+      </AuthProvider>
+    </HelmetProvider>
   </React.StrictMode>,
 )

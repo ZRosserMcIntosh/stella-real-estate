@@ -131,8 +131,11 @@ export default function LanguageSwitcher() {
           white-space: nowrap;
           display: inline-flex;
           align-items: center;
+          justify-content: center;
           gap: 0.375rem;
           color: #ffffff;
+          height: 32px;
+          min-width: fit-content;
         }
         .lang-trigger:hover {
           background: rgba(201, 179, 130, 0.18);
@@ -227,12 +230,16 @@ export default function LanguageSwitcher() {
         </svg>
       </button>
       {open && (
-        <div
-          className={`lang-menu dropdown-menu fixed z-[60] inline-block backdrop-blur bg-white/70 dark:bg-slate-900/50 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-xl w-fit min-w-[160px] max-w-[90vw] sm:max-w-[280px] overflow-hidden ${closing ? 'closing' : ''}`}
-          style={{ top: 'calc(var(--header-height, 60px) + 6px)', left: `${buttonCenter}px`, transform: 'translateX(-50%)' }}
-          role="listbox"
-          aria-activedescendant={`lang-${lang}`}
-        >
+          <div
+            className={`lang-menu dropdown-menu fixed z-[60] backdrop-blur-md bg-white/60 dark:bg-slate-900/60 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-xl w-fit min-w-[160px] max-w-[90vw] sm:max-w-[280px] border border-slate-200/20 dark:border-slate-700/20 ${closing ? 'closing' : ''}`}
+            style={{ 
+              top: 'calc(var(--header-height, 60px) + 6px)', 
+              left: `${buttonCenter}px`, 
+              transform: 'translateX(-50%)',
+            }}
+            role="listbox"
+            aria-activedescendant={`lang-${lang}`}
+          >
           <button
             id="lang-pt"
             onClick={() => change('pt')}

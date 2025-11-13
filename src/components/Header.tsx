@@ -90,7 +90,7 @@ export default function Header() {
     }
     load()
     return () => { cancelled = true }
-  }, [isHome])
+  }, [])
   
   // Load header logo from settings
   useEffect(() => {
@@ -171,7 +171,16 @@ export default function Header() {
               src={headerLogoUrl}
               className={`${currentLogoSize.height} w-auto object-contain drop-shadow-sm transition-all duration-300`}
               alt={t('header.brand') as string}
-              onError={() => setLogoFailed(true)}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                if (target.src !== '/Variação de logotipo 6.png') {
+                  console.log('Header logo failed to load, trying fallback: /Variação de logotipo 6.png');
+                  target.src = '/Variação de logotipo 6.png';
+                } else {
+                  console.log('Fallback logo also failed, showing placeholder');
+                  setLogoFailed(true);
+                }
+              }}
             />
           ) : logoLoading ? (
             <div className={`${currentLogoSize.height} aspect-square rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse`} />
@@ -187,7 +196,7 @@ export default function Header() {
           )}
         </Link>
   {/* Desktop nav */}
-  <nav className="hidden sm:flex items-center gap-3 text-sm font-medium">
+  <nav className="hidden sm:flex items-center gap-2.5 text-sm font-medium">
         <style>{`
           
           @keyframes waveBlur {
@@ -237,6 +246,8 @@ export default function Header() {
             margin-top: 0;
             border-top-left-radius: 0.5rem;
             border-top-right-radius: 0.5rem;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
           }
           .dropdown-menu.closing {
             animation: dropdownSlideUp 0.35s ease-in forwards;
@@ -277,8 +288,11 @@ export default function Header() {
             white-space: nowrap;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.375rem;
             color: #ffffff;
+            height: 32px;
+            min-width: fit-content;
           }
           .nav-button:hover {
             background: rgba(201, 179, 130, 0.18);
@@ -349,13 +363,11 @@ export default function Header() {
                 clearTimeout(closeTimerRef.current)
                 closeTimerRef.current = null
               }
-              if (isHome) {
-                if (buttonRef.current) {
-                  const rect = buttonRef.current.getBoundingClientRect()
-                  setButtonCenter(rect.left + rect.width / 2)
-                }
-                setHoverOpen(true)
+              if (buttonRef.current) {
+                const rect = buttonRef.current.getBoundingClientRect()
+                setButtonCenter(rect.left + rect.width / 2)
               }
+              setHoverOpen(true)
             }}
             onMouseLeave={() => {
               closeTimerRef.current = setTimeout(() => {
@@ -374,11 +386,15 @@ export default function Header() {
             >
               {t('header.nav.projects').toUpperCase?.() || 'NEW PROJECTS'}
             </button>
-            {isHome && hoverOpen && (projects.length > 0 || loading) && (
-              <div
-                className={`dropdown-menu fixed z-[60] inline-block backdrop-blur bg-white/70 dark:bg-slate-900/50 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-xl w-fit min-w-[280px] max-w-[90vw] sm:max-w-[500px] overflow-hidden ${projectsClosing ? 'closing' : ''}`}
-                style={{ top: 'calc(var(--header-height, 60px) + 6px)', left: `${buttonCenter}px`, transform: 'translateX(-50%)' }}
-                onMouseEnter={() => {
+            {hoverOpen && (projects.length > 0 || loading) && (
+                <div
+                  className={`dropdown-menu fixed z-[60] backdrop-blur-md bg-white/60 dark:bg-slate-900/60 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-xl w-fit min-w-[280px] max-w-[90vw] sm:max-w-[500px] overflow-hidden border border-slate-200/20 dark:border-slate-700/20 ${projectsClosing ? 'closing' : ''}`}
+                  style={{ 
+                    top: 'calc(var(--header-height, 60px) + 6px)', 
+                    left: `${buttonCenter}px`, 
+                    transform: 'translateX(-50%)',
+                  }}
+                  onMouseEnter={() => {
                   if (closeTimerRef.current) {
                     clearTimeout(closeTimerRef.current)
                     closeTimerRef.current = null
@@ -475,12 +491,13 @@ export default function Header() {
             CONSTELLATION
           </button>
         </nav>
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30"></div>
           <LanguageSwitcher />
           <div className="hidden sm:block">
             <CurrencySwitcher />
           </div>
-          <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30 mx-1"></div>
+          <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30"></div>
           <div className="hidden sm:flex flex-col items-center text-[#C9B382] px-2">
             <div className="text-[9px] font-mono font-bold tracking-[0.8px] leading-tight">CRECI</div>
             <div className="text-[11px] font-mono font-bold tracking-[0.5px] leading-tight">309568</div>

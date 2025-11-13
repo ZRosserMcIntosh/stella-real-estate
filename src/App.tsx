@@ -580,6 +580,13 @@ export default function App() {
                 src={heroLogoUrl}
                 alt="Stella"
                 className="h-32 sm:h-40 md:h-48 lg:h-56 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  if (target.src !== '/Variação de logotipo 6.png') {
+                    console.log('Hero logo failed to load, using fallback: /Variação de logotipo 6.png');
+                    target.src = '/Variação de logotipo 6.png';
+                  }
+                }}
               />
             ) : heroLogoLoading ? (
               <div className="h-32 sm:h-40 md:h-48 lg:h-56 w-64 bg-white/10 animate-pulse rounded-lg" />
