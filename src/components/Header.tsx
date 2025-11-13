@@ -32,12 +32,16 @@ export default function Header() {
   const [institutionalOpen, setInstitutionalOpen] = useState(false)
   const [institutionalClosing, setInstitutionalClosing] = useState(false)
   const [projectsClosing, setProjectsClosing] = useState(false)
+  const [constellationOpen, setConstellationOpen] = useState(false)
+  const [constellationClosing, setConstellationClosing] = useState(false)
   const [institutionalButtonCenter, setInstitutionalButtonCenter] = React.useState<number>(0)
   const [hoveredProjectId, setHoveredProjectId] = useState<string | null>(null)
   const headerRef = React.useRef<HTMLHeadElement>(null)
   const buttonRef = React.useRef<HTMLButtonElement>(null)
   const institutionalButtonRef = React.useRef<HTMLButtonElement>(null)
+  const constellationButtonRef = React.useRef<HTMLButtonElement>(null)
   const [buttonCenter, setButtonCenter] = React.useState<number>(0)
+  const [constellationButtonCenter, setConstellationButtonCenter] = React.useState<number>(0)
   const closeTimerRef = React.useRef<NodeJS.Timeout | null>(null)
   const handleSignupClick = React.useCallback(() => {
     trackEvent('signup_cta_click', { position: 'header' })
@@ -58,6 +62,10 @@ export default function Header() {
     if (institutionalButtonRef.current) {
       const rect = institutionalButtonRef.current.getBoundingClientRect()
       setInstitutionalButtonCenter(rect.left + rect.width / 2)
+    }
+    if (constellationButtonRef.current) {
+      const rect = constellationButtonRef.current.getBoundingClientRect()
+      setConstellationButtonCenter(rect.left + rect.width / 2)
     }
     window.addEventListener('resize', updateHeaderHeight)
     window.addEventListener('scroll', updateHeaderHeight)
@@ -104,8 +112,8 @@ export default function Header() {
           console.log('Using header logo from Supabase:', settings.header_logo_url)
           setHeaderLogoUrl(settings.header_logo_url)
         } else {
-          console.log('No header logo in Supabase, using local fallback: /Variação de logotipo 6.png')
-          setHeaderLogoUrl('/Variação de logotipo 6.png')
+          console.log('No header logo in Supabase, using local fallback: /stella-logo.png')
+          setHeaderLogoUrl('/stella-logo.png')
         }
         if (settings.header_logo_size) {
           setHeaderLogoSize(settings.header_logo_size)
@@ -114,7 +122,7 @@ export default function Header() {
       } catch (error) {
         console.error('Failed to load header logo, using local fallback:', error)
         if (!cancelled) {
-          setHeaderLogoUrl('/Variação de logotipo 6.png')
+          setHeaderLogoUrl('/stella-logo.png')
           setLogoFailed(false) // Don't mark as failed since we have fallback
         }
       } finally {
@@ -173,9 +181,9 @@ export default function Header() {
               alt={t('header.brand') as string}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                if (target.src !== '/Variação de logotipo 6.png') {
-                  console.log('Header logo failed to load, trying fallback: /Variação de logotipo 6.png');
-                  target.src = '/Variação de logotipo 6.png';
+                if (target.src !== '/stella-logo.png') {
+                  console.log('Header logo failed to load, trying fallback: /stella-logo.png');
+                  target.src = '/stella-logo.png';
                 } else {
                   console.log('Fallback logo also failed, showing placeholder');
                   setLogoFailed(true);
@@ -478,18 +486,81 @@ export default function Header() {
           >
             {t('header.nav.rent').toUpperCase?.() || 'RENT'}
           </button>
-          <button
-            className="nav-button"
-            onClick={() => window.location.href = '/sobre'}
+          <div
+            className="relative"
+            onMouseEnter={() => {
+              if (closeTimerRef.current) {
+                clearTimeout(closeTimerRef.current)
+                closeTimerRef.current = null
+              }
+              if (constellationButtonRef.current) {
+                const rect = constellationButtonRef.current.getBoundingClientRect()
+                setConstellationButtonCenter(rect.left + rect.width / 2)
+              }
+              setConstellationOpen(true)
+            }}
+            onMouseLeave={() => {
+              closeTimerRef.current = setTimeout(() => {
+                setConstellationClosing(true)
+                setTimeout(() => {
+                  setConstellationOpen(false)
+                  setConstellationClosing(false)
+                }, 350)
+              }, 500)
+            }}
           >
-            {t('header.nav.about').toUpperCase?.() || 'ABOUT'}
-          </button>
-          <button
-            className="nav-button"
-            onClick={() => window.location.href = '/plataforma-stella'}
-          >
-            CONSTELLATION
-          </button>
+            <button
+              ref={constellationButtonRef}
+              className="nav-button"
+              onClick={() => window.location.href = '/plataforma-stella'}
+            >
+              CONSTELLATION
+            </button>
+            {constellationOpen && (
+              <div
+                className={`dropdown-menu fixed z-[60] backdrop-blur-md bg-white/60 dark:bg-slate-900/60 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-xl w-fit min-w-[200px] overflow-hidden border border-slate-200/20 dark:border-slate-700/20 ${constellationClosing ? 'closing' : ''}`}
+                style={{ 
+                  top: 'calc(var(--header-height, 60px) + 6px)', 
+                  left: `${constellationButtonCenter}px`, 
+                  transform: 'translateX(-50%)',
+                }}
+                onMouseEnter={() => {
+                  if (closeTimerRef.current) {
+                    clearTimeout(closeTimerRef.current)
+                    closeTimerRef.current = null
+                  }
+                }}
+                onMouseLeave={() => {
+                  closeTimerRef.current = setTimeout(() => {
+                    setConstellationClosing(true)
+                    setTimeout(() => {
+                      setConstellationOpen(false)
+                      setConstellationClosing(false)
+                    }, 350)
+                  }, 500)
+                }}
+              >
+                <div className="grid grid-cols-1 gap-1">
+                  <button
+                    onClick={() => window.location.href = '/plataforma-stella'}
+                    className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 px-3 transition-all duration-300 w-full text-left"
+                  >
+                    <div className="min-w-0">
+                      <div className="text-sm font-medium text-slate-900 dark:text-slate-100">Plataforma</div>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => window.location.href = '/precos'}
+                    className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 px-3 transition-all duration-300 w-full text-left"
+                  >
+                    <div className="min-w-0">
+                      <div className="text-sm font-medium text-slate-900 dark:text-slate-100">Preços</div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </nav>
         <div className="flex items-center gap-3">
           <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30"></div>
@@ -537,11 +608,11 @@ export default function Header() {
               <Link to="/imoveis" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 {t('header.nav.listings')}
               </Link>
-              <Link to="/sobre" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-                {t('header.nav.about')}
-              </Link>
               <Link to="/plataforma-stella" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 Constellation Platform
+              </Link>
+              <Link to="/precos" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                Preços
               </Link>
               <div className="border-t border-slate-200 dark:border-slate-800 my-2"></div>
               <div className="px-3 py-2">

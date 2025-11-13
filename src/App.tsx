@@ -90,7 +90,7 @@ export default function App() {
           setHeroLogoUrl(s.hero_logo_url)
         } else {
           console.log('No hero logo URL in Supabase, using local fallback')
-          setHeroLogoUrl('/Variação de logotipo 6.png')
+          setHeroLogoUrl('/stella-logo.png')
         }
         
         // Update favicon
@@ -338,12 +338,6 @@ export default function App() {
     const mediaItems = Array.isArray(p.media) ? p.media : []
     const thumb = mediaItems.find((m: any) => m.kind === 'thumbnail')?.url || mediaItems[0]?.url
     const secondImage = mediaItems[1]?.url || null
-    const videoCandidate = mediaItems.find(
-      (m: any) =>
-        typeof m?.url === 'string' &&
-        ((m.kind || '').toLowerCase().includes('video') || /\.mp4($|\?)/i.test(m.url)),
-    )
-    const videoUrl = videoCandidate?.url as string | undefined
     // Prefer per-unit price: features.unit_price, else min floorplan/units price, else row price
     const f = (p.features || {}) as any
     const toNum = (v: any): number | null => {
@@ -371,42 +365,8 @@ export default function App() {
       <article className="group relative flex flex-col w-full sm:w-[22rem] min-h-[360px] overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-4 text-left text-slate-900 shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:border-white/60">
         {thumb ? (
           <div className="relative overflow-hidden rounded-2xl">
-            {/* On hover, if videoUrl exists, show video; else show second image if available */}
-            {videoUrl ? (
-              <div className="relative h-52 w-full">
-                <img
-                  src={thumb}
-                  alt={p.title}
-                  className="absolute inset-0 h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-0"
-                />
-                <video
-                  className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                  src={videoUrl}
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  onMouseEnter={(e) => {
-                    try {
-                      const vid = e.currentTarget as HTMLVideoElement
-                      vid.currentTime = 0
-                      void vid.play()
-                    } catch {
-                      /* ignore */
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    try {
-                      const vid = e.currentTarget as HTMLVideoElement
-                      vid.pause()
-                      vid.currentTime = 0
-                    } catch {
-                      /* ignore */
-                    }
-                  }}
-                />
-              </div>
-            ) : secondImage ? (
+            {/* On hover, show second image if available */}
+            {secondImage ? (
               <div className="relative h-52 w-full">
                 <img
                   src={thumb}
@@ -582,9 +542,9 @@ export default function App() {
                 className="h-32 sm:h-40 md:h-48 lg:h-56 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  if (target.src !== '/Variação de logotipo 6.png') {
-                    console.log('Hero logo failed to load, using fallback: /Variação de logotipo 6.png');
-                    target.src = '/Variação de logotipo 6.png';
+                  if (target.src !== '/stella-logo.png') {
+                    console.log('Hero logo failed to load, using fallback: /stella-logo.png');
+                    target.src = '/stella-logo.png';
                   }
                 }}
               />
@@ -698,86 +658,193 @@ export default function App() {
       </section>
 
   {/* MAIN CONTENT */}
-  <main className="flex-1 relative z-40 bg-white">
-    {/* Removed placeholder marketing copy per request */}
+  <main className="flex-1 relative z-40 bg-gradient-to-b from-white/98 via-white/95 to-white dark:from-slate-900 dark:via-slate-850 dark:to-slate-900">
+    {/* New Projects Section */}
     {projects.length > 0 && (
-      <section id="new-projects" className="container-padded py-16">
-            <h2 className="text-2xl font-bold">{t('home.newProjects.title', { defaultValue: 'New Projects' })}</h2>
-            {projectsError && <p className="mt-2 text-sm text-red-600">{projectsError}</p>}
-            <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.map((p) => {
-                const thumb = (p.media || []).find((m: any) => m.kind === 'thumbnail')?.url || (p.media || [])[0]?.url
-                const secondPhoto = (p.media || []).filter((m: any) => m.kind !== 'video_bg' && m.kind !== 'thumbnail')[0]?.url || (p.media || [])[1]?.url
-                const isHovered = hoveredProjectId === p.id
-                const displayImage = isHovered && secondPhoto ? secondPhoto : thumb
-                const expected = p.features?.expected_delivery_month || p.features?.expected_delivery_year
-                const f = (p as any).features || {}
-                const perUnit: number | null =
-                  typeof f.unit_price === 'number'
-                    ? f.unit_price
-                    : (typeof (p as any).price === 'number' && Number.isFinite((p as any).price) ? (p as any).price : null)
-                return (
-                  <div 
-                    key={p.id} 
-                    className="rounded-2xl border border-slate-200 dark:border-slate-800 p-4 bg-white/80 dark:bg-slate-900/60 shadow-soft"
-                    onMouseEnter={() => setHoveredProjectId(p.id)}
-                    onMouseLeave={() => setHoveredProjectId(null)}
-                  >
-                    <div className="relative overflow-hidden rounded-xl">
-                      {displayImage ? (
-                        <img 
-                          src={displayImage} 
-                          alt={p.title} 
-                          className="w-full h-40 object-cover transition-opacity duration-300" 
-                        />
-                      ) : (
-                        <div className="w-full h-40 bg-slate-100 rounded-xl grid place-items-center text-slate-400 text-sm">No image</div>
-                      )}
-                    </div>
-                    <h3 className="mt-3 text-lg font-semibold line-clamp-1">{p.title}</h3>
-                    <p className="text-sm text-slate-600">{[p.city, p.state_code].filter(Boolean).join(', ')}</p>
-                    {expected && (
-                      <p className="text-sm text-slate-700 mt-1">Delivery: {[
-                        p.features?.expected_delivery_month,
-                        p.features?.expected_delivery_year,
-                      ].filter(Boolean).join(' ')}</p>
+      <section id="new-projects" className="relative py-24 overflow-hidden">
+        {/* Very subtle gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-50/10 via-white/80 to-indigo-50/10 dark:from-brand-950/20 dark:via-transparent dark:to-indigo-950/10" />
+        
+        <div className="container-padded relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-light tracking-tight text-slate-900 dark:text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+              {t('home.newProjects.title', { defaultValue: 'New Projects' })}
+            </h2>
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              {t('home.newProjects.subtitle', { defaultValue: 'Discover our latest developments in prime locations' })}
+            </p>
+            {projectsError && <p className="mt-4 text-sm text-red-600 dark:text-red-400">{projectsError}</p>}
+          </div>
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((p) => {
+              const thumb = (p.media || []).find((m: any) => m.kind === 'thumbnail')?.url || (p.media || [])[0]?.url
+              const secondPhoto = (p.media || []).filter((m: any) => m.kind !== 'video_bg' && m.kind !== 'thumbnail')[0]?.url || (p.media || [])[1]?.url
+              const isHovered = hoveredProjectId === p.id
+              const displayImage = isHovered && secondPhoto ? secondPhoto : thumb
+              const expected = p.features?.expected_delivery_month || p.features?.expected_delivery_year
+              const f = (p as any).features || {}
+              const perUnit: number | null =
+                typeof f.unit_price === 'number'
+                  ? f.unit_price
+                  : (typeof (p as any).price === 'number' && Number.isFinite((p as any).price) ? (p as any).price : null)
+              return (
+                <article 
+                  key={p.id} 
+                  className="group relative rounded-3xl border border-slate-200/50 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 p-5 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 backdrop-blur-sm"
+                  onMouseEnter={() => setHoveredProjectId(p.id)}
+                  onMouseLeave={() => setHoveredProjectId(null)}
+                >
+                  <div className="relative overflow-hidden rounded-2xl mb-4">
+                    {displayImage ? (
+                      <img 
+                        src={displayImage} 
+                        alt={p.title} 
+                        className="w-full h-56 object-cover transition-all duration-500 group-hover:scale-105" 
+                      />
+                    ) : (
+                      <div className="w-full h-56 bg-slate-100 dark:bg-slate-700 rounded-2xl grid place-items-center text-slate-400 dark:text-slate-500 text-sm">No image</div>
                     )}
-                    <div className="mt-3 grid grid-cols-1 gap-2 text-xs">
-                      <div className="rounded-lg bg-slate-50 border border-slate-200 px-2 py-1.5">
-                        <div className="uppercase tracking-wide text-[10px] text-slate-500">Per unit</div>
-                        <div className="mt-0.5 font-semibold text-slate-900">{formatPrice(perUnit, { fallback: '—' })}</div>
+                    {/* Overlay gradient on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white line-clamp-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                      {p.title}
+                    </h3>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      {[p.city, p.state_code].filter(Boolean).join(', ')}
+                    </p>
+                    {expected && (
+                      <p className="text-sm text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        {t('home.newProjects.delivery', { defaultValue: 'Delivery' })}: {[p.features?.expected_delivery_month, p.features?.expected_delivery_year].filter(Boolean).join(' ')}
+                      </p>
+                    )}
+                    <div className="pt-3 mt-3 border-t border-slate-200 dark:border-slate-700">
+                      <div className="flex items-baseline justify-between">
+                        <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium">{t('home.newProjects.startingFrom', { defaultValue: 'Starting from' })}</span>
+                        <span className="text-xl font-bold text-brand-600 dark:text-brand-400">{formatPrice(perUnit, { fallback: '—' })}</span>
                       </div>
                     </div>
                   </div>
-  );              })}
-            </div>
-          </section>
-        )}
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    )}
 
-        <section id="about" className="container-padded py-16">
-          <h2 className="text-2xl font-bold">{t('home.about.title')}</h2>
-          <p className="mt-3 text-slate-900 dark:text-black-900 max-w-2xl">
+    {/* About Section */}
+    <section id="about" className="relative py-24 overflow-hidden">
+      {/* Very light elegant background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50/50 via-white to-slate-50/30 dark:from-slate-900 dark:via-slate-850 dark:to-slate-900" />
+      <div className="absolute inset-0 opacity-3 dark:opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(100, 116, 139) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+      
+      <div className="container-padded relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl sm:text-5xl font-light tracking-tight text-slate-900 dark:text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+            {t('home.about.title')}
+          </h2>
+          <p className="text-xl text-slate-700 dark:text-white/90 leading-relaxed font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
             {t('home.about.body')}
           </p>
-        </section>
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+            <Link 
+              to="/sobre" 
+              className="inline-flex items-center gap-2 rounded-full bg-slate-900 dark:bg-white px-8 py-3 text-sm font-semibold text-white dark:text-slate-900 shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+            >
+              {t('home.about.learnMore', { defaultValue: 'Learn More' })}
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+            <Link 
+              to="/imoveis" 
+              className="inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/30 px-8 py-3 text-sm font-semibold text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-all"
+            >
+              {t('home.about.viewProperties', { defaultValue: 'View Properties' })}
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <section id="contact" className="container-padded py-16">
-          <h2 className="text-2xl font-normal text-black dark:text-black">{t('home.contact.title')}</h2>
-          <form className="mt-6 grid gap-4 max-w-lg">
-            <label className="grid gap-1 text-sm">
-              <span className="font-medium">{t('home.contact.email')}</span>
-              <input type="email" placeholder="voce@example.com" className="rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-500/40"/>
-            </label>
-            <label className="grid gap-1 text-sm">
-              <span className="font-medium">{t('home.contact.message')}</span>
-              <textarea placeholder="How can we help?" rows={5} className="rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-500/40"></textarea>
-            </label>
-            <button className="inline-flex items-center justify-center rounded-2xl px-4 py-2 font-semibold bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 shadow-soft transition-colors w-fit">
-              {t('home.contact.send')}
-            </button>
+    {/* Contact Section */}
+    <section id="contact" className="relative py-24 overflow-hidden">
+      {/* Very light gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white via-brand-50/10 to-indigo-50/15 dark:from-slate-900 dark:via-brand-950/20 dark:to-indigo-950/30" />
+      
+      <div className="container-padded relative z-10">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl sm:text-5xl font-light tracking-tight text-slate-900 dark:text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+              {t('home.contact.title')}
+            </h2>
+            <p className="text-lg text-slate-600 dark:text-slate-400 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              {t('home.contact.subtitle', { defaultValue: 'Get in touch with our team of real estate experts' })}
+            </p>
+          </div>
+          
+          <form className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-8 sm:p-10 border border-slate-200/50 dark:border-slate-700/50">
+            <div className="space-y-6">
+              <div className="grid sm:grid-cols-2 gap-6">
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('home.contact.name', { defaultValue: 'Name' })}</span>
+                  <input 
+                    type="text" 
+                    placeholder={t('home.contact.namePlaceholder', { defaultValue: 'Your name' })}
+                    className="rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
+                  />
+                </label>
+                <label className="grid gap-2">
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('home.contact.email')}</span>
+                  <input 
+                    type="email" 
+                    placeholder={t('home.contact.emailPlaceholder', { defaultValue: 'you@example.com' })}
+                    className="rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
+                  />
+                </label>
+              </div>
+              
+              <label className="grid gap-2">
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('home.contact.phone', { defaultValue: 'Phone' })}</span>
+                <input 
+                  type="tel" 
+                  placeholder={t('home.contact.phonePlaceholder', { defaultValue: '+55 (11) 99999-9999' })}
+                  className="rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
+                />
+              </label>
+              
+              <label className="grid gap-2">
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('home.contact.message')}</span>
+                <textarea 
+                  placeholder={t('home.contact.messagePlaceholder', { defaultValue: 'Tell us how we can help...' })}
+                  rows={5} 
+                  className="rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-slate-900 dark:text-white placeholder:text-slate-400 resize-none"
+                />
+              </label>
+              
+              <button className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-6 py-4 font-semibold bg-gradient-to-r from-brand-600 to-brand-700 text-white hover:from-brand-700 hover:to-brand-800 shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5">
+                {t('home.contact.send')}
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
+            </div>
           </form>
-        </section>
-      </main>
+        </div>
+      </div>
+    </section>
+  </main>
 
   {/* Footer is provided by the shared Layout. */}
 

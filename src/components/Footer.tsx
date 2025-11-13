@@ -19,12 +19,12 @@ export default function Footer() {
           console.log('Using footer logo from Supabase:', settings.footer_logo_url)
           setFooterLogoUrl(settings.footer_logo_url)
         } else {
-          console.log('No footer logo in Supabase, using local fallback: /Variação de logotipo 6.png')
-          setFooterLogoUrl('/Variação de logotipo 6.png')
+          console.log('No footer logo in Supabase, using local fallback: /stella-logo.png')
+          setFooterLogoUrl('/stella-logo.png')
         }
       } catch (error) {
         console.error('Failed to load footer logo, using local fallback:', error)
-        setFooterLogoUrl('/Variação de logotipo 6.png')
+        setFooterLogoUrl('/stella-logo.png')
       } finally {
         setLogoLoading(false)
       }
@@ -243,18 +243,73 @@ export default function Footer() {
           </p>
         </div>
 
+        {/* Social Media Icons - Centered Row */}
+        <div className="pt-6 flex justify-center">
+          <div className="flex items-center gap-6">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+              <img 
+                src="/social-icons/instagram.png" 
+                alt="Instagram" 
+                className="h-8 w-auto"
+              />
+            </a>
+            <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+              <img 
+                src="/social-icons/x-white.png" 
+                alt="X (Twitter)" 
+                className="h-8 w-auto"
+              />
+            </a>
+            <a href="https://plus.google.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+              <img 
+                src="/social-icons/google-plus.png" 
+                alt="Google Plus" 
+                className="h-8 w-auto"
+              />
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+              <img 
+                src="/social-icons/facebook.png" 
+                alt="Facebook" 
+                className="h-8 w-auto"
+              />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+              <img 
+                src="/social-icons/linkedin.png" 
+                alt="LinkedIn" 
+                className="h-8 w-auto"
+              />
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+              <img 
+                src="/social-icons/youtube.png" 
+                alt="YouTube" 
+                className="h-8 w-auto"
+              />
+            </a>
+            <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+              <img 
+                src="/social-icons/whatsapp.png" 
+                alt="WhatsApp" 
+                className="h-8 w-auto"
+              />
+            </a>
+          </div>
+        </div>
+
         {/* Footer Logo - Centered at Bottom */}
         {!logoLoading && footerLogoUrl && (
           <div className="pt-6 flex justify-center">
             <img 
               src={footerLogoUrl} 
               alt="Footer Logo" 
-              className="h-16 w-auto opacity-80 hover:opacity-100 transition-opacity"
+              className="h-20 w-auto opacity-80 hover:opacity-100 transition-opacity"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                if (target.src !== '/Variação de logotipo 6.png') {
-                  console.log('Footer logo failed to load, using fallback: /Variação de logotipo 6.png');
-                  target.src = '/Variação de logotipo 6.png';
+                if (target.src !== '/stella-logo.png') {
+                  console.log('Footer logo failed to load, using fallback: /stella-logo.png');
+                  target.src = '/stella-logo.png';
                 }
               }}
             />

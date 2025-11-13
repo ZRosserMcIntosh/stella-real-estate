@@ -16,6 +16,7 @@ export default function AdminLayout() {
   const [logoFailed, setLogoFailed] = React.useState(false)
   const [headerLogoUrl, setHeaderLogoUrl] = React.useState<string>('')
   const [logoLoading, setLogoLoading] = React.useState(true)
+  const [triggerShootingStar, setTriggerShootingStar] = React.useState(0)
   const listingsCloseTimer = React.useRef<NodeJS.Timeout | null>(null)
   const companyCloseTimer = React.useRef<NodeJS.Timeout | null>(null)
   const accountCloseTimer = React.useRef<NodeJS.Timeout | null>(null)
@@ -39,12 +40,12 @@ export default function AdminLayout() {
         if (settings.header_logo_url) {
           setHeaderLogoUrl(settings.header_logo_url)
         } else {
-          setHeaderLogoUrl('/Variação de logotipo 6.png')
+          setHeaderLogoUrl('/stella-logo.png')
         }
       } catch (error) {
         console.error('Failed to load header logo, using local fallback:', error)
         if (!cancelled) {
-          setHeaderLogoUrl('/Variação de logotipo 6.png')
+          setHeaderLogoUrl('/stella-logo.png')
           setLogoFailed(false)
         }
       } finally {
@@ -64,26 +65,90 @@ export default function AdminLayout() {
   
   // Navigation structure with icons
   const navItems = [
-    { icon: '📊', label: 'Deal Room', path: '/admin', end: true },
-    { icon: '📋', label: 'Listings', submenu: [
+    { icon: <img src="/admin-icons/deals.png" alt="" className="w-5 h-5" />, label: 'Deal Room', path: '/admin', end: true },
+    { icon: <img src="/admin-icons/for-sale.png" alt="" className="w-5 h-5" />, label: 'Listings', submenu: [
       { label: 'New Projects', path: '/admin/listings/new-projects' },
       { label: 'For Sale', path: '/admin/listings/for-sale' },
       { label: 'For Rent', path: '/admin/listings/for-rent' },
     ]},
-    { icon: '🏢', label: 'Company', submenu: [
+    { icon: <img src="/admin-icons/company.png" alt="" className="w-5 h-5" />, label: 'Company', submenu: [
       { label: 'Analytics', path: '/admin/analytics' },
       { label: 'Team', path: '/admin/team' },
       { label: 'Site Admin', path: '/admin/site-admin' },
       { label: 'Website Builder', path: '/admin/website-builder' },
     ]},
-    { icon: '👥', label: 'Constelação', path: '/admin/crm' },
+    { icon: <img src="/admin-icons/stars.png" alt="" className="w-5 h-5" />, label: 'Constelação', path: '/admin/crm' },
     { icon: <img src="/ballet-logo.png" alt="" className="w-5 h-5" />, label: 'Ballet', path: '/admin/ballet' },
-    { icon: '📱', label: 'Social Media', path: '/admin/social-media' },
+    { icon: <img src="/admin-icons/iphone.png" alt="" className="w-5 h-5" />, label: 'Social Media', path: '/admin/social-media' },
     { icon: '⚙️', label: 'Developer', path: '/admin/developer' },
   ]
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
+      {/* Shooting Star Animation Styles */}
+      <style>{`
+        @keyframes shootingStar {
+          0% {
+            left: var(--star-start-x, 100%);
+            top: var(--star-start-y, 0%);
+            opacity: 0;
+          }
+          5% {
+            opacity: 1;
+          }
+          95% {
+            opacity: 1;
+          }
+          100% {
+            left: var(--star-end-x, 0%);
+            top: var(--star-end-y, 66%);
+            opacity: 0;
+          }
+        }
+        
+        .shooting-star {
+          animation: shootingStar 0.4s ease-in 0s 1 forwards;
+          width: 2px;
+          height: 2px;
+          position: absolute;
+          --star-start-x: 100%;
+          --star-start-y: 0%;
+          --star-end-x: 0%;
+          --star-end-y: 110%;
+          --tail-angle: -33deg;
+        }
+        
+        .shooting-star::before {
+          content: '';
+          position: absolute;
+          width: 80px;
+          height: 2px;
+          background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+          transform: rotate(var(--tail-angle));
+          transform-origin: left center;
+          box-shadow: 0 0 8px rgba(255,255,255,0.6);
+        }
+        
+        .shooting-star::after {
+          content: '';
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.3) 60%, rgba(255,255,255,0) 100%);
+          box-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 16px rgba(255,255,255,0.5);
+          top: -1px;
+          left: -1px;
+        }
+      `}</style>
+
+      {/* Shooting Star Effect Container */}
+      {triggerShootingStar > 0 && (
+        <div key={triggerShootingStar} className="shooting-star-container fixed inset-0 pointer-events-none z-[100]">
+          <div className="shooting-star"></div>
+        </div>
+      )}
+
       {/* Ambient Glow Background */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-1/3 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
@@ -99,14 +164,15 @@ export default function AdminLayout() {
             {!logoLoading && !logoFailed && headerLogoUrl ? (
               <img
                 src={headerLogoUrl}
-                className="h-16 w-auto object-contain drop-shadow-sm"
+                className="w-auto object-contain drop-shadow-sm"
+                style={{ height: '73.6px' }}
                 alt="Stella"
                 onError={() => setLogoFailed(true)}
               />
             ) : logoLoading ? (
-              <div className="h-16 w-16 rounded-full bg-slate-700 animate-pulse" />
+              <div className="rounded-full bg-slate-700 animate-pulse" style={{ height: '73.6px', width: '73.6px' }} />
             ) : (
-              <div className="h-16 w-16 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 grid place-items-center text-white text-sm font-bold">S</div>
+              <div className="rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 grid place-items-center text-white text-sm font-bold" style={{ height: '73.6px', width: '73.6px' }}>S</div>
             )}
           </Link>
 
@@ -117,14 +183,15 @@ export default function AdminLayout() {
               to="/admin"
               end
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                `px-3 py-2 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1 min-w-[80px] ${
                   isActive
                     ? 'bg-indigo-600/90 text-white shadow-lg shadow-indigo-500/30 border border-indigo-500/40'
                     : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
-              📊 Deal Room
+              <img src="/admin-icons/deals.png" alt="" className="w-5 h-5" />
+              <span>Deal Room</span>
             </NavLink>
 
             {/* Listings Dropdown */}
@@ -141,16 +208,19 @@ export default function AdminLayout() {
               <button
                 type="button"
                 onClick={() => setListingsOpen(!listingsOpen)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1 ${
+                className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1 min-w-[80px] ${
                   listingsOpen
                     ? 'bg-indigo-600/90 text-white shadow-lg shadow-indigo-500/30 border border-indigo-500/40'
                     : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`}
               >
-                📋 Listings
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={`h-4 w-4 transition-transform ${listingsOpen ? 'rotate-180' : ''}`}>
-                  <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.08 1.04l-4.25 4.25a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                </svg>
+                <img src="/admin-icons/for-sale.png" alt="" className="w-5 h-5" />
+                <div className="flex items-center gap-1">
+                  <span>Listings</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={`h-3 w-3 transition-transform ${listingsOpen ? 'rotate-180' : ''}`}>
+                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.08 1.04l-4.25 4.25a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                  </svg>
+                </div>
               </button>
               {listingsOpen && createPortal(
                 <div 
@@ -187,16 +257,19 @@ export default function AdminLayout() {
               <button
                 type="button"
                 onClick={() => setCompanyOpen(!companyOpen)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1 ${
+                className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1 min-w-[80px] ${
                   companyOpen
                     ? 'bg-indigo-600/90 text-white shadow-lg shadow-indigo-500/30 border border-indigo-500/40'
                     : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`}
               >
-                🏢 Company
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={`h-4 w-4 transition-transform ${companyOpen ? 'rotate-180' : ''}`}>
-                  <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.08 1.04l-4.25 4.25a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                </svg>
+                <img src="/admin-icons/company.png" alt="" className="w-5 h-5" />
+                <div className="flex items-center gap-1">
+                  <span>Company</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className={`h-3 w-3 transition-transform ${companyOpen ? 'rotate-180' : ''}`}>
+                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.08 1.04l-4.25 4.25a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                  </svg>
+                </div>
               </button>
               {companyOpen && createPortal(
                 <div 
@@ -223,86 +296,93 @@ export default function AdminLayout() {
             {/* Constellation */}
             <NavLink
               to="/admin/crm"
+              end
+              onMouseEnter={() => setTriggerShootingStar(Date.now())}
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                `px-3 py-2 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1 min-w-[80px] ${
                   isActive
                     ? 'bg-emerald-600/90 text-white shadow-lg shadow-emerald-500/30 border border-emerald-500/40'
                     : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
-              👥 Constelação
+              <img src="/admin-icons/stars.png" alt="" className="w-5 h-5" />
+              <span>Constelação</span>
             </NavLink>
 
             {/* Ballet */}
             <NavLink
               to="/admin/ballet"
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                `px-3 py-2 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1 min-w-[80px] ${
                   isActive
                     ? 'bg-pink-600/90 text-white shadow-lg shadow-pink-500/30 border border-pink-500/40'
                     : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
-              <img src="/ballet-logo.png" alt="" className="w-5 h-5 inline-block mr-2" />
-              Ballet
+              <img src="/ballet-logo.png" alt="" className="w-5 h-5" />
+              <span>Ballet</span>
             </NavLink>
 
             {/* Social Media */}
             <NavLink
               to="/admin/social-media"
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                `px-3 py-2 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1 min-w-[80px] ${
                   isActive
                     ? 'bg-violet-600/90 text-white shadow-lg shadow-violet-500/30 border border-violet-500/40'
                     : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
-              📱 Social
+              <img src="/admin-icons/iphone.png" alt="" className="w-5 h-5" />
+              <span>Social</span>
             </NavLink>
 
             {/* Website Builder */}
             <NavLink
               to="/admin/website-builder"
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                `px-3 py-2 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1 min-w-[80px] ${
                   isActive
                     ? 'bg-orange-600/90 text-white shadow-lg shadow-orange-500/30 border border-orange-500/40'
                     : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
-              🌐 Website Builder
+              <span className="text-lg">🌐</span>
+              <span className="whitespace-nowrap">Website Builder</span>
             </NavLink>
 
             {/* Developer */}
             <NavLink
               to="/admin/developer"
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                `px-3 py-2 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1 min-w-[80px] ${
                   isActive
                     ? 'bg-slate-700/90 text-white shadow-lg shadow-slate-600/30 border border-slate-600/40'
                     : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
-              ⚙️ Dev
+              <span className="text-lg">⚙️</span>
+              <span>Dev</span>
             </NavLink>
 
             {/* Rosser & Stella */}
             <NavLink
               to="/admin/rosser-stella"
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                `px-3 py-2 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1 min-w-[80px] ${
                   isActive
                     ? 'bg-amber-600/90 text-white shadow-lg shadow-amber-500/30 border border-amber-500/40'
                     : 'text-slate-300 hover:text-slate-100 hover:bg-slate-800/60'
                 }`
               }
             >
-              💼 Rosser & Stella
+              <span className="text-2xl">🤍</span>
+              <span className="whitespace-nowrap">Rosser & Stella</span>
             </NavLink>
           </nav>
 
@@ -397,11 +477,11 @@ export default function AdminLayout() {
           />
           <div className="fixed inset-x-0 top-0 z-30 mt-[56px] max-h-[calc(100vh-56px)] overflow-y-auto rounded-b-2xl border border-slate-800/80 bg-slate-900/98 backdrop-blur-lg p-3 shadow-2xl shadow-slate-950/70">
             <div className="grid gap-2 text-base font-medium">
-              <NavLink to="/admin" end onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>📊 Deal Room</NavLink>
+              <NavLink to="/admin" end onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}><img src="/admin-icons/deals.png" alt="" className="w-4 h-4 inline-block mr-1.5" /> Deal Room</NavLink>
 
               {/* Listings */}
               <div className="rounded-lg border border-slate-700/80">
-                <div className="px-3 py-2 text-xs font-semibold uppercase text-slate-300">📋 Listings</div>
+                <div className="px-3 py-2 text-xs font-semibold uppercase text-slate-300"><img src="/admin-icons/for-sale.png" alt="" className="w-4 h-4 inline-block mr-1.5" /> Listings</div>
                 <div className="grid gap-1 p-2">
                   <NavLink to="/admin/listings/new-projects" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>New Projects</NavLink>
                   <NavLink to="/admin/listings/for-sale" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>For Sale</NavLink>
@@ -411,7 +491,7 @@ export default function AdminLayout() {
 
               {/* Company */}
               <div className="rounded-lg border border-slate-700/80">
-                <div className="px-3 py-2 text-xs font-semibold uppercase text-slate-300">🏢 Company</div>
+                <div className="px-3 py-2 text-xs font-semibold uppercase text-slate-300"><img src="/admin-icons/company.png" alt="" className="w-4 h-4 inline-block mr-1.5" /> Company</div>
                 <div className="grid gap-1 p-2">
                   <NavLink to="/admin/analytics" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>Analytics</NavLink>
                   <NavLink to="/admin/team" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>Team</NavLink>
@@ -420,12 +500,12 @@ export default function AdminLayout() {
                 </div>
               </div>
 
-              <NavLink to="/admin/crm" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-emerald-600/40 text-emerald-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>👥 Constelação</NavLink>
+              <NavLink to="/admin/crm" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-emerald-600/40 text-emerald-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}><img src="/admin-icons/stars.png" alt="" className="w-4 h-4 inline-block mr-1.5" /> Constelação</NavLink>
               <NavLink to="/admin/ballet" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-pink-600/40 text-pink-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>
                 <img src="/ballet-logo.png" alt="" className="w-5 h-5 inline-block mr-2" />
                 Ballet
               </NavLink>
-              <NavLink to="/admin/social-media" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-violet-600/40 text-violet-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>📱 Social Media</NavLink>
+              <NavLink to="/admin/social-media" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-violet-600/40 text-violet-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}><img src="/admin-icons/iphone.png" alt="" className="w-4 h-4 inline-block mr-1.5" /> Social Media</NavLink>
               <NavLink to="/admin/developer" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-slate-700/40 text-slate-50' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>⚙️ Developer</NavLink>
               <NavLink to="/admin/rosser-stella" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-amber-600/40 text-amber-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>💼 Rosser & Stella</NavLink>
 
@@ -461,7 +541,7 @@ export default function AdminLayout() {
       )}
 
       {/* Content area - adjusted for fixed header */}
-      <div className="pt-20 pb-8 flex-1">
+      <div className="pt-24 pb-8 flex-1">
         <div className={location.pathname === '/admin/ballet' ? 'text-slate-100' : 'container-padded text-slate-100'}>
           <Outlet />
         </div>
