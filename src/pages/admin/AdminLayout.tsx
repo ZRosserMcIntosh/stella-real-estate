@@ -78,7 +78,7 @@ export default function AdminLayout() {
       { label: 'Website Builder', path: '/admin/website-builder' },
     ]},
     { icon: <img src="/admin-icons/stars.png" alt="" className="w-5 h-5" />, label: 'Constelação', path: '/admin/crm' },
-    { icon: <img src="/ballet-logo.png" alt="" className="w-5 h-5" />, label: 'Ballet', path: '/admin/ballet' },
+    { icon: <img src="/ballet-new-logo.png" alt="" className="w-5 h-5" />, label: 'Ballet', path: '/admin/ballet' },
     { icon: <img src="/admin-icons/iphone.png" alt="" className="w-5 h-5" />, label: 'Social Media', path: '/admin/social-media' },
     { icon: '⚙️', label: 'Developer', path: '/admin/developer' },
   ]
@@ -321,7 +321,7 @@ export default function AdminLayout() {
                 }`
               }
             >
-              <img src="/ballet-logo.png" alt="" className="w-5 h-5" />
+              <img src="/ballet-new-logo.png" alt="" className="w-5 h-5" />
               <span>Ballet</span>
             </NavLink>
 
@@ -502,7 +502,7 @@ export default function AdminLayout() {
 
               <NavLink to="/admin/crm" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-emerald-600/40 text-emerald-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}><img src="/admin-icons/stars.png" alt="" className="w-4 h-4 inline-block mr-1.5" /> Constelação</NavLink>
               <NavLink to="/admin/ballet" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-pink-600/40 text-pink-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}>
-                <img src="/ballet-logo.png" alt="" className="w-5 h-5 inline-block mr-2" />
+                <img src="/ballet-new-logo.png" alt="" className="w-5 h-5 inline-block mr-2" />
                 Ballet
               </NavLink>
               <NavLink to="/admin/social-media" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-lg px-3 py-2 transition-colors ${isActive ? 'bg-violet-600/40 text-violet-100' : 'text-slate-200 hover:bg-slate-800/60 hover:text-slate-50'}`}><img src="/admin-icons/iphone.png" alt="" className="w-4 h-4 inline-block mr-1.5" /> Social Media</NavLink>

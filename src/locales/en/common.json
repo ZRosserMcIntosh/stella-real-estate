@@ -20,14 +20,29 @@
       "browse": "Browse Listings",
       "docs": "Docs"
     },
+    "newProjects": {
+      "title": "New Projects",
+      "subtitle": "Discover our latest developments in prime locations",
+      "delivery": "Delivery",
+      "startingFrom": "Starting from"
+    },
     "about": {
       "title": "About",
-      "body": "Stella Real Estate helps you discover properties that fit your lifestyle. This starter is intentionally minimal so you can move fast."
+      "body": "Stella Real Estate helps you discover properties that fit your lifestyle. This starter is intentionally minimal so you can move fast.",
+      "learnMore": "Learn More",
+      "viewProperties": "View Properties"
     },
     "contact": {
       "title": "Contact",
+      "subtitle": "Get in touch with our team of real estate experts",
+      "name": "Name",
+      "namePlaceholder": "Your name",
       "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "phone": "Phone",
+      "phonePlaceholder": "+55 (11) 99999-9999",
       "message": "Message",
+      "messagePlaceholder": "Tell us how we can help...",
       "send": "Send"
     },
     "footer": {
@@ -107,7 +122,7 @@
   "stellaPlatform": {
     "badge": "Constellation Platform",
     "hero": {
-      "title": "The operating system for modern real estate empires.",
+      "title": "The system for modern real estate.",
       "subtitle": "Employee control centers, a CRM that bends reality, a choreographed work graph, cinematic websites, and an automation fabric that smokes everything else on the market. Built in Brazil. Designed to dominate globally.",
       "inquire": "Inquire",
       "reserveBeta": "Reserve beta access"
@@ -374,6 +389,12 @@
           "deliveryDate": "Q2 2027",
           "phase1": ["Global property search", "All realtors aggregated", "Smart filters & favorites"],
           "pending": ["Mortgage pre-qualification", "AI recommendations", "Offer submission", "Inspection tools"]
+        },
+        "insurance": {
+          "title": "Insurance Services",
+          "deliveryDate": "Q3 2027",
+          "phase1": ["Property insurance marketplace", "Coverage comparison tools", "Quick quote generation"],
+          "pending": ["Claims management", "Policy renewal automation", "Multi-property bundles", "Risk assessment tools"]
         }
       },
       "whyStella": {
@@ -427,7 +448,32 @@
   "demoHint": "Use your email or enter DEMO with password stella to explore."
   },
   "ballet": {
-    "loading": "Loading Ballet..."
+    "loading": "Loading Ballet...",
+    "timeline": {
+      "noData": "No timeline data",
+      "addDatesHint": "Add start and due dates to tasks to see them on the timeline"
+    },
+    "taskModal": {
+      "createTitle": "Create New Task",
+      "editTitle": "Edit Task",
+      "taskName": "Task Name *",
+      "taskNamePlaceholder": "Enter task name...",
+      "description": "Description",
+      "descriptionPlaceholder": "Add more details...",
+      "section": "Section",
+      "assignee": "Assignee",
+      "unassigned": "Unassigned",
+      "priority": "Priority",
+      "status": "Status",
+      "dueDate": "Due Date",
+      "startDate": "Start Date",
+      "tags": "Tags",
+      "addTag": "Add Tag",
+      "isMilestone": "Is Milestone?",
+      "save": "Save Task",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    }
   },
   "budget": {
     "title": "Rosser & Stella Budget",

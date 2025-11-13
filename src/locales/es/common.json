@@ -20,14 +20,29 @@
       "browse": "Ver Propiedades",
       "docs": "Docs"
     },
+    "newProjects": {
+      "title": "Nuevos Proyectos",
+      "subtitle": "Descubre nuestros últimos desarrollos en ubicaciones privilegiadas",
+      "delivery": "Entrega",
+      "startingFrom": "Desde"
+    },
     "about": {
       "title": "Acerca de",
-      "body": "Stella Real Estate te ayuda a descubrir propiedades que se ajustan a tu estilo de vida. Este starter es minimalista para avanzar rápido."
+      "body": "Stella Real Estate te ayuda a descubrir propiedades que se ajustan a tu estilo de vida. Este starter es minimalista para avanzar rápido.",
+      "learnMore": "Saber Más",
+      "viewProperties": "Ver Propiedades"
     },
     "contact": {
       "title": "Contacto",
+      "subtitle": "Ponte en contacto con nuestro equipo de expertos inmobiliarios",
+      "name": "Nombre",
+      "namePlaceholder": "Tu nombre",
       "email": "Email",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "phone": "Teléfono",
+      "phonePlaceholder": "+55 (11) 99999-9999",
       "message": "Mensaje",
+      "messagePlaceholder": "Cuéntanos cómo podemos ayudarte...",
       "send": "Enviar"
     },
     "footer": {
@@ -53,7 +68,7 @@
   "stellaPlatform": {
     "badge": "Plataforma Stella",
     "hero": {
-      "title": "El sistema operativo para imperios inmobiliarios modernos.",
+      "title": "El sistema para inmobiliarias modernas.",
       "subtitle": "Centros de control para empleados, un CRM que dobla la realidad, un gráfico de trabajo coreografiado, sitios web cinematográficos y una estructura de automatización que supera todo en el mercado. Construido en Brasil. Diseñado para dominar globalmente.",
       "inquire": "Consultar",
       "reserveBeta": "Reservar acceso beta"

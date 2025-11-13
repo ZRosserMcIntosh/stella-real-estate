@@ -1,115 +1,110 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Scale, FileText, Home, Building2, Briefcase, Shield, CheckCircle2, Award, Users, BookOpen, Stamp, Copyright } from 'lucide-react'
+import { Scale, FileText, Home, Building2, Briefcase, Shield, CheckCircle2, Award, Users, BookOpen, Stamp, Copyright, Sparkles, TrendingUp, Gavel, Lightbulb, Banknote } from 'lucide-react'
 
 export default function LegalServices() {
   const services = [
     {
-      icon: <Home className="w-8 h-8" />,
-      title: 'Assessoria em Compra e Venda',
-      description: 'Suporte jurídico completo para transações imobiliárias residenciais, garantindo segurança e tranquilidade.',
+      icon: <FileText className="w-8 h-8" />,
+      title: 'Contract Drafting & Preventive Advisory',
+      tagline: 'Avoid problems before they exist.',
+      description: 'Drafting and reviewing purchase, sale, lease, assignment, and promise contracts.',
       details: [
-        'Análise de documentação do imóvel',
-        'Due diligence imobiliária',
-        'Elaboração e revisão de contratos',
-        'Verificação de ônus e pendências',
-        'Acompanhamento de registro'
+        'Custom clauses for foreign investors and bilingual (PT/EN) contracts',
+        'Full property verification (registry, encumbrances, IPTU, occupancy permit)',
+        'Instant draft generation through our Constellation platform',
+        'Manual legal review following automated drafts',
+        'Auto-fill contracts with verified property and user data'
+      ],
+      smartFeature: 'Smart feature: Auto-fill contracts with verified property and user data for instant previews and faster closings.'
+    },
+    {
+      icon: <Home className="w-8 h-8" />,
+      title: 'Property Regularization',
+      tagline: 'A property isn\'t safe until it\'s regularized.',
+      description: 'Correction of property records and registrations.',
+      details: [
+        'Recording new constructions, subdivisions, and area adjustments',
+        'Support with incorporation filings and compliance (Law 4.591/64)',
+        'Legalization for properties acquired through judicial or extrajudicial auctions',
+        'Correction of registry discrepancies',
+        'Title consolidation and documentation update'
       ]
     },
     {
       icon: <Building2 className="w-8 h-8" />,
-      title: 'Contratos de Locação',
-      description: 'Elaboração e análise de contratos de locação residencial e comercial com proteção jurídica para ambas as partes.',
+      title: 'Lease & Condominium Legal Support',
+      tagline: 'Protect yourself from tenant risks and conflicts.',
+      description: 'Lease contract drafting and review (residential and commercial).',
       details: [
-        'Contratos de locação residencial',
-        'Contratos de locação comercial',
-        'Contratos de temporada',
-        'Revisão de cláusulas',
-        'Assessoria em renovação'
-      ]
+        'Eviction actions, rent collection, and enforcement against guarantors',
+        'Legal management for condominiums: collections, disputes, and assembly support',
+        'Mediation between landlords and tenants before litigation',
+        'Integrated with AI Fiança tenant scoring and rent guarantee automation'
+      ],
+      smartFeature: '💡 Integrated with AI Fiança: Combine our legal vetting with AI-based tenant scoring and rent guarantee automation.'
     },
     {
-      icon: <Copyright className="w-8 h-8" />,
-      title: 'Propriedade Intelectual',
-      description: 'Registro e proteção de marcas, logotipos e propriedade intelectual para imobiliárias e corretores.',
+      icon: <TrendingUp className="w-8 h-8" />,
+      title: 'Due Diligence & Investor Consulting',
+      tagline: 'Invest with confidence — we handle the legal groundwork.',
+      description: 'Comprehensive legal audits for property and project acquisitions.',
       details: [
-        'Registro de marca no INPI',
-        'Copyright de logotipos',
-        'Proteção de identidade visual',
-        'Contratos de licenciamento',
-        'Defesa de direitos autorais'
-      ]
+        'Identification of hidden risks, irregularities, and pending liabilities',
+        'Structuring of holding companies and special-purpose entities (SPEs)',
+        'Legal support for foreign investors: CPF issuance, visa compliance, and registration with RGI',
+        'Tax consulting for capital gains, ITBI, and rental income',
+        'Interactive due diligence checklist in Constellation dashboard'
+      ],
+      smartFeature: '💡 Tech feature: Interactive due diligence checklist inside Constellation — see what\'s cleared, pending, or flagged in real time.'
+    },
+    {
+      icon: <Gavel className="w-8 h-8" />,
+      title: 'Litigation & Legal Defense',
+      tagline: 'When conflict is inevitable, we fight for you.',
+      description: 'Possession actions, usucapião, reinstatement, and compulsory transfer.',
+      details: [
+        'Litigation involving developers, builders, and brokers',
+        'Defense in foreclosure, auction, and property seizure cases',
+        'Representation in contractual and condominium disputes',
+        'Track case status, hearing dates, and progress in your client dashboard'
+      ],
+      smartFeature: '💡 Transparency built-in: Track case status, hearing dates, and progress directly in your client dashboard.'
     },
     {
       icon: <Briefcase className="w-8 h-8" />,
-      title: 'Direito Empresarial Imobiliário',
-      description: 'Consultoria jurídica para empresas do setor imobiliário, incluindo constituição e contratos comerciais.',
+      title: 'Development & Incorporation Advisory',
+      tagline: 'Legal precision from foundation to final delivery.',
+      description: 'Legal structuring for developments (SPE, SCP, or consortium models).',
       details: [
-        'Constituição de imobiliárias',
-        'Contratos comerciais B2B',
-        'Sociedades e parcerias',
-        'Compliance imobiliário',
-        'Assessoria societária'
+        'Preparation and registration of incorporation documents, condominium bylaws, and memorials',
+        'Support throughout the sales and delivery process',
+        'Drafting of exclusive brokerage and partnership agreements',
+        'Compliance with Law 4.591/64 and condominium regulations'
       ]
     },
     {
-      icon: <Stamp className="w-8 h-8" />,
-      title: 'Regularização Documental',
-      description: 'Regularização de documentos imobiliários, certidões e questões cartoriais complexas.',
+      icon: <Sparkles className="w-8 h-8" />,
+      title: 'LegalTech & Automation',
+      tagline: 'The future of real estate law — now.',
+      description: 'Automatic draft generation with human validation.',
       details: [
-        'Regularização de imóveis',
-        'Usucapião',
-        'Retificação de registro',
-        'Averbações diversas',
-        'Solução de pendências'
+        'Contract renewal alerts and term management',
+        'Secure document storage, e-signatures, and ICP-Brasil authentication',
+        'Integration with national digital notary systems (e-Notariado, e-Cartório)',
+        'Real-time legal document tracking and version control'
       ]
     },
     {
-      icon: <Shield className="w-8 h-8" />,
-      title: 'LGPD & Compliance',
-      description: 'Adequação à Lei Geral de Proteção de Dados e compliance para empresas imobiliárias.',
+      icon: <Banknote className="w-8 h-8" />,
+      title: 'Plans & Packages',
+      tagline: 'Choose the level of protection you need.',
+      description: 'Flexible plans designed for every client type.',
       details: [
-        'Adequação à LGPD',
-        'Políticas de privacidade',
-        'Termos de uso',
-        'Contratos de controlador',
-        'Treinamento de equipes'
-      ]
-    },
-    {
-      icon: <FileText className="w-8 h-8" />,
-      title: 'Contratos Incorporação',
-      description: 'Assessoria jurídica para incorporadoras e construtoras em todos os aspectos legais do negócio.',
-      details: [
-        'Contratos de incorporação',
-        'Patrimônio de afetação',
-        'Memoriais de incorporação',
-        'Convenções de condomínio',
-        'Assessoria pré-entrega'
-      ]
-    },
-    {
-      icon: <Users className="w-8 h-8" />,
-      title: 'Direito Condominial',
-      description: 'Consultoria e assessoria jurídica para condomínios residenciais e comerciais.',
-      details: [
-        'Elaboração de convenções',
-        'Regimentos internos',
-        'Assembleias',
-        'Cobrança de taxas',
-        'Mediação de conflitos'
-      ]
-    },
-    {
-      icon: <BookOpen className="w-8 h-8" />,
-      title: 'Consultoria Preventiva',
-      description: 'Consultoria jurídica preventiva para evitar problemas futuros e garantir segurança jurídica.',
-      details: [
-        'Pareceres jurídicos',
-        'Análise de riscos',
-        'Planejamento jurídico',
-        'Treinamentos',
-        'Suporte contínuo'
+        'Basic Plan — Contract drafting, document review, and consultations on demand',
+        'Premium Plan — Ongoing legal monitoring for active leases and property portfolios',
+        'Corporate Plan — Full legal support for developers, brokerages, and management companies',
+        'International Plan — Complete bilingual advisory for foreign clients'
       ]
     }
   ]
@@ -163,7 +158,7 @@ export default function LegalServices() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-blue-900/20 dark:to-indigo-900/20">
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden -mt-20 pt-32">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-indigo-600/10 to-purple-600/10" />
         <div className="container-padded relative py-20 md:py-32">
           <div className="max-w-4xl mx-auto text-center">
@@ -172,11 +167,8 @@ export default function LegalServices() {
               <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">Dra. Stella - Advocacia Especializada</span>
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white mb-6">
-              Serviços
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
-                Jurídicos Imobiliários
-              </span>
+            <h1 className="text-4xl md:text-6xl font-light tracking-tight text-slate-900 dark:text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+              Serviços Jurídicos Imobiliários
             </h1>
             
             <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
@@ -248,15 +240,21 @@ export default function LegalServices() {
                   {service.icon}
                 </div>
                 
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                   {service.title}
                 </h3>
+                
+                {service.tagline && (
+                  <p className="text-sm italic text-blue-600 dark:text-blue-400 mb-3 font-medium">
+                    {service.tagline}
+                  </p>
+                )}
                 
                 <p className="text-slate-600 dark:text-slate-400 mb-4">
                   {service.description}
                 </p>
                 
-                <ul className="space-y-2">
+                <ul className="space-y-2 mb-4">
                   {service.details.map((detail, idx) => (
                     <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400">
                       <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
@@ -264,6 +262,15 @@ export default function LegalServices() {
                     </li>
                   ))}
                 </ul>
+                
+                {service.smartFeature && (
+                  <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+                    <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium flex items-start gap-2">
+                      <Lightbulb className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                      <span>{service.smartFeature}</span>
+                    </p>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -334,42 +341,6 @@ export default function LegalServices() {
                 </p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About Stella */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
-        <div className="container-padded">
-          <div className="max-w-4xl mx-auto text-center">
-            <Scale className="w-16 h-16 mx-auto mb-6 opacity-90" />
-            
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Sobre Dra. Stella
-            </h2>
-            
-            <p className="text-lg text-blue-100 mb-6">
-              Advogada especializada em Direito Imobiliário com ampla experiência em transações residenciais, 
-              comerciais e corporativas. Formada pela [Universidade], com pós-graduação em Direito Imobiliário 
-              e Direito Empresarial.
-            </p>
-            
-            <p className="text-lg text-blue-100 mb-8">
-              Com uma abordagem moderna e humanizada, Dra. Stella combina expertise técnica com atendimento 
-              personalizado, garantindo soluções jurídicas eficientes e seguras para cada cliente.
-            </p>
-
-            <div className="flex flex-wrap justify-center gap-4 text-sm">
-              <div className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
-                OAB/SP 123.456
-              </div>
-              <div className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
-                Especialista em Direito Imobiliário
-              </div>
-              <div className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full">
-                Pós-graduada em Direito Empresarial
-              </div>
-            </div>
           </div>
         </div>
       </section>

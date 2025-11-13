@@ -340,10 +340,10 @@ export default function StellaPlatform() {
             )}
           </div>
           
-          <span className="inline-flex items-center gap-2 rounded-full border border-indigo-400/40 bg-indigo-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-200">
-            {t('stellaPlatform.badge')}
-          </span>
-          <h1 className="mt-6 text-4xl font-light tracking-tight text-white sm:text-5xl md:text-6xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+          <div className="text-2xl font-light uppercase tracking-[0.4em] text-indigo-200/80 mb-12 mt-2" style={{ fontFamily: 'Outfit, sans-serif' }}>
+            CONSTELLATION
+          </div>
+          <h1 className="text-4xl font-light tracking-tight text-white sm:text-5xl md:text-6xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
             {t('stellaPlatform.hero.title')}
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg font-light text-slate-200 leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
@@ -546,7 +546,7 @@ export default function StellaPlatform() {
               {/* Logo Shadow from Left - actual logo flattened and cast up and to the right */}
               {balletSpotlightActive && !balletSpotlightExit && (
                 <img 
-                  src="/ballet-logo.png" 
+                  src="/ballet-new-logo.png" 
                   alt="" 
                   className="shadow-fade-in absolute pointer-events-none z-0"
                   style={{
@@ -564,7 +564,7 @@ export default function StellaPlatform() {
               {/* Logo Shadow from Right - actual logo flattened and cast up and to the right */}
               {balletSpotlightActive && !balletSpotlightExit && (
                 <img 
-                  src="/ballet-logo.png" 
+                  src="/ballet-new-logo.png" 
                   alt="" 
                   className="shadow-fade-in absolute pointer-events-none z-0"
                   style={{
@@ -580,7 +580,7 @@ export default function StellaPlatform() {
               )}
               
               <img 
-                src="/ballet-logo.png" 
+                src="/ballet-new-logo.png" 
                 alt="Ballet Logo" 
                 className={`h-24 w-auto opacity-95 relative z-10 ${balletSpotlightActive && !balletSpotlightExit ? 'ballet-pirouette' : ''}`}
                 style={{

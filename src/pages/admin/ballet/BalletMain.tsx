@@ -557,7 +557,7 @@ export default function BalletMain() {
         
         <div className="text-center relative z-10">
           <div className="mb-4 drop-shadow-[0_0_15px_rgba(236,72,153,0.5)]" style={{ perspective: '1000px' }}>
-            <img src="/ballet-logo.png" alt="Ballet Logo" className="w-24 h-24 mx-auto ballerina-spin" />
+            <img src="/ballet-new-logo.png" alt="Ballet Logo" className="w-24 h-24 mx-auto ballerina-spin" />
           </div>
           <div className="text-lg text-slate-300 font-medium">{t('ballet.loading')}</div>
           <div className="mt-4 flex items-center justify-center gap-2">
@@ -577,7 +577,7 @@ export default function BalletMain() {
           <AnimatedBackground variant="ballet" interactive={true} />
           <div className="text-center max-w-2xl mx-auto p-8 pt-16 relative z-10">
             <div className="mb-4 drop-shadow-[0_0_15px_rgba(236,72,153,0.5)] flex justify-center">
-              <img src="/ballet-logo.png" alt="Ballet Logo" className="w-24 h-24" />
+              <img src="/ballet-new-logo.png" alt="Ballet Logo" className="w-24 h-24" />
             </div>
             <h2 className="text-2xl font-semibold text-slate-100 mb-2">Ballet Database Setup Required</h2>
             <p className="text-slate-400 mb-6">
@@ -802,7 +802,7 @@ export default function BalletMain() {
             <div className="flex h-full items-center justify-center p-8">
               <div className="text-center">
                 <div className="mb-4 drop-shadow-[0_0_15px_rgba(236,72,153,0.5)] flex justify-center">
-                  <img src="/ballet-logo.png" alt="Ballet Logo" className="w-24 h-24" />
+                  <img src="/ballet-new-logo.png" alt="Ballet Logo" className="w-24 h-24" />
                 </div>
                 <h2 className="text-2xl font-semibold text-slate-100 mb-2">Welcome to Ballet</h2>
                 <p className="text-slate-400 mb-6">Select a project from the sidebar to get started</p>

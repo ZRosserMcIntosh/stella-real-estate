@@ -34,7 +34,7 @@ const defaultWorkspace: Workspace = {
   name: 'Local Workspace',
   description: 'Tasks stored in this browser only',
   color: '#6366f1',
-  icon: '/ballet-logo.png',
+  icon: '/ballet-new-logo.png',
   ownerId: defaultUsers[0].id,
   memberIds: [defaultUsers[0].id, defaultUsers[1].id],
   createdAt: now(),

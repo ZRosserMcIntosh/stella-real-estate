@@ -1,6 +1,7 @@
 // Timeline View Component - Gantt chart style
 
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Project, Task, User } from '../types'
 import { getUserById } from '../store'
 
@@ -12,6 +13,8 @@ interface TimelineViewProps {
 }
 
 export function TimelineView({ project, tasks, users, onTaskClick }: TimelineViewProps) {
+  const { t } = useTranslation()
+  
   // Calculate timeline range
   const tasksWithDates = tasks.filter(t => t.startDate && t.dueDate)
   
@@ -19,8 +22,8 @@ export function TimelineView({ project, tasks, users, onTaskClick }: TimelineVie
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border border-slate-700/50 bg-slate-800/60 backdrop-blur-sm p-12 text-center shadow-2xl shadow-pink-500/5">
         <div className="text-6xl mb-4 animate-bounce">📊</div>
-        <h3 className="text-lg font-semibold text-slate-100 mb-2">No timeline data</h3>
-        <p className="text-sm text-slate-400">Add start and due dates to tasks to see them on the timeline</p>
+        <h3 className="text-lg font-semibold text-slate-100 mb-2">{t('ballet.timeline.noData')}</h3>
+        <p className="text-sm text-slate-400">{t('ballet.timeline.addDatesHint')}</p>
       </div>
     )
   }

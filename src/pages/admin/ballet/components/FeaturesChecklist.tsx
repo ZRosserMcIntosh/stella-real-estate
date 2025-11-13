@@ -536,7 +536,7 @@ export const FeaturesChecklist: React.FC = () => {
       <div className="border-b border-slate-700/50 p-6 bg-slate-800/40 backdrop-blur-sm relative z-10">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-2xl font-bold text-slate-100 mb-2 flex items-center gap-3">
-            <img src="/ballet-logo.png" alt="Ballet Logo" className="w-8 h-8" />
+            <img src="/ballet-new-logo.png" alt="Ballet Logo" className="w-8 h-8" />
             Ballet Features Checklist
           </h1>
           <p className="text-slate-400 mb-4">

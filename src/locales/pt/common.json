@@ -20,14 +20,29 @@
       "browse": "Ver Listagens",
       "docs": "Documentação"
     },
+    "newProjects": {
+      "title": "Novos Projetos",
+      "subtitle": "Descubra nossos últimos empreendimentos em localizações privilegiadas",
+      "delivery": "Entrega",
+      "startingFrom": "A partir de"
+    },
     "about": {
       "title": "Sobre",
-      "body": "A Stella Real Estate ajuda você a descobrir imóveis que combinam com seu estilo de vida. Este starter é propositalmente minimalista para você avançar rápido."
+      "body": "A Stella Real Estate ajuda você a descobrir imóveis que combinam com seu estilo de vida. Este starter é propositalmente minimalista para você avançar rápido.",
+      "learnMore": "Saiba Mais",
+      "viewProperties": "Ver Imóveis"
     },
     "contact": {
       "title": "Contato",
+      "subtitle": "Entre em contato com nossa equipe de especialistas em imóveis",
+      "name": "Nome",
+      "namePlaceholder": "Seu nome",
       "email": "Email",
+      "emailPlaceholder": "voce@exemplo.com",
+      "phone": "Telefone",
+      "phonePlaceholder": "+55 (11) 99999-9999",
       "message": "Mensagem",
+      "messagePlaceholder": "Conte-nos como podemos ajudar...",
       "send": "Enviar"
     },
     "footer": {
@@ -109,7 +124,7 @@
   "stellaPlatform": {
     "badge": "Plataforma Constellation",
     "hero": {
-      "title": "O sistema operacional para impérios imobiliários modernos.",
+      "title": "O sistema para imobiliárias modernas.",
       "subtitle": "Centros de controle para funcionários, um CRM que dobra a realidade, um gráfico de trabalho coreografado, sites cinematográficos e uma estrutura de automação que supera tudo no mercado. Construído no Brasil. Projetado para dominar globalmente.",
       "inquire": "Consultar",
       "reserveBeta": "Reserve acesso beta"
@@ -376,6 +391,12 @@
           "deliveryDate": "Q2 2027",
           "phase1": ["Busca de propriedades global", "Todos os corretores agregados", "Filtros inteligentes e favoritos"],
           "pending": ["Pré-qualificação de hipoteca", "Recomendações de IA", "Envio de ofertas", "Ferramentas de inspeção"]
+        },
+        "insurance": {
+          "title": "Serviços de Seguros",
+          "deliveryDate": "Q3 2027",
+          "phase1": ["Marketplace de seguros de propriedade", "Ferramentas de comparação de cobertura", "Geração rápida de cotações"],
+          "pending": ["Gerenciamento de sinistros", "Automação de renovação de apólices", "Pacotes de múltiplas propriedades", "Ferramentas de avaliação de risco"]
         }
       },
       "whyStella": {
@@ -429,7 +450,32 @@
   "demoHint": "Você pode usar seu email ou digitar DEMO com a senha stella para explorar."
   },
   "ballet": {
-    "loading": "Carregando Ballet..."
+    "loading": "Carregando Ballet...",
+    "timeline": {
+      "noData": "Nenhum dado na linha do tempo",
+      "addDatesHint": "Adicione datas de início e vencimento nas tarefas para vê-las na linha do tempo"
+    },
+    "taskModal": {
+      "createTitle": "Criar Nova Tarefa",
+      "editTitle": "Editar Tarefa",
+      "taskName": "Nome da Tarefa *",
+      "taskNamePlaceholder": "Digite o nome da tarefa...",
+      "description": "Descrição",
+      "descriptionPlaceholder": "Adicione mais detalhes...",
+      "section": "Seção",
+      "assignee": "Responsável",
+      "unassigned": "Não atribuído",
+      "priority": "Prioridade",
+      "status": "Status",
+      "dueDate": "Data de Vencimento",
+      "startDate": "Data de Início",
+      "tags": "Tags",
+      "addTag": "Adicionar Tag",
+      "isMilestone": "É um Marco?",
+      "save": "Salvar Tarefa",
+      "cancel": "Cancelar",
+      "delete": "Excluir"
+    }
   },
   "budget": {
     "title": "Orçamento Rosser & Stella",

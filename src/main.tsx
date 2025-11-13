@@ -39,6 +39,7 @@ import SeguroFianca from './pages/SeguroFianca'
 import InvestorLogin from './pages/investors/Login'
 import RequestAccess from './pages/investors/RequestAccess'
 import StellaPlatform from './pages/StellaPlatform'
+import Pricing from './pages/Pricing'
 import CreateSite from './pages/onboarding/CreateSite'
 import ChooseRole from './pages/onboarding/ChooseRole'
 import RealtorLicense from './pages/onboarding/RealtorLicense'
@@ -108,6 +109,7 @@ const router = createBrowserRouter([
       { path: 'servicos-juridicos', element: <LegalServices /> },
       { path: 'seguro-fianca', element: <SeguroFianca /> },
       { path: 'plataforma-stella', element: <StellaPlatform /> },
+      { path: 'precos', element: <Pricing /> },
       { path: 'anuncie-seu-imovel', element: <ListYourProperty /> },
       { path: 'consumidores', element: <ListYourProperty /> },
       { path: 'corretores-independentes', element: <ListYourProperty /> },
@@ -133,6 +135,7 @@ const router = createBrowserRouter([
       { path: 'institutional', element: <Navigate to="/institucional" replace /> },
       { path: 'investors', element: <Navigate to="/investidores" replace /> },
       { path: 'stella-platform', element: <Navigate to="/plataforma-stella" replace /> },
+      { path: 'pricing', element: <Navigate to="/precos" replace /> },
       { path: 'list-your-property', element: <Navigate to="/anuncie-seu-imovel" replace /> },
     ],
   },
