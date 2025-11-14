@@ -91,6 +91,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount || 300, // Default R$ 3.00 (TEST AMOUNT - CHANGE BACK TO 297000)
       currency: 'brl',
+      payment_method_types: ['card'], // Only allow cards to avoid PIX fee issues
       metadata: {
         fullName,
         cpf,
