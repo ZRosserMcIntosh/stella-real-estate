@@ -356,12 +356,12 @@ export default function StellaPlatform() {
             >
               {t('stellaPlatform.hero.inquire')}
             </Link>
-            <a
-              href="#beta"
+            <Link
+              to="/precos"
               className="inline-flex items-center gap-2 rounded-full border border-indigo-400/50 px-6 py-3 text-sm font-semibold text-indigo-200 transition hover:border-indigo-200 hover:text-white"
             >
               {t('stellaPlatform.hero.reserveBeta')}
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -793,12 +793,12 @@ export default function StellaPlatform() {
           ))}
         </div>
         <div className="mt-10 flex flex-wrap justify-center gap-4">
-          <a
-            href="mailto:platform@stella.com?subject=Quero%20testar%20a%20Stella%20Platform"
+          <Link
+            to="/precos"
             className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/25 transition hover:-translate-y-0.5 hover:bg-indigo-200"
           >
             {t('stellaPlatform.beta.joinShortlist')}
-          </a>
+          </Link>
           <Link
             to="/contact"
             className="inline-flex items-center gap-2 rounded-full border border-indigo-400/60 px-6 py-3 text-sm font-semibold text-indigo-200 transition hover:border-indigo-200 hover:text-white"
@@ -1167,12 +1167,12 @@ export default function StellaPlatform() {
             {t('stellaPlatform.ecosystem.cta.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="mailto:platform@stella.com?subject=Interest%20in%20Stella%20Platform%20Ecosystem"
+            <Link
+              to="/precos"
               className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/25 transition hover:-translate-y-0.5 hover:bg-indigo-200"
             >
               {t('stellaPlatform.ecosystem.cta.joinWaitlist')}
-            </a>
+            </Link>
             <Link
               to="/contact"
               className="inline-flex items-center gap-2 rounded-full border border-indigo-400/60 px-6 py-3 text-sm font-semibold text-indigo-200 transition hover:border-indigo-200 hover:text-white"

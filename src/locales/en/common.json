@@ -125,7 +125,7 @@
       "title": "The system for modern real estate.",
       "subtitle": "Employee control centers, a CRM that bends reality, a choreographed work graph, cinematic websites, and an automation fabric that smokes everything else on the market. Built in Brazil. Designed to dominate globally.",
       "inquire": "Inquire",
-      "reserveBeta": "Reserve beta access"
+      "reserveBeta": "Request Exclusive Access"
     },
     "pillars": {
       "title": "Platform Pillars",
@@ -290,7 +290,7 @@
         "Custom feature fast-track & roadmap voting power",
         "Dedicated success engineer for your brokerage"
       ],
-      "joinShortlist": "Join the tester shortlist",
+      "joinShortlist": "Join the List",
       "talkStrategists": "Talk with product strategists",
       "footer": "Constellation Platform · Built for realtors with unreasonable ambition"
     },
@@ -300,6 +300,7 @@
       "subtitle": "More than a marketplace. A unified ecosystem connecting every player in real estate—powered by AI narratives and social proof.",
       "phaseLabel": "Phase",
       "pendingLabel": "Pending Features",
+      "accountTypesLabel": "New Account Types",
       "coreFeatures": {
         "ai": {
           "title": "#1: AI-Powered Property Narratives",
@@ -356,43 +357,50 @@
       "pendingServices": {
         "realtors": {
           "title": "Independent Realtors & Brokerages",
-          "deliveryDate": "Q1 2026",
-          "phase1": ["Property listings with AI narratives", "Social media integration", "Lead capture & CRM"],
+          "deliveryDate": "January 2026",
+          "accountTypes": ["Individual Realtors", "Brokerage Companies"],
+          "phase1": ["Property listings with AI narratives", "Social media integration", "Lead capture & CRM", "Constellation Web Studio", "Ballet (CRM + Internal Management)"],
           "pending": ["Commission management", "Referral network", "Buyer pre-qualification", "MLS aggregation"]
         },
         "developers": {
           "title": "Developers & Pre-Sales",
-          "deliveryDate": "Q2 2026",
+          "deliveryDate": "February 2026",
+          "accountTypes": ["Property Developers"],
           "phase1": ["Development showcase", "Unit pre-booking system", "Realtor marketplace"],
           "pending": ["Financing pre-approval", "Legal templates", "Unit customization", "Presale events"]
         },
+        "retailAggregation": {
+          "title": "Retail Aggregation Platform",
+          "deliveryDate": "March 2026",
+          "accountTypes": ["Buyers", "Sellers", "Renters"],
+          "phase1": ["Global property search", "Owner listing creation", "Auto-connection with local realtors", "Smart filters & favorites"],
+          "pending": ["Property valuation", "Mortgage pre-qualification", "AI recommendations", "Tenant screening", "Offer submission", "Inspection tools"]
+        },
         "architects": {
           "title": "Architects & Designers",
-          "deliveryDate": "Q3 2026",
+          "deliveryDate": "April 2026",
+          "accountTypes": ["Architects", "Designers"],
           "phase1": ["Portfolio showcase", "Project gallery", "Recommendation system"],
           "pending": ["Consultation booking", "3D visualization", "Budget estimation", "Client collaboration"]
         },
+        "designers": {
+          "title": "Interior Designers",
+          "deliveryDate": "May 2026",
+          "accountTypes": ["Interior Designers"],
+          "phase1": ["Design portfolio showcase", "Completed project gallery", "Client connection system"],
+          "pending": ["Consultation scheduling", "Budget tools", "Material selection", "Vendor integration"]
+        },
         "rentalManagers": {
           "title": "Rental Managers & Owners",
-          "deliveryDate": "Q4 2026",
+          "deliveryDate": "June 2026",
+          "accountTypes": ["Rental Managers"],
           "phase1": ["Rental dashboard", "Calendar sync", "Guest communication"],
           "pending": ["Dynamic pricing", "Cleaning coordination", "Maintenance requests", "Insurance integration"]
         },
-        "owners": {
-          "title": "Property Owners (Sell/Rent)",
-          "deliveryDate": "Q1 2027",
-          "phase1": ["Simple listing creation", "Realtor search & connection", "Inquiry management"],
-          "pending": ["Property valuation", "Tenant screening", "Lease management", "Tax documentation"]
-        },
-        "buyers": {
-          "title": "Shoppers & Buyers",
-          "deliveryDate": "Q2 2027",
-          "phase1": ["Global property search", "All realtors aggregated", "Smart filters & favorites"],
-          "pending": ["Mortgage pre-qualification", "AI recommendations", "Offer submission", "Inspection tools"]
-        },
         "insurance": {
           "title": "Insurance Services",
-          "deliveryDate": "Q3 2027",
+          "deliveryDate": "July 2026",
+          "accountTypes": ["Insurance Providers"],
           "phase1": ["Property insurance marketplace", "Coverage comparison tools", "Quick quote generation"],
           "pending": ["Claims management", "Policy renewal automation", "Multi-property bundles", "Risk assessment tools"]
         }
@@ -429,7 +437,7 @@
         "subtitle": "Be among the first agents, developers, architects, and shoppers to experience the Constellation ecosystem.",
         "joinWaitlist": "Join the Waitlist",
         "scheduleDemo": "Schedule a Demo",
-        "footer": "💫 Launching Q1 2026 | For agents, developers, architects, owners, and shoppers worldwide"
+        "footer": "Launching Q1 2026 | For agents, developers, architects, owners, and shoppers worldwide"
       }
     }
   },

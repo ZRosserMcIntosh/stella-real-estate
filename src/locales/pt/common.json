@@ -302,6 +302,7 @@
       "subtitle": "Mais que um marketplace. Um ecossistema unificado conectando cada agente do mercado imobiliário—alimentado por narrativas de IA e comprovação social.",
       "phaseLabel": "Fase",
       "pendingLabel": "Recursos Pendentes",
+      "accountTypesLabel": "Novos Tipos de Conta",
       "coreFeatures": {
         "ai": {
           "title": "#1: Narrativas de Propriedade Alimentadas por IA",
@@ -358,43 +359,50 @@
       "pendingServices": {
         "realtors": {
           "title": "Corretores Independentes e Corretoras",
-          "deliveryDate": "Q1 2026",
-          "phase1": ["Listagens de propriedades com narrativas de IA", "Integração com mídia social", "Captura de leads e CRM"],
+          "deliveryDate": "Janeiro 2026",
+          "accountTypes": ["Corretores Individuais", "Empresas de Corretagem"],
+          "phase1": ["Listagens de propriedades com narrativas de IA", "Integração com mídia social", "Captura de leads e CRM", "Constellation Web Studio", "Ballet (CRM + Gerenciamento Interno)"],
           "pending": ["Gerenciamento de comissões", "Rede de indicações", "Pré-qualificação de compradores", "Agregação de MLS"]
         },
         "developers": {
           "title": "Desenvolvedoras e Pré-Vendas",
-          "deliveryDate": "Q2 2026",
+          "deliveryDate": "Fevereiro 2026",
+          "accountTypes": ["Desenvolvedoras de Propriedades"],
           "phase1": ["Vitrine de desenvolvimento", "Sistema de pré-booking de unidades", "Marketplace de corretores"],
           "pending": ["Pré-aprovação de financiamento", "Modelos legais", "Personalização de unidades", "Eventos de pré-venda"]
         },
+        "retailAggregation": {
+          "title": "Plataforma de Agregação",
+          "deliveryDate": "Março 2026",
+          "accountTypes": ["Compradores", "Vendedores", "Locadores"],
+          "phase1": ["Busca global de propriedades", "Criação de listagens para proprietários", "Conexão automática com corretores locais", "Filtros inteligentes e favoritos"],
+          "pending": ["Avaliação de propriedade", "Pré-qualificação de hipoteca", "Recomendações de IA", "Triagem de inquilinos", "Envio de ofertas", "Ferramentas de inspeção"]
+        },
         "architects": {
           "title": "Arquitetos e Designers",
-          "deliveryDate": "Q3 2026",
+          "deliveryDate": "Abril 2026",
+          "accountTypes": ["Arquitetos", "Designers"],
           "phase1": ["Vitrine de portfólio", "Galeria de projetos", "Sistema de recomendação"],
           "pending": ["Reserva de consultoria", "Visualização 3D", "Estimativa de orçamento", "Colaboração com clientes"]
         },
+        "designers": {
+          "title": "Designers de Interiores",
+          "deliveryDate": "Maio 2026",
+          "accountTypes": ["Designers de Interiores"],
+          "phase1": ["Vitrine de portfólio de design", "Galeria de projetos concluídos", "Sistema de conexão com clientes"],
+          "pending": ["Agendamento de consultas", "Ferramentas de orçamento", "Seleção de materiais", "Integração com fornecedores"]
+        },
         "rentalManagers": {
           "title": "Gerenciadores e Proprietários de Aluguel",
-          "deliveryDate": "Q4 2026",
+          "deliveryDate": "Junho 2026",
+          "accountTypes": ["Gerenciadores de Aluguel"],
           "phase1": ["Dashboard de aluguel", "Sincronização de calendário", "Comunicação com hóspedes"],
           "pending": ["Preços dinâmicos", "Coordenação de limpeza", "Solicitações de manutenção", "Integração de seguros"]
         },
-        "owners": {
-          "title": "Proprietários (Vender/Alugar)",
-          "deliveryDate": "Q1 2027",
-          "phase1": ["Criação simples de listagem", "Busca de corretores locais e conexão", "Gerenciamento de inquéritos"],
-          "pending": ["Avaliação de propriedade", "Triagem de inquilinos", "Gerenciamento de contrato de aluguel", "Documentação fiscal"]
-        },
-        "buyers": {
-          "title": "Compradores",
-          "deliveryDate": "Q2 2027",
-          "phase1": ["Busca de propriedades global", "Todos os corretores agregados", "Filtros inteligentes e favoritos"],
-          "pending": ["Pré-qualificação de hipoteca", "Recomendações de IA", "Envio de ofertas", "Ferramentas de inspeção"]
-        },
         "insurance": {
           "title": "Serviços de Seguros",
-          "deliveryDate": "Q3 2027",
+          "deliveryDate": "Julho 2026",
+          "accountTypes": ["Fornecedores de Seguros"],
           "phase1": ["Marketplace de seguros de propriedade", "Ferramentas de comparação de cobertura", "Geração rápida de cotações"],
           "pending": ["Gerenciamento de sinistros", "Automação de renovação de apólices", "Pacotes de múltiplas propriedades", "Ferramentas de avaliação de risco"]
         }
@@ -431,7 +439,7 @@
         "subtitle": "Seja um dos primeiros agentes, desenvolvedoras, arquitetos e compradores a experimentar o ecossistema da Constellation.",
         "joinWaitlist": "Junte-se à Lista de Espera",
         "scheduleDemo": "Agende uma Demonstração",
-        "footer": "💫 Lançamento Q1 2026 | Para agentes, desenvolvedoras, arquitetos, proprietários e compradores em todo o mundo"
+        "footer": "Lançamento Q1 2026 | Para agentes, desenvolvedoras, arquitetos, proprietários e compradores em todo o mundo"
       }
     }
   },

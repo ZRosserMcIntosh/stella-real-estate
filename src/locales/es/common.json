@@ -71,7 +71,7 @@
       "title": "El sistema para inmobiliarias modernas.",
       "subtitle": "Centros de control para empleados, un CRM que dobla la realidad, un gráfico de trabajo coreografiado, sitios web cinematográficos y una estructura de automatización que supera todo en el mercado. Construido en Brasil. Diseñado para dominar globalmente.",
       "inquire": "Consultar",
-      "reserveBeta": "Reservar acceso beta"
+      "reserveBeta": "Solicitar Acceso Exclusivo"
     },
     "pillars": {
       "title": "Pilares de la Plataforma",
@@ -302,39 +302,52 @@
       "pendingServices": {
         "realtors": {
           "title": "Agentes Independientes y Corretajes",
-          "deliveryDate": "Q1 2026",
-          "phase1": ["Listados de propiedades con narrativas de IA", "Integración con redes sociales", "Captura de leads y CRM"],
+          "deliveryDate": "Enero 2026",
+          "accountTypes": ["Agentes Individuales", "Empresas de Corretaje"],
+          "phase1": ["Listados de propiedades con narrativas de IA", "Integración con redes sociales", "Captura de leads y CRM", "Constellation Web Studio", "Ballet (CRM + Gestión Interna)"],
           "pending": ["Gestión de comisiones", "Red de referidos", "Pre-calificación de compradores", "Agregación MLS"]
         },
         "developers": {
           "title": "Desarrolladores y Preventas",
-          "deliveryDate": "Q2 2026",
+          "deliveryDate": "Febrero 2026",
+          "accountTypes": ["Desarrolladores de Propiedades"],
           "phase1": ["Escaparate de desarrollo", "Sistema de pre-reserva de unidades", "Mercado de agentes"],
           "pending": ["Pre-aprobación de financiamiento", "Plantillas legales", "Personalización de unidades", "Eventos de preventa"]
         },
+        "retailAggregation": {
+          "title": "Plataforma de Agregación Retail",
+          "deliveryDate": "Marzo 2026",
+          "accountTypes": ["Compradores", "Vendedores", "Inquilinos"],
+          "phase1": ["Búsqueda global de propiedades", "Creación de listados para propietarios", "Conexión automática con agentes locales", "Filtros inteligentes y favoritos"],
+          "pending": ["Valuación de propiedad", "Pre-calificación hipotecaria", "Recomendaciones de IA", "Evaluación de inquilinos", "Envío de ofertas", "Herramientas de inspección"]
+        },
         "architects": {
           "title": "Arquitectos y Diseñadores",
-          "deliveryDate": "Q3 2026",
+          "deliveryDate": "Abril 2026",
+          "accountTypes": ["Arquitectos", "Diseñadores"],
           "phase1": ["Escaparate de portafolio", "Galería de proyectos", "Sistema de recomendación"],
           "pending": ["Reserva de consulta", "Visualización 3D", "Estimación de presupuesto", "Colaboración con clientes"]
         },
+        "designers": {
+          "title": "Diseñadores de Interiores",
+          "deliveryDate": "Mayo 2026",
+          "accountTypes": ["Diseñadores de Interiores"],
+          "phase1": ["Escaparate de portafolio de diseño", "Galería de proyectos completados", "Sistema de conexión con clientes"],
+          "pending": ["Programación de consultas", "Herramientas de presupuesto", "Selección de materiales", "Integración con proveedores"]
+        },
         "rentalManagers": {
           "title": "Gestores y Propietarios de Alquiler",
-          "deliveryDate": "Q4 2026",
+          "deliveryDate": "Junio 2026",
+          "accountTypes": ["Gestores de Alquiler"],
           "phase1": ["Panel de alquiler", "Sincronización de calendario", "Comunicación con huéspedes"],
           "pending": ["Precios dinámicos", "Coordinación de limpieza", "Solicitudes de mantenimiento", "Integración de seguros"]
         },
-        "owners": {
-          "title": "Propietarios (Vender/Alquilar)",
-          "deliveryDate": "Q1 2027",
-          "phase1": ["Creación simple de listado", "Búsqueda de agentes locales y conexión", "Gestión de consultas"],
-          "pending": ["Valuación de propiedad", "Evaluación de inquilinos", "Gestión de contrato de alquiler", "Documentación fiscal"]
-        },
-        "buyers": {
-          "title": "Compradores",
-          "deliveryDate": "Q2 2027",
-          "phase1": ["Búsqueda de propiedades global", "Todos los agentes agregados", "Filtros inteligentes y favoritos"],
-          "pending": ["Pre-calificación hipotecaria", "Recomendaciones de IA", "Envío de ofertas", "Herramientas de inspección"]
+        "insurance": {
+          "title": "Servicios de Seguros",
+          "deliveryDate": "Julio 2026",
+          "accountTypes": ["Proveedores de Seguros"],
+          "phase1": ["Mercado de seguros de propiedad", "Herramientas de comparación de cobertura", "Generación rápida de cotizaciones"],
+          "pending": ["Gestión de reclamaciones", "Automatización de renovación de pólizas", "Paquetes de múltiples propiedades", "Herramientas de evaluación de riesgos"]
         }
       },
       "whyStella": {
@@ -369,7 +382,7 @@
         "subtitle": "Sé uno de los primeros agentes, desarrolladores, arquitectos y compradores en experimentar el ecosistema de Stella Platform.",
         "joinWaitlist": "Únete a la Lista de Espera",
         "scheduleDemo": "Programa una Demostración",
-        "footer": "💫 Lanzamiento Q1 2026 | Para agentes, desarrolladores, arquitectos, propietarios y compradores en todo el mundo"
+        "footer": "Lanzamiento Q1 2026 | Para agentes, desarrolladores, arquitectos, propietarios y compradores en todo el mundo"
       }
     }
   },
