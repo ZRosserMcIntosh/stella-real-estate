@@ -818,95 +818,346 @@ export default function StellaPlatform() {
               {t('stellaPlatform.ecosystem.badge')}
             </span>
             <h2 className="text-4xl font-light text-white sm:text-5xl mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
-              The All-In-One Real Estate Platform
+              {t('stellaPlatform.ecosystem.title')}
             </h2>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-              Anticipated Delivery Schedule
+              {t('stellaPlatform.ecosystem.subtitle')}
             </p>
           </div>
-          {/* Phase Rollout */}
+
+          {/* Core Features */}
+          <div className="grid md:grid-cols-2 gap-8 mb-16">
+            <div className="relative overflow-hidden rounded-3xl border border-blue-500/30 bg-gradient-to-br from-blue-600/20 to-blue-900/20 p-8 shadow-[0_20px_80px_-20px_rgba(59,130,246,0.3)]">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-400/20 border border-blue-400/40">
+                  <svg className="h-6 w-6 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.ecosystem.coreFeatures.ai.title')}</h3>
+                  <p className="text-xs text-blue-200 mt-1">{t('stellaPlatform.ecosystem.coreFeatures.ai.subtitle')}</p>
+                </div>
+              </div>
+              <p className="text-slate-300 mb-4">
+                {t('stellaPlatform.ecosystem.coreFeatures.ai.description')}
+              </p>
+              <ul className="space-y-2 text-sm text-slate-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-300 mt-1">•</span>
+                  <span><span className="font-semibold text-blue-300">{t('stellaPlatform.ecosystem.coreFeatures.ai.investor')}</span></span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-300 mt-1">•</span>
+                  <span><span className="font-semibold text-blue-300">{t('stellaPlatform.ecosystem.coreFeatures.ai.family')}</span></span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-300 mt-1">•</span>
+                  <span><span className="font-semibold text-blue-300">{t('stellaPlatform.ecosystem.coreFeatures.ai.firstTime')}</span></span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="relative overflow-hidden rounded-3xl border border-purple-500/30 bg-gradient-to-br from-purple-600/20 to-purple-900/20 p-8 shadow-[0_20px_80px_-20px_rgba(168,85,247,0.3)]">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-purple-400/20 border border-purple-400/40">
+                  <svg className="h-6 w-6 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.ecosystem.coreFeatures.socialProof.title')}</h3>
+                  <p className="text-xs text-purple-200 mt-1">{t('stellaPlatform.ecosystem.coreFeatures.socialProof.subtitle')}</p>
+                </div>
+              </div>
+              <p className="text-slate-300 mb-4">
+                {t('stellaPlatform.ecosystem.coreFeatures.socialProof.description')}
+              </p>
+              <ul className="space-y-2 text-sm text-slate-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-300 mt-1">🔥</span>
+                  <span>{t('stellaPlatform.ecosystem.coreFeatures.socialProof.offer')}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-300 mt-1">👀</span>
+                  <span>{t('stellaPlatform.ecosystem.coreFeatures.socialProof.views')}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-300 mt-1">❤️</span>
+                  <span>{t('stellaPlatform.ecosystem.coreFeatures.socialProof.instagram')}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* 8 User Types Grid */}
           <div className="mb-16">
-            <div className="space-y-4 max-w-4xl mx-auto">
-              {[
-                { key: 'realtors', phaseNum: 1, color: 'blue' },
-                { key: 'retailAggregation', phaseNum: 2, color: 'emerald' },
-                { key: 'developers', phaseNum: 3, color: 'orange' },
-                { key: 'architects', phaseNum: 4, color: 'pink' },
-                { key: 'designers', phaseNum: 5, color: 'purple' },
-                { key: 'rentalManagers', phaseNum: 6, color: 'cyan' },
-                { key: 'insurance', phaseNum: 7, color: 'amber' }
-              ].map(({ key, phaseNum, color }) => (
-                <div key={key} className={`group relative overflow-hidden rounded-xl border border-${color}-500/30 bg-gradient-to-br from-${color}-600/10 via-slate-900/50 to-slate-950 p-6 hover:border-${color}-500/60 transition-all duration-300`}>
-                  {/* Header Row */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <span className={`text-xs font-bold text-${color}-300 uppercase tracking-wider`}>
-                        PHASE {phaseNum}
-                      </span>
-                      <span className="text-slate-600">•</span>
-                      <h4 className="text-lg font-semibold text-white">
-                        {t(`stellaPlatform.ecosystem.pendingServices.${key}.title`)}
-                      </h4>
-                    </div>
-                    <div className={`px-3 py-1 rounded-lg bg-${color}-500/10 border border-${color}-400/30`}>
-                      <p className={`text-xs font-bold text-${color}-300`}>
-                        {t(`stellaPlatform.ecosystem.pendingServices.${key}.deliveryDate`)}
-                      </p>
-                    </div>
-                  </div>
+            <h3 className="text-2xl font-light text-white mb-8 text-center" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.ecosystem.userTypes.title')}</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-600/15 to-blue-900/10 p-6 hover:border-blue-500/60 transition">
+                <div className="mb-3 text-blue-400">
+                  <UserTypeIcon type="user" className="w-10 h-10" />
+                </div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.independentRealtors.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.independentRealtors.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
 
-                  {/* Account Types */}
-                  <div className="mb-4">
-                    <p className={`text-xs text-${color}-400 font-semibold uppercase tracking-wider mb-2`}>
-                      {t('stellaPlatform.ecosystem.accountTypesLabel')}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {getTranslationArray(`stellaPlatform.ecosystem.pendingServices.${key}.accountTypes`).map((type, idx) => (
-                        <span key={idx} className={`text-xs px-2.5 py-1 rounded-lg bg-${color}-500/15 border border-${color}-400/40 text-${color}-200 font-medium`}>
-                          {type}
-                        </span>
+              <div className="rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-600/15 to-emerald-900/10 p-6 hover:border-emerald-500/60 transition">
+                <div className="mb-3 text-emerald-400">
+                  <UserTypeIcon type="building" className="w-10 h-10" />
+                </div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.brokerages.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.brokerages.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-orange-500/30 bg-gradient-to-br from-orange-600/15 to-orange-900/10 p-6 hover:border-orange-500/60 transition">
+                <div className="mb-3 text-orange-400">
+                  <UserTypeIcon type="construction" className="w-10 h-10" />
+                </div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.developers.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.developers.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-pink-500/30 bg-gradient-to-br from-pink-600/15 to-pink-900/10 p-6 hover:border-pink-500/60 transition">
+                <div className="mb-3 text-pink-400">
+                  <UserTypeIcon type="palette" className="w-10 h-10" />
+                </div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.architects.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.architects.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-cyan-600/15 to-cyan-900/10 p-6 hover:border-cyan-500/60 transition">
+                <div className="mb-3 text-cyan-400">
+                  <UserTypeIcon type="house" className="w-10 h-10" />
+                </div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.strManagers.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.strManagers.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-indigo-600/15 to-indigo-900/10 p-6 hover:border-indigo-500/60 transition">
+                <div className="mb-3 text-indigo-400">
+                  <UserTypeIcon type="houses" className="w-10 h-10" />
+                </div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.propertyOwners.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.propertyOwners.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-red-500/30 bg-gradient-to-br from-red-600/15 to-red-900/10 p-6 hover:border-red-500/60 transition">
+                <div className="mb-3 text-red-400">
+                  <UserTypeIcon type="key" className="w-10 h-10" />
+                </div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.strOwners.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.strOwners.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-600/15 to-amber-900/10 p-6 hover:border-amber-500/60 transition">
+                <div className="mb-3 text-amber-400">
+                  <UserTypeIcon type="shopping" className="w-10 h-10" />
+                </div>
+                <h4 className="font-semibold text-white mb-3">{t('stellaPlatform.ecosystem.userTypes.shoppers.title')}</h4>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(t('stellaPlatform.ecosystem.userTypes.shoppers.features', { returnObjects: true }) as string[]).map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Pending Services */}
+          <div className="grid md:grid-cols-2 gap-6 mb-16">
+            {[
+              { key: 'realtors', icon: '👤', titleKey: 'stellaPlatform.ecosystem.pendingServices.realtors.title', phaseNum: 1 },
+              { key: 'developers', icon: '🏗️', titleKey: 'stellaPlatform.ecosystem.pendingServices.developers.title', phaseNum: 2 },
+              { key: 'architects', icon: '🎨', titleKey: 'stellaPlatform.ecosystem.pendingServices.architects.title', phaseNum: 3 },
+              { key: 'rentalManagers', icon: '🏠', titleKey: 'stellaPlatform.ecosystem.pendingServices.rentalManagers.title', phaseNum: 4 },
+              { key: 'owners', icon: '🏘️', titleKey: 'stellaPlatform.ecosystem.pendingServices.owners.title', phaseNum: 5 },
+              { key: 'buyers', icon: '🛍️', titleKey: 'stellaPlatform.ecosystem.pendingServices.buyers.title', phaseNum: 6 },
+              { key: 'insurance', icon: '🛡️', titleKey: 'stellaPlatform.ecosystem.pendingServices.insurance.title', phaseNum: 7 }
+            ].map(({ key, icon, titleKey, phaseNum }) => (
+              <div key={key} className="rounded-2xl border border-slate-700/50 bg-slate-800/30 p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <h4 className="text-slate-200 font-semibold text-lg flex items-center gap-2">
+                    <span>{icon}</span> {t(titleKey)}
+                  </h4>
+                  <span className="inline-flex items-center gap-1 rounded-full border border-blue-400/40 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-300">
+                    {t(`stellaPlatform.ecosystem.pendingServices.${key}.deliveryDate`)}
+                  </span>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <div>
+                    <p className="text-blue-400 font-semibold mb-1">{t('stellaPlatform.ecosystem.phaseLabel')} {phaseNum} (MVP):</p>
+                    <ul className="space-y-1 ml-2 text-slate-300">
+                      {getTranslationArray(`stellaPlatform.ecosystem.pendingServices.${key}.phase1`).map((item, idx) => (
+                        <li key={idx}>✓ {item}</li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
+                  <div>
+                    <p className="text-slate-400 font-semibold mb-1">{t('stellaPlatform.ecosystem.pendingLabel')}:</p>
+                    <ul className="space-y-1 ml-2 text-slate-400">
+                      {getTranslationArray(`stellaPlatform.ecosystem.pendingServices.${key}.pending`).map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
 
-                  {/* Features Grid */}
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <p className={`text-xs text-${color}-300 font-semibold mb-2 uppercase tracking-wider`}>
-                        MVP Features
-                      </p>
-                      <ul className="space-y-1.5">
-                        {getTranslationArray(`stellaPlatform.ecosystem.pendingServices.${key}.phase1`).map((item, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-xs text-slate-300">
-                            <span className={`text-${color}-400 mt-0.5`}>✓</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-500 font-semibold mb-2 uppercase tracking-wider">
-                        {t('stellaPlatform.ecosystem.pendingLabel')}
-                      </p>
-                      <ul className="space-y-1.5">
-                        {getTranslationArray(`stellaPlatform.ecosystem.pendingServices.${key}.pending`).map((item, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-xs text-slate-400">
-                            <span className="text-slate-600 mt-0.5">○</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+          {/* Why Stella */}
+          <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 rounded-3xl p-8 md:p-12">
+            <h3 className="text-2xl font-light text-white mb-8" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.ecosystem.whyStella.title')}</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                { key: 'aggregated', emoji: '✓' },
+                { key: 'narratives', emoji: '✨' },
+                { key: 'socialProof', emoji: '🔥' },
+                { key: 'ecosystem', emoji: '🎯' },
+                { key: 'str', emoji: '🏠' },
+                { key: 'users', emoji: '🌐' }
+              ].map(({ key, emoji }) => (
+                <div key={key} className="flex gap-4">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-500/20 border border-blue-400/40">
+                    <span className="text-blue-300 font-bold">{emoji}</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white mb-1">{t(`stellaPlatform.ecosystem.whyStella.${key}.title`)}</h4>
+                    <p className="text-sm text-slate-300">{t(`stellaPlatform.ecosystem.whyStella.${key}.description`)}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-
-          </div>
-</div>
+        </div>
       </section>
-{/* Ecosystem CTA */}
+
+      {/* Seguro Fiança Section */}
+      <section className="relative py-20 overflow-hidden bg-gradient-to-br from-blue-950 via-indigo-950 to-slate-950">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+        <div className="relative z-10 container-padded">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-400/40 px-4 py-2 rounded-full mb-6">
+                <span className="text-2xl">🛡️</span>
+                <span className="text-sm font-semibold text-blue-300 uppercase tracking-wider">Julho 2027</span>
+              </div>
+              <h3 className="text-4xl font-light text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+                Seguro Fiança que Redefine o Mercado
+              </h3>
+              <p className="text-lg font-light text-slate-300 mb-8 max-w-3xl mx-auto" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Vamos substituir todo o seguro fiança convencional com uma experiência que faz os locadores se perguntarem como viveram sem isso.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <div className="bg-gradient-to-br from-blue-900/30 to-indigo-900/20 border border-blue-500/30 rounded-2xl p-8">
+                <div className="text-4xl mb-4">⚡</div>
+                <h4 className="text-xl font-semibold text-white mb-3">Cotação & Aprovação em 60 Segundos</h4>
+                <p className="text-slate-300 mb-4">
+                  Open Finance + IA para avaliar estabilidade de renda instantaneamente. Score portátil que segue o inquilino. 
+                  Proprietários veem banda A-D simples. Sem burocracia, sem espera.
+                </p>
+                <ul className="space-y-2 text-sm text-slate-400">
+                  <li>✓ Conexão Open Finance em um clique</li>
+                  <li>✓ Análise de renda, buffers e volatilidade via IA</li>
+                  <li>✓ RentScore portátil entre prédios</li>
+                </ul>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/20 border border-green-500/30 rounded-2xl p-8">
+                <div className="text-4xl mb-4">💸</div>
+                <h4 className="text-xl font-semibold text-white mb-3">Pix Imediato em Sinistros</h4>
+                <p className="text-slate-300 mb-4">
+                  Um toque no WhatsApp → Pix instantâneo para o proprietário. Fazemos verificação/cobrança depois. 
+                  O SLA não é promessa, é o produto. Meta: 60 segundos.
+                </p>
+                <ul className="space-y-2 text-sm text-slate-400">
+                  <li>✓ Reconhecimento de sinistro em {'<'}2h</li>
+                  <li>✓ Pagamento garantido no mesmo dia útil</li>
+                  <li>✓ SLA perdido? Crédito automático no prêmium</li>
+                </ul>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/20 border border-purple-500/30 rounded-2xl p-8">
+                <div className="text-4xl mb-4">📅</div>
+                <h4 className="text-xl font-semibold text-white mb-3">Rent Day Guarantee</h4>
+                <p className="text-slate-300 mb-4">
+                  Proprietário escolhe o dia (ex: dia 1). Pagamos nesse dia todo mês, independente do inquilino. 
+                  Nós absorvemos a variação. Sleep tax = 0.
+                </p>
+                <ul className="space-y-2 text-sm text-slate-400">
+                  <li>✓ Escolha seu dia de pagamento fixo</li>
+                  <li>✓ Receba sempre nesse dia, sem exceção</li>
+                  <li>✓ Eliminamos estresse de atraso</li>
+                </ul>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-900/30 to-orange-900/20 border border-amber-500/30 rounded-2xl p-8">
+                <div className="text-4xl mb-4">🏠</div>
+                <h4 className="text-xl font-semibold text-white mb-3">Vacancy Shield + Despejo Concierge</h4>
+                <p className="text-slate-300 mb-4">
+                  Inquilino sai cedo? Pagamos 1 mês + verba marketing + fotos pro. Despejo necessário? 
+                  Advogados pré-selecionados, processo digital, pacote de re-locação.
+                </p>
+                <ul className="space-y-2 text-sm text-slate-400">
+                  <li>✓ Proteção contra vacância inesperada</li>
+                  <li>✓ Processo de despejo sem drama</li>
+                  <li>✓ Re-locação prioritária integrada</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-slate-800/50 to-slate-700/50 border border-slate-600/50 rounded-2xl p-8 text-center">
+              <h4 className="text-2xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Nossa Meta: Fazer o Seguro Fiança Convencional Obsoleto
+              </h4>
+              <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
+                Quando lançarmos em Q3 2027, proprietários mudarão pela certeza do SLA. Inquilinos aceitarão pela 
+                portabilidade do score. Concorrentes ficarão discutindo brochures enquanto transferimos Pix.
+              </p>
+              <Link
+                to="/seguro-fianca"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all"
+              >
+                Saiba Mais sobre Seguro Fiança
+                <span>→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Ecosystem CTA */}
       <section className="relative py-16 overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800">
         <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
           <h3 className="text-3xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
