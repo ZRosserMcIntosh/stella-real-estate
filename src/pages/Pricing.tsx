@@ -19,18 +19,8 @@ export default function Pricing() {
   const handleDirectCheckout = () => {
     setCheckoutLoading(true)
     
-    // TODO: Replace this with your actual Stripe Payment Link from:
-    // https://dashboard.stripe.com/payment-links
-    // It should look like: https://buy.stripe.com/live_XXXXXXXXX
-    
-    // For now, this will show an error until you add your real payment link
-    const stripePaymentLink = 'https://buy.stripe.com/live_REPLACE_WITH_YOUR_ACTUAL_LINK'
-    
-    if (stripePaymentLink.includes('REPLACE')) {
-      setCheckoutError('Payment link not configured. Please contact support.')
-      setCheckoutLoading(false)
-      return
-    }
+    // Stripe Payment Link for Founding 100 purchase
+    const stripePaymentLink = 'https://buy.stripe.com/00w00je3L6PXcUufUffYY00'
     
     window.location.href = stripePaymentLink
   }
