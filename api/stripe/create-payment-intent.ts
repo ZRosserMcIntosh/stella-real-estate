@@ -89,7 +89,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Create Payment Intent with billing details
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount || 297000, // Default R$ 2,970.00
+      amount: amount || 300, // Default R$ 3.00 (TEST AMOUNT - CHANGE BACK TO 297000)
       currency: 'brl',
       metadata: {
         fullName,
