@@ -14,6 +14,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
+  // Check environment variables
+  if (!process.env.VITE_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.error('Missing Supabase environment variables')
+    return res.status(500).json({ error: 'Server configuration error', details: 'Missing Supabase credentials' })
+  }
+
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error('Missing STRIPE_SECRET_KEY environment variable')
+    return res.status(500).json({ error: 'Server configuration error', details: 'Missing STRIPE_SECRET_KEY' })
+  }
+
   try {
     const { 
       userId, 

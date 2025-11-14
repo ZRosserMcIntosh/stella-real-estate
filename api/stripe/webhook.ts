@@ -33,7 +33,23 @@ async function buffer(readable: any): Promise<Buffer> {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
+    return res.status(405).json({ error: 'Method not allowed', message: 'This endpoint only accepts POST requests from Stripe' })
+  }
+
+  // Check environment variables
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error('Missing STRIPE_SECRET_KEY environment variable')
+    return res.status(500).json({ error: 'Server configuration error', details: 'Missing STRIPE_SECRET_KEY' })
+  }
+
+  if (!process.env.STRIPE_WEBHOOK_SECRET) {
+    console.error('Missing STRIPE_WEBHOOK_SECRET environment variable')
+    return res.status(500).json({ error: 'Server configuration error', details: 'Missing STRIPE_WEBHOOK_SECRET' })
+  }
+
+  if (!process.env.VITE_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.error('Missing Supabase environment variables')
+    return res.status(500).json({ error: 'Server configuration error', details: 'Missing Supabase credentials' })
   }
 
   const buf = await buffer(req)
