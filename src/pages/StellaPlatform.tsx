@@ -356,12 +356,12 @@ export default function StellaPlatform() {
             >
               {t('stellaPlatform.hero.inquire')}
             </Link>
-            <Link
-              to="/precos"
+            <a
+              href="#beta"
               className="inline-flex items-center gap-2 rounded-full border border-indigo-400/50 px-6 py-3 text-sm font-semibold text-indigo-200 transition hover:border-indigo-200 hover:text-white"
             >
               {t('stellaPlatform.hero.reserveBeta')}
-            </Link>
+            </a>
           </div>
         </div>
       </section>
@@ -419,50 +419,6 @@ export default function StellaPlatform() {
                   </div>
                   <div className="text-sm text-slate-300 mt-1">{t('stellaPlatform.video3d.demo.caption')}</div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Metrics Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-indigo-950/20 to-slate-950" />
-        <div className="relative z-10 mx-auto max-w-6xl px-6">
-          <h2 className="text-center text-3xl font-light text-white sm:text-4xl mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
-            {t('stellaPlatform.metrics.title')}
-          </h2>
-          <div className="grid gap-6 mt-12 md:grid-cols-2 lg:grid-cols-4">
-            <div className="relative overflow-hidden rounded-2xl border border-indigo-400/30 bg-gradient-to-br from-indigo-500/10 to-purple-500/5 p-6 shadow-[0_20px_60px_-20px_rgba(99,102,241,0.4)] transition hover:-translate-y-1 hover:shadow-[0_30px_80px_-20px_rgba(99,102,241,0.6)]">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-400/10 rounded-full blur-3xl -mr-16 -mt-16" />
-              <div className="relative">
-                <div className="text-5xl font-bold text-indigo-300 mb-2">{t('stellaPlatform.metrics.productivity.value')}</div>
-                <div className="text-sm font-semibold text-white mb-2">{t('stellaPlatform.metrics.productivity.label')}</div>
-                <div className="text-xs text-slate-300 leading-relaxed">{t('stellaPlatform.metrics.productivity.description')}</div>
-              </div>
-            </div>
-            <div className="relative overflow-hidden rounded-2xl border border-purple-400/30 bg-gradient-to-br from-purple-500/10 to-pink-500/5 p-6 shadow-[0_20px_60px_-20px_rgba(168,85,247,0.4)] transition hover:-translate-y-1 hover:shadow-[0_30px_80px_-20px_rgba(168,85,247,0.6)]">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-400/10 rounded-full blur-3xl -mr-16 -mt-16" />
-              <div className="relative">
-                <div className="text-5xl font-bold text-purple-300 mb-2">{t('stellaPlatform.metrics.automation.value')}</div>
-                <div className="text-sm font-semibold text-white mb-2">{t('stellaPlatform.metrics.automation.label')}</div>
-                <div className="text-xs text-slate-300 leading-relaxed">{t('stellaPlatform.metrics.automation.description')}</div>
-              </div>
-            </div>
-            <div className="relative overflow-hidden rounded-2xl border border-pink-400/30 bg-gradient-to-br from-pink-500/10 to-rose-500/5 p-6 shadow-[0_20px_60px_-20px_rgba(236,72,153,0.4)] transition hover:-translate-y-1 hover:shadow-[0_30px_80px_-20px_rgba(236,72,153,0.6)]">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-pink-400/10 rounded-full blur-3xl -mr-16 -mt-16" />
-              <div className="relative">
-                <div className="text-5xl font-bold text-pink-300 mb-2">{t('stellaPlatform.metrics.satisfaction.value')}</div>
-                <div className="text-sm font-semibold text-white mb-2">{t('stellaPlatform.metrics.satisfaction.label')}</div>
-                <div className="text-xs text-slate-300 leading-relaxed">{t('stellaPlatform.metrics.satisfaction.description')}</div>
-              </div>
-            </div>
-            <div className="relative overflow-hidden rounded-2xl border border-cyan-400/30 bg-gradient-to-br from-cyan-500/10 to-blue-500/5 p-6 shadow-[0_20px_60px_-20px_rgba(34,211,238,0.4)] transition hover:-translate-y-1 hover:shadow-[0_30px_80px_-20px_rgba(34,211,238,0.6)]">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-400/10 rounded-full blur-3xl -mr-16 -mt-16" />
-              <div className="relative">
-                <div className="text-4xl font-bold text-cyan-300 mb-2">{t('stellaPlatform.metrics.roi.value')}</div>
-                <div className="text-sm font-semibold text-white mb-2">{t('stellaPlatform.metrics.roi.label')}</div>
-                <div className="text-xs text-slate-300 leading-relaxed">{t('stellaPlatform.metrics.roi.description')}</div>
               </div>
             </div>
           </div>
@@ -603,230 +559,138 @@ export default function StellaPlatform() {
         </div>
       </section>
 
-      {/* Constellation Stack Section - Two Column Layout */}
       <section className="bg-slate-900/60 py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-light text-white sm:text-5xl mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
-              Constellation Platform for Unstoppable Operators
-            </h2>
-            <p className="mt-4 text-lg text-slate-300 max-w-3xl mx-auto">
-              A unified technology stack combining external client-facing tools and internal business operations
-            </p>
-          </div>
+        <div className="mx-auto max-w-6xl px-6">
+          <h2 className="text-3xl font-light text-white sm:text-4xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.stack.title')}</h2>
+          <p className="mt-4 text-base text-slate-300">{t('stellaPlatform.stack.subtitle')}</p>
+          <div className="mt-8 grid gap-8 md:grid-cols-2">
+                {/* Constellation (External) */}
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-indigo-300/80 mb-3">Constellation • Externo</div>
+                  <div className="grid gap-6">
+                    {/* Native Client Apps */}
+                    <div className="rounded-2xl border border-indigo-600/40 bg-gradient-to-br from-indigo-500/15 to-slate-900/70 p-5 shadow-lg shadow-indigo-500/10 transition hover:border-indigo-400/60 hover:shadow-indigo-500/20">
+                      <div className="flex items-start gap-3 mb-3">
+                        <img src="/ios.png" alt="iOS" className="h-8 w-8 object-contain" />
+                        <img src="/andriod-white.png" alt="Android" className="h-8 w-8 object-contain" />
+                        <h3 className="text-lg font-semibold text-white flex-1">
+                          {t('stellaPlatform.mobile.clientApps.title')}
+                        </h3>
+                      </div>
+                      <p className="text-sm text-slate-300">{t('stellaPlatform.mobile.clientApps.description')}</p>
+                    </div>
 
-          <div className="grid gap-12 lg:grid-cols-2">
-            {/* Constellation External Column */}
-            <div>
-              <h3 className="text-2xl font-semibold text-white mb-8 flex items-center gap-3">
-                <svg className="h-8 w-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Constellation (External)
-              </h3>
-              <div className="space-y-5">
-                {/* Unified Login */}
-                <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-indigo-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Unified Login</h4>
-                      <p className="mt-2 text-sm text-slate-300">One login, infinite possibilities. Access all tools with enterprise-grade security.</p>
+                    {/* Apple Wallet */}
+                    <div className="rounded-2xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-slate-900/70 p-5 shadow-lg shadow-black/30 transition hover:border-slate-600/60 hover:bg-slate-900/90">
+                      <div className="flex items-start gap-3 mb-3">
+                        <img src="/apple-wallet.svg" alt="Apple Wallet" className="h-8 w-8" />
+                        <h3 className="text-lg font-semibold text-white flex-1">
+                          {t('stellaPlatform.mobile.appleWallet.title')}
+                        </h3>
+                      </div>
+                      <p className="text-sm text-slate-300">{t('stellaPlatform.mobile.appleWallet.description')}</p>
+                    </div>
+
+                    {/* Constellation Web Studio */}
+                    <div className="rounded-2xl border border-emerald-600/40 bg-gradient-to-br from-emerald-500/15 to-slate-900/70 p-5 shadow-lg shadow-emerald-500/10 transition hover:border-emerald-400/60 hover:shadow-emerald-500/20">
+                      <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                        <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                        </svg>
+                        Constellation Web Studio
+                      </h3>
+                      <p className="mt-3 text-sm text-slate-300">{t('stellaPlatform.pillars.sites.description')}</p>
+                    </div>
+
+                    {/* Market Statistics - NEW */}
+                    <div className="rounded-2xl border border-cyan-600/40 bg-gradient-to-br from-cyan-500/15 to-slate-900/70 p-5 shadow-lg shadow-cyan-500/10 transition hover:border-cyan-400/60 hover:shadow-cyan-500/20">
+                      <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                        <svg className="w-5 h-5 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        Estatísticas do Mercado
+                      </h3>
+                      <p className="mt-3 text-sm text-slate-300">Dados agregados de todos os corretores da plataforma criam gráficos e insights sobre o mercado imobiliário - tendências de preços, volume de vendas, tempo médio no mercado por região.</p>
+                    </div>
+
+                    {/* Analytics */}
+                    <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-5 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
+                      <h3 className="text-lg font-semibold text-white">{t('stellaPlatform.stack.analytics.title')}</h3>
+                      <p className="mt-3 text-sm text-slate-300">{t('stellaPlatform.stack.analytics.description')}</p>
+                    </div>
+
+                    {/* API */}
+                    <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-5 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
+                      <h3 className="text-lg font-semibold text-white">{t('stellaPlatform.stack.api.title')}</h3>
+                      <p className="mt-3 text-sm text-slate-300">{t('stellaPlatform.stack.api.description')}</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Social Studio */}
-                <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-indigo-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Social Studio</h4>
-                      <p className="mt-2 text-sm text-slate-300">Create, schedule, and publish content across all platforms with AI-powered optimization.</p>
+                {/* Ballet (Internal) */}
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-pink-200/80 mb-3">Ballet • Interno</div>
+                  <div className="grid gap-6">
+                    {/* Team Management - NEW */}
+                    <div className="rounded-2xl border border-emerald-600/40 bg-gradient-to-br from-emerald-500/15 to-slate-900/70 p-5 shadow-lg shadow-emerald-500/10 transition hover:border-emerald-400/60 hover:shadow-emerald-500/20">
+                      <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                        <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        Gestão de Equipe
+                      </h3>
+                      <p className="mt-3 text-sm text-slate-300">Organogramas interativos, controle de acesso baseado em funções (RBAC), gestão de equipamentos, documentação de conformidade e gerenciamento de contratados.</p>
                     </div>
-                  </div>
-                </div>
 
-                {/* Native Client Apps */}
-                <div className="rounded-2xl border border-indigo-400/30 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-slate-900/70 p-6 shadow-lg shadow-indigo-500/20 transition hover:border-indigo-300/60">
-                  <div className="flex items-start gap-4">
-                    <div className="flex gap-3">
-                      <img src="/ios.png" alt="iOS" className="h-10 w-10 object-contain" />
-                      <img src="/andriod-white.png" alt="Android" className="h-10 w-10 object-contain" />
+                    {/* Deal Room - NEW */}
+                    <div className="rounded-2xl border border-amber-600/40 bg-gradient-to-br from-amber-500/15 to-slate-900/70 p-5 shadow-lg shadow-amber-500/10 transition hover:border-amber-400/60 hover:shadow-amber-500/20">
+                      <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                        <svg className="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        Sala de Negócios
+                      </h3>
+                      <p className="mt-3 text-sm text-slate-300">Pipeline de transações, gestão de propostas, compartilhamento seguro de documentos e acompanhamento de fechamentos em tempo real.</p>
                     </div>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Native Client Apps</h4>
-                      <p className="mt-2 text-sm text-indigo-200">iOS & Android apps for clients to browse properties, schedule tours, and communicate.</p>
-                    </div>
-                  </div>
-                </div>
 
-                {/* Apple Wallet */}
-                <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
-                  <div className="flex items-start gap-4">
-                    <img src="/apple-wallet.svg" alt="Apple Wallet" className="h-10 w-10 shrink-0" />
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Apple Wallet Business Card</h4>
-                      <p className="mt-2 text-sm text-slate-300">Digital business cards and property access passes in Apple Wallet.</p>
+                    {/* Document Vault - EXPANDED */}
+                    <div className="rounded-2xl border border-purple-600/40 bg-gradient-to-br from-purple-500/15 to-slate-900/70 p-5 shadow-lg shadow-purple-500/10 transition hover:border-purple-400/60 hover:shadow-purple-500/20">
+                      <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                        <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                        </svg>
+                        {t('stellaPlatform.stack.docVault.title')}
+                      </h3>
+                      <p className="mt-3 text-sm text-slate-300">Gerenciamento centralizado de documentos com controle de versão, compartilhamento seguro, assinaturas digitais, conformidade legal e organização automática por propriedade/cliente.</p>
                     </div>
-                  </div>
-                </div>
 
-                {/* Calendar */}
-                <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-indigo-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Smart Calendar</h4>
-                      <p className="mt-2 text-sm text-slate-300">Automated scheduling for tours, appointments, and open houses with client sync.</p>
+                    {/* Social Studio */}
+                    <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-5 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
+                      <h3 className="text-lg font-semibold text-white">{t('stellaPlatform.stack.socialStudio.title')}</h3>
+                      <p className="mt-3 text-sm text-slate-300">{t('stellaPlatform.stack.socialStudio.description')}</p>
                     </div>
-                  </div>
-                </div>
 
-                {/* Site Management On The Go - Constelação */}
-                <div className="rounded-2xl border border-indigo-400/30 bg-gradient-to-br from-indigo-500/10 via-blue-500/5 to-slate-900/70 p-6 shadow-lg shadow-indigo-500/20 transition hover:border-indigo-300/60">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-indigo-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Constelação Mobile</h4>
-                      <p className="mt-2 text-sm text-indigo-200">Manage your constellation website on the go with mobile editing.</p>
+                    {/* Calendar */}
+                    <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-5 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
+                      <h3 className="text-lg font-semibold text-white">{t('stellaPlatform.stack.calendar.title')}</h3>
+                      <p className="mt-3 text-sm text-slate-300">{t('stellaPlatform.stack.calendar.description')}</p>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            {/* Ballet Internal Column */}
-            <div>
-              <h3 className="text-2xl font-semibold text-white mb-8 flex items-center gap-3">
-                <svg className="h-8 w-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-                Ballet (Internal)
-              </h3>
-              <div className="space-y-5">
-                {/* Supernova Site Builder */}
-                <div className="rounded-2xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-slate-900/70 p-6 shadow-lg shadow-emerald-500/20 transition hover:border-emerald-300/60">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Supernova Site Builder</h4>
-                      <p className="mt-2 text-sm text-emerald-200">No-code website builder for stunning property listings and agent portfolios.</p>
+                    {/* Unified Login */}
+                    <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-5 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
+                      <h3 className="text-lg font-semibold text-white">{t('stellaPlatform.stack.unifiedLogin.title')}</h3>
+                      <p className="mt-3 text-sm text-slate-300">{t('stellaPlatform.stack.unifiedLogin.description')}</p>
                     </div>
                   </div>
                 </div>
-
-                {/* Team Management */}
-                <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-purple-300/60 hover:bg-slate-900/90">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-purple-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Team Management</h4>
-                      <p className="mt-2 text-sm text-slate-300">Manage agents, assign leads, track performance, and set permissions.</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Deal Room */}
-                <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-purple-300/60 hover:bg-slate-900/90">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-purple-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Deal Room</h4>
-                      <p className="mt-2 text-sm text-slate-300">Centralized deal pipeline, transaction management, and commission tracking.</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Document Vault */}
-                <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-purple-300/60 hover:bg-slate-900/90">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-purple-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Document Vault</h4>
-                      <p className="mt-2 text-sm text-slate-300">Secure storage for contracts, compliance docs, and transaction records.</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Market Statistics */}
-                <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-purple-300/60 hover:bg-slate-900/90">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-purple-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Market Statistics</h4>
-                      <p className="mt-2 text-sm text-slate-300">Real-time market data, pricing analytics, and neighborhood insights.</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Analytics & Reports */}
-                <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-purple-300/60 hover:bg-slate-900/90">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-purple-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Analytics & Reports</h4>
-                      <p className="mt-2 text-sm text-slate-300">Business intelligence dashboards with customizable reports and KPI tracking.</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Ballet Mobile - Site Management On The Go */}
-                <div className="rounded-2xl border border-purple-400/30 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-slate-900/70 p-6 shadow-lg shadow-purple-500/20 transition hover:border-purple-300/60">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-purple-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Ballet Mobile</h4>
-                      <p className="mt-2 text-sm text-purple-200">Manage your CRM and internal operations on the go with mobile access.</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Developer API */}
-                <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-purple-300/60 hover:bg-slate-900/90">
-                  <div className="flex items-start gap-4">
-                    <svg className="h-10 w-10 text-purple-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                    </svg>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Developer API</h4>
-                      <p className="mt-2 text-sm text-slate-300">RESTful API for custom integrations and third-party tools.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-
       <section id="beta" className="mx-auto max-w-4xl px-6 py-20 text-center">
         <h2 className="text-3xl font-light text-white sm:text-4xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.beta.title')}</h2>
         <p className="mt-4 text-base text-slate-300">{t('stellaPlatform.beta.subtitle')}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-slate-200">
+        <div className="mt-8 flex justify-center gap-3 text-xs text-slate-200">
           {(t('stellaPlatform.beta.badges', { returnObjects: true }) as string[]).map((badge, idx) => (
             <span key={idx} className="inline-flex items-center gap-2 rounded-full border border-indigo-400/40 px-4 py-2">
               {badge}
@@ -834,12 +698,12 @@ export default function StellaPlatform() {
           ))}
         </div>
         <div className="mt-10 flex flex-wrap justify-center gap-4">
-          <Link
-            to="/precos"
+          <a
+            href="mailto:platform@stella.com?subject=Quero%20testar%20a%20Stella%20Platform"
             className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/25 transition hover:-translate-y-0.5 hover:bg-indigo-200"
           >
             {t('stellaPlatform.beta.joinShortlist')}
-          </Link>
+          </a>
           <Link
             to="/contact"
             className="inline-flex items-center gap-2 rounded-full border border-indigo-400/60 px-6 py-3 text-sm font-semibold text-indigo-200 transition hover:border-indigo-200 hover:text-white"
@@ -957,12 +821,12 @@ export default function StellaPlatform() {
             {t('stellaPlatform.ecosystem.cta.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/precos"
+            <a
+              href="mailto:platform@stella.com?subject=Interest%20in%20Stella%20Platform%20Ecosystem"
               className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/25 transition hover:-translate-y-0.5 hover:bg-indigo-200"
             >
               {t('stellaPlatform.ecosystem.cta.joinWaitlist')}
-            </Link>
+            </a>
             <Link
               to="/contact"
               className="inline-flex items-center gap-2 rounded-full border border-indigo-400/60 px-6 py-3 text-sm font-semibold text-indigo-200 transition hover:border-indigo-200 hover:text-white"
