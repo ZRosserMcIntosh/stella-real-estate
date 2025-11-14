@@ -1,0 +1,3 @@
+# Exclude social media API functions to stay within Hobby plan limit (12 functions)
+api/social/**
+api/personal/**

@@ -18,9 +18,5 @@
       "memory": 1024,
       "maxDuration": 10
     }
-  },
-  "ignores": [
-    "api/social/**",
-    "api/personal/**"
-  ]
+  }
 }
