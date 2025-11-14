@@ -569,6 +569,16 @@ export default function Header() {
             <CurrencySwitcher />
           </div>
           <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30"></div>
+          <Link
+            to="/login"
+            className="hidden sm:flex items-center gap-2 px-4 py-2 text-[#C9B382] hover:text-[#d4c295] border border-[#C9B382]/30 hover:border-[#C9B382]/50 rounded-lg transition-all duration-300 text-sm font-medium"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+              <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
+            </svg>
+            ENTRAR
+          </Link>
+          <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30"></div>
           <div className="hidden sm:flex flex-col items-center text-[#C9B382] px-2">
             <div className="text-[9px] font-mono font-bold tracking-[0.8px] leading-tight">CRECI</div>
             <div className="text-[11px] font-mono font-bold tracking-[0.5px] leading-tight">309568</div>

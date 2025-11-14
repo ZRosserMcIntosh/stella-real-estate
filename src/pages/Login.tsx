@@ -99,8 +99,30 @@ export default function Login() {
       }
     }
     setLoading(false)
-    if (error) setError(error.message)
-    else navigate('/admin')
+    if (error) {
+      setError(error.message)
+    } else {
+      // Check if user is a founding member
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user?.email) {
+        const { data: memberData } = await supabase
+          .from('founding_members')
+          .select('id')
+          .eq('email', user.email)
+          .eq('payment_status', 'paid')
+          .single()
+
+        if (memberData) {
+          // Founding member - redirect to members area
+          navigate('/members')
+        } else {
+          // Regular user or admin - redirect to admin
+          navigate('/admin')
+        }
+      } else {
+        navigate('/admin')
+      }
+    }
   }
 
   return (
