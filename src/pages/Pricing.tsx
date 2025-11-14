@@ -330,6 +330,9 @@ export default function Pricing() {
                           <span className="text-sm text-emerald-300 font-medium" style={{ fontFamily: 'Outfit, sans-serif' }}>
                             {plan.id === 'SOLO' ? 'por 1 ano' : 'por 2 anos'}
                           </span>
+                          <span className="text-xs text-emerald-400/70 mt-1">
+                            {t('pricing.maps3d.onlyUntil')}
+                          </span>
                         </div>
                       </div>
                     ) : (
@@ -401,13 +404,26 @@ export default function Pricing() {
           {/* Tech Stack Logos */}
           <div className="mb-8">
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <img src="/tech-icons/color/Amazon_Web_Services_Logo.svg.png" alt="AWS" className="h-6 object-contain" />
-              <img src="/tech-icons/color/apple-developer-og-twitter.png" alt="Apple" className="h-6 object-contain" />
+              <img src="/tech-icons/color/Visual_Studio_Code_1.35_icon.svg.png" alt="VS Code" className="h-6 object-contain" />
+              <img src="/tech-icons/color/524-5240809_aws-logo-svg-white-clipart.png" alt="AWS" className="h-6 object-contain" />
+              <img src="/tech-icons/color/apple-developer-og-twitter.png" alt="Apple" className="h-12 object-contain" />
               <img src="/tech-icons/color/NET_BIG.D-52893f5e.png" alt=".NET" className="h-6 object-contain" />
-              <img src="/tech-icons/color/pngimg.com - github_PNG65.png" alt="GitHub" className="h-6 object-contain invert brightness-0 invert" />
+              <img src="/tech-icons/color/pngimg.com - github_PNG65.png" alt="GitHub" className="h-9 object-contain invert brightness-0 invert" />
               <img src="/tech-icons/color/Stripe_Logo,_revised_2016.svg.png" alt="Stripe" className="h-6 object-contain" />
               <img src="/tech-icons/color/supabase-logo-wordmark--dark.png" alt="Supabase" className="h-6 object-contain" />
-              <img src="/tech-icons/color/Visual_Studio_Code_1.35_icon.svg.png" alt="VS Code" className="h-6 object-contain" />
+              <div className="flex items-center gap-2">
+                <img src="/tech-icons/ballet-new-logo.png" alt="Ballet" className="h-8 object-contain" />
+                <span className="text-sm font-light uppercase tracking-[0.4em] text-pink-400/90" style={{ fontFamily: 'Outfit, sans-serif' }}>BALLET</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <img 
+                  src="/tech-icons/contellation-logo.png" 
+                  alt="Constellation" 
+                  className="h-10 object-contain brightness-150" 
+                  style={{ filter: 'brightness(1.5) drop-shadow(0 0 24px rgba(199, 210, 254, 1)) drop-shadow(0 0 12px rgba(199, 210, 254, 0.9)) drop-shadow(0 0 8px rgba(199, 210, 254, 0.8))' }}
+                />
+                <span className="text-sm font-light uppercase tracking-[0.4em] text-indigo-200/80" style={{ fontFamily: 'Outfit, sans-serif' }}>CONSTELLATION</span>
+              </div>
             </div>
           </div>
 
@@ -483,6 +499,14 @@ export default function Pricing() {
                 <div className="text-2xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>R$ 100</div>
                 <p className="text-xs text-slate-400 mt-2">Por mapa • Sem compromisso</p>
               </div>
+              
+              {/* ROI Estimate */}
+              <div className="mb-4 p-3 bg-slate-950/30 border border-slate-500/30 rounded-lg shadow-lg shadow-slate-500/10">
+                <p className="text-xs font-semibold text-slate-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
+                <p className="text-xs text-slate-300">{t('pricing.maps3d.roi.timeSavings', { hours: '7.5' })}</p>
+                <p className="text-xs text-slate-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '350', max: '400' })}</p>
+              </div>
+              
               <Link
                 to="/contato"
                 className="block w-full text-center py-2 rounded-lg font-semibold bg-slate-800 hover:bg-slate-700 text-slate-100 transition-all text-sm"
@@ -500,6 +524,14 @@ export default function Pricing() {
                 <div className="text-2xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>R$ 500</div>
                 <p className="text-xs text-slate-400 mt-2">R$ 50 por mapa • Economia de 50%</p>
               </div>
+              
+              {/* ROI Estimate */}
+              <div className="mb-4 p-3 bg-blue-950/30 border border-blue-500/30 rounded-lg shadow-lg shadow-blue-500/20">
+                <p className="text-xs font-semibold text-blue-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
+                <p className="text-xs text-slate-300">{t('pricing.maps3d.roi.timeSavings', { hours: '75' })}</p>
+                <p className="text-xs text-blue-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '3.500', max: '4.000' })}</p>
+              </div>
+              
               <Link
                 to="/contato"
                 className="block w-full text-center py-2 rounded-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all text-sm"
@@ -517,6 +549,14 @@ export default function Pricing() {
                 <div className="text-2xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>R$ 3.000</div>
                 <p className="text-xs text-slate-400 mt-2">R$ 30 por mapa • Economia de 70%</p>
               </div>
+              
+              {/* ROI Estimate */}
+              <div className="mb-4 p-3 bg-cyan-950/30 border border-cyan-500/30 rounded-lg shadow-lg shadow-cyan-500/20">
+                <p className="text-xs font-semibold text-cyan-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
+                <p className="text-xs text-slate-300">{t('pricing.maps3d.roi.timeSavings', { hours: '750' })}</p>
+                <p className="text-xs text-cyan-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '35.000', max: '40.000' })}</p>
+              </div>
+              
               <Link
                 to="/contato"
                 className="block w-full text-center py-2 rounded-lg font-semibold bg-cyan-600 hover:bg-cyan-700 text-white transition-all text-sm"
@@ -534,6 +574,14 @@ export default function Pricing() {
                 <div className="text-2xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>R$ 20.000</div>
                 <p className="text-xs text-slate-400 mt-2">R$ 20 por mapa • Válido 12 meses</p>
               </div>
+              
+              {/* ROI Estimate */}
+              <div className="mb-4 p-3 bg-emerald-950/30 border border-emerald-500/30 rounded-lg shadow-lg shadow-emerald-500/20">
+                <p className="text-xs font-semibold text-emerald-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
+                <p className="text-xs text-slate-200">{t('pricing.maps3d.roi.timeSavings', { hours: '7.500' })}</p>
+                <p className="text-xs text-emerald-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '350.000', max: '400.000' })}</p>
+              </div>
+              
               <Link
                 to="/contato"
                 className="block w-full text-center py-2 rounded-lg font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition-all text-sm"
@@ -556,6 +604,14 @@ export default function Pricing() {
                 <div className="text-2xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>R$ 75.000</div>
                 <p className="text-xs text-slate-400 mt-2">R$ 15 por mapa • Válido 18 meses</p>
               </div>
+              
+              {/* ROI Estimate */}
+              <div className="mb-4 p-3 bg-emerald-950/30 border border-emerald-500/30 rounded-lg shadow-lg shadow-emerald-500/20">
+                <p className="text-xs font-semibold text-emerald-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
+                <p className="text-xs text-slate-200">{t('pricing.maps3d.roi.timeSavings', { hours: '37.500' })}</p>
+                <p className="text-xs text-emerald-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '1.750.000', max: '2.000.000' })}</p>
+              </div>
+              
               <Link
                 to="/contato"
                 className="block w-full text-center py-2 rounded-lg font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition-all text-sm"
@@ -564,15 +620,28 @@ export default function Pricing() {
               </Link>
             </div>
 
-            {/* Dekamóveis */}
+            {/* Enterprise (formerly Dekamóveis) */}
             <div className="relative rounded-2xl backdrop-blur-xl bg-gradient-to-br from-purple-900/40 via-pink-900/40 to-purple-900/40 border border-purple-500/50 p-6 shadow-2xl shadow-purple-500/20">
-              <h3 className="text-xl font-light mb-2 text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>Dekamóveis</h3>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                  First 100: Enterprise Pricing
+                </span>
+              </div>
+              <h3 className="text-xl font-light mb-2 text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>Enterprise</h3>
               <p className="text-slate-300 text-xs mb-4">Grandes operações</p>
               <div className="mb-4">
                 <div className="text-3xl font-light text-purple-300 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>10.000 mapas</div>
                 <div className="text-2xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>~R$ 10/mapa</div>
                 <p className="text-xs text-slate-400 mt-2">Preço variável baseado em disponibilidade de GPU, custos de energia do datacenter, e demanda de processamento. Contrato personalizado.</p>
               </div>
+              
+              {/* ROI Estimate */}
+              <div className="mb-4 p-3 bg-purple-950/30 border border-purple-500/30 rounded-lg shadow-lg shadow-purple-500/20">
+                <p className="text-xs font-semibold text-purple-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
+                <p className="text-xs text-slate-200">{t('pricing.maps3d.roi.timeSavings', { hours: '75.000' })}</p>
+                <p className="text-xs text-purple-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '3.500.000', max: '4.000.000' })}</p>
+              </div>
+              
               <Link
                 to="/contato"
                 className="block w-full text-center py-2 rounded-lg font-semibold bg-purple-600 hover:bg-purple-700 text-white transition-all text-sm"

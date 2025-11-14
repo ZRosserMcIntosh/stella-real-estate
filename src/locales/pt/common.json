@@ -312,7 +312,7 @@
         "Fast-track de recursos",
         "Engenheiro de sucesso dedicado"
       ],
-      "joinShortlist": "Junte-se aos Membros Fundadores",
+      "joinShortlist": "Explorar Planos e Preços",
       "talkStrategists": "Saiba Mais",
       "footer": "Constellation · Construída para corretores com ambição irracional"
     },
@@ -597,6 +597,17 @@
       "getQuote": "Solicitar Cotação Instantânea",
       "foundersCohort": "🚀 Primeira coorte de proprietários: 50% off, beta vitalício"
     }
+  },
+  "pricing": {
+    "maps3d": {
+      "roi": {
+        "title": "Retorno Estimado:",
+        "timeSavings": "{hours}h de economia",
+        "costSavings": "R$ {min}–R$ {max} de economia"
+      },
+      "onlyUntil": "somente até 1º de janeiro de 2026"
+    }
   }
 }
+
 

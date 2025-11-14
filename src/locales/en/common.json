@@ -310,7 +310,7 @@
         "Custom feature fast-track",
         "Dedicated success engineer"
       ],
-      "joinShortlist": "Join Founding Members",
+      "joinShortlist": "Explore Plans and Pricing",
       "talkStrategists": "Learn More",
       "footer": "Constellation · Built for realtors with unreasonable ambition"
     },
@@ -595,6 +595,17 @@
       "getQuote": "Request Instant Quote",
       "foundersCohort": "🚀 First cohort of property owners: 50% off, lifetime beta"
     }
+  },
+  "pricing": {
+    "maps3d": {
+      "roi": {
+        "title": "Estimated Return:",
+        "timeSavings": "{hours}h saved",
+        "costSavings": "R$ {min}–R$ {max} saved"
+      },
+      "onlyUntil": "only until January 1, 2026"
+    }
   }
 }
+
 
