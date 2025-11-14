@@ -18,9 +18,9 @@ export default function StellaPlatform() {
   // SEO metadata
   const siteUrl = window.location.origin
   const pageUrl = `${siteUrl}/plataforma-stella`
-  const logoUrl = `${siteUrl}/stella-logo-variation.png`
-  const pageTitle = 'Plataforma Stella - Tecnologia Imobiliária Completa'
-  const pageDescription = 'A Plataforma Stella oferece soluções integradas de CRM, automação de tarefas, gestão de leads e muito mais para profissionais do mercado imobiliário.'
+  const logoUrl = `${siteUrl}/stella-og-image.png`
+  const pageTitle = 'Stella Real Estate - Plataforma Imobiliária'
+  const pageDescription = 'Plataforma imobiliária completa com CRM, automação, gestão de leads e inteligência artificial. Tecnologia moderna para corretores e incorporadoras brasileiras.'
 
   // Helper function to safely get translation arrays
   const getTranslationArray = (key: string): string[] => {
@@ -119,7 +119,7 @@ export default function StellaPlatform() {
         <meta name="twitter:image" content={logoUrl} />
         
         {/* WhatsApp specific */}
-        <meta property="og:image:alt" content="Stella Platform - Constellation Logo" />
+        <meta property="og:image:alt" content="Stella Real Estate - Plataforma Imobiliária Moderna" />
         
         {/* Additional SEO */}
         <link rel="canonical" href={pageUrl} />

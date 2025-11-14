@@ -25,8 +25,8 @@ export default function Pricing() {
   // SEO metadata
   const siteUrl = window.location.origin
   const pageUrl = `${siteUrl}/precos`
-  const pageTitle = 'Preços - Plataforma Stella'
-  const pageDescription = 'Escolha o plano perfeito para o seu negócio imobiliário. Planos flexíveis para corretores, imobiliárias e incorporadores.'
+  const pageTitle = 'Stella Real Estate - Preços e Planos'
+  const pageDescription = 'Plataforma imobiliária completa com CRM, automação e gestão de leads. Planos flexíveis para corretores, equipes e incorporadoras. Tecnologia moderna para o mercado imobiliário brasileiro.'
 
   // Founding 100 countdown logic - starts at 99/100, decreases linearly until Dec 31, 2025
   const calculateFoundingSlots = () => {
@@ -165,14 +165,16 @@ export default function Pricing() {
         <meta property="og:url" content={pageUrl} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content={`${siteUrl}/stella-logo-variation.png`} />
+        <meta property="og:image" content={`${siteUrl}/stella-og-image.png`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
 
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={pageUrl} />
         <meta property="twitter:title" content={pageTitle} />
         <meta property="twitter:description" content={pageDescription} />
-        <meta property="twitter:image" content={`${siteUrl}/stella-logo-variation.png`} />
+        <meta property="twitter:image" content={`${siteUrl}/stella-og-image.png`} />
 
         {/* Canonical */}
         <link rel="canonical" href={pageUrl} />
