@@ -14,6 +14,14 @@ export default function Pricing() {
     window.scrollTo(0, 0)
   }, [])
 
+  // Set body background to match page
+  useEffect(() => {
+    document.body.style.backgroundColor = '#020617' // slate-950
+    return () => {
+      document.body.style.backgroundColor = '' // Reset on unmount
+    }
+  }, [])
+
   // SEO metadata
   const siteUrl = window.location.origin
   const pageUrl = `${siteUrl}/precos`
@@ -146,7 +154,7 @@ export default function Pricing() {
   }
 
   return (
-    <div className="bg-slate-950 text-slate-100 min-h-screen">
+    <div className="bg-slate-950 text-slate-100 min-h-screen -mt-[var(--header-height,60px)]">
       <Helmet>
         {/* Basic Meta Tags */}
         <title>{pageTitle}</title>
@@ -194,7 +202,7 @@ export default function Pricing() {
           ))}
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[calc(var(--header-height,60px)+6rem)] pb-16">
           <div className="text-center">
             <h1 className="text-4xl font-light tracking-tight text-white sm:text-5xl md:text-6xl mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
               Escolha o Plano Perfeito
@@ -450,9 +458,9 @@ export default function Pricing() {
                     <p className="text-blue-400 text-sm font-semibold mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
                       Especificações Técnicas:
                     </p>
-                    <ul className="text-slate-400 text-xs space-y-2 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                      <li>• <span className="text-slate-300">Estimativa de pose e mapeamento denso</span> (~12min)</li>
-                      <li>• <span className="text-slate-300">3D Gaussian Splatting</span> para síntese fotorrealista (~20-38min em GPUs L4/L40S)</li>
+                    <ul className="text-blue-300 text-xs space-y-1 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                      <li>• Estimativa de pose e mapeamento denso (~12min)</li>
+                      <li>• 3D Gaussian Splatting para síntese fotorrealista (~20-38min em GPUs L4/L40S)</li>
                       <li>• Cenas web-optimized com splats tileados e compressão adaptativa</li>
                       <li>• Renderização high-FPS em browser sem plugins</li>
                       <li>• Armazenamento S3 multi-tier + entrega via CDN edge-cached</li>
