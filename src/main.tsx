@@ -20,6 +20,7 @@ import ProjectDetail from './pages/projects/ProjectDetail'
 import Privacy from './pages/Privacy'
 import Terms from './pages/Terms'
 import Cookies from './pages/Cookies'
+import FounderTerms from './pages/FounderTerms'
 import MSA from './pages/MSA'
 import SLA from './pages/SLA'
 import DPA from './pages/DPA'
@@ -94,6 +95,7 @@ const router = createBrowserRouter([
       { path: 'privacidade', element: <Privacy /> },
       { path: 'termos', element: <Terms /> },
       { path: 'cookies', element: <Cookies /> },
+      { path: 'founder-terms', element: <FounderTerms /> },
       { path: 'msa', element: <MSA /> },
       { path: 'sla', element: <SLA /> },
       { path: 'dpa', element: <DPA /> },

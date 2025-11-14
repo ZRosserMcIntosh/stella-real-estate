@@ -45,6 +45,7 @@ interface FoundingCheckoutProps {
 interface FormData {
   fullName: string
   cpf: string
+  phone: string
   accountType: 'individual' | 'company'
   companyName: string
   cnpj: string
@@ -171,6 +172,7 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     cpf: '',
+    phone: '',
     accountType: 'individual',
     companyName: '',
     cnpj: '',
@@ -197,6 +199,11 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
     return cleaned.length === 14
   }
 
+  const validatePhone = (phone: string) => {
+    const cleaned = phone.replace(/\D/g, '')
+    return cleaned.length === 10 || cleaned.length === 11 // Supports both landline and mobile
+  }
+
   const validateForm = () => {
     if (!formData.fullName.trim()) {
       setError('Nome completo é obrigatório')
@@ -204,6 +211,10 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
     }
     if (!validateCPF(formData.cpf)) {
       setError('CPF inválido')
+      return false
+    }
+    if (!validatePhone(formData.phone)) {
+      setError('Telefone inválido')
       return false
     }
     if (formData.accountType === 'company') {
@@ -225,7 +236,7 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
       return false
     }
     if (!formData.email.includes('@')) {
-      setError('Email inválido')
+      setError('Email inválido - deve conter @')
       return false
     }
     if (formData.password.length < 6) {
@@ -275,21 +286,49 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
   }
 
   const formatCPF = (value: string) => {
-    const cleaned = value.replace(/\D/g, '')
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{3})(\d{2})$/)
-    if (match) {
-      return `${match[1]}.${match[2]}.${match[3]}-${match[4]}`
+    const cleaned = value.replace(/\D/g, '').substring(0, 11)
+    
+    if (cleaned.length <= 3) {
+      return cleaned
+    } else if (cleaned.length <= 6) {
+      return `${cleaned.slice(0, 3)}.${cleaned.slice(3)}`
+    } else if (cleaned.length <= 9) {
+      return `${cleaned.slice(0, 3)}.${cleaned.slice(3, 6)}.${cleaned.slice(6)}`
+    } else {
+      return `${cleaned.slice(0, 3)}.${cleaned.slice(3, 6)}.${cleaned.slice(6, 9)}-${cleaned.slice(9)}`
     }
-    return value
   }
 
   const formatCNPJ = (value: string) => {
-    const cleaned = value.replace(/\D/g, '')
-    const match = cleaned.match(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/)
-    if (match) {
-      return `${match[1]}.${match[2]}.${match[3]}/${match[4]}-${match[5]}`
+    const cleaned = value.replace(/\D/g, '').substring(0, 14)
+    
+    if (cleaned.length <= 2) {
+      return cleaned
+    } else if (cleaned.length <= 5) {
+      return `${cleaned.slice(0, 2)}.${cleaned.slice(2)}`
+    } else if (cleaned.length <= 8) {
+      return `${cleaned.slice(0, 2)}.${cleaned.slice(2, 5)}.${cleaned.slice(5)}`
+    } else if (cleaned.length <= 12) {
+      return `${cleaned.slice(0, 2)}.${cleaned.slice(2, 5)}.${cleaned.slice(5, 8)}/${cleaned.slice(8)}`
+    } else {
+      return `${cleaned.slice(0, 2)}.${cleaned.slice(2, 5)}.${cleaned.slice(5, 8)}/${cleaned.slice(8, 12)}-${cleaned.slice(12)}`
     }
-    return value
+  }
+
+  const formatPhone = (value: string) => {
+    const cleaned = value.replace(/\D/g, '').substring(0, 11)
+    
+    if (cleaned.length <= 2) {
+      return cleaned
+    } else if (cleaned.length <= 6) {
+      return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2)}`
+    } else if (cleaned.length <= 10) {
+      // Landline format: (XX) XXXX-XXXX
+      return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 6)}-${cleaned.slice(6)}`
+    } else {
+      // Mobile format: (XX) 9XXXX-XXXX
+      return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7)}`
+    }
   }
 
   if (!isOpen) return null
@@ -359,6 +398,21 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
                   className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
                   placeholder="000.000.000-00"
                   maxLength={14}
+                />
+              </div>
+
+              {/* Phone */}
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Telefone *
+                </label>
+                <input
+                  type="text"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange('phone', formatPhone(e.target.value))}
+                  className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                  placeholder="(11) 98765-4321"
+                  maxLength={15}
                 />
               </div>
 
@@ -451,6 +505,7 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
                     onChange={(e) => handleInputChange('creciNumber', e.target.value)}
                     className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
                     placeholder="12345-F"
+                    maxLength={10}
                   />
                 </div>
                 <div>
@@ -510,10 +565,19 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
                     className="mt-1 w-5 h-5 rounded border-slate-600 text-emerald-500 focus:ring-emerald-500"
                   />
                   <span className="text-sm text-slate-300">
-                    Aceito os termos e condições do programa Founding 100, incluindo:{' '}
+                    Aceito os{' '}
+                    <a 
+                      href="/founder-terms" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-emerald-400 hover:text-emerald-300 underline"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      termos e condições
+                    </a>
+                    {' '}do programa Founding 100, incluindo:{' '}
                     <strong>24 meses de acesso ao Plano Team</strong>, desconto vitalício de 75%,
                     mapas 3D extras por R$ 10, e reconhecimento como Founding Partner.
-                    Benefícios vinculados ao CPF/CNPJ e perdidos após 6+ meses de inatividade.
                   </span>
                 </label>
               </div>

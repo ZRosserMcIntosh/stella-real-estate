@@ -20,6 +20,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const {
       fullName,
       cpf,
+      phone,
       accountType,
       companyName,
       cnpj,
@@ -32,7 +33,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } = req.body
 
     // Validate required fields
-    if (!fullName || !cpf || !creciNumber || !creciUf || !email || !password) {
+    if (!fullName || !cpf || !phone || !creciNumber || !creciUf || !email || !password) {
       return res.status(400).json({ error: 'Campos obrigatórios faltando' })
     }
 
@@ -80,6 +81,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       metadata: {
         fullName,
         cpf,
+        phone,
         accountType,
         companyName: companyName || '',
         cnpj: cnpj || '',
@@ -99,6 +101,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         creci_number: creciNumber,
         creci_uf: creciUf,
         email,
+        phone,
         full_name: fullName,
         cpf,
         account_type: accountType,
