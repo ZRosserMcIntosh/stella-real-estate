@@ -37,7 +37,6 @@ import Investors from './pages/Investors'
 import LuisaMarketing from './pages/LuisaMarketing'
 import LegalServices from './pages/LegalServices'
 import SeguroFianca from './pages/SeguroFianca'
-import InvestorLogin from './pages/investors/Login'
 import RequestAccess from './pages/investors/RequestAccess'
 import StellaPlatform from './pages/StellaPlatform'
 import Pricing from './pages/Pricing'
@@ -151,7 +150,7 @@ const router = createBrowserRouter([
   { path: '/onboarding/employee-code', element: <EmployeeInvite /> },
   { path: '/onboarding/site-setup', element: <SiteSetup /> },
   { path: '/curso/creci', element: <CreciCourse /> },
-  { path: '/investors/login', element: <InvestorLogin /> },
+  { path: '/investors/login', element: <Navigate to="/login" replace /> },
   { path: '/investors/request-access', element: <RequestAccess /> },
   { path: '/login', element: <Login /> },
   { path: '/forgot-password', element: <ForgotPassword /> },
