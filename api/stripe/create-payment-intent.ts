@@ -87,11 +87,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Programa Founding 100 esgotado. Todas as vagas foram preenchidas.' })
     }
 
+    // Calculate amount based on payment method to absorb fees
+    // For PIX: reduce base by 3.5% so final charge = target amount
+    // Target: R$ 2,970.00 (297000 cents) or R$ 3.00 (300 cents) for testing
+    const baseAmount = amount || 300 // Default R$ 3.00 for testing (change to 297000 for production)
+    
+    // PIX fee is 3.5% - calculate base amount so (base * 1.035) = target
+    const pixAdjustedAmount = Math.round(baseAmount / 1.035)
+    
     // Create Payment Intent with billing details
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount || 300, // Default R$ 3.00 (TEST AMOUNT - CHANGE BACK TO 297000)
+      amount: pixAdjustedAmount, // Reduced amount for PIX so final = baseAmount after 3.5% fee
       currency: 'brl',
-      payment_method_types: ['card'], // Only allow cards to avoid PIX fee issues
+      payment_method_types: ['card', 'pix'], // Re-enabled PIX with fee adjustment
       metadata: {
         fullName,
         cpf,
@@ -104,6 +112,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         creciUf,
         email,
         program: 'founding_100',
+        originalAmount: baseAmount.toString(), // Store original target amount
+        adjustedForPixFees: 'true',
       },
       description: 'Founding 100 - Constellation Prime',
       receipt_email: email,

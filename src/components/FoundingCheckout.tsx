@@ -266,7 +266,8 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          amount: 300, // R$ 3.00 in cents (TEST AMOUNT - CHANGE BACK TO 297000)
+          amount: 300, // R$ 3.00 target amount (TEST - change to 297000 for R$ 2,970.00)
+          // Backend will adjust to 290 cents (R$ 2.90) so PIX fee brings it to R$ 3.00
         }),
       })
 
