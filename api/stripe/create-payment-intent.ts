@@ -89,8 +89,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Calculate amount based on payment method to absorb fees
     // For PIX: reduce base by 3.5% so final charge = target amount
-    // Target: R$ 2,970.00 (297000 cents) or R$ 3.00 (300 cents) for testing
-    const baseAmount = amount || 300 // Default R$ 3.00 for testing (change to 297000 for production)
+    // Target: R$ 2,970.00 (297000 cents)
+    const baseAmount = amount || 297000 // R$ 2,970.00
     
     // PIX fee is 3.5% - calculate base amount so (base * 1.035) = target
     const pixAdjustedAmount = Math.round(baseAmount / 1.035)

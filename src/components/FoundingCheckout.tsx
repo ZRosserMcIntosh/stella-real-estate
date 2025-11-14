@@ -126,7 +126,7 @@ function CheckoutForm({ formData, onSuccess }: { formData: FormData; onSuccess: 
         <h3 className="text-lg font-semibold text-white mb-2">Resumo do Pedido</h3>
         <div className="flex justify-between text-slate-300">
           <span>Founding 100 - Constellation Prime</span>
-          <span className="font-semibold text-emerald-400">R$ 3,00</span>
+          <span className="font-semibold text-emerald-400">R$ 2.970,00</span>
         </div>
       </div>
 
@@ -152,7 +152,7 @@ function CheckoutForm({ formData, onSuccess }: { formData: FormData; onSuccess: 
             Processando...
           </>
         ) : (
-          <>Finalizar Pagamento - R$ 3,00</>
+          <>Finalizar Pagamento - R$ 2.970,00</>
         )}
       </button>
 
@@ -266,8 +266,7 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          amount: 300, // R$ 3.00 target amount (TEST - change to 297000 for R$ 2,970.00)
-          // Backend will adjust to 290 cents (R$ 2.90) so PIX fee brings it to R$ 3.00
+          amount: 297000, // R$ 2,970.00 (production amount - PIX fee absorbed in backend)
         }),
       })
 
@@ -345,6 +344,7 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
 
   const stripeOptions = clientSecret ? {
     clientSecret,
+    locale: 'pt-BR' as const, // Portuguese (Brazil) localization
     appearance: {
       theme: 'night' as const,
       variables: {
