@@ -172,12 +172,14 @@ export default function Header() {
 
   return (
   <header ref={headerRef} className={`z-50 ${needsSolidHeader ? 'bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800' : 'backdrop-blur-md bg-white/60 dark:bg-slate-900/60 border-b border-white/10 dark:border-slate-800/50'}`}>
-      <div className={`container-padded flex items-center justify-between ${currentLogoSize.padding}`}>
-        <Link to="/" className="flex items-center gap-3 pr-6">
+      {/* Use wider container on desktop for more breathing room */}
+      <div className={`max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 flex items-center justify-between ${currentLogoSize.padding}`}>
+        {/* Logo with increased size on desktop */}
+        <Link to="/" className="flex items-center gap-3 pr-4 xl:pr-8">
           {!logoLoading && !logoFailed && headerLogoUrl ? (
             <img
               src={headerLogoUrl}
-              className={`${currentLogoSize.height} w-auto object-contain drop-shadow-sm transition-all duration-300`}
+              className={`${currentLogoSize.height} xl:h-24 w-auto object-contain drop-shadow-sm transition-all duration-300`}
               alt={t('header.brand') as string}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
@@ -191,10 +193,10 @@ export default function Header() {
               }}
             />
           ) : logoLoading ? (
-            <div className={`${currentLogoSize.height} aspect-square rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse`} />
+            <div className={`${currentLogoSize.height} xl:h-24 aspect-square rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse`} />
           ) : (
             <div 
-              className={`${currentLogoSize.height} aspect-square rounded-full bg-gradient-to-br from-brand-400 to-brand-700 shadow-soft grid place-items-center text-white transition-all duration-300`}
+              className={`${currentLogoSize.height} xl:h-24 aspect-square rounded-full bg-gradient-to-br from-brand-400 to-brand-700 shadow-soft grid place-items-center text-white transition-all duration-300`}
             >
               <div className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wide leading-3 text-center">
                 <div>STELLA</div>
@@ -203,8 +205,8 @@ export default function Header() {
             </div>
           )}
         </Link>
-  {/* Desktop nav */}
-  <nav className="hidden sm:flex items-center gap-2.5 text-sm font-medium">
+  {/* Desktop nav with more spacing on larger screens */}
+  <nav className="hidden sm:flex items-center gap-2.5 xl:gap-3.5 text-sm font-medium">
         <style>{`
           
           @keyframes waveBlur {
@@ -562,7 +564,8 @@ export default function Header() {
             )}
           </div>
         </nav>
-        <div className="flex items-center gap-3">
+        {/* Right side actions with improved desktop spacing */}
+        <div className="flex items-center gap-2.5 xl:gap-3.5">
           <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30"></div>
           <LanguageSwitcher />
           <div className="hidden sm:block">
@@ -571,7 +574,7 @@ export default function Header() {
           <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30"></div>
           <Link
             to="/login"
-            className="hidden sm:flex items-center gap-2 px-4 py-2 text-[#C9B382] hover:text-[#d4c295] border border-[#C9B382]/30 hover:border-[#C9B382]/50 rounded-lg transition-all duration-300 text-sm font-medium"
+            className="hidden sm:flex items-center gap-2 px-3.5 xl:px-4 py-2 text-[#C9B382] hover:text-[#d4c295] border border-[#C9B382]/30 hover:border-[#C9B382]/50 rounded-lg transition-all duration-300 text-sm font-medium whitespace-nowrap"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
               <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
