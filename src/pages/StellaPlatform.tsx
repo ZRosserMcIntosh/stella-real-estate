@@ -324,13 +324,13 @@ export default function StellaPlatform() {
       `}</style>
       <section className="relative overflow-hidden -mt-20 pt-12">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(146,171,255,0.28),_rgba(15,23,42,0.95))]" />
-        <div className="relative z-10 mx-auto max-w-6xl px-6 py-24 text-center">
+        <div className="relative z-10 mx-auto max-w-6xl px-6 py-12 text-center">
           {/* Constellation Logo */}
-          <div className="flex justify-center mb-6 relative">
+          <div className="flex justify-center mb-4 relative">
             <img 
               src="/contellation-logo.png" 
               alt="Constellation Logo" 
-              className="h-40 sm:h-52 md:h-64 w-auto opacity-95 drop-shadow-2xl"
+              className="h-32 sm:h-40 md:h-48 w-auto opacity-95 drop-shadow-2xl"
             />
             {/* Shooting Star Effect - streaks from top-right to bottom-left */}
             {triggerAnimation > 0 && (
@@ -340,29 +340,15 @@ export default function StellaPlatform() {
             )}
           </div>
           
-          <div className="text-2xl font-light uppercase tracking-[0.4em] text-indigo-200/80 mb-12 mt-2" style={{ fontFamily: 'Outfit, sans-serif' }}>
+          <div className="text-xl font-light uppercase tracking-[0.4em] text-indigo-200/80 mb-8 mt-1" style={{ fontFamily: 'Outfit, sans-serif' }}>
             CONSTELLATION
           </div>
-          <h1 className="text-4xl font-light tracking-tight text-white sm:text-5xl md:text-6xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+          <h1 className="text-3xl font-light tracking-tight text-white sm:text-4xl md:text-5xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
             {t('stellaPlatform.hero.title')}
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg font-light text-slate-200 leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+          <p className="mx-auto mt-4 max-w-2xl text-base font-light text-slate-200 leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
             {t('stellaPlatform.hero.subtitle')}
           </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/25 transition hover:-translate-y-0.5 hover:bg-indigo-200"
-            >
-              {t('stellaPlatform.hero.inquire')}
-            </Link>
-            <a
-              href="#beta"
-              className="inline-flex items-center gap-2 rounded-full border border-indigo-400/50 px-6 py-3 text-sm font-semibold text-indigo-200 transition hover:border-indigo-200 hover:text-white"
-            >
-              {t('stellaPlatform.hero.reserveBeta')}
-            </a>
-          </div>
         </div>
       </section>
 
