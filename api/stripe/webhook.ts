@@ -182,6 +182,7 @@ async function handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent) {
   const {
     fullName,
     cpf,
+    phone,
     email,
     creciNumber,
     creciUf,
@@ -191,31 +192,67 @@ async function handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent) {
     numberOfPartners,
   } = paymentIntent.metadata
 
-  if (!email || !creciNumber || !creciUf) {
-    console.error('Missing metadata in payment intent')
+  if (!email || !creciNumber || !creciUf || !fullName || !cpf) {
+    console.error('Missing required metadata in payment intent')
     return
   }
 
   try {
-    // Create user account in Supabase Auth (if needed)
-    // Note: Password was provided in form but not passed to payment intent for security
-    // You'll need to handle user creation separately or use a different flow
-    
-    // Update founding member record
-    const { data: member, error: updateError } = await supabase
+    // Check if founding member already exists (shouldn't happen but safety check)
+    const { data: existingMember } = await supabase
       .from('founding_members')
-      .update({
+      .select('id')
+      .eq('creci_number', creciNumber)
+      .eq('creci_uf', creciUf)
+      .eq('payment_status', 'paid')
+      .single()
+
+    if (existingMember) {
+      console.log('Founding member already exists:', existingMember.id)
+      return
+    }
+
+    // Get next member number
+    const { count } = await supabase
+      .from('founding_members')
+      .select('*', { count: 'exact', head: true })
+      .eq('payment_status', 'paid')
+
+    const memberNumber = (count || 0) + 1
+
+    if (memberNumber > 100) {
+      console.error('Founding 100 program is full')
+      return
+    }
+
+    // Create founding member record
+    const { data: member, error: insertError } = await supabase
+      .from('founding_members')
+      .insert({
+        member_number: memberNumber,
+        email,
+        phone: phone || null,
+        full_name: fullName,
+        cpf,
+        account_type: accountType || 'individual',
+        company_name: companyName || null,
+        cnpj: cnpj || null,
+        number_of_partners: numberOfPartners ? parseInt(numberOfPartners) : null,
+        creci_number: creciNumber,
+        creci_uf: creciUf,
+        payment_amount: paymentIntent.amount / 100,
         payment_status: 'paid',
-        payment_completed_at: new Date().toISOString(),
-        benefits_active: true,
+        stripe_payment_intent_id: paymentIntent.id,
         stripe_customer_id: paymentIntent.customer as string,
+        discount_percentage: 75,
+        benefits_active: true,
+        payment_completed_at: new Date().toISOString(),
       })
-      .eq('stripe_payment_intent_id', paymentIntent.id)
       .select()
       .single()
 
-    if (updateError) {
-      console.error('Error updating founding member:', updateError)
+    if (insertError) {
+      console.error('Error creating founding member:', insertError)
       return
     }
 

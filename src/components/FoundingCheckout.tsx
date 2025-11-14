@@ -355,6 +355,17 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
         borderRadius: '8px',
       },
     },
+    // Pre-fill billing details from form
+    defaultValues: {
+      billingDetails: {
+        name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        address: {
+          country: 'BR',
+        },
+      },
+    },
   } : null
 
   return (

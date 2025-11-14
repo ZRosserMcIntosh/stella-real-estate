@@ -41,6 +41,7 @@ import InvestorLogin from './pages/investors/Login'
 import RequestAccess from './pages/investors/RequestAccess'
 import StellaPlatform from './pages/StellaPlatform'
 import Pricing from './pages/Pricing'
+import Members from './pages/Members'
 import CreateSite from './pages/onboarding/CreateSite'
 import ChooseRole from './pages/onboarding/ChooseRole'
 import RealtorLicense from './pages/onboarding/RealtorLicense'
@@ -139,6 +140,7 @@ const router = createBrowserRouter([
       { path: 'stella-platform', element: <Navigate to="/plataforma-stella" replace /> },
       { path: 'pricing', element: <Navigate to="/precos" replace /> },
       { path: 'list-your-property', element: <Navigate to="/anuncie-seu-imovel" replace /> },
+      { path: 'members', element: <Members /> },
     ],
   },
   { path: '/criar-site', element: <CreateSite /> },
