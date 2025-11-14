@@ -285,14 +285,14 @@
       }
     },
     "beta": {
-      "title": "Lançamento do voo de teste público em janeiro de 2026.",
-      "subtitle": "Estamos convidando 100 corretoras destemidas para se tornarem pilotos fundadores. Em troca, você recebe integração de luva branca, acesso direto à equipe de desenvolvimento e direitos de co-criação para recursos adaptados ao seu playbook.",
+      "title": "Lançamento exclusivo limitado — janeiro de 2026.",
+      "subtitle": "Estamos convidando 100 corretoras selecionadas para se juntarem ao nosso programa de membros fundadores. Receba integração de luva branca, acesso direto à equipe de desenvolvimento e direitos de co-criação para recursos adaptados ao seu playbook.",
       "badges": [
         "Linha direta com desenvolvedores",
         "Fast-track de recursos",
         "Engenheiro de sucesso dedicado"
       ],
-      "joinShortlist": "Junte-se à lista de testadores",
+      "joinShortlist": "Junte-se aos Membros Fundadores",
       "talkStrategists": "Saiba Mais",
       "footer": "Plataforma Constellation · Construída para corretores com ambição irracional"
     },

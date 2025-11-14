@@ -229,14 +229,14 @@
       }
     },
     "beta": {
-      "title": "Vuelo de prueba público lanzándose en enero de 2026.",
-      "subtitle": "Estamos invitando a 100 agencias valientes para convertirse en pilotos fundadores. A cambio obtendrás incorporación de guante blanco, acceso directo al equipo de desarrollo y derechos de co-creación para funciones adaptadas a tu estrategia.",
+      "title": "Lanzamiento exclusivo limitado — enero de 2026.",
+      "subtitle": "Estamos invitando a 100 agencias seleccionadas para unirse a nuestro programa de miembros fundadores. Obtén incorporación de guante blanco, acceso directo al equipo de desarrollo y derechos de co-creación para funciones adaptadas a tu estrategia.",
       "badges": [
         "Línea directa con desarrolladores",
         "Vía rápida para funciones",
         "Ingeniero de éxito dedicado"
       ],
-      "joinShortlist": "Únete a la lista de probadores",
+      "joinShortlist": "Únete a los Miembros Fundadores",
       "talkStrategists": "Más Información",
       "footer": "Plataforma Constellation · Construido para agentes con ambición desmedida"
     },

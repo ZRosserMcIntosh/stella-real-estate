@@ -698,12 +698,12 @@ export default function StellaPlatform() {
           ))}
         </div>
         <div className="mt-10 flex flex-wrap justify-center gap-4">
-          <a
-            href="mailto:platform@stella.com?subject=Quero%20testar%20a%20Stella%20Platform"
+          <Link
+            to="/precos"
             className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/25 transition hover:-translate-y-0.5 hover:bg-indigo-200"
           >
             {t('stellaPlatform.beta.joinShortlist')}
-          </a>
+          </Link>
           <a
             href="https://api.whatsapp.com/send/?phone=5511986410429&text=Hi%2C+I%27m+interested+in+the+Constellation+Platform+beta&type=phone_number&app_absent=0"
             target="_blank"
