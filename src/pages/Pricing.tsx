@@ -42,26 +42,6 @@ export default function Pricing() {
 
   const plans = [
     {
-      id: 'FREE',
-      name: 'Free',
-      description: 'Comece sua jornada digital no mercado imobiliário',
-      monthlyPrice: 0,
-      features: [
-        { name: '1 site (3 páginas)', included: true },
-        { name: 'Até 10 anúncios ativos', included: true },
-        { name: 'Subdomínio Stella', included: true },
-        { name: '200 contatos CRM', included: true },
-        { name: '1 pipeline', included: true },
-        { name: 'Mapas 3D incluídos', included: false, detail: '0/mês' },
-        { name: 'Automações', included: false },
-        { name: 'Lead scoring', included: false },
-        { name: 'Domínio personalizado', included: false },
-        { name: 'Remover marca Stella', included: false },
-      ],
-      popular: false,
-      cta: 'Em Breve 2027',
-    },
-    {
       id: 'SOLO',
       name: 'Pro',
       description: 'Para corretores independentes crescendo seus negócios',
@@ -172,14 +152,14 @@ export default function Pricing() {
         <meta property="og:url" content={pageUrl} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDescription} />
-        <meta property="og:image" content={`${siteUrl}/contellation-logo.png`} />
+        <meta property="og:image" content={`${siteUrl}/stella-logo-variation.png`} />
 
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={pageUrl} />
         <meta property="twitter:title" content={pageTitle} />
         <meta property="twitter:description" content={pageDescription} />
-        <meta property="twitter:image" content={`${siteUrl}/contellation-logo.png`} />
+        <meta property="twitter:image" content={`${siteUrl}/stella-logo-variation.png`} />
 
         {/* Canonical */}
         <link rel="canonical" href={pageUrl} />
@@ -373,13 +353,6 @@ export default function Pricing() {
                     >
                       {plan.cta}
                     </a>
-                  ) : plan.id === 'FREE' ? (
-                    <button
-                      disabled
-                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-slate-800/50 text-slate-400 cursor-not-allowed"
-                    >
-                      {plan.cta}
-                    </button>
                   ) : (plan.id === 'SOLO' || plan.id === 'TEAM') ? (
                     <button
                       onClick={() => setCheckoutOpen(true)}

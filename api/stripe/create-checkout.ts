@@ -128,7 +128,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             product_data: {
               name: 'Founding 100 - Constellation Prime',
               description: '24 meses do plano Team grátis + benefícios vitalícios',
-              images: [`${process.env.VITE_APP_URL || 'http://localhost:5173'}/contellation-logo.png`],
+              images: [`${process.env.VITE_APP_URL || 'http://localhost:5173'}/stella-logo-variation.png`],
             },
             unit_amount: FOUNDING_100_AMOUNT,
           },

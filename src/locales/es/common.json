@@ -110,6 +110,26 @@
     "stack": {
       "title": "Plataforma Constellation para operadores imparables.",
       "subtitle": "Desde el reclutamiento hasta la incorporación, desde la primera presentación hasta la escritura notarizada — cada herramienta que tocas habla con todas las demás. Automatizaciones, centros de comando, herramientas creativas, inteligencia de datos. Stella es la casa donde los equipos inmobiliarios realmente viven.",
+      "constellationExternal": "Constellation • Externo",
+      "balletInternal": "Ballet • Interno",
+      "marketStats": {
+        "title": "Estadísticas del Mercado",
+        "description": "Los datos agregados de todos los corredores de la plataforma crean gráficos e ideas sobre el mercado inmobiliario - tendencias de precios, volumen de ventas, tiempo promedio en el mercado por región."
+      },
+      "teamManagement": {
+        "title": "Gestión de Equipo",
+        "description": "Organigramas interactivos, control de acceso basado en roles (RBAC), gestión de equipos, documentación de cumplimiento y gestión de contratistas."
+      },
+      "dealRoom": {
+        "title": "Sala de Negocios",
+        "description": "Pipeline de transacciones, gestión de propuestas, compartición segura de documentos y seguimiento de cierres en tiempo real."
+      },
+      "webStudio": {
+        "title": "Constellation Web Studio"
+      },
+      "docVaultExpanded": {
+        "description": "Gestión centralizada de documentos con control de versiones, compartición segura, firmas digitales, cumplimiento legal y organización automática por propiedad/cliente."
+      },
       "unifiedLogin": {
         "title": "Inicio de Sesión Unificado de Empleados",
         "description": "Una cabina para cada miembro del equipo Stella: permisos, documentos, listados, paneles de rendimiento y soporte de operaciones de desarrollo cosidos juntos en una única sesión segura."

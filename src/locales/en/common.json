@@ -164,6 +164,26 @@
     "stack": {
       "title": "Constellation Platform for unstoppable operators.",
       "subtitle": "From recruitment into onboarding, from first showing to notarized deed — every tool you touch talks to every other. Automations, command centers, creative tools, data intelligence. Stella is the house where real estate teams actually live.",
+      "constellationExternal": "Constellation • External",
+      "balletInternal": "Ballet • Internal",
+      "marketStats": {
+        "title": "Market Statistics",
+        "description": "Aggregated data from all platform brokers creates charts and insights about the real estate market - price trends, sales volume, average time on market by region."
+      },
+      "teamManagement": {
+        "title": "Team Management",
+        "description": "Interactive org charts, role-based access control (RBAC), equipment management, compliance documentation, and contractor management."
+      },
+      "dealRoom": {
+        "title": "Deal Room",
+        "description": "Transaction pipeline, proposal management, secure document sharing, and real-time closing tracking."
+      },
+      "webStudio": {
+        "title": "Constellation Web Studio"
+      },
+      "docVaultExpanded": {
+        "description": "Centralized document management with version control, secure sharing, digital signatures, legal compliance, and automatic organization by property/client."
+      },
       "unifiedLogin": {
         "title": "Unified Employee Login",
         "description": "A cockpit for every Stella teammate: permissions, documents, listings, performance dashboards, and dev ops support stitched together in a single secure session."
