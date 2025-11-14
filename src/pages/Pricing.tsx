@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import { Check, X } from 'lucide-react'
+import RealtorSignupModal from '../components/RealtorSignupModal'
 
 export default function Pricing() {
   const { t } = useTranslation()
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly')
   const [showFoundingModal, setShowFoundingModal] = useState(false)
+  const [showSignupModal, setShowSignupModal] = useState(false)
 
   // SEO metadata
   const siteUrl = window.location.origin
@@ -15,8 +16,30 @@ export default function Pricing() {
   const pageTitle = 'Preços - Plataforma Stella'
   const pageDescription = 'Escolha o plano perfeito para o seu negócio imobiliário. Planos flexíveis para corretores, imobiliárias e incorporadores.'
 
-  // Founding 100 status (in production, fetch from API)
-  const foundingSlotsRemaining = 47 // Example: 47 of 100 slots remaining
+  // Founding 100 countdown logic - starts at 99/100, decreases linearly until Dec 31, 2025
+  const calculateFoundingSlots = () => {
+    const startDate = new Date('2025-11-14T00:00:00')
+    const endDate = new Date('2025-12-31T23:59:59')
+    const now = new Date()
+    
+    // If past end date, return 0
+    if (now >= endDate) return 0
+    
+    // If before start date, return 99
+    if (now < startDate) return 99
+    
+    // Calculate linear decrease from 99 to 1
+    const totalDuration = endDate.getTime() - startDate.getTime()
+    const elapsed = now.getTime() - startDate.getTime()
+    const progress = elapsed / totalDuration
+    
+    // Start at 99, decrease to 1 (never reach 0 until after Dec 31)
+    const slotsRemaining = Math.max(1, Math.ceil(99 - (progress * 98)))
+    
+    return slotsRemaining
+  }
+
+  const foundingSlotsRemaining = calculateFoundingSlots()
 
   const plans = [
     {
@@ -24,7 +47,6 @@ export default function Pricing() {
       name: 'Free',
       description: 'Comece sua jornada digital no mercado imobiliário',
       monthlyPrice: 0,
-      annualPrice: 0,
       features: [
         { name: '1 site (3 páginas)', included: true },
         { name: 'Até 10 anúncios ativos', included: true },
@@ -38,14 +60,13 @@ export default function Pricing() {
         { name: 'Remover marca Stella', included: false },
       ],
       popular: false,
-      cta: 'Começar Grátis',
+      cta: 'Em Breve 2027',
     },
     {
       id: 'SOLO',
       name: 'Pro',
       description: 'Para corretores independentes crescendo seus negócios',
-      monthlyPrice: 199,
-      annualPrice: 1910,
+      monthlyPrice: 299,
       features: [
         { name: '1 site (ilimitado)', included: true },
         { name: 'Até 50 anúncios ativos', included: true },
@@ -66,8 +87,7 @@ export default function Pricing() {
       id: 'TEAM',
       name: 'Team',
       description: 'Ideal para pequenas equipes e equipes em crescimento',
-      monthlyPrice: 399,
-      annualPrice: 3830,
+      monthlyPrice: 499,
       features: [
         { name: '2 sites completos', included: true },
         { name: 'Até 150 anúncios ativos', included: true },
@@ -91,7 +111,6 @@ export default function Pricing() {
       name: 'Brokerage',
       description: 'Para imobiliárias estabelecidas com múltiplas equipes',
       monthlyPrice: 999,
-      annualPrice: 9590,
       features: [
         { name: '3 sites completos', included: true },
         { name: 'Até 500 anúncios ativos', included: true },
@@ -108,14 +127,13 @@ export default function Pricing() {
         { name: 'Suporte prioritário + chat', included: true },
       ],
       popular: false,
-      cta: 'Começar Agora',
+      cta: 'Chegando T2 2026',
     },
     {
       id: 'ENTERPRISE',
       name: 'Enterprise',
       description: 'Soluções personalizadas para grandes operações',
       monthlyPrice: null,
-      annualPrice: null,
       features: [
         { name: 'Sites ilimitados', included: true },
         { name: 'Anúncios ilimitados', included: true },
@@ -140,12 +158,7 @@ export default function Pricing() {
     if (plan.monthlyPrice === null) {
       return { price: null, period: 'mês' }
     }
-    if (billingCycle === 'monthly') {
-      return { price: plan.monthlyPrice, period: 'mês' }
-    } else {
-      const monthlyEquivalent = plan.annualPrice ? Math.round(plan.annualPrice / 12) : plan.monthlyPrice
-      return { price: monthlyEquivalent, period: 'mês', annual: plan.annualPrice }
-    }
+    return { price: plan.monthlyPrice, period: 'mês' }
   }
 
   return (
@@ -231,14 +244,14 @@ export default function Pricing() {
                         <div className="text-sm text-slate-300">Plano Team grátis</div>
                       </div>
                       <div className="bg-slate-900/50 rounded-lg p-4 border border-emerald-500/30">
-                        <div className="text-3xl font-light text-emerald-300 mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>40% OFF</div>
+                        <div className="text-3xl font-light text-emerald-300 mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>75% OFF</div>
                         <div className="text-sm text-slate-300">Desconto vitalício</div>
                       </div>
                     </div>
                     <div className="space-y-2 mb-6 text-left">
                       <div className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-200">Plano Team completo por 24 meses (valor R$ 9.528)</span>
+                        <span className="text-sm text-slate-200">Plano Team completo por 24 meses (valor R$ 11.976)</span>
                       </div>
                       <div className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
@@ -246,59 +259,37 @@ export default function Pricing() {
                       </div>
                       <div className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-200">40% desconto vitalício após os 24 meses</span>
+                        <span className="text-sm text-slate-200">75% desconto vitalício após os 24 meses</span>
                       </div>
                       <div className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-200">Mapas 3D extras por R$ 140 (sempre, vs R$ 160+)</span>
+                        <span className="text-sm text-slate-200">Mapas 3D extras por R$ 10 (sempre, vs R$ 160+)</span>
                       </div>
                       <div className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-slate-200">Badge de Founding Partner + acesso antecipado a novos recursos</span>
                       </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                    <div className="flex flex-col gap-4 items-center justify-center">
                       <button
-                        onClick={() => setShowFoundingModal(true)}
+                        onClick={() => setShowSignupModal(true)}
                         className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/50 text-lg"
                       >
                         Garantir Minha Vaga
                       </button>
-                      <div className="text-sm text-emerald-300 font-semibold">
-                        Apenas {foundingSlotsRemaining} vagas restantes de 100
+                      <div className="text-center">
+                        <div className="text-sm text-emerald-300 font-semibold mb-2">
+                          Apenas {foundingSlotsRemaining} vagas restantes de 100
+                        </div>
+                        <div className="text-xs text-slate-500 font-light max-w-md mx-auto">
+                          A partir de 1º de janeiro, aceitaremos no máximo 3 a 5 novas contas por semana, dependendo de capacidade GPU, demanda de servidor, processamento computacional distribuído e outros fatores técnicos
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             )}
-
-            {/* Billing Toggle */}
-            <div className="flex items-center justify-center gap-4 mb-12">
-              <button
-                onClick={() => setBillingCycle('monthly')}
-                className={`px-6 py-2 rounded-full transition-all ${
-                  billingCycle === 'monthly'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-                }`}
-              >
-                Mensal
-              </button>
-              <button
-                onClick={() => setBillingCycle('annual')}
-                className={`px-6 py-2 rounded-full transition-all ${
-                  billingCycle === 'annual'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-                }`}
-              >
-                Anual
-                <span className="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded-full">
-                  Economize 2 meses
-                </span>
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -307,7 +298,7 @@ export default function Pricing() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           {plans.map((plan, index) => {
-            const { price, period, annual } = getPrice(plan)
+            const { price, period } = getPrice(plan)
             const isEnterprise = price === null
             
             return (
@@ -320,8 +311,8 @@ export default function Pricing() {
                 }`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                    <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold whitespace-nowrap">
                       Mais Popular
                     </span>
                   </div>
@@ -331,43 +322,80 @@ export default function Pricing() {
                   <h3 className="text-2xl font-light mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>{plan.name}</h3>
                   <p className="text-slate-400 text-sm mb-6 min-h-[40px]">{plan.description}</p>
 
-                  <div className="mb-6">
+                  <div className="mb-6 min-h-[140px] flex items-start">
                     {isEnterprise ? (
-                      <div>
+                      <div className="flex flex-col">
                         <div className="text-3xl font-light text-white mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>Personalizado</div>
                         <p className="text-sm text-slate-400 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
                           Fale com nosso time
                         </p>
                       </div>
+                    ) : price === 0 ? (
+                      <div>
+                        <div className="text-3xl font-light text-slate-400" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                          Grátis
+                        </div>
+                      </div>
+                    ) : (plan.id === 'SOLO' || plan.id === 'TEAM') ? (
+                      <div>
+                        <div className="flex items-baseline gap-2 mb-2">
+                          <span className="text-3xl font-light text-slate-500 line-through" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                            R$ {price}
+                          </span>
+                          <span className="text-slate-500 font-light text-sm line-through" style={{ fontFamily: 'Outfit, sans-serif' }}>/{period}</span>
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-4xl font-light text-emerald-400 mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                            R$ 0
+                          </span>
+                          <span className="text-sm text-emerald-300 font-medium" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                            {plan.id === 'SOLO' ? 'por 1 ano' : 'por 2 anos'}
+                          </span>
+                        </div>
+                      </div>
                     ) : (
                       <div>
                         <div className="flex items-baseline gap-2">
                           <span className="text-4xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                            {price === 0 ? 'Grátis' : `R$ ${price}`}
+                            R$ {price}
                           </span>
-                          {price !== 0 && (
-                            <span className="text-slate-400 font-light text-sm" style={{ fontFamily: 'Outfit, sans-serif' }}>/{period}</span>
-                          )}
+                          <span className="text-slate-400 font-light text-sm" style={{ fontFamily: 'Outfit, sans-serif' }}>/{period}</span>
                         </div>
-                        {annual && (
-                          <p className="text-xs text-slate-500 mt-2 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                            Cobrado R$ {annual.toLocaleString('pt-BR')} anualmente
-                          </p>
-                        )}
                       </div>
                     )}
                   </div>
 
-                  <Link
-                    to={isEnterprise ? '/contato' : '/login'}
-                    className={`block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 ${
-                      plan.popular
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white shadow-lg'
-                        : 'bg-slate-800 hover:bg-slate-700 text-slate-100'
-                    }`}
-                  >
-                    {plan.cta}
-                  </Link>
+                  {isEnterprise ? (
+                    <a
+                      href="https://wa.me/5511986410429?text=Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20o%20plano%20Enterprise"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-slate-800 hover:bg-slate-700 text-slate-100"
+                    >
+                      {plan.cta}
+                    </a>
+                  ) : plan.id === 'FREE' ? (
+                    <button
+                      disabled
+                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-slate-800/50 text-slate-400 cursor-not-allowed"
+                    >
+                      {plan.cta}
+                    </button>
+                  ) : (plan.id === 'SOLO' || plan.id === 'TEAM') ? (
+                    <button
+                      onClick={() => setShowSignupModal(true)}
+                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-lg"
+                    >
+                      {plan.cta}
+                    </button>
+                  ) : (
+                    <Link
+                      to="/login"
+                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-slate-800 hover:bg-slate-700 text-slate-100"
+                    >
+                      {plan.cta}
+                    </Link>
+                  )}
 
                   <div className="space-y-3 flex-grow">
                     {plan.features.map((feature, featureIndex) => (
@@ -400,7 +428,7 @@ export default function Pricing() {
         <div className="mt-16">
           {/* Tech Stack Logos */}
           <div className="mb-8">
-            <div className="flex flex-wrap items-center justify-center gap-4 opacity-70 hover:opacity-100 transition-opacity">
+            <div className="flex flex-wrap items-center justify-center gap-4">
               <img src="/tech-icons/color/Amazon_Web_Services_Logo.svg.png" alt="AWS" className="h-6 object-contain" />
               <img src="/tech-icons/color/apple-developer-og-twitter.png" alt="Apple" className="h-6 object-contain" />
               <img src="/tech-icons/color/NET_BIG.D-52893f5e.png" alt=".NET" className="h-6 object-contain" />
@@ -725,12 +753,15 @@ export default function Pricing() {
                 </ul>
               </div>
 
-              <Link
-                to="/login"
+              <button
+                onClick={() => {
+                  setShowFoundingModal(false)
+                  setShowSignupModal(true)
+                }}
                 className="block w-full text-center py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/50 text-lg"
               >
                 Garantir Minha Vaga Agora
-              </Link>
+              </button>
 
               <p className="text-xs text-center text-slate-400 mt-4">
                 Ao clicar, você será direcionado para finalizar o cadastro e pagamento
@@ -739,6 +770,16 @@ export default function Pricing() {
           </div>
         </div>
       )}
+
+      {/* Realtor Signup Modal */}
+      <RealtorSignupModal 
+        isOpen={showSignupModal}
+        onClose={() => setShowSignupModal(false)}
+        onSuccess={() => {
+          setShowSignupModal(false)
+          // Could show a success message or redirect
+        }}
+      />
     </div>
   )
 }
