@@ -3,18 +3,30 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import { Check, X } from 'lucide-react'
-import RealtorSignupModal from '../components/RealtorSignupModal'
 
 export default function Pricing() {
   const { t } = useTranslation()
-  const [showFoundingModal, setShowFoundingModal] = useState(false)
-  const [showSignupModal, setShowSignupModal] = useState(false)
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
 
   // SEO metadata
   const siteUrl = window.location.origin
   const pageUrl = `${siteUrl}/precos`
   const pageTitle = 'Preços - Plataforma Stella'
   const pageDescription = 'Escolha o plano perfeito para o seu negócio imobiliário. Planos flexíveis para corretores, imobiliárias e incorporadores.'
+
+  // Direct checkout function - redirects to Stripe Payment Link
+  const handleDirectCheckout = () => {
+    setCheckoutLoading(true)
+    
+    // Use Stripe Payment Link for simplest checkout
+    // You'll create this in Stripe Dashboard: Products > Your Product > Payment Links
+    // For now, let's use Stripe Checkout mode
+    const priceId = 'price_1ST7qDEb2nSobztSr1SBYXWn'
+    const checkoutUrl = `https://checkout.stripe.com/c/pay/${priceId}#fidkdWxOYHwnPyd1blpxYHZxWjA0T3UwMH1gM0ptZDx8MG05akdsYUtgf1FfXUNqZXQzXzVAS1FqSkxTRERpUTxKY2dpPF1fPDxxb0N8VjR9ZkxcZzV0N2tgNDx0MjVsRGJIaTFcZWxgQnNiaTRnckE1a2cxQycpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYCkndnF1dHVgZ2lqbHJ2Jz9xd3BgKSdqZGhpamBkZmBgZ2JqYCc%2FcXdwYHgl`
+    
+    window.location.href = checkoutUrl
+  }
 
   // Founding 100 countdown logic - starts at 99/100, decreases linearly until Dec 31, 2025
   const calculateFoundingSlots = () => {
@@ -272,11 +284,15 @@ export default function Pricing() {
                     </div>
                     <div className="flex flex-col gap-4 items-center justify-center">
                       <button
-                        onClick={() => setShowSignupModal(true)}
-                        className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/50 text-lg"
+                        onClick={handleDirectCheckout}
+                        disabled={checkoutLoading}
+                        className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/50 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        Garantir Minha Vaga
+                        {checkoutLoading ? 'Carregando...' : 'Garantir Minha Vaga'}
                       </button>
+                      {checkoutError && (
+                        <div className="text-red-400 text-sm">{checkoutError}</div>
+                      )}
                       <div className="text-center">
                         <div className="text-sm text-emerald-300 font-semibold mb-2">
                           Apenas {foundingSlotsRemaining} vagas restantes de 100
@@ -383,10 +399,11 @@ export default function Pricing() {
                     </button>
                   ) : (plan.id === 'SOLO' || plan.id === 'TEAM') ? (
                     <button
-                      onClick={() => setShowSignupModal(true)}
-                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-lg"
+                      onClick={handleDirectCheckout}
+                      disabled={checkoutLoading}
+                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-lg disabled:opacity-50"
                     >
-                      {plan.cta}
+                      {checkoutLoading ? 'Carregando...' : plan.cta}
                     </button>
                   ) : (
                     <Link
@@ -666,120 +683,6 @@ export default function Pricing() {
           </div>
         </div>
       </div>
-
-      {/* Founding 100 Modal */}
-      {showFoundingModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="relative bg-slate-900 border border-emerald-500/50 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-8">
-              <button
-                onClick={() => setShowFoundingModal(false)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
-              
-              <div className="text-center mb-6">
-                <h2 className="text-3xl font-light text-white mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Founding 100 – Constellation Prime
-                </h2>
-                <p className="text-slate-300 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Junte-se aos primeiros 100 fundadores
-                </p>
-              </div>
-
-              <div className="bg-gradient-to-r from-emerald-900/40 to-green-900/40 border border-emerald-500/30 rounded-xl p-6 mb-6">
-                <div className="text-center mb-4">
-                  <div className="text-5xl font-light text-emerald-300 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                    R$ 2.970
-                  </div>
-                  <div className="text-slate-300">Pagamento único</div>
-                </div>
-              </div>
-
-              <div className="space-y-4 mb-6">
-                <h3 className="text-lg font-semibold text-white mb-3">O que está incluído:</h3>
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-white font-semibold">24 meses do Plano Team</div>
-                    <div className="text-sm text-slate-400">Valor total: R$ 9.528 • Você economiza R$ 6.558</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-white font-semibold">10 mapas 3D por mês</div>
-                    <div className="text-sm text-slate-400">5 mapas extras permanentes além dos 5 do plano Team</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-white font-semibold">40% de desconto vitalício</div>
-                    <div className="text-sm text-slate-400">Após 24 meses, pague apenas 60% do preço regular para sempre</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-white font-semibold">Mapas 3D extras por R$ 140</div>
-                    <div className="text-sm text-slate-400">Preço especial permanente vs R$ 160+ dos planos regulares</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-white font-semibold">Badge de Founding Partner</div>
-                    <div className="text-sm text-slate-400">Reconhecimento especial em seu perfil e sites</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-white font-semibold">Acesso antecipado vitalício</div>
-                    <div className="text-sm text-slate-400">Seja o primeiro a testar novos recursos e ferramentas de IA</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 mb-6">
-                <h4 className="text-sm font-semibold text-white mb-2">Elegibilidade:</h4>
-                <ul className="text-sm text-slate-300 space-y-1">
-                  <li>• Corretores independentes ou micro-equipes (até 3 usuários)</li>
-                  <li>• Apenas {foundingSlotsRemaining} vagas restantes de 100</li>
-                  <li>• Benefícios vinculados ao CPF/CNPJ (não transferível)</li>
-                  <li>• Perda de benefícios após 6+ meses de inatividade</li>
-                </ul>
-              </div>
-
-              <button
-                onClick={() => {
-                  setShowFoundingModal(false)
-                  setShowSignupModal(true)
-                }}
-                className="block w-full text-center py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/50 text-lg"
-              >
-                Garantir Minha Vaga Agora
-              </button>
-
-              <p className="text-xs text-center text-slate-400 mt-4">
-                Ao clicar, você será direcionado para finalizar o cadastro e pagamento
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Realtor Signup Modal */}
-      <RealtorSignupModal 
-        isOpen={showSignupModal}
-        onClose={() => setShowSignupModal(false)}
-        onSuccess={() => {
-          setShowSignupModal(false)
-          // Could show a success message or redirect
-        }}
-      />
     </div>
   )
 }
