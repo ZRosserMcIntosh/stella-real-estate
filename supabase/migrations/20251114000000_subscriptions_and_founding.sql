@@ -22,16 +22,32 @@ create table if not exists public.subscriptions (
 -- Create founding members table
 create table if not exists public.founding_members (
   id uuid primary key default gen_random_uuid(),
-  user_id uuid not null unique references auth.users(id) on delete cascade,
-  member_number int not null unique check (member_number between 1 and 100),
+  user_id uuid references auth.users(id) on delete cascade,
+  member_number int unique check (member_number between 1 and 100),
+  email text not null,
+  phone text,
+  full_name text not null,
+  cpf text not null,
+  account_type text not null check (account_type in ('individual', 'company')) default 'individual',
+  company_name text,
+  cnpj text,
+  number_of_partners int,
+  creci_number text not null,
+  creci_uf text not null check (creci_uf in ('AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO')),
   payment_amount numeric(10,2) not null default 2970.00,
-  payment_status text not null check (payment_status in ('pending', 'completed', 'refunded')) default 'pending',
+  payment_status text not null check (payment_status in ('pending', 'paid', 'refunded')) default 'pending',
   stripe_payment_intent_id text unique,
+  stripe_customer_id text,
+  discount_percentage int not null default 75,
+  benefits_active boolean default false,
   benefits jsonb default '{"team_plan_months": 24, "founding_badge": true, "early_access": true, "priority_support": true}'::jsonb,
   claimed_at timestamptz default now(),
   payment_completed_at timestamptz,
   created_at timestamptz default now(),
-  updated_at timestamptz default now()
+  updated_at timestamptz default now(),
+  
+  -- Add unique constraint for CRECI
+  constraint unique_creci unique (creci_number, creci_uf)
 );
 
 -- Add CRECI and professional info to user profiles
