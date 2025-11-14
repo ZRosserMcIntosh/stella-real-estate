@@ -270,15 +270,24 @@ export default function FoundingCheckout({ isOpen, onClose, onSuccess }: Foundin
         }),
       })
 
-      const data = await response.json()
-
       if (!response.ok) {
-        throw new Error(data.error || 'Erro ao criar pagamento')
+        // Try to parse error message
+        let errorMessage = 'Erro ao criar pagamento'
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorMessage
+        } catch (e) {
+          // If JSON parsing fails, use status text
+          errorMessage = `Erro ${response.status}: ${response.statusText}`
+        }
+        throw new Error(errorMessage)
       }
 
+      const data = await response.json()
       setClientSecret(data.clientSecret)
       setStep('payment')
     } catch (err) {
+      console.error('Payment creation error:', err)
       setError(err instanceof Error ? err.message : 'Erro ao processar requisição')
     } finally {
       setLoading(false)
