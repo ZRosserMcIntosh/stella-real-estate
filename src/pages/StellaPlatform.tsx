@@ -651,6 +651,30 @@ export default function StellaPlatform() {
                   </div>
                 </div>
 
+                {/* Native Client Apps */}
+                <div className="rounded-2xl border border-indigo-400/30 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-slate-900/70 p-6 shadow-lg shadow-indigo-500/20 transition hover:border-indigo-300/60">
+                  <div className="flex items-start gap-4">
+                    <div className="flex gap-3">
+                      <img src="/ios.png" alt="iOS" className="h-10 w-10 object-contain" />
+                      <img src="/andriod-white.png" alt="Android" className="h-10 w-10 object-contain" />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold text-white">Native Client Apps</h4>
+                      <p className="mt-2 text-sm text-indigo-200">iOS & Android apps for clients to browse properties, schedule tours, and communicate.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Apple Wallet */}
+                <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
+                  <div className="flex items-start gap-4">
+                    <img src="/apple-wallet.svg" alt="Apple Wallet" className="h-10 w-10 shrink-0" />
+                    <div>
+                      <h4 className="text-lg font-semibold text-white">Apple Wallet Business Card</h4>
+                      <p className="mt-2 text-sm text-slate-300">Digital business cards and property access passes in Apple Wallet.</p>
+                    </div>
+                  </div>
+                </div>
 
                 {/* Calendar */}
                 <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-indigo-300/60 hover:bg-slate-900/90">
@@ -661,6 +685,19 @@ export default function StellaPlatform() {
                     <div>
                       <h4 className="text-lg font-semibold text-white">Smart Calendar</h4>
                       <p className="mt-2 text-sm text-slate-300">Automated scheduling for tours, appointments, and open houses with client sync.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Site Management On The Go - Constelação */}
+                <div className="rounded-2xl border border-indigo-400/30 bg-gradient-to-br from-indigo-500/10 via-blue-500/5 to-slate-900/70 p-6 shadow-lg shadow-indigo-500/20 transition hover:border-indigo-300/60">
+                  <div className="flex items-start gap-4">
+                    <svg className="h-10 w-10 text-indigo-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    <div>
+                      <h4 className="text-lg font-semibold text-white">Constelação Mobile</h4>
+                      <p className="mt-2 text-sm text-indigo-200">Manage your constellation website on the go with mobile editing.</p>
                     </div>
                   </div>
                 </div>
@@ -676,6 +713,19 @@ export default function StellaPlatform() {
                 Ballet (Internal)
               </h3>
               <div className="space-y-5">
+                {/* Supernova Site Builder */}
+                <div className="rounded-2xl border border-emerald-400/30 bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-slate-900/70 p-6 shadow-lg shadow-emerald-500/20 transition hover:border-emerald-300/60">
+                  <div className="flex items-start gap-4">
+                    <svg className="h-10 w-10 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    </svg>
+                    <div>
+                      <h4 className="text-lg font-semibold text-white">Supernova Site Builder</h4>
+                      <p className="mt-2 text-sm text-emerald-200">No-code website builder for stunning property listings and agent portfolios.</p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Team Management */}
                 <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 shadow-lg shadow-black/30 transition hover:border-purple-300/60 hover:bg-slate-900/90">
                   <div className="flex items-start gap-4">
@@ -737,6 +787,19 @@ export default function StellaPlatform() {
                     <div>
                       <h4 className="text-lg font-semibold text-white">Analytics & Reports</h4>
                       <p className="mt-2 text-sm text-slate-300">Business intelligence dashboards with customizable reports and KPI tracking.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Ballet Mobile - Site Management On The Go */}
+                <div className="rounded-2xl border border-purple-400/30 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-slate-900/70 p-6 shadow-lg shadow-purple-500/20 transition hover:border-purple-300/60">
+                  <div className="flex items-start gap-4">
+                    <svg className="h-10 w-10 text-purple-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    <div>
+                      <h4 className="text-lg font-semibold text-white">Ballet Mobile</h4>
+                      <p className="mt-2 text-sm text-purple-200">Manage your CRM and internal operations on the go with mobile access.</p>
                     </div>
                   </div>
                 </div>
