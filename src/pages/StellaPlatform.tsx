@@ -704,12 +704,14 @@ export default function StellaPlatform() {
           >
             {t('stellaPlatform.beta.joinShortlist')}
           </a>
-          <Link
-            to="/contact"
+          <a
+            href="https://api.whatsapp.com/send/?phone=5511986410429&text=Hi%2C+I%27m+interested+in+the+Constellation+Platform+beta&type=phone_number&app_absent=0"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full border border-indigo-400/60 px-6 py-3 text-sm font-semibold text-indigo-200 transition hover:border-indigo-200 hover:text-white"
           >
             {t('stellaPlatform.beta.talkStrategists')}
-          </Link>
+          </a>
         </div>
         <p className="mt-6 text-xs uppercase tracking-[0.35em] text-slate-500">{t('stellaPlatform.beta.footer')}</p>
       </section>
