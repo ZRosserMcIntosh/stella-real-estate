@@ -752,7 +752,7 @@ export default function StellaPlatform() {
                         PHASE {phaseNum}
                       </span>
                       <span className="text-slate-600">•</span>
-                      <h4 className="text-lg font-semibold text-white">
+                      <h4 className={`text-xs font-bold text-${color}-300 uppercase tracking-wider`}>
                         {t(`stellaPlatform.ecosystem.pendingServices.${key}.title`)}
                       </h4>
                     </div>
