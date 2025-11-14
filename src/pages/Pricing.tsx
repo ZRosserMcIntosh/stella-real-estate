@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
@@ -8,6 +8,11 @@ import FoundingCheckout from '../components/FoundingCheckout'
 export default function Pricing() {
   const { t } = useTranslation()
   const [checkoutOpen, setCheckoutOpen] = useState(false)
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   // SEO metadata
   const siteUrl = window.location.origin
@@ -141,7 +146,7 @@ export default function Pricing() {
   }
 
   return (
-    <div className="bg-slate-950 text-slate-100 min-h-screen -mt-[var(--header-height,60px)] pt-[var(--header-height,60px)]">
+    <div className="bg-slate-950 text-slate-100 min-h-screen">
       <Helmet>
         {/* Basic Meta Tags */}
         <title>{pageTitle}</title>
@@ -412,10 +417,6 @@ export default function Pricing() {
               <img src="/tech-icons/color/Stripe_Logo,_revised_2016.svg.png" alt="Stripe" className="h-6 object-contain" />
               <img src="/tech-icons/color/supabase-logo-wordmark--dark.png" alt="Supabase" className="h-6 object-contain" />
               <div className="flex items-center gap-2">
-                <img src="/tech-icons/ballet-new-logo.png" alt="Ballet" className="h-8 object-contain" />
-                <span className="text-sm font-light uppercase tracking-[0.4em] text-pink-400/90" style={{ fontFamily: 'Outfit, sans-serif' }}>BALLET</span>
-              </div>
-              <div className="flex items-center gap-2">
                 <img 
                   src="/tech-icons/contellation-logo.png" 
                   alt="Constellation" 
@@ -423,6 +424,10 @@ export default function Pricing() {
                   style={{ filter: 'brightness(1.5) drop-shadow(0 0 24px rgba(199, 210, 254, 1)) drop-shadow(0 0 12px rgba(199, 210, 254, 0.9)) drop-shadow(0 0 8px rgba(199, 210, 254, 0.8))' }}
                 />
                 <span className="text-sm font-light uppercase tracking-[0.4em] text-indigo-200/80" style={{ fontFamily: 'Outfit, sans-serif' }}>CONSTELLATION</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <img src="/tech-icons/ballet-new-logo.png" alt="Ballet" className="h-8 object-contain" />
+                <span className="text-sm font-light uppercase tracking-[0.4em] text-pink-400/90" style={{ fontFamily: 'Outfit, sans-serif' }}>BALLET</span>
               </div>
             </div>
           </div>
@@ -505,6 +510,7 @@ export default function Pricing() {
                 <p className="text-xs font-semibold text-slate-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
                 <p className="text-xs text-slate-300">{t('pricing.maps3d.roi.timeSavings', { hours: '7.5' })}</p>
                 <p className="text-xs text-slate-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '350', max: '400' })}</p>
+                <p className="text-xs text-emerald-300 font-bold">{t('pricing.maps3d.roi.roiPercentage', { roi: ((375 / 100) * 100).toFixed(0) })}</p>
               </div>
               
               <Link
@@ -530,6 +536,7 @@ export default function Pricing() {
                 <p className="text-xs font-semibold text-blue-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
                 <p className="text-xs text-slate-300">{t('pricing.maps3d.roi.timeSavings', { hours: '75' })}</p>
                 <p className="text-xs text-blue-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '3.500', max: '4.000' })}</p>
+                <p className="text-xs text-emerald-300 font-bold">{t('pricing.maps3d.roi.roiPercentage', { roi: ((3750 / 500) * 100).toFixed(0) })}</p>
               </div>
               
               <Link
@@ -555,6 +562,7 @@ export default function Pricing() {
                 <p className="text-xs font-semibold text-cyan-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
                 <p className="text-xs text-slate-300">{t('pricing.maps3d.roi.timeSavings', { hours: '750' })}</p>
                 <p className="text-xs text-cyan-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '35.000', max: '40.000' })}</p>
+                <p className="text-xs text-emerald-300 font-bold">{t('pricing.maps3d.roi.roiPercentage', { roi: ((37500 / 3000) * 100).toFixed(0) })}</p>
               </div>
               
               <Link
@@ -580,6 +588,7 @@ export default function Pricing() {
                 <p className="text-xs font-semibold text-emerald-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
                 <p className="text-xs text-slate-200">{t('pricing.maps3d.roi.timeSavings', { hours: '7.500' })}</p>
                 <p className="text-xs text-emerald-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '350.000', max: '400.000' })}</p>
+                <p className="text-xs text-emerald-300 font-bold">{t('pricing.maps3d.roi.roiPercentage', { roi: ((375000 / 20000) * 100).toFixed(0) })}</p>
               </div>
               
               <Link
@@ -610,6 +619,7 @@ export default function Pricing() {
                 <p className="text-xs font-semibold text-emerald-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
                 <p className="text-xs text-slate-200">{t('pricing.maps3d.roi.timeSavings', { hours: '37.500' })}</p>
                 <p className="text-xs text-emerald-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '1.750.000', max: '2.000.000' })}</p>
+                <p className="text-xs text-emerald-300 font-bold">{t('pricing.maps3d.roi.roiPercentage', { roi: ((1875000 / 75000) * 100).toFixed(0) })}</p>
               </div>
               
               <Link
@@ -640,6 +650,7 @@ export default function Pricing() {
                 <p className="text-xs font-semibold text-purple-300 mb-1">{t('pricing.maps3d.roi.title')}</p>
                 <p className="text-xs text-slate-200">{t('pricing.maps3d.roi.timeSavings', { hours: '75.000' })}</p>
                 <p className="text-xs text-purple-100 font-semibold">{t('pricing.maps3d.roi.costSavings', { min: '3.500.000', max: '4.000.000' })}</p>
+                <p className="text-xs text-emerald-300 font-bold">{t('pricing.maps3d.roi.roiPercentage', { roi: ((3750000 / 100000) * 100).toFixed(0) })}</p>
               </div>
               
               <Link

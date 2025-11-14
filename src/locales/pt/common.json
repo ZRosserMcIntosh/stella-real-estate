@@ -109,7 +109,29 @@
     },
     "contact": { "title": "Contato" },
     "listings": { "title": "Listagens" },
-    "projects": { "title": "Novos Projetos" },
+    "projects": { 
+      "title": "Novos Projetos",
+      "badge": "Novos Empreendimentos",
+      "subtitle": "Explore nossa coleção selecionada de empreendimentos imobiliários premium",
+      "showing": "Exibindo",
+      "project": "projeto",
+      "projects": "projetos",
+      "sortBy": "Ordenar por preço",
+      "priceHighToLow": "Preço: Maior para Menor",
+      "priceLowToHigh": "Preço: Menor para Maior",
+      "bedroom": "quarto",
+      "bedrooms": "quartos",
+      "bathrooms": "BA",
+      "parking": "VAG",
+      "startingFrom": "A Partir De",
+      "contactUs": "Entre em Contato",
+      "statusNew": "Novo",
+      "statusActive": "Ativo",
+      "statusPending": "Pendente",
+      "statusDraft": "Rascunho",
+      "noProjects": "Nenhum Projeto Disponível",
+      "checkBackSoon": "Volte em breve para novas oportunidades de empreendimentos."
+    },
     "privacy": { "title": "Política de Privacidade" },
     "legal": { "title": "Jurídico" },
     "listYourProperty": { "title": "Anuncie seu Imóvel" },
@@ -602,8 +624,9 @@
     "maps3d": {
       "roi": {
         "title": "Retorno Estimado:",
-        "timeSavings": "{hours}h de economia",
-        "costSavings": "R$ {min}–R$ {max} de economia"
+        "timeSavings": "{{hours}}h de economia",
+        "costSavings": "R$ {{min}}–R$ {{max}} de economia",
+        "roiPercentage": "{{roi}}% Retorno sobre Investimento"
       },
       "onlyUntil": "somente até 1º de janeiro de 2026"
     }

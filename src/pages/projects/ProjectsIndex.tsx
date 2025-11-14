@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { fetchAllProjects } from '../../services/projects'
 import type { Project } from '../../types/projects'
 import { useCurrency } from '../../context/CurrencyContext'
@@ -8,8 +9,10 @@ export default function ProjectsIndex() {
   const [items, setItems] = useState<Project[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [sortOrder, setSortOrder] = useState<'high-to-low' | 'low-to-high'>('high-to-low')
   const { formatPrice } = useCurrency()
   const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const { t } = useTranslation()
 
   useEffect(() => {
     const run = async () => {
@@ -26,6 +29,20 @@ export default function ProjectsIndex() {
     run()
   }, [])
 
+  // Sort projects by price
+  const sortedItems = useMemo(() => {
+    const validItems = items.filter(p => typeof p.price === 'number' && Number.isFinite(p.price))
+    const invalidItems = items.filter(p => !(typeof p.price === 'number' && Number.isFinite(p.price)))
+    
+    validItems.sort((a, b) => {
+      const priceA = a.price as number
+      const priceB = b.price as number
+      return sortOrder === 'high-to-low' ? priceB - priceA : priceA - priceB
+    })
+    
+    return [...validItems, ...invalidItems]
+  }, [items, sortOrder])
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'new':
@@ -41,29 +58,8 @@ export default function ProjectsIndex() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 -mt-20 pt-20">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-pink-500/10 dark:from-indigo-500/5 dark:via-purple-500/5 dark:to-pink-500/5" />
-        <div className="container-padded relative py-20 md:py-28">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100/80 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium mb-6 backdrop-blur-sm">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-              <span>New Development Projects</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-slate-100 dark:via-slate-200 dark:to-slate-100 bg-clip-text text-transparent mb-6">
-              Discover Your Future Home
-            </h1>
-            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Explore our curated collection of premium real estate development projects
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Content Section */}
-      <section className="container-padded pb-20">
+      <section className="container-padded py-12">
         {error && (
           <div className="max-w-7xl mx-auto mb-8 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
             <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
@@ -85,20 +81,58 @@ export default function ProjectsIndex() {
           <div className="max-w-7xl mx-auto">
             {items.length > 0 ? (
               <>
-                <div className="mb-8 flex items-center justify-between">
+                <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
                   <p className="text-sm text-slate-600 dark:text-slate-400">
-                    Showing <span className="font-semibold text-slate-900 dark:text-slate-100">{items.length}</span> {items.length === 1 ? 'project' : 'projects'}
+                    {t('pages.projects.showing')} <span className="font-semibold text-slate-900 dark:text-slate-100">{items.length}</span> {items.length === 1 ? t('pages.projects.project') : t('pages.projects.projects')}
                   </p>
+                  
+                  {/* Sort Dropdown */}
+                  <div className="flex items-center gap-2">
+                    <label htmlFor="sort-order" className="text-sm text-slate-600 dark:text-slate-400">
+                      {t('pages.projects.sortBy')}:
+                    </label>
+                    <select
+                      id="sort-order"
+                      value={sortOrder}
+                      onChange={(e) => setSortOrder(e.target.value as 'high-to-low' | 'low-to-high')}
+                      className="px-3 py-1.5 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent"
+                    >
+                      <option value="high-to-low">{t('pages.projects.priceHighToLow')}</option>
+                      <option value="low-to-high">{t('pages.projects.priceLowToHigh')}</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {items.map((p) => {
+                  {sortedItems.map((p) => {
                     const perUnit: number | null = typeof p.price === 'number' && Number.isFinite(p.price) ? p.price : null
-                    const location = [p.city, p.state].filter(Boolean).join(', ')
+                    const neighborhood = p.features?.neighborhood || 'Jardim Europa'
+                    const location = [neighborhood, p.city, p.state].filter(Boolean).join(', ')
                     const features = p.features || {}
                     const isHovered = hoveredId === p.id
                     const secondPhoto = (p.media || []).filter((m: any) => m.kind !== 'video_bg' && m.kind !== 'thumbnail')[0]?.url || (p.media || [])[1]?.url
                     const displayImage = isHovered && secondPhoto ? secondPhoto : p.heroImageUrl
+                    
+                    // Calculate area range
+                    const units = features.units || []
+                    const areas = units.map(u => u.areaM2).filter((a): a is number => typeof a === 'number' && Number.isFinite(a))
+                    const minArea = areas.length > 0 ? Math.min(...areas) : features.areaPrivateM2 || features.areaTotalM2
+                    const maxArea = areas.length > 0 ? Math.max(...areas) : features.areaPrivateM2 || features.areaTotalM2
+                    const areaDisplay = minArea && maxArea && minArea !== maxArea 
+                      ? `${Math.round(minArea)}-${Math.round(maxArea)} m²`
+                      : minArea 
+                        ? `${Math.round(minArea)} m²`
+                        : null
+                    
+                    // Calculate bedroom range
+                    const bedrooms = units.map(u => u.bedrooms).filter((b): b is number => typeof b === 'number' && Number.isFinite(b))
+                    const minBed = bedrooms.length > 0 ? Math.min(...bedrooms) : features.bedrooms
+                    const maxBed = bedrooms.length > 0 ? Math.max(...bedrooms) : features.bedrooms
+                    const bedroomDisplay = minBed && maxBed && minBed !== maxBed
+                      ? `${minBed}-${maxBed} ${t('pages.projects.bedrooms')}`
+                      : minBed
+                        ? `${minBed} ${minBed === 1 ? t('pages.projects.bedroom') : t('pages.projects.bedrooms')}`
+                        : null
                     
                     return (
                       <Link
@@ -130,7 +164,11 @@ export default function ProjectsIndex() {
                           {p.status && (
                             <div className="absolute top-3 right-3">
                               <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm ${getStatusColor(p.status)}`}>
-                                {p.status.charAt(0).toUpperCase() + p.status.slice(1)}
+                                {p.status === 'new' ? t('pages.projects.statusNew') : 
+                                 p.status === 'active' ? t('pages.projects.statusActive') : 
+                                 p.status === 'pending' ? t('pages.projects.statusPending') :
+                                 p.status === 'draft' ? t('pages.projects.statusDraft') :
+                                 p.status.charAt(0).toUpperCase() + p.status.slice(1)}
                               </span>
                             </div>
                           )}
@@ -146,7 +184,7 @@ export default function ProjectsIndex() {
                           </h3>
                           
                           {location && (
-                            <div className="flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-400 mb-4">
+                            <div className="flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-400 mb-3">
                               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -155,23 +193,37 @@ export default function ProjectsIndex() {
                             </div>
                           )}
 
-                          {/* Features Grid */}
-                          {(features.bedrooms || features.bathrooms || features.parkingSpaces) && (
-                            <div className="flex items-center gap-4 mb-4 text-xs text-slate-600 dark:text-slate-400">
-                              {features.bedrooms && (
-                                <div className="flex items-center gap-1">
+                          {/* Key Features - Bedrooms and Area */}
+                          {(bedroomDisplay || areaDisplay) && (
+                            <div className="flex items-center gap-4 mb-4 text-sm font-medium text-slate-700 dark:text-slate-300">
+                              {bedroomDisplay && (
+                                <div className="flex items-center gap-1.5">
                                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                   </svg>
-                                  <span>{features.bedrooms} BD</span>
+                                  <span>{bedroomDisplay}</span>
                                 </div>
                               )}
+                              {areaDisplay && (
+                                <div className="flex items-center gap-1.5">
+                                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                                  </svg>
+                                  <span>{areaDisplay}</span>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Additional Features Grid */}
+                          {(features.bathrooms || features.parkingSpaces) && (
+                            <div className="flex items-center gap-4 mb-4 text-xs text-slate-600 dark:text-slate-400">
                               {features.bathrooms && (
                                 <div className="flex items-center gap-1">
                                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                   </svg>
-                                  <span>{features.bathrooms} BA</span>
+                                  <span>{features.bathrooms} {t('pages.projects.bathrooms')}</span>
                                 </div>
                               )}
                               {features.parkingSpaces && (
@@ -179,7 +231,7 @@ export default function ProjectsIndex() {
                                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                                   </svg>
-                                  <span>{features.parkingSpaces} PKG</span>
+                                  <span>{features.parkingSpaces} {t('pages.projects.parking')}</span>
                                 </div>
                               )}
                             </div>
@@ -190,10 +242,10 @@ export default function ProjectsIndex() {
                             <div className="flex items-baseline justify-between">
                               <div>
                                 <div className="text-xs uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-semibold mb-1">
-                                  Starting From
+                                  {t('pages.projects.startingFrom')}
                                 </div>
                                 <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                                  {formatPrice(perUnit, { fallback: 'Contact Us' })}
+                                  {formatPrice(perUnit, { fallback: t('pages.projects.contactUs') })}
                                 </div>
                               </div>
                               <div className="opacity-0 group-hover:opacity-100 transition-opacity">
@@ -214,8 +266,8 @@ export default function ProjectsIndex() {
                 <svg className="mx-auto w-24 h-24 text-slate-300 dark:text-slate-700 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
-                <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">No Projects Available Yet</h3>
-                <p className="text-slate-600 dark:text-slate-400">Check back soon for exciting new development opportunities.</p>
+                <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">{t('pages.projects.noProjects')}</h3>
+                <p className="text-slate-600 dark:text-slate-400">{t('pages.projects.checkBackSoon')}</p>
               </div>
             )}
           </div>
