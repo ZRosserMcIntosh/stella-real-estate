@@ -19,13 +19,20 @@ export default function Pricing() {
   const handleDirectCheckout = () => {
     setCheckoutLoading(true)
     
-    // Use Stripe Payment Link for simplest checkout
-    // You'll create this in Stripe Dashboard: Products > Your Product > Payment Links
-    // For now, let's use Stripe Checkout mode
-    const priceId = 'price_1ST7qDEb2nSobztSr1SBYXWn'
-    const checkoutUrl = `https://checkout.stripe.com/c/pay/${priceId}#fidkdWxOYHwnPyd1blpxYHZxWjA0T3UwMH1gM0ptZDx8MG05akdsYUtgf1FfXUNqZXQzXzVAS1FqSkxTRERpUTxKY2dpPF1fPDxxb0N8VjR9ZkxcZzV0N2tgNDx0MjVsRGJIaTFcZWxgQnNiaTRnckE1a2cxQycpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYCkndnF1dHVgZ2lqbHJ2Jz9xd3BgKSdqZGhpamBkZmBgZ2JqYCc%2FcXdwYHgl`
+    // TODO: Replace this with your actual Stripe Payment Link from:
+    // https://dashboard.stripe.com/payment-links
+    // It should look like: https://buy.stripe.com/live_XXXXXXXXX
     
-    window.location.href = checkoutUrl
+    // For now, this will show an error until you add your real payment link
+    const stripePaymentLink = 'https://buy.stripe.com/live_REPLACE_WITH_YOUR_ACTUAL_LINK'
+    
+    if (stripePaymentLink.includes('REPLACE')) {
+      setCheckoutError('Payment link not configured. Please contact support.')
+      setCheckoutLoading(false)
+      return
+    }
+    
+    window.location.href = stripePaymentLink
   }
 
   // Founding 100 countdown logic - starts at 99/100, decreases linearly until Dec 31, 2025
