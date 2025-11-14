@@ -3,27 +3,17 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import { Check, X } from 'lucide-react'
+import FoundingCheckout from '../components/FoundingCheckout'
 
 export default function Pricing() {
   const { t } = useTranslation()
-  const [checkoutLoading, setCheckoutLoading] = useState(false)
-  const [checkoutError, setCheckoutError] = useState<string | null>(null)
+  const [checkoutOpen, setCheckoutOpen] = useState(false)
 
   // SEO metadata
   const siteUrl = window.location.origin
   const pageUrl = `${siteUrl}/precos`
   const pageTitle = 'Preços - Plataforma Stella'
   const pageDescription = 'Escolha o plano perfeito para o seu negócio imobiliário. Planos flexíveis para corretores, imobiliárias e incorporadores.'
-
-  // Direct checkout function - redirects to Stripe Payment Link
-  const handleDirectCheckout = () => {
-    setCheckoutLoading(true)
-    
-    // Stripe Payment Link for Founding 100 purchase
-    const stripePaymentLink = 'https://buy.stripe.com/00w00je3L6PXcUufUffYY00'
-    
-    window.location.href = stripePaymentLink
-  }
 
   // Founding 100 countdown logic - starts at 99/100, decreases linearly until Dec 31, 2025
   const calculateFoundingSlots = () => {
@@ -281,15 +271,11 @@ export default function Pricing() {
                     </div>
                     <div className="flex flex-col gap-4 items-center justify-center">
                       <button
-                        onClick={handleDirectCheckout}
-                        disabled={checkoutLoading}
-                        className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/50 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={() => setCheckoutOpen(true)}
+                        className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/50 text-lg"
                       >
-                        {checkoutLoading ? 'Carregando...' : 'Garantir Minha Vaga'}
+                        Garantir Minha Vaga
                       </button>
-                      {checkoutError && (
-                        <div className="text-red-400 text-sm">{checkoutError}</div>
-                      )}
                       <div className="text-center">
                         <div className="text-sm text-emerald-300 font-semibold mb-2">
                           Apenas {foundingSlotsRemaining} vagas restantes de 100
@@ -396,11 +382,10 @@ export default function Pricing() {
                     </button>
                   ) : (plan.id === 'SOLO' || plan.id === 'TEAM') ? (
                     <button
-                      onClick={handleDirectCheckout}
-                      disabled={checkoutLoading}
-                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-lg disabled:opacity-50"
+                      onClick={() => setCheckoutOpen(true)}
+                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-lg"
                     >
-                      {checkoutLoading ? 'Carregando...' : plan.cta}
+                      {plan.cta}
                     </button>
                   ) : (
                     <Link
@@ -680,6 +665,16 @@ export default function Pricing() {
           </div>
         </div>
       </div>
+
+      {/* Founding Checkout Modal */}
+      <FoundingCheckout
+        isOpen={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
+        onSuccess={() => {
+          setCheckoutOpen(false)
+          // Optionally show success message or redirect
+        }}
+      />
     </div>
   )
 }

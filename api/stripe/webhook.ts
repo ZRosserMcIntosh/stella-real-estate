@@ -179,16 +179,76 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 async function handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent) {
   console.log('Payment succeeded:', paymentIntent.id)
   
-  const userId = paymentIntent.metadata?.userId
-  
-  if (userId) {
-    // Update user profile to mark onboarding as completed
-    await supabase
-      .from('user_profiles')
+  const {
+    fullName,
+    cpf,
+    email,
+    creciNumber,
+    creciUf,
+    accountType,
+    companyName,
+    cnpj,
+    numberOfPartners,
+  } = paymentIntent.metadata
+
+  if (!email || !creciNumber || !creciUf) {
+    console.error('Missing metadata in payment intent')
+    return
+  }
+
+  try {
+    // Create user account in Supabase Auth (if needed)
+    // Note: Password was provided in form but not passed to payment intent for security
+    // You'll need to handle user creation separately or use a different flow
+    
+    // Update founding member record
+    const { data: member, error: updateError } = await supabase
+      .from('founding_members')
       .update({
-        onboarding_completed: true,
+        payment_status: 'paid',
+        payment_completed_at: new Date().toISOString(),
+        benefits_active: true,
+        stripe_customer_id: paymentIntent.customer as string,
       })
-      .eq('user_id', userId)
+      .eq('stripe_payment_intent_id', paymentIntent.id)
+      .select()
+      .single()
+
+    if (updateError) {
+      console.error('Error updating founding member:', updateError)
+      return
+    }
+
+    console.log(`Founding member payment completed: ${fullName} (${email})`)
+
+    // Create subscription for 24 months of Team plan
+    const startDate = new Date()
+    const endDate = new Date()
+    endDate.setMonth(endDate.getMonth() + 24)
+
+    const { error: subError } = await supabase
+      .from('subscriptions')
+      .insert({
+        user_id: member.user_id || null, // Will be null until user account is created
+        plan_id: 'TEAM',
+        status: 'active',
+        stripe_customer_id: paymentIntent.customer as string,
+        current_period_start: startDate.toISOString(),
+        current_period_end: endDate.toISOString(),
+        metadata: {
+          founding_member: true,
+          creci_number: creciNumber,
+          creci_uf: creciUf,
+          free_months: 24,
+          discount_percentage: 75,
+        },
+      })
+
+    if (subError) {
+      console.error('Error creating subscription:', subError)
+    }
+  } catch (error) {
+    console.error('Error in handlePaymentSucceeded:', error)
   }
 }
 
