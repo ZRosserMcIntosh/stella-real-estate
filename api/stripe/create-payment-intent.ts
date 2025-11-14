@@ -7,13 +7,24 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 })
 
 const supabase = createClient(
-  process.env.SUPABASE_URL!,
+  process.env.VITE_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  // Log environment check
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error('Missing STRIPE_SECRET_KEY')
+    return res.status(500).json({ error: 'Server configuration error: Missing Stripe key' })
+  }
+  
+  if (!process.env.VITE_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.error('Missing Supabase credentials')
+    return res.status(500).json({ error: 'Server configuration error: Missing Supabase credentials' })
   }
 
   try {
