@@ -824,6 +824,7 @@ export default function StellaPlatform() {
               Anticipated Delivery Schedule
             </p>
           </div>
+
           {/* Phase Rollout */}
           <div className="mb-16">
             <div className="space-y-4 max-w-4xl mx-auto">
@@ -902,11 +903,10 @@ export default function StellaPlatform() {
               ))}
             </div>
           </div>
-
-          </div>
-</div>
+        </div>
       </section>
-{/* Ecosystem CTA */}
+
+      {/* Ecosystem CTA */}
       <section className="relative py-16 overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800">
         <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
           <h3 className="text-3xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
