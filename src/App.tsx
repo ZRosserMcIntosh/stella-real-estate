@@ -13,7 +13,8 @@ export default function App() {
   const heroRef = useRef<HTMLDivElement | null>(null)
 
   // Make the background video ~20% blurrier overall and start slightly blurred (~10% of max).
-  const maxBlur = 25.84 // previous 14.4 * 1.1 ≈ 10% more blur
+  // Increased by 5% more: 25.84 * 1.05 = 27.13
+  const maxBlur = 27.13
   const minBlur = maxBlur * 0.1 // start with ~10% of max
   const [blur, setBlur] = useState<number>(minBlur)
   const [heroHeight, setHeroHeight] = useState<number>(typeof window !== 'undefined' ? window.innerHeight : 800)
@@ -408,13 +409,14 @@ export default function App() {
   }
 
   return (
-  <div className="relative min-h-screen flex flex-col bg-white dark:bg-slate-900">
-      {/* Fixed background video that fills edge-to-edge at the top (covers the hero area).
-          Height is controlled by heroHeight so the video sits behind the header and hero content. */}
+  <div className="relative min-h-screen flex flex-col">
+      {/* Fixed background video that fills the hero section area.
+          Positioned to start where main content starts (after pt-20 from Layout).
+          Height matches hero section exactly. */}
       <div
         aria-hidden
-        className="fixed left-0 top-0 w-screen overflow-hidden pointer-events-none -z-20"
-        style={{ height: `${heroHeight}px`, width: '100vw' }}
+        className="fixed left-0 w-screen overflow-hidden pointer-events-none z-0"
+        style={{ top: '5rem', height: `${heroHeight}px`, width: '100vw' }}
       >
   {heroUploadedUrl ? (
           <video
@@ -425,19 +427,15 @@ export default function App() {
             playsInline
             style={{
               position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%) scale(1.06)`,
-              transformOrigin: 'center center',
-              minWidth: `${computedMinWidth}px`,
-              minHeight: `${computedMinHeight}px`,
-              width: 'auto',
-              height: 'auto',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
               background: 'transparent',
               border: 0,
               filter: `blur(${blur}px)`,
-              transition: 'filter 160ms linear, transform 400ms linear',
-              willChange: 'filter, transform',
+              transition: 'filter 160ms linear',
+              willChange: 'filter',
               pointerEvents: 'none',
               objectFit: 'cover'
             }}
@@ -445,24 +443,19 @@ export default function App() {
         ) : homeVideoId ? (
           <>
           <iframe
-            // cover the viewport horizontally and the hero vertically to avoid letterboxing
+            // cover the container fully
             style={{
               position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%) scale(1.06)`,
-              transformOrigin: 'center center',
-              // ensure the iframe covers horizontally by using the computed min height
-              minWidth: `${computedMinWidth}px`,
-              minHeight: `${computedMinHeight}px`,
-              width: 'auto',
-              height: 'auto',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
               background: 'transparent',
               border: 0,
               filter: `blur(${blur}px)`,
               opacity: showFallbackOverlay ? 0 : 1,
-              transition: 'filter 160ms linear, transform 400ms linear',
-              willChange: 'filter, transform',
+              transition: 'filter 160ms linear',
+              willChange: 'filter',
               pointerEvents: 'none'
             }}
             id="hero-youtube-embed"
@@ -477,19 +470,15 @@ export default function App() {
               src={heroFallbackImage}
               style={{
                 position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: `translate(-50%, -50%) scale(1.06)`,
-                transformOrigin: 'center center',
-                minWidth: `${computedMinWidth}px`,
-                minHeight: `${computedMinHeight}px`,
-                width: 'auto',
-                height: 'auto',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
                 background: 'transparent',
                 border: 0,
                 filter: `blur(${blur}px)`,
-                transition: 'filter 160ms linear, transform 400ms linear, opacity 200ms ease-in-out',
-                willChange: 'filter, transform, opacity',
+                transition: 'filter 160ms linear, opacity 200ms ease-in-out',
+                willChange: 'filter, opacity',
                 pointerEvents: 'none',
                 objectFit: 'cover',
                 opacity: showFallbackOverlay ? 1 : 0,
@@ -503,19 +492,15 @@ export default function App() {
             src={heroFallbackImage}
             style={{
               position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%) scale(1.06)`,
-              transformOrigin: 'center center',
-              minWidth: `${computedMinWidth}px`,
-              minHeight: `${computedMinHeight}px`,
-              width: 'auto',
-              height: 'auto',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
               background: 'transparent',
               border: 0,
               filter: `blur(${blur}px)`,
-              transition: 'filter 160ms linear, transform 400ms linear',
-              willChange: 'filter, transform',
+              transition: 'filter 160ms linear',
+              willChange: 'filter',
               pointerEvents: 'none',
               objectFit: 'cover'
             }}
@@ -530,7 +515,7 @@ export default function App() {
       {/* HERO — content area that sits visually over the video. Keep ref to measure height. */}
       <section
         ref={heroRef}
-        className="relative overflow-hidden h-[75vh] md:h-[80vh] lg:h-[90vh] flex items-center"
+        className="relative overflow-hidden h-[75vh] md:h-[80vh] lg:h-[90vh] flex items-center z-10"
         aria-label="Hero"
       >
         <div className="container-padded relative z-20 flex h-full w-full items-center justify-center py-12">

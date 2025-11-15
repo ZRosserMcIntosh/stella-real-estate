@@ -12,24 +12,29 @@ export default function StellaReal() {
         
         <div className="container-padded relative z-10">
           <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-500/10 border border-brand-500/30 rounded-full text-brand-600 dark:text-brand-400 text-sm mb-8">
+              <span className="w-2 h-2 bg-brand-500 rounded-full animate-pulse"></span>
+              Retail Platform
+            </div>
+            
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight text-slate-900 dark:text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
-              Welcome to <span className="text-brand-600 dark:text-brand-400">Stella Real</span>
+              Find Your <span className="text-brand-600 dark:text-brand-400">Perfect Property</span>
             </h1>
             <p className="text-xl sm:text-2xl text-slate-600 dark:text-slate-400 mb-8 font-light">
-              Your dedicated real estate subdomain
+              Browse properties from verified realtors and brokerages
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
-                to="/"
+                to="/imoveis"
                 className="px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white rounded-full font-medium transition-colors shadow-lg hover:shadow-xl"
               >
-                Go to Main Site
+                Browse All Listings
               </Link>
               <Link
-                to="/contato"
+                to="/projetos"
                 className="px-8 py-4 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-full font-medium transition-colors shadow-lg hover:shadow-xl border border-slate-200 dark:border-slate-700"
               >
-                Contact Us
+                New Projects
               </Link>
             </div>
           </div>
@@ -41,25 +46,25 @@ export default function StellaReal() {
         <div className="container-padded">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl sm:text-4xl font-light tracking-tight text-slate-900 dark:text-white mb-12 text-center" style={{ fontFamily: 'Outfit, sans-serif' }}>
-              Subdomain Features
+              Why Choose Stella Real
             </h2>
             
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
-                  title: 'Dedicated Experience',
-                  description: 'A custom real estate experience tailored for your needs',
-                  icon: '🏠'
+                  title: 'Verified Listings',
+                  description: 'All properties are verified and managed by licensed professionals',
+                  icon: '✓'
                 },
                 {
-                  title: 'Brand Identity',
-                  description: 'Maintain your unique brand identity across platforms',
-                  icon: '✨'
+                  title: 'Comprehensive Search',
+                  description: 'Advanced filters to find exactly what you\'re looking for',
+                  icon: '🔍'
                 },
                 {
-                  title: 'Easy Integration',
-                  description: 'Seamlessly integrated with the main Stella platform',
-                  icon: '🔗'
+                  title: 'Direct Contact',
+                  description: 'Connect directly with realtors and schedule viewings',
+                  icon: '�'
                 }
               ].map((feature, idx) => (
                 <div
@@ -85,16 +90,16 @@ export default function StellaReal() {
         <div className="container-padded">
           <div className="max-w-4xl mx-auto bg-gradient-to-br from-brand-600 to-indigo-600 rounded-3xl p-12 text-center shadow-2xl">
             <h2 className="text-3xl sm:text-4xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-              Ready to Get Started?
+              Are You a Realtor?
             </h2>
             <p className="text-xl text-white/90 mb-8">
-              Explore all the features and capabilities of Stella Real Estate
+              Join our platform and start building your real estate business
             </p>
             <Link
-              to="/plataforma-stella"
+              to="/sub/constellation"
               className="inline-block px-8 py-4 bg-white text-brand-600 rounded-full font-medium transition-all shadow-lg hover:shadow-xl hover:scale-105"
             >
-              Explore Platform
+              Access Constellation Admin
             </Link>
           </div>
         </div>

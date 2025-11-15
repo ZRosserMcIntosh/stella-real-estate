@@ -42,6 +42,7 @@ import StellaPlatform from './pages/StellaPlatform'
 import Pricing from './pages/Pricing'
 import Members from './pages/Members'
 import StellaReal from './pages/StellaReal'
+import ConstellationPortal from './pages/ConstellationPortal'
 import CreateSite from './pages/onboarding/CreateSite'
 import ChooseRole from './pages/onboarding/ChooseRole'
 import RealtorLicense from './pages/onboarding/RealtorLicense'
@@ -143,7 +144,9 @@ const router = createBrowserRouter([
       { path: 'pricing', element: <Navigate to="/precos" replace /> },
       { path: 'list-your-property', element: <Navigate to="/anuncie-seu-imovel" replace /> },
       { path: 'members', element: <Members /> },
-      { path: 'stellareal', element: <StellaReal /> },
+      // Subdomain routes (temporary paths until custom domains are configured)
+      { path: 'sub/stellareal', element: <StellaReal /> },
+      { path: 'sub/constellation', element: <ConstellationPortal /> },
     ],
   },
   { path: '/criar-site', element: <CreateSite /> },
