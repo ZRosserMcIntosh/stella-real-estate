@@ -73,6 +73,7 @@ import PendingRequests from './pages/admin/developer/PendingRequests'
 import DeveloperTemplates from './pages/admin/developer/Templates'
 import DeveloperFeatureGates from './pages/admin/developer/FeatureGates'
 import DeveloperAccessCodes from './pages/admin/developer/AccessCodes'
+import DeveloperVisuals from './pages/admin/developer/Visuals'
 import Login from './pages/Login'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
@@ -186,6 +187,7 @@ const router = createBrowserRouter([
           { path: 'templates', element: <DeveloperTemplates /> },
           { path: 'feature-gates', element: <DeveloperFeatureGates /> },
           { path: 'access-codes', element: <DeveloperAccessCodes /> },
+          { path: 'visuals', element: <DeveloperVisuals /> },
         ],
       },
     ],

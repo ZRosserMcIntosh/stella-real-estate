@@ -8,6 +8,7 @@ const developerTabs = [
   { to: 'templates', label: 'Templates', description: 'Curate default site experiences for tenants.' },
   { to: 'feature-gates', label: 'Feature Gates', description: 'Control rollouts like Ballet and QA automations.' },
   { to: 'access-codes', label: 'Access Codes', description: 'Generate employee invites and developer sandbox logins.' },
+  { to: 'visuals', label: 'Visuals', description: 'Create branded images, placeholders, and graphics.' },
 ]
 
 export default function DeveloperLayout() {

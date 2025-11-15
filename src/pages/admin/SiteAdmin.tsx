@@ -30,6 +30,14 @@ export default function SiteAdmin() {
   const searchRef = useRef<number | null>(null)
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState<string | null>(null)
+  
+  // Upload progress tracking
+  const [uploadingFallback, setUploadingFallback] = useState(false)
+  const [uploadingVideo, setUploadingVideo] = useState(false)
+  const [uploadingHeroLogo, setUploadingHeroLogo] = useState(false)
+  const [uploadingHeaderLogo, setUploadingHeaderLogo] = useState(false)
+  const [uploadingFooterLogo, setUploadingFooterLogo] = useState(false)
+  const [uploadingWatermark, setUploadingWatermark] = useState(false)
 
   // Watermark settings
   const [watermarkEnabled, setWatermarkEnabled] = useState(false)
@@ -222,11 +230,12 @@ export default function SiteAdmin() {
           <div className="text-xs text-slate-600">Used when the hero video fails or is disabled. Paste a URL or upload an image.</div>
           <div className="grid gap-2 sm:grid-cols-[1fr_auto] items-center">
             <input className={inputCls} value={heroFallbackUrl} onChange={(e)=>setHeroFallbackUrl(e.target.value)} placeholder="https://.../fallback.jpg" />
-            <label className="inline-flex items-center gap-2 text-sm cursor-pointer">
+            <label className="inline-flex items-center gap-2 text-sm cursor-pointer group">
               <input
                 type="file"
                 accept="image/*"
                 className="hidden"
+                disabled={uploadingFallback}
                 onChange={async (e)=>{
                   if (isDemo) {
                     setMsg('Demo mode: uploads are disabled.')
@@ -236,22 +245,92 @@ export default function SiteAdmin() {
                   }
                   const file = e.target.files?.[0]
                   if (!file) return
+                  
+                  setUploadingFallback(true)
+                  setMsg('Uploading image...')
+                  
                   try {
                     if (!(import.meta as any).env?.VITE_SUPABASE_URL) {
                       // fallback: create a blob URL
                       const url = URL.createObjectURL(file)
                       setHeroFallbackUrl(url)
+                      setMsg('✓ Image loaded locally (Supabase not configured)')
+                      setTimeout(() => setMsg(null), 3000)
+                      e.target.value = ''
                       return
                     }
-                    const path = `hero-fallback/${Date.now()}_${file.name}`
-                    const { data, error } = await (supabase.storage.from('listings') as any).upload(path, file, { upsert: true, cacheControl: '3600' })
-                    if (error) throw error
-                    const { data: pub } = await (supabase.storage.from('listings') as any).getPublicUrl(path)
-                    if (pub?.publicUrl) setHeroFallbackUrl(pub.publicUrl)
-                  } catch {}
+                    
+                    // Sanitize filename
+                    const sanitized = file.name
+                      .normalize('NFD')
+                      .replace(/[\u0300-\u036f]/g, '')
+                      .replace(/[^a-zA-Z0-9._-]/g, '_')
+                    
+                    const bucket = supabase.storage.from('listings')
+                    const path = `hero-fallback/${Date.now()}_${sanitized}`
+                    
+                    const { error } = await bucket.upload(path, file, { 
+                      upsert: true, 
+                      cacheControl: '3600',
+                      contentType: file.type 
+                    })
+                    
+                    if (error) throw new Error(error.message || 'Upload failed')
+                    
+                    const { data: pub } = bucket.getPublicUrl(path)
+                    
+                    if (pub?.publicUrl) {
+                      setHeroFallbackUrl(pub.publicUrl)
+                      setMsg('✓ Fallback image uploaded successfully!')
+                      setTimeout(() => setMsg(null), 2000)
+                    } else {
+                      throw new Error('Failed to get public URL')
+                    }
+                  } catch (err: any) {
+                    console.error('Hero fallback upload error:', err)
+                    const errorMsg = err?.message || 'Upload failed'
+                    
+                    if (errorMsg.includes('row-level security') || errorMsg.includes('policy')) {
+                      setMsg('Upload failed: Storage bucket permissions not configured. Using local preview.')
+                      const url = URL.createObjectURL(file)
+                      setHeroFallbackUrl(url)
+                    } else {
+                      setMsg(`Upload failed: ${errorMsg}`)
+                    }
+                    
+                    setTimeout(() => setMsg(null), 5000)
+                  } finally {
+                    setUploadingFallback(false)
+                  }
+                  e.target.value = ''
                 }}
               />
-              <span className="rounded-md bg-slate-100 px-3 py-2 border border-slate-300 hover:bg-slate-200">Upload</span>
+              <span className={`
+                inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium
+                border transition-all duration-200
+                ${uploadingFallback 
+                  ? 'bg-indigo-600/20 border-indigo-500/40 text-indigo-300 cursor-wait' 
+                  : 'bg-gradient-to-r from-indigo-600/80 to-indigo-700/80 border-indigo-500/60 text-white hover:from-indigo-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-indigo-500/30 active:scale-[0.98]'
+                }
+                disabled:opacity-60 disabled:cursor-not-allowed
+              `}>
+                {uploadingFallback ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Uploading...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <span>Upload Image</span>
+                  </>
+                )}
+              </span>
             </label>
           </div>
           {heroFallbackUrl && (
@@ -296,11 +375,12 @@ export default function SiteAdmin() {
           <div className="text-xs text-slate-600">Upload a short, loopable video (MP4 recommended). This will be used instead of YouTube on the home hero if present.</div>
           <div className="grid gap-2 sm:grid-cols-[1fr_auto] items-center">
             <input className={inputCls} value={heroVideoUploadedUrl} onChange={(e)=>setHeroVideoUploadedUrl(e.target.value)} placeholder="https://.../hero.mp4" />
-            <label className="inline-flex items-center gap-2 text-sm cursor-pointer">
+            <label className="inline-flex items-center gap-2 text-sm cursor-pointer group">
               <input
                 type="file"
                 accept="video/mp4,video/webm,video/ogg"
                 className="hidden"
+                disabled={uploadingVideo}
                 onChange={async (e)=>{
                   if (isDemo) {
                     setMsg('Demo mode: uploads are disabled.')
@@ -310,21 +390,91 @@ export default function SiteAdmin() {
                   }
                   const file = e.target.files?.[0]
                   if (!file) return
+                  
+                  setUploadingVideo(true)
+                  setMsg('Uploading video...')
+                  
                   try {
                     if (!(import.meta as any).env?.VITE_SUPABASE_URL) {
                       const url = URL.createObjectURL(file)
                       setHeroVideoUploadedUrl(url)
+                      setMsg('✓ Video loaded locally (Supabase not configured)')
+                      setTimeout(() => setMsg(null), 3000)
+                      e.target.value = ''
                       return
                     }
-                    const path = `hero-video/${Date.now()}_${file.name}`
-                    const { error } = await (supabase.storage.from('listings') as any).upload(path, file, { upsert: true, cacheControl: '3600', contentType: file.type })
-                    if (error) throw error
-                    const { data: pub } = await (supabase.storage.from('listings') as any).getPublicUrl(path)
-                    if (pub?.publicUrl) setHeroVideoUploadedUrl(pub.publicUrl)
-                  } catch {}
+                    
+                    // Sanitize filename
+                    const sanitized = file.name
+                      .normalize('NFD')
+                      .replace(/[\u0300-\u036f]/g, '')
+                      .replace(/[^a-zA-Z0-9._-]/g, '_')
+                    
+                    const bucket = supabase.storage.from('listings')
+                    const path = `hero-video/${Date.now()}_${sanitized}`
+                    
+                    const { error } = await bucket.upload(path, file, { 
+                      upsert: true, 
+                      cacheControl: '3600', 
+                      contentType: file.type 
+                    })
+                    
+                    if (error) throw new Error(error.message || 'Upload failed')
+                    
+                    const { data: pub } = bucket.getPublicUrl(path)
+                    
+                    if (pub?.publicUrl) {
+                      setHeroVideoUploadedUrl(pub.publicUrl)
+                      setMsg('✓ Video uploaded successfully!')
+                      setTimeout(() => setMsg(null), 2000)
+                    } else {
+                      throw new Error('Failed to get public URL')
+                    }
+                  } catch (err: any) {
+                    console.error('Hero video upload error:', err)
+                    const errorMsg = err?.message || 'Upload failed'
+                    
+                    if (errorMsg.includes('row-level security') || errorMsg.includes('policy')) {
+                      setMsg('Upload failed: Storage bucket permissions not configured. Using local preview.')
+                      const url = URL.createObjectURL(file)
+                      setHeroVideoUploadedUrl(url)
+                    } else {
+                      setMsg(`Upload failed: ${errorMsg}`)
+                    }
+                    
+                    setTimeout(() => setMsg(null), 5000)
+                  } finally {
+                    setUploadingVideo(false)
+                  }
+                  e.target.value = ''
                 }}
               />
-              <span className="rounded-md bg-slate-100 px-3 py-2 border border-slate-300 hover:bg-slate-200">Upload</span>
+              <span className={`
+                inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium
+                border transition-all duration-200
+                ${uploadingVideo 
+                  ? 'bg-indigo-600/20 border-indigo-500/40 text-indigo-300 cursor-wait' 
+                  : 'bg-gradient-to-r from-indigo-600/80 to-indigo-700/80 border-indigo-500/60 text-white hover:from-indigo-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-indigo-500/30 active:scale-[0.98]'
+                }
+                disabled:opacity-60 disabled:cursor-not-allowed
+              `}>
+                {uploadingVideo ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Uploading...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                    </svg>
+                    <span>Upload Video</span>
+                  </>
+                )}
+              </span>
             </label>
           </div>
           {heroVideoUploadedUrl && (
@@ -423,14 +573,18 @@ export default function SiteAdmin() {
             </label>
 
             <div>
-              <label className="cursor-pointer inline-flex items-center gap-2 text-sm">
+              <label className="cursor-pointer inline-flex items-center gap-2 text-sm group">
                 <input
                   type="file"
                   accept="image/png,image/jpeg,image/svg+xml,image/webp"
                   className="hidden"
+                  disabled={uploadingHeroLogo}
                   onChange={async (e) => {
                     const file = e.target.files?.[0]
                     if (!file) return
+                    
+                    setUploadingHeroLogo(true)
+                    setMsg('Uploading logo...')
                     
                     try {
                       // Sanitize filename
@@ -472,11 +626,38 @@ export default function SiteAdmin() {
                       }
                       
                       setTimeout(() => setMsg(null), 5000)
+                    } finally {
+                      setUploadingHeroLogo(false)
                     }
                     e.target.value = ''
                   }}
                 />
-                <span className="rounded-md bg-slate-700/60 px-3 py-2 border border-slate-600 hover:bg-slate-600 text-slate-200">Upload Logo</span>
+                <span className={`
+                  inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium
+                  border transition-all duration-200
+                  ${uploadingHeroLogo 
+                    ? 'bg-indigo-600/20 border-indigo-500/40 text-indigo-300 cursor-wait' 
+                    : 'bg-gradient-to-r from-indigo-600/80 to-indigo-700/80 border-indigo-500/60 text-white hover:from-indigo-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-indigo-500/30 active:scale-[0.98]'
+                  }
+                  disabled:opacity-60 disabled:cursor-not-allowed
+                `}>
+                  {uploadingHeroLogo ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      <span>Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span>Upload Logo</span>
+                    </>
+                  )}
+                </span>
               </label>
             </div>
 
@@ -551,14 +732,18 @@ export default function SiteAdmin() {
             </label>
 
             <div>
-              <label className="cursor-pointer inline-flex items-center gap-2 text-sm">
+              <label className="cursor-pointer inline-flex items-center gap-2 text-sm group">
                 <input
                   type="file"
                   accept="image/png,image/jpeg,image/svg+xml,image/webp"
                   className="hidden"
+                  disabled={uploadingHeaderLogo}
                   onChange={async (e) => {
                     const file = e.target.files?.[0]
                     if (!file) return
+                    
+                    setUploadingHeaderLogo(true)
+                    setMsg('Uploading header logo...')
                     
                     try {
                       const sanitized = file.name
@@ -599,11 +784,38 @@ export default function SiteAdmin() {
                       }
                       
                       setTimeout(() => setMsg(null), 5000)
+                    } finally {
+                      setUploadingHeaderLogo(false)
                     }
                     e.target.value = ''
                   }}
                 />
-                <span className="rounded-md bg-slate-700/60 px-3 py-2 border border-slate-600 hover:bg-slate-600 text-slate-200">Upload Logo</span>
+                <span className={`
+                  inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium
+                  border transition-all duration-200
+                  ${uploadingHeaderLogo 
+                    ? 'bg-indigo-600/20 border-indigo-500/40 text-indigo-300 cursor-wait' 
+                    : 'bg-gradient-to-r from-indigo-600/80 to-indigo-700/80 border-indigo-500/60 text-white hover:from-indigo-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-indigo-500/30 active:scale-[0.98]'
+                  }
+                  disabled:opacity-60 disabled:cursor-not-allowed
+                `}>
+                  {uploadingHeaderLogo ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      <span>Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span>Upload Logo</span>
+                    </>
+                  )}
+                </span>
               </label>
             </div>
 
@@ -666,14 +878,18 @@ export default function SiteAdmin() {
             </label>
 
             <div>
-              <label className="cursor-pointer inline-flex items-center gap-2 text-sm">
+              <label className="cursor-pointer inline-flex items-center gap-2 text-sm group">
                 <input
                   type="file"
                   accept="image/png,image/jpeg,image/svg+xml,image/webp"
                   className="hidden"
+                  disabled={uploadingFooterLogo}
                   onChange={async (e) => {
                     const file = e.target.files?.[0]
                     if (!file) return
+                    
+                    setUploadingFooterLogo(true)
+                    setMsg('Uploading footer logo...')
                     
                     try {
                       const sanitized = file.name
@@ -714,11 +930,38 @@ export default function SiteAdmin() {
                       }
                       
                       setTimeout(() => setMsg(null), 5000)
+                    } finally {
+                      setUploadingFooterLogo(false)
                     }
                     e.target.value = ''
                   }}
                 />
-                <span className="rounded-md bg-slate-700/60 px-3 py-2 border border-slate-600 hover:bg-slate-600 text-slate-200">Upload Logo</span>
+                <span className={`
+                  inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium
+                  border transition-all duration-200
+                  ${uploadingFooterLogo 
+                    ? 'bg-indigo-600/20 border-indigo-500/40 text-indigo-300 cursor-wait' 
+                    : 'bg-gradient-to-r from-indigo-600/80 to-indigo-700/80 border-indigo-500/60 text-white hover:from-indigo-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-indigo-500/30 active:scale-[0.98]'
+                  }
+                  disabled:opacity-60 disabled:cursor-not-allowed
+                `}>
+                  {uploadingFooterLogo ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      <span>Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span>Upload Logo</span>
+                    </>
+                  )}
+                </span>
               </label>
             </div>
 
@@ -961,11 +1204,12 @@ export default function SiteAdmin() {
                       onChange={e => setWatermarkImageUrl(e.target.value)} 
                       placeholder="https://.../watermark-logo.png" 
                     />
-                    <label className="inline-flex items-center gap-2 text-sm cursor-pointer">
+                    <label className="inline-flex items-center gap-2 text-sm cursor-pointer group">
                       <input
                         type="file"
                         accept="image/*"
                         className="hidden"
+                        disabled={uploadingWatermark}
                         onChange={async (e) => {
                           if (isDemo) {
                             setMsg('Demo mode: uploads are disabled.')
@@ -976,8 +1220,8 @@ export default function SiteAdmin() {
                           const file = e.target.files?.[0]
                           if (!file) return
                           
-                          // Show uploading message
-                          setMsg('Uploading...')
+                          setUploadingWatermark(true)
+                          setMsg('Uploading watermark...')
                           
                           try {
                             // Check if Supabase is configured
@@ -985,7 +1229,7 @@ export default function SiteAdmin() {
                               // Fallback: create local blob URL
                               const url = URL.createObjectURL(file)
                               setWatermarkImageUrl(url)
-                              setMsg('Image loaded (local preview)')
+                              setMsg('✓ Image loaded (local preview)')
                               setTimeout(() => setMsg(null), 2000)
                               e.target.value = ''
                               return
@@ -1019,7 +1263,7 @@ export default function SiteAdmin() {
                             
                             if (pub?.publicUrl) {
                               setWatermarkImageUrl(pub.publicUrl)
-                              setMsg('✓ Upload successful!')
+                              setMsg('✓ Watermark uploaded successfully!')
                               setTimeout(() => setMsg(null), 2000)
                             } else {
                               throw new Error('Failed to get public URL')
@@ -1041,11 +1285,38 @@ export default function SiteAdmin() {
                             }
                             
                             setTimeout(() => setMsg(null), 5000)
+                          } finally {
+                            setUploadingWatermark(false)
                           }
                           e.target.value = ''
                         }}
                       />
-                      <span className="rounded-md bg-slate-700/60 px-3 py-2 border border-slate-600 hover:bg-slate-600 text-slate-200">Upload</span>
+                      <span className={`
+                        inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium
+                        border transition-all duration-200
+                        ${uploadingWatermark 
+                          ? 'bg-indigo-600/20 border-indigo-500/40 text-indigo-300 cursor-wait' 
+                          : 'bg-gradient-to-r from-indigo-600/80 to-indigo-700/80 border-indigo-500/60 text-white hover:from-indigo-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-indigo-500/30 active:scale-[0.98]'
+                        }
+                        disabled:opacity-60 disabled:cursor-not-allowed
+                      `}>
+                        {uploadingWatermark ? (
+                          <>
+                            <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span>Uploading...</span>
+                          </>
+                        ) : (
+                          <>
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Upload Image</span>
+                          </>
+                        )}
+                      </span>
                     </label>
                   </div>
                   {watermarkImageUrl && (
