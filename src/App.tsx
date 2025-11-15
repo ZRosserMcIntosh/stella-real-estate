@@ -408,7 +408,7 @@ export default function App() {
   }
 
   return (
-  <div className="relative min-h-screen flex flex-col">
+  <div className="relative min-h-screen flex flex-col bg-white dark:bg-slate-900">
       {/* Fixed background video that fills edge-to-edge at the top (covers the hero area).
           Height is controlled by heroHeight so the video sits behind the header and hero content. */}
       <div

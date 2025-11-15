@@ -41,6 +41,7 @@ import RequestAccess from './pages/investors/RequestAccess'
 import StellaPlatform from './pages/StellaPlatform'
 import Pricing from './pages/Pricing'
 import Members from './pages/Members'
+import StellaReal from './pages/StellaReal'
 import CreateSite from './pages/onboarding/CreateSite'
 import ChooseRole from './pages/onboarding/ChooseRole'
 import RealtorLicense from './pages/onboarding/RealtorLicense'
@@ -80,6 +81,7 @@ import ResetPassword from './pages/ResetPassword'
 import { CurrencyProvider } from './context/CurrencyContext'
 import { AuthProvider } from './context/AuthContext'
 import { OnboardingProvider } from './context/OnboardingContext'
+import { SubdomainRouter } from './components/SubdomainRouter'
 
 const router = createBrowserRouter([
   {
@@ -141,6 +143,7 @@ const router = createBrowserRouter([
       { path: 'pricing', element: <Navigate to="/precos" replace /> },
       { path: 'list-your-property', element: <Navigate to="/anuncie-seu-imovel" replace /> },
       { path: 'members', element: <Members /> },
+      { path: 'stellareal', element: <StellaReal /> },
     ],
   },
   { path: '/criar-site', element: <CreateSite /> },
@@ -202,7 +205,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <AuthProvider>
         <OnboardingProvider>
           <CurrencyProvider>
-            <RouterProvider router={router} />
+            <SubdomainRouter>
+              <RouterProvider router={router} />
+            </SubdomainRouter>
           </CurrencyProvider>
         </OnboardingProvider>
       </AuthProvider>

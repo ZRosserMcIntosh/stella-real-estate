@@ -5,6 +5,17 @@
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Subdomain",
+          "value": "$HOST"
+        }
+      ]
+    }
+  ],
   "functions": {
     "api/send-email.ts": {
       "memory": 1024,
