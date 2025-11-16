@@ -23,6 +23,8 @@ export function AddPersonModal({ open, onClose, onCreated, existingPeople }: { o
   const [managerId, setManagerId] = useState<string>('')
   const [city, setCity] = useState('')
   const [status, setStatus] = useState<PersonStatus>('active')
+  const [generatedInvitationCode, setGeneratedInvitationCode] = useState<string>('')
+  const [showInvitationCode, setShowInvitationCode] = useState(false)
 
   const canNext1 = fullName.trim() && email.trim() ? true : false
   const cpfValid = !cpf || cpfRegex.test(cpf)
@@ -138,10 +140,54 @@ export function AddPersonModal({ open, onClose, onCreated, existingPeople }: { o
                 <li>CPF: {cpf || '—'} • CNPJ: {cnpj || '—'}</li>
               </ul>
               <p className="text-xs text-slate-500">Note: advanced sections (Access & Security, Finance, Equipment, Compliance) can be completed after creation.</p>
+              
+              {/* Generate Invitation Code Option */}
+              <div className="mt-4 p-3 bg-indigo-50 border border-indigo-200 rounded">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
+                    <input
+                      type="checkbox"
+                      checked={showInvitationCode}
+                      onChange={(e) => setShowInvitationCode(e.target.checked)}
+                      className="rounded border-slate-300"
+                    />
+                    Gerar Código de Convite
+                  </label>
+                </div>
+                {showInvitationCode && (
+                  <p className="text-xs text-slate-600">
+                    Um código de convite será gerado e enviado para {email}. O novo membro poderá usar este código para criar sua conta no sistema.
+                  </p>
+                )}
+              </div>
             </div>
           )}
           {step === 4 && (
-            <div className="text-green-700">Person created.</div>
+            <div className="space-y-3">
+              <div className="text-green-700 font-medium">Person created successfully!</div>
+              {generatedInvitationCode && (
+                <div className="p-4 bg-green-50 border border-green-200 rounded">
+                  <div className="text-sm font-medium text-slate-700 mb-2">Invitation Code Generated:</div>
+                  <div className="flex items-center gap-2">
+                    <code className="flex-1 p-3 bg-white border border-slate-300 rounded font-mono text-lg tracking-widest text-center">
+                      {generatedInvitationCode}
+                    </code>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(generatedInvitationCode);
+                        alert('Invitation code copied to clipboard!');
+                      }}
+                      className="px-3 py-2 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-600 mt-2">
+                    Send this code to {email}. They can use it to register at /login with their email and this invitation code.
+                  </p>
+                </div>
+              )}
+            </div>
           )}
         </div>
         <div className="flex items-center justify-between gap-2 border-t border-slate-200 px-4 py-3">
@@ -151,19 +197,47 @@ export function AddPersonModal({ open, onClose, onCreated, existingPeople }: { o
             {step < 3 && <button onClick={()=> setStep((s)=> (s+1) as Step)} disabled={(step===1 && !canNext1) || (step===2 && !roleTitle.trim())} className="rounded bg-slate-900 px-3 py-1.5 text-sm text-white disabled:opacity-50">Next</button>}
             {step === 3 && <button onClick={async ()=>{
               if (!canCreate || isDemo) return
-              // Try Supabase RPC first (admin-only); fallback to local state if not configured or fails
+              
               let createdLocal = false
+              let invitationCode = ''
+              
               try {
                 if ((import.meta as any).env?.VITE_SUPABASE_URL && (import.meta as any).env?.VITE_SUPABASE_ANON_KEY) {
+                  // Generate invitation code if requested
+                  if (showInvitationCode) {
+                    const { data: codeData, error: codeError } = await supabase.rpc('generate_invitation_code')
+                    if (codeError) throw codeError
+                    invitationCode = codeData
+                    
+                    // Insert invitation code record
+                    const { error: insertError } = await supabase
+                      .from('invitation_codes')
+                      .insert({
+                        code: invitationCode,
+                        email: email.toLowerCase(),
+                        full_name: fullName,
+                        role: roleTitle.toLowerCase().includes('admin') ? 'admin' : 
+                              roleTitle.toLowerCase().includes('manager') ? 'manager' : 'agent',
+                        department: department,
+                        status: 'pending',
+                      })
+                    
+                    if (insertError) throw insertError
+                  }
+                  
+                  // Try to add team member via RPC
                   const { data, error } = await supabase.rpc('add_team_member', {
                     p_email: email,
                     p_full_name: fullName,
-                    p_role: 'admin',
+                    p_role: roleTitle.toLowerCase().includes('admin') ? 'admin' : 
+                            roleTitle.toLowerCase().includes('manager') ? 'manager' : 'agent',
                     p_department: department,
                     p_city: city || null,
                     p_status: status,
                   })
                   if (error) throw error
+                  
+                  setGeneratedInvitationCode(invitationCode)
                   onCreated(null)
                 } else {
                   createdLocal = true
