@@ -58,7 +58,7 @@ export default function AdminRoute() {
 
   // Not logged in
   if (!session) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/admin/login" replace />
   }
 
   // Check if user is admin or team member
@@ -68,7 +68,7 @@ export default function AdminRoute() {
       return <Navigate to="/sub/constellation/dashboard" replace />
     }
     // Unknown user type - redirect to login
-    return <Navigate to="/login" replace />
+    return <Navigate to="/admin/login" replace />
   }
 
   // User is authorized admin/team - render protected routes

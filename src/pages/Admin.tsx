@@ -52,7 +52,7 @@ export default function Admin() {
   }
   const logout = async () => {
     await signOut()
-    navigate('/login')
+    navigate('/admin/login')
   }
   if (!ready) return null
 

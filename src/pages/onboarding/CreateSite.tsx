@@ -239,7 +239,7 @@ export default function CreateSite() {
 
                 <p className="text-sm text-slate-500">
                   Já tem conta?{' '}
-                  <Link to="/login" className="font-semibold text-brand-600 hover:underline">
+                  <Link to="/admin/login" className="font-semibold text-brand-600 hover:underline">
                     Entre com suas credenciais
                   </Link>
                   .

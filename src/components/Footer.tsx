@@ -227,7 +227,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/login" className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                <Link to="/admin/login" className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   {t('header.nav.employeeLogin')}
                 </Link>
               </li>

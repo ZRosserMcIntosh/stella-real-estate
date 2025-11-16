@@ -19,7 +19,7 @@ export default function Members() {
       const { data: { user } } = await supabase.auth.getUser()
       
       if (!user) {
-        navigate('/login?redirect=/members')
+        navigate('/admin/login?redirect=/members')
         return
       }
 
@@ -41,7 +41,7 @@ export default function Members() {
       setMember(memberData)
     } catch (error) {
       console.error('Auth error:', error)
-      navigate('/login?redirect=/members')
+      navigate('/admin/login?redirect=/members')
     } finally {
       setLoading(false)
     }

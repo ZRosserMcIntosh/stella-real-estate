@@ -47,7 +47,7 @@ export default function Constellation() {
                 Get Started Free
               </Link>
               <Link
-                to="/login"
+                to="/admin/login"
                 className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full font-medium transition-all border border-white/20 hover:border-white/30 text-lg"
               >
                 Sign In
@@ -328,7 +328,7 @@ export default function Constellation() {
                 <h4 className="text-white font-semibold mb-4">Support</h4>
                 <ul className="space-y-2">
                   <li><Link to="/contato" className="text-slate-400 hover:text-white transition-colors">Help Center</Link></li>
-                  <li><Link to="/login" className="text-slate-400 hover:text-white transition-colors">Sign In</Link></li>
+                  <li><Link to="/admin/login" className="text-slate-400 hover:text-white transition-colors">Sign In</Link></li>
                 </ul>
               </div>
             </div>

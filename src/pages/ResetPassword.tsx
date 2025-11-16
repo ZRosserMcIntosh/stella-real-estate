@@ -18,7 +18,7 @@ export default function ResetPassword() {
     setStatus('saving'); setMessage('')
     const { error } = await supabase.auth.updateUser({ password })
     if (error) { setStatus('error'); setMessage(error.message) }
-    else { setStatus('saved'); setMessage('Password updated. Redirecting to login…'); setTimeout(()=>navigate('/login'), 1500) }
+    else { setStatus('saved'); setMessage('Password updated. Redirecting to login…'); setTimeout(()=>navigate('/admin/login'), 1500) }
   }
 
   return (

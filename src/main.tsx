@@ -83,6 +83,7 @@ import DeveloperFeatureGates from './pages/admin/developer/FeatureGates'
 import DeveloperAccessCodes from './pages/admin/developer/AccessCodes'
 import DeveloperVisuals from './pages/admin/developer/Visuals'
 import Login from './pages/Login'
+import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import { CurrencyProvider } from './context/CurrencyContext'
@@ -169,9 +170,11 @@ const router = createBrowserRouter([
   { path: '/onboarding/employee-code', element: <EmployeeInvite /> },
   { path: '/onboarding/site-setup', element: <SiteSetup /> },
   { path: '/curso/creci', element: <CreciCourse /> },
-  { path: '/investors/login', element: <Navigate to="/login" replace /> },
+  { path: '/investors/login', element: <Navigate to="/admin/login" replace /> },
   { path: '/investors/request-access', element: <RequestAccess /> },
-  { path: '/login', element: <Login /> },
+  { path: '/admin/login', element: <Login /> },
+  { path: '/admin/signup', element: <SignUp /> },
+  { path: '/login', element: <Navigate to="/admin/login" replace /> }, // Redirect old path
   { path: '/forgot-password', element: <ForgotPassword /> },
   { path: '/reset-password', element: <ResetPassword /> },
   {

@@ -217,7 +217,7 @@ export default function Header() {
         {/* Mobile Login Button - Only visible on mobile */}
         <div className="sm:hidden">
           <Link
-            to="/login"
+            to="/admin/login"
             className="flex items-center gap-2 px-3 py-1.5 text-[#C9B382] hover:text-[#d4c295] border border-[#C9B382]/30 hover:border-[#C9B382]/50 rounded-lg transition-all duration-300 text-xs font-medium whitespace-nowrap"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
@@ -697,7 +697,7 @@ export default function Header() {
                   </Link>
                   
                   <Link
-                    to="/login"
+                    to="/admin/login"
                     className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2.5 pl-2 pr-3 transition-all duration-300 w-full text-left group"
                   >
                     <div className="flex items-center justify-center w-8 h-8">
@@ -817,7 +817,7 @@ export default function Header() {
                 </svg>
                 Stella Real Team
               </Link>
-              <Link to="/login" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
+              <Link to="/admin/login" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                   <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
                 </svg>

@@ -22,12 +22,12 @@ export default function AdminLayout() {
   const accountCloseTimer = React.useRef<NodeJS.Timeout | null>(null)
   const handleSignOut = React.useCallback(async () => {
     await signOutAuth()
-    navigate('/login')
+    navigate('/admin/login')
   }, [signOutAuth, navigate])
 
   React.useEffect(() => {
     if (authLoading) return
-    if (!session && !isDemo) navigate('/login', { replace: true })
+    if (!session && !isDemo) navigate('/admin/login', { replace: true })
   }, [authLoading, session, isDemo, navigate])
 
   // Load header logo from settings (same as retail header)

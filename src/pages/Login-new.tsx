@@ -190,6 +190,16 @@ export default function Login() {
                 }}
               />
             </div>
+            <h1 
+              className="text-sm sm:text-base font-light uppercase tracking-[0.4em] text-amber-200/80 mb-2" 
+              style={{ 
+                fontFamily: 'Outfit, sans-serif',
+                fontWeight: 300,
+                textShadow: '0 0 12px rgba(251, 191, 36, 0.3)'
+              }}
+            >
+              ENTRAR
+            </h1>
           </div>
 
           {/* Form */}
@@ -245,41 +255,41 @@ export default function Login() {
               </div>
             )}
 
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-1/2 bg-amber-500/20 border border-amber-500/30 text-amber-200 py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg sm:rounded-xl font-medium uppercase tracking-wider hover:bg-amber-500/30 hover:border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-amber-500/25 text-[10px] sm:text-xs"
-                style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 300 }}
-              >
-                {loading ? t('constellation.loading') : t('constellation.signin_button')}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-amber-500/20 border border-amber-500/30 text-amber-200 py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg sm:rounded-xl font-medium uppercase tracking-wider hover:bg-amber-500/30 hover:border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-amber-500/25 text-[10px] sm:text-xs"
+              style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 300 }}
+            >
+              {loading ? t('constellation.loading') : t('constellation.signin_button')}
+            </button>
           </form>
 
-          <div className="mt-3 sm:mt-4 animate-fadeIn">
-            <div className="flex items-center justify-between text-[10px] sm:text-xs">
-              <button
-                type="button"
-                onClick={() => navigate('/')}
-                className="text-amber-200/60 hover:text-amber-200 transition-colors font-medium"
-              >
-                ← Voltar
-              </button>
-              <Link
-                to="/forgot-password"
-                className="text-amber-200/60 hover:text-amber-200 transition-colors font-medium"
-              >
-                Esqueci Senha
-              </Link>
-              <Link
-                to="/admin/signup"
-                className="text-amber-200/60 hover:text-amber-200 transition-colors font-medium"
-              >
-                Cadastrar →
-              </Link>
-            </div>
+          <div className="mt-3 sm:mt-4 text-center animate-fadeIn space-y-2">
+            <p className="text-white/60 text-[10px] sm:text-xs">
+              Não tem uma conta?
+            </p>
+            <Link
+              to="/admin/signup"
+              className="block text-amber-200/80 hover:text-amber-200 transition-colors text-[10px] sm:text-xs font-medium"
+            >
+              Cadastrar
+            </Link>
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="block w-full text-amber-200/60 hover:text-amber-200 transition-colors text-[10px] sm:text-xs mt-2"
+            >
+              {t('auth.back_to_home')}
+            </button>
           </div>
+        </div>
+
+        {/* Demo mode hint */}
+        <div className="mt-3 sm:mt-4 text-center">
+          <p className="text-white/30 text-[9px] sm:text-[10px]">
+            Demo: email: demo, password: stella
+          </p>
         </div>
       </div>
     </div>
