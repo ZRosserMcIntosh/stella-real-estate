@@ -142,7 +142,8 @@ function PaymentForm({
         <button
           type="submit"
           disabled={!stripe || isProcessing}
-          className="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 py-3 px-4 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ fontFamily: 'Outfit, sans-serif' }}
         >
           {isProcessing ? 'Processando...' : 'Confirmar Pagamento'}
         </button>
@@ -164,8 +165,8 @@ export default function ConstellationSignup() {
       height: Math.random() * 2 + 1,
       top: Math.random() * 100,
       left: Math.random() * 100,
-      animationDelay: Math.random() * 3,
-      animationDuration: Math.random() * 2 + 2,
+      animationDelay: Math.random() * 10, // Random delay up to 10s for staggered twinkling
+      animationDuration: Math.random() * 3 + 2, // 2-5 seconds per twinkle
       opacity: Math.random() * 0.5 + 0.3,
     }));
   }, []); // Empty deps - only generate once
@@ -516,46 +517,104 @@ export default function ConstellationSignup() {
           background-attachment: fixed;
           min-height: 100vh;
         }
-      `}</style>
-      <div className="relative min-h-screen bg-slate-950 flex items-center justify-center px-4 py-4 sm:py-8">
-        {/* Animated stars background */}
-        <div className="absolute inset-0 overflow-hidden bg-slate-950">
-          {staticStars.map((star) => (
-            <div
-              key={star.id}
-              className="absolute rounded-full bg-white animate-pulse"
-              style={{
-                width: star.width + 'px',
-                height: star.height + 'px',
-                top: star.top + '%',
-                left: star.left + '%',
-                animationDelay: star.animationDelay + 's',
-                animationDuration: star.animationDuration + 's',
-                opacity: star.opacity,
-              }}
-            />
-          ))}
-        </div>
 
-        {/* Shooting stars effect */}
-        <style>{`
-          @keyframes shoot {
-            0% {
-              transform: translateX(0) translateY(0) rotate(-45deg);
-              opacity: 0;
-            }
-            20% {
-              opacity: 1;
-            }
-            85% {
-              opacity: 1;
-            }
-            100% {
-              transform: translateX(-500px) translateY(500px) rotate(-45deg);
-              opacity: 0;
-            }
+        @keyframes twinkle {
+          0%, 100% { 
+            opacity: 0.3; 
+            transform: scale(1);
           }
-          @keyframes fadeIn {
+          50% { 
+            opacity: 1;
+            transform: scale(1.2);
+          }
+        }
+
+        @keyframes shootingStar {
+          0% {
+            transform: translateX(0) translateY(0) rotate(-45deg);
+            opacity: 0;
+            filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
+          }
+          20% {
+            opacity: 0.5;
+            filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.2));
+          }
+          30% {
+            opacity: 1;
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.4));
+          }
+          60% {
+            opacity: 1;
+            filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+          }
+          75% {
+            opacity: 1;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+          }
+          95% {
+            opacity: 1;
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
+          }
+          100% {
+            transform: translateX(-300px) translateY(300px) rotate(-45deg);
+            opacity: 0;
+            filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
+          }
+        }
+
+        .star {
+          position: absolute;
+          background: white;
+          border-radius: 50%;
+          animation: twinkle linear infinite;
+        }
+
+        .shooting-star {
+          position: absolute;
+          height: 2px;
+          background: linear-gradient(90deg, white, transparent);
+          animation: shootingStar linear infinite;
+        }
+      `}</style>
+      <div className="relative min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-950 flex items-center justify-center px-4 py-4 sm:py-8">
+        {/* Animated stars background */}
+        <div className="absolute inset-0 overflow-hidden">
+        {staticStars.map((star) => (
+          <div
+            key={`static-${star.id}`}
+            className="star"
+            style={{
+              width: `${star.width}px`,
+              height: `${star.height}px`,
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              animationDelay: `${star.animationDelay}s`,
+              animationDuration: `${star.animationDuration}s`,
+              opacity: star.opacity,
+            }}
+          />
+        ))}
+
+        {/* Shooting stars */}
+        {shootingStars.map((star) => (
+          <div
+            key={`shooting-${star.id}`}
+            className="shooting-star"
+            style={{
+              width: `${star.width}px`,
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              animationDelay: `${star.delay}s`,
+              animationDuration: `${star.duration}s`,
+              opacity: star.opacity,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Shooting stars effect */}
+      <style>{`
+        @keyframes fadeIn {
             0% {
               opacity: 0;
               transform: translateY(10px);
@@ -565,30 +624,10 @@ export default function ConstellationSignup() {
               transform: translateY(0);
             }
           }
-          .shooting-star {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, #fff, transparent);
-            animation: shoot linear infinite;
-          }
           .animate-fadeIn {
             animation: fadeIn 0.3s ease-out forwards;
           }
         `}</style>
-        {shootingStars.map((star) => (
-          <div
-            key={star.id}
-            className="shooting-star"
-            style={{
-              top: `${star.top}%`,
-              left: `${star.left}%`,
-              width: `${star.width}px`,
-              opacity: star.opacity,
-              animationDelay: `${star.delay}s`,
-              animationDuration: `${star.duration}s`,
-            }}
-          />
-        ))}
 
         {/* Signup Card */}
         <div className="relative z-10 w-full max-w-md">
@@ -674,7 +713,8 @@ export default function ConstellationSignup() {
                 <button
                   type="button"
                   onClick={handlePersonalInfoNext}
-                  className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-xl"
+                  className="w-full py-3 px-4 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl"
+                  style={{ fontFamily: 'Outfit, sans-serif' }}
                 >
                   Next: Business Information
                 </button>
@@ -799,7 +839,8 @@ export default function ConstellationSignup() {
                   <button
                     type="button"
                     onClick={handleBusinessInfoNext}
-                    className="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-xl"
+                    className="flex-1 py-3 px-4 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl"
+                    style={{ fontFamily: 'Outfit, sans-serif' }}
                   >
                     Next
                   </button>
@@ -891,7 +932,8 @@ export default function ConstellationSignup() {
                     type="button"
                     onClick={handleCredentialsNext}
                     disabled={loading}
-                    className="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 py-3 px-4 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ fontFamily: 'Outfit, sans-serif' }}
                   >
                     {loading ? 'Creating Account...' : 'Finish Registration'}
                   </button>
