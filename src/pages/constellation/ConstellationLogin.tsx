@@ -55,7 +55,8 @@ export default function ConstellationLogin() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [mode, setMode] = useState<'signin' | 'signup'>('signin')
-  const [shootingStars, setShootingStars] = useState<Array<{ id: number; delay: number; duration: number; left: number; top: number }>>([])
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [shootingStars, setShootingStars] = useState<Array<{ id: number; delay: number; duration: number; left: number; top: number; width: number; opacity: number }>>([])
   const [signupStep, setSignupStep] = useState<'personal' | 'business' | 'credentials' | 'payment'>('personal')
   const [signupData, setSignupData] = useState<SignupFormData>({
     fullName: '',
@@ -82,16 +83,18 @@ export default function ConstellationLogin() {
   // Add shooting stars effect after page loads
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      const stars = Array.from({ length: 6 }, (_, i) => ({
+      const stars = Array.from({ length: 10 }, (_, i) => ({
         id: i,
-        delay: Math.random() * 5,
-        duration: Math.random() * 2 + 2, // Slowed down: 2-4 seconds (was 1-3)
-        // Varied origins - some from top-left, some from middle, some from upper-right edge
-        left: i < 2 ? Math.random() * 40 : i < 4 ? Math.random() * 60 + 20 : Math.random() * 20 + 80, // Last 2 from right edge (80-100%)
-        top: i < 2 ? Math.random() * 30 : i < 4 ? Math.random() * 40 + 10 : Math.random() * 50, // Last 2 from upper half (0-50%)
+        delay: 0, // All start at the same time
+        duration: (Math.random() * 2 + 3) * (0.7 + Math.random() * 0.6), // +/- 30% variation: base 3-5s (slower), then 70%-130%
+        // Varied origins - more from top-left, some from middle, some from upper-right edge, some from lower-right
+        left: i < 4 ? Math.random() * 33 : i < 6 ? Math.random() * 60 + 20 : Math.random() * 20 + 80, // First 4 from top-left third (0-33%), next 2 middle, last 4 from right edge (80-100%)
+        top: i < 4 ? Math.random() * 30 : i < 6 ? Math.random() * 40 + 10 : i < 8 ? Math.random() * 50 : Math.random() * 50 + 50, // Last 2 from lower half (50-100%)
+        width: 100 * (0.7 + Math.random() * 0.6), // +/- 30% variation: base 100px, range 70-130px
+        opacity: 0.7 + Math.random() * 0.6, // +/- 30% brightness: range 0.7-1.3 (capped at 1 by CSS)
       }))
       setShootingStars(stars)
-    }, 500)
+    }, 100) // Start almost immediately
     return () => clearTimeout(timer)
   }, [])
 
@@ -292,7 +295,7 @@ export default function ConstellationLogin() {
   }
 
   return (
-    <div className="relative min-h-screen bg-slate-950 flex items-center justify-center px-4">
+    <div className="relative min-h-screen bg-slate-950 flex items-center justify-center px-4 py-4 sm:py-8">
       {/* Animated stars background */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(100)].map((_, i) => (
@@ -317,6 +320,12 @@ export default function ConstellationLogin() {
         @keyframes shoot {
           0% {
             transform: translateX(0) translateY(0) rotate(-45deg);
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+          }
+          85% {
             opacity: 1;
           }
           100% {
@@ -351,7 +360,8 @@ export default function ConstellationLogin() {
           style={{
             top: `${star.top}%`,
             left: `${star.left}%`,
-            width: '100px',
+            width: `${star.width}px`,
+            opacity: star.opacity,
             animationDelay: `${star.delay}s`,
             animationDuration: `${star.duration}s`,
           }}
@@ -360,66 +370,100 @@ export default function ConstellationLogin() {
 
       {/* Login Card */}
       <div className="relative z-10 w-full max-w-md">
-        <div className="bg-white/[0.035] backdrop-blur-md border border-white/10 rounded-3xl shadow-2xl p-8 transition-all duration-500 ease-in-out">
+        <div className="bg-white/[0.035] backdrop-blur-md border border-white/10 rounded-3xl shadow-2xl p-6 sm:p-8 transition-all duration-500 ease-in-out">
           {/* Constellation Logo/Title */}
-          <div className="text-center mb-8">
-            <div className="flex justify-center mb-6">
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="flex justify-center mb-4 sm:mb-6">
               <img 
                 src="/tech-icons/contellation-logo.png" 
                 alt="Constellation" 
-                className="h-32 w-auto object-contain"
+                className="h-24 sm:h-32 w-auto object-contain"
+                style={{
+                  filter: 'brightness(1.3) drop-shadow(0 0 8px rgba(129, 140, 248, 0.4)) drop-shadow(0 0 16px rgba(129, 140, 248, 0.2))'
+                }}
               />
             </div>
-            <h1 className="text-2xl font-light uppercase tracking-[0.4em] text-indigo-200/80 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>
+            <h1 
+              className="text-xl sm:text-2xl font-light uppercase tracking-[0.4em] text-indigo-200/80 mb-2" 
+              style={{ 
+                fontFamily: 'Outfit, sans-serif',
+                textShadow: '0 0 20px rgba(129, 140, 248, 0.5), 0 0 40px rgba(129, 140, 248, 0.2)'
+              }}
+            >
               CONSTELLATION
             </h1>
-            <p className="text-xs font-light uppercase tracking-[0.4em] text-indigo-200/60 mt-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-              {mode === 'signin' ? 'Sign in to your account' : 'Create your account'}
+            <p className="text-[10px] sm:text-xs font-light uppercase tracking-[0.4em] text-indigo-200/60 mt-3 sm:mt-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              {mode === 'signin' ? t('constellation.signin_subtitle') : t('constellation.signup_subtitle')}
             </p>
           </div>
 
-          {/* Mode Toggle */}
-          <div className="flex gap-2 mb-6 p-1 bg-slate-900/50 rounded-xl border border-white/5">
+          {/* Mode Toggle - Slider Switch */}
+          <div className="relative flex mb-4 sm:mb-6 p-1 bg-slate-900/50 rounded-xl border border-white/5">
+            {/* Sliding indicator background */}
+            <div 
+              className="absolute top-1 bottom-1 rounded-lg bg-indigo-500/20 border border-indigo-500/30 shadow-lg transition-all ease-in-out"
+              style={{
+                width: 'calc(50% - 4px)',
+                left: mode === 'signin' ? '4px' : 'calc(50% + 0px)',
+                transitionDuration: '1200ms',
+                transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+              }}
+            />
             <button
               type="button"
               onClick={() => {
-                setMode('signin')
+                if (mode !== 'signin') {
+                  setIsTransitioning(true)
+                  setMode('signin')
+                  setTimeout(() => setIsTransitioning(false), 1200)
+                }
                 setSignupStep('personal')
                 setError(null)
               }}
-              className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+              className={`relative z-10 flex-1 py-2 sm:py-2.5 px-3 sm:px-4 text-xs sm:text-sm font-medium transition-colors duration-700 ${
                 mode === 'signin'
-                  ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                  : 'text-slate-400 hover:text-slate-300'
+                  ? 'text-indigo-200'
+                  : 'text-slate-400'
               }`}
             >
-              Sign In
+              {t('constellation.signin')}
             </button>
             <button
               type="button"
               onClick={() => {
-                setMode('signup')
+                if (mode !== 'signup') {
+                  setIsTransitioning(true)
+                  setMode('signup')
+                  setTimeout(() => setIsTransitioning(false), 1200)
+                }
                 setSignupStep('personal')
                 setError(null)
               }}
-              className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+              className={`relative z-10 flex-1 py-2 sm:py-2.5 px-3 sm:px-4 text-xs sm:text-sm font-medium transition-colors duration-700 ${
                 mode === 'signup'
-                  ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                  : 'text-slate-400 hover:text-slate-300'
+                  ? 'text-indigo-200'
+                  : 'text-slate-400'
               }`}
             >
-              Sign Up
+              {t('constellation.signup')}
             </button>
           </div>
 
           {/* Form Container with smooth transitions */}
-          <div className={`transition-all duration-500 ease-in-out ${mode === 'signup' ? 'min-h-[500px]' : 'min-h-[170px]'}`}>
+          <div 
+            className="transition-all ease-in-out overflow-hidden"
+            style={{
+              transitionDuration: isTransitioning ? '0ms' : '1500ms',
+              transitionDelay: isTransitioning ? '0ms' : '0ms',
+              minHeight: mode === 'signup' && !isTransitioning ? '450px' : '150px'
+            }}
+          >
             {/* Sign In Form */}
             {mode === 'signin' && (
-              <form onSubmit={onSubmit} className="space-y-4 animate-fadeIn">
+              <form onSubmit={onSubmit} className="space-y-3 sm:space-y-4 animate-fadeIn">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
-                    Email
+                  <label htmlFor="email" className="block text-xs sm:text-sm font-medium text-slate-300 mb-1.5 sm:mb-2">
+                    {t('constellation.email')}
                   </label>
                   <input
                     id="email"
@@ -427,14 +471,14 @@ export default function ConstellationLogin() {
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
                     placeholder="your@email.com"
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
-                    Password
+                  <label htmlFor="password" className="block text-xs sm:text-sm font-medium text-slate-300 mb-1.5 sm:mb-2">
+                    {t('constellation.password')}
                   </label>
                   <div className="relative">
                     <input
@@ -443,31 +487,31 @@ export default function ConstellationLogin() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300"
+                      className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300"
                     >
-                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      {showPassword ? <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Eye className="w-4 h-4 sm:w-5 sm:h-5" />}
                     </button>
                   </div>
                 </div>
 
                 {error && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
-                    <p className="text-sm text-red-300">{error}</p>
+                  <div className="p-3 sm:p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+                    <p className="text-xs sm:text-sm text-red-300">{error}</p>
                   </div>
                 )}
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-2.5 sm:py-3 px-3 sm:px-4 text-sm sm:text-base bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Please wait...' : 'Sign In'}
+                  {loading ? t('constellation.loading') : t('constellation.signin_button')}
                 </button>
               </form>
             )}
@@ -778,9 +822,9 @@ export default function ConstellationLogin() {
           </div>
 
           {/* Links */}
-          <div className="mt-6 text-center">
-            <Link to="/sub/constellation" className="block text-sm text-slate-400 hover:text-indigo-400 transition-colors">
-              ← Back to Constellation
+          <div className="mt-4 sm:mt-6 text-center">
+            <Link to="/sub/constellation" className="block text-xs sm:text-sm text-slate-400 hover:text-indigo-400 transition-colors">
+              ← {t('constellation.back_to_constellation')}
             </Link>
           </div>
         </div>

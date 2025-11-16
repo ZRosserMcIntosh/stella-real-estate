@@ -627,7 +627,24 @@
       },
       "onlyUntil": "only until January 1, 2026"
     }
+  },
+  "constellation": {
+    "signin": "Sign In",
+    "signup": "Sign Up",
+    "signin_subtitle": "Sign in to your account",
+    "signup_subtitle": "Create your account",
+    "email": "Email",
+    "password": "Password",
+    "signin_button": "Sign In",
+    "loading": "Please wait...",
+    "back_to_constellation": "Back to Constellation",
+    "step_1_title": "Step 1 of 4: Personal Information",
+    "step_2_title": "Step 2 of 4: Business Information",
+    "step_3_title": "Step 3 of 4: Account Credentials",
+    "step_4_title": "Step 4 of 4: Payment"
   }
 }
+
+
 
 

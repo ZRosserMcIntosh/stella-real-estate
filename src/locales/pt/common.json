@@ -630,6 +630,21 @@
       },
       "onlyUntil": "somente até 1º de janeiro de 2026"
     }
+  },
+  "constellation": {
+    "signin": "Entrar",
+    "signup": "Cadastrar",
+    "signin_subtitle": "Entre na sua conta",
+    "signup_subtitle": "Crie sua conta",
+    "email": "E-mail",
+    "password": "Senha",
+    "signin_button": "Entrar",
+    "loading": "Aguarde...",
+    "back_to_constellation": "Voltar para Constellation",
+    "step_1_title": "Passo 1 de 4: Informações Pessoais",
+    "step_2_title": "Passo 2 de 4: Informações da Empresa",
+    "step_3_title": "Passo 3 de 4: Credenciais da Conta",
+    "step_4_title": "Passo 4 de 4: Pagamento"
   }
 }
 
