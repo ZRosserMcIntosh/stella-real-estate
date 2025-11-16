@@ -1,8 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
 import { useTranslation } from 'react-i18next';
+
+// Generate stars ONCE at module level
+const STATIC_STARS = Array.from({ length: 100 }, (_, i) => ({
+  id: i,
+  width: Math.random() * 2 + 1,
+  height: Math.random() * 2 + 1,
+  top: Math.random() * 100,
+  left: Math.random() * 100,
+  animationDelay: Math.random() * 3,
+  animationDuration: Math.random() * 2 + 2,
+  opacity: Math.random() * 0.5 + 0.3,
+}));
+
+const SHOOTING_STARS = Array.from({ length: 10 }, (_, i) => ({
+  id: i,
+  delay: 0,
+  duration: (Math.random() * 2 + 3) * (0.7 + Math.random() * 0.6),
+  left: i < 4 ? Math.random() * 33 : i < 6 ? Math.random() * 60 + 20 : Math.random() * 20 + 80,
+  top: i < 4 ? Math.random() * 30 : i < 6 ? Math.random() * 40 + 10 : i < 8 ? Math.random() * 50 : Math.random() * 50 + 50,
+  width: 100 * (0.7 + Math.random() * 0.6),
+  opacity: 0.7 + Math.random() * 0.6,
+}));
+
+// Memoized background component - will NEVER re-render
+const StarBackground = React.memo(() => (
+  <>
+    {/* Animated stars background */}
+    <div className="absolute inset-0 overflow-hidden bg-gradient-to-b from-[#050505] via-[#080606] to-[#050505]">
+      {STATIC_STARS.map((star) => (
+        <div
+          key={star.id}
+          className="absolute rounded-full bg-amber-100/70 animate-pulse"
+          style={{
+            width: star.width + 'px',
+            height: star.height + 'px',
+            top: star.top + '%',
+            left: star.left + '%',
+            animationDelay: star.animationDelay + 's',
+            animationDuration: star.animationDuration + 's',
+            opacity: star.opacity,
+          }}
+        />
+      ))}
+    </div>
+
+    {/* Shooting stars */}
+    {SHOOTING_STARS.map((star) => (
+      <div
+        key={star.id}
+        className="shooting-star"
+        style={{
+          top: `${star.top}%`,
+          left: `${star.left}%`,
+          width: `${star.width}px`,
+          opacity: star.opacity,
+          animationDelay: `${star.delay}s`,
+          animationDuration: `${star.duration}s`,
+        }}
+      />
+    ))}
+  </>
+));
+
+StarBackground.displayName = 'StarBackground';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -16,34 +80,6 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-
-  // Shooting stars state with randomized properties
-  const [shootingStars, setShootingStars] = useState<Array<{
-    id: number;
-    delay: number;
-    duration: number;
-    left: number;
-    top: number;
-    width: number;
-    opacity: number;
-  }>>([]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const stars = Array.from({ length: 10 }, (_, i) => ({
-        id: i,
-        delay: 0, // All start at the same time
-        duration: (Math.random() * 2 + 3) * (0.7 + Math.random() * 0.6), // +/- 30% variation: base 3-5s (slower), then 70%-130%
-        // Varied origins - more from top-left, some from middle, some from upper-right edge, some from lower-right
-        left: i < 4 ? Math.random() * 33 : i < 6 ? Math.random() * 60 + 20 : Math.random() * 20 + 80, // First 4 from top-left third (0-33%), next 2 middle, last 4 from right edge (80-100%)
-        top: i < 4 ? Math.random() * 30 : i < 6 ? Math.random() * 40 + 10 : i < 8 ? Math.random() * 50 : Math.random() * 50 + 50, // Last 2 from lower half (50-100%)
-        width: 100 * (0.7 + Math.random() * 0.6), // +/- 30% variation: base 100px, range 70-130px
-        opacity: 0.7 + Math.random() * 0.6, // +/- 30% brightness: range 0.7-1.3 (capped at 1 by CSS)
-      }));
-      setShootingStars(stars);
-    }, 100); // Start almost immediately
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleModeSwitch = (signUp: boolean) => {
     if (signUp !== isSignUp) {
@@ -121,7 +157,7 @@ export default function Login() {
           if (foundingMember) {
             navigate('/member/dashboard');
           } else {
-            navigate('/');
+            navigate('/admin');
           }
         }
       }
@@ -136,30 +172,23 @@ export default function Login() {
     <>
       <style>{`
         html, body {
-          background: linear-gradient(to bottom, #0a0a0a, #0f0a08, #0a0a0a) !important;
+          background: linear-gradient(to bottom, #050505, #080606, #050505) !important;
           background-attachment: fixed;
           min-height: 100vh;
         }
+        /* Force inputs to respect case sensitivity */
+        #email, #password, #confirmPassword {
+          text-transform: none !important;
+          font-variant: normal !important;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        }
+        /* Force placeholder to be lowercase too */
+        #email::placeholder, #password::placeholder, #confirmPassword::placeholder {
+          text-transform: none !important;
+        }
       `}</style>
-      <div className="relative min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#0f0a08] to-[#0a0a0a] flex items-center justify-center px-4 py-4 sm:py-8">
-        {/* Animated stars background */}
-        <div className="absolute inset-0 overflow-hidden bg-gradient-to-b from-[#0a0a0a] via-[#0f0a08] to-[#0a0a0a]">
-        {[...Array(100)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full bg-amber-100/70 animate-pulse"
-            style={{
-              width: Math.random() * 2 + 1 + 'px',
-              height: Math.random() * 2 + 1 + 'px',
-              top: Math.random() * 100 + '%',
-              left: Math.random() * 100 + '%',
-              animationDelay: Math.random() * 3 + 's',
-              animationDuration: Math.random() * 2 + 2 + 's',
-              opacity: Math.random() * 0.5 + 0.5,
-            }}
-          />
-        ))}
-      </div>
+      <div className="relative min-h-screen bg-gradient-to-b from-[#050505] via-[#080606] to-[#050505] flex items-center justify-center px-4 py-4 sm:py-8">
+        <StarBackground key="star-bg" />
 
       {/* Shooting stars effect */}
       <style>{`
@@ -199,20 +228,6 @@ export default function Login() {
           animation: fadeIn 0.3s ease-out forwards;
         }
       `}</style>
-      {shootingStars.map((star) => (
-        <div
-          key={star.id}
-          className="shooting-star"
-          style={{
-            top: `${star.top}%`,
-            left: `${star.left}%`,
-            width: `${star.width}px`,
-            opacity: star.opacity,
-            animationDelay: `${star.delay}s`,
-            animationDuration: `${star.duration}s`,
-          }}
-        />
-      ))}
 
       {/* Login Card */}
       <div className="relative z-10 w-full max-w-md">
@@ -290,10 +305,12 @@ export default function Login() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white/5 border border-white/10 rounded-lg sm:rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all text-xs sm:text-sm uppercase"
-                placeholder={t('constellation.email')}
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white/5 border border-white/10 rounded-lg sm:rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all text-xs sm:text-sm"
+                placeholder="voce@email.com.br"
                 required
-                style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 300 }}
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck="false"
               />
             </div>
 
@@ -307,10 +324,12 @@ export default function Login() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white/5 border border-white/10 rounded-lg sm:rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all text-xs sm:text-sm pr-10 uppercase"
-                  placeholder={t('constellation.password')}
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white/5 border border-white/10 rounded-lg sm:rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all text-xs sm:text-sm pr-10"
+                  placeholder="senha"
                   required
-                  style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 300 }}
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck="false"
                 />
                 <button
                   type="button"
@@ -333,10 +352,12 @@ export default function Login() {
                     type={showConfirmPassword ? 'text' : 'password'}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white/5 border border-white/10 rounded-lg sm:rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all text-xs sm:text-sm pr-10 uppercase"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white/5 border border-white/10 rounded-lg sm:rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all text-xs sm:text-sm pr-10"
                     placeholder={t('auth.confirm_password')}
                     required
-                    style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 300 }}
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck="false"
                   />
                   <button
                     type="button"

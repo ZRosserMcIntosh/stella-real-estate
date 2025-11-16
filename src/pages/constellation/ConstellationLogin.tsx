@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -56,7 +56,35 @@ export default function ConstellationLogin() {
   const [loading, setLoading] = useState(false)
   const [mode, setMode] = useState<'signin' | 'signup'>('signin')
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const [shootingStars, setShootingStars] = useState<Array<{ id: number; delay: number; duration: number; left: number; top: number; width: number; opacity: number }>>([])
+  
+  // Static background stars - memoized to prevent regeneration on re-renders
+  const staticStars = useMemo(() => {
+    return Array.from({ length: 100 }, (_, i) => ({
+      id: i,
+      width: Math.random() * 2 + 1,
+      height: Math.random() * 2 + 1,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      animationDelay: Math.random() * 3,
+      animationDuration: Math.random() * 2 + 2,
+      opacity: Math.random() * 0.5 + 0.3,
+    }));
+  }, []); // Empty deps - only generate once
+  
+  // Shooting stars - memoized to prevent regeneration on re-renders
+  const shootingStars = useMemo(() => {
+    return Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      delay: 0, // All start at the same time
+      duration: (Math.random() * 2 + 3) * (0.7 + Math.random() * 0.6), // +/- 30% variation: base 3-5s (slower), then 70%-130%
+      // Varied origins - more from top-left, some from middle, some from upper-right edge, some from lower-right
+      left: i < 4 ? Math.random() * 33 : i < 6 ? Math.random() * 60 + 20 : Math.random() * 20 + 80, // First 4 from top-left third (0-33%), next 2 middle, last 4 from right edge (80-100%)
+      top: i < 4 ? Math.random() * 30 : i < 6 ? Math.random() * 40 + 10 : i < 8 ? Math.random() * 50 : Math.random() * 50 + 50, // Last 2 from lower half (50-100%)
+      width: 100 * (0.7 + Math.random() * 0.6), // +/- 30% variation: base 100px, range 70-130px
+      opacity: 0.7 + Math.random() * 0.6, // +/- 30% brightness: range 0.7-1.3 (capped at 1 by CSS)
+    }));
+  }, []); // Empty deps - only generate once
+  
   const [signupStep, setSignupStep] = useState<'personal' | 'business' | 'credentials' | 'payment'>('personal')
   const [signupData, setSignupData] = useState<SignupFormData>({
     fullName: '',
@@ -79,24 +107,6 @@ export default function ConstellationLogin() {
     if (authLoading) return
     if (session || isDemo) navigate('/admin', { replace: true })
   }, [authLoading, session, isDemo, navigate])
-
-  // Add shooting stars effect after page loads
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      const stars = Array.from({ length: 10 }, (_, i) => ({
-        id: i,
-        delay: 0, // All start at the same time
-        duration: (Math.random() * 2 + 3) * (0.7 + Math.random() * 0.6), // +/- 30% variation: base 3-5s (slower), then 70%-130%
-        // Varied origins - more from top-left, some from middle, some from upper-right edge, some from lower-right
-        left: i < 4 ? Math.random() * 33 : i < 6 ? Math.random() * 60 + 20 : Math.random() * 20 + 80, // First 4 from top-left third (0-33%), next 2 middle, last 4 from right edge (80-100%)
-        top: i < 4 ? Math.random() * 30 : i < 6 ? Math.random() * 40 + 10 : i < 8 ? Math.random() * 50 : Math.random() * 50 + 50, // Last 2 from lower half (50-100%)
-        width: 100 * (0.7 + Math.random() * 0.6), // +/- 30% variation: base 100px, range 70-130px
-        opacity: 0.7 + Math.random() * 0.6, // +/- 30% brightness: range 0.7-1.3 (capped at 1 by CSS)
-      }))
-      setShootingStars(stars)
-    }, 100) // Start almost immediately
-    return () => clearTimeout(timer)
-  }, [])
 
   // Helper functions for formatting
   const formatCPF = (value: string) => {
@@ -306,18 +316,18 @@ export default function ConstellationLogin() {
       <div className="relative min-h-screen bg-slate-950 flex items-center justify-center px-4 py-4 sm:py-8">
         {/* Animated stars background */}
         <div className="absolute inset-0 overflow-hidden bg-slate-950">
-        {[...Array(100)].map((_, i) => (
+        {staticStars.map((star) => (
           <div
-            key={i}
+            key={star.id}
             className="absolute rounded-full bg-white animate-pulse"
             style={{
-              width: Math.random() * 2 + 1 + 'px',
-              height: Math.random() * 2 + 1 + 'px',
-              top: Math.random() * 100 + '%',
-              left: Math.random() * 100 + '%',
-              animationDelay: Math.random() * 3 + 's',
-              animationDuration: Math.random() * 2 + 2 + 's',
-              opacity: Math.random() * 0.5 + 0.3,
+              width: star.width + 'px',
+              height: star.height + 'px',
+              top: star.top + '%',
+              left: star.left + '%',
+              animationDelay: star.animationDelay + 's',
+              animationDuration: star.animationDuration + 's',
+              opacity: star.opacity,
             }}
           />
         ))}
