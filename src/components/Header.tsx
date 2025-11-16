@@ -217,7 +217,7 @@ export default function Header() {
         {/* Mobile Login Button - Only visible on mobile */}
         <div className="sm:hidden">
           <Link
-            to="/admin/login"
+            to="/mobile/logins"
             className="flex items-center gap-2 px-3 py-1.5 text-[#C9B382] hover:text-[#d4c295] border border-[#C9B382]/30 hover:border-[#C9B382]/50 rounded-lg transition-all duration-300 text-xs font-medium whitespace-nowrap"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">

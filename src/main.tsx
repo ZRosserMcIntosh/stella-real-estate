@@ -84,6 +84,7 @@ import DeveloperAccessCodes from './pages/admin/developer/AccessCodes'
 import DeveloperVisuals from './pages/admin/developer/Visuals'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
+import MobileLogins from './pages/mobile/MobileLogins'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import { CurrencyProvider } from './context/CurrencyContext'
@@ -172,6 +173,7 @@ const router = createBrowserRouter([
   { path: '/curso/creci', element: <CreciCourse /> },
   { path: '/investors/login', element: <Navigate to="/admin/login" replace /> },
   { path: '/investors/request-access', element: <RequestAccess /> },
+  { path: '/mobile/logins', element: <MobileLogins /> },
   { path: '/admin/login', element: <Login /> },
   { path: '/admin/signup', element: <SignUp /> },
   { path: '/login', element: <Navigate to="/admin/login" replace /> }, // Redirect old path
