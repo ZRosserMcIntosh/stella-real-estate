@@ -50,7 +50,7 @@ export default function ConstellationDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+        <div className="text-white text-xl">Carregando...</div>
       </div>
     )
   }
@@ -67,19 +67,19 @@ export default function ConstellationDashboard() {
           </div>
 
           <h1 className="text-3xl font-bold text-white mb-4">
-            Payment Pending
+            Pagamento Pendente
           </h1>
           
           <p className="text-lg text-slate-300 mb-6">
-            Thank you for your interest in Constellation, {memberData?.full_name}!
+            Obrigado pelo seu interesse na Constellation, {memberData?.full_name}!
           </p>
 
           <div className="p-6 bg-slate-800/50 border border-slate-700 rounded-xl mb-6">
             <p className="text-slate-300 mb-4">
-              You still need to complete your payment to get access to the Constellation platform.
+              Você ainda precisa completar seu pagamento para ter acesso à plataforma Constellation.
             </p>
             <p className="text-sm text-slate-400">
-              If you just completed payment, please wait a few seconds and click "Refresh Status" below.
+              Se você acabou de completar o pagamento, aguarde alguns segundos e clique em "Atualizar Status" abaixo.
             </p>
           </div>
 
@@ -91,13 +91,13 @@ export default function ConstellationDashboard() {
               }}
               className="py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-xl"
             >
-              Refresh Status
+              Atualizar Status
             </button>
             <button
               onClick={() => navigate('/sub/constellation/signup')}
               className="py-3 px-6 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-all"
             >
-              Complete Payment
+              Completar Pagamento
             </button>
           </div>
 
@@ -106,7 +106,7 @@ export default function ConstellationDashboard() {
               onClick={handleSignOut}
               className="text-sm text-slate-400 hover:text-slate-300 transition-colors"
             >
-              Sign Out
+              Sair
             </button>
           </div>
         </div>
@@ -126,33 +126,33 @@ export default function ConstellationDashboard() {
           </div>
 
           <h1 className="text-3xl font-bold text-white mb-4">
-            Welcome to Constellation!
+            Bem-vindo à Constellation!
           </h1>
           
           <p className="text-lg text-slate-300 mb-2">
-            Thank you, {memberData?.full_name}!
+            Obrigado, {memberData?.full_name}!
           </p>
           
           {memberData?.member_number && (
             <p className="text-sm text-indigo-400 mb-6">
-              Founding Member #{memberData.member_number}
+              Membro Fundador #{memberData.member_number}
             </p>
           )}
 
           <div className="p-6 bg-slate-800/50 border border-slate-700 rounded-xl mb-6">
             <p className="text-slate-300 mb-4">
-              Your payment has been confirmed. You are now a <span className="text-indigo-400 font-semibold">Founding Member #{memberData?.member_number}</span> of Constellation!
+              Seu pagamento foi confirmado. Você agora é um <span className="text-indigo-400 font-semibold">Membro Fundador #{memberData?.member_number}</span> da Constellation!
             </p>
             <p className="text-sm text-slate-400 mb-4">
               Email: <span className="text-white">{memberData?.email}</span><br/>
               CRECI: <span className="text-white">{memberData?.creci_number}/{memberData?.creci_uf}</span><br/>
-              Status: <span className="text-green-400">Paid</span><br/>
+              Status: <span className="text-green-400">Pago</span><br/>
               {memberData?.payment_completed_at && (
-                <>Member Since: <span className="text-white">{new Date(memberData.payment_completed_at).toLocaleDateString()}</span></>
+                <>Membro desde: <span className="text-white">{new Date(memberData.payment_completed_at).toLocaleDateString('pt-BR')}</span></>
               )}
             </p>
             <p className="text-slate-300">
-              We'll notify you via email at <span className="text-indigo-400">{memberData?.email}</span> when your Constellation dashboard is ready.
+              Notificaremos você via email em <span className="text-indigo-400">{memberData?.email}</span> quando seu painel Constellation estiver pronto.
             </p>
           </div>
 
@@ -161,18 +161,18 @@ export default function ConstellationDashboard() {
               onClick={() => navigate('/sub/constellation')}
               className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all"
             >
-              Back to Portal
+              Voltar ao Portal
             </button>
             <button
               onClick={handleSignOut}
               className="px-6 py-3 bg-slate-700/50 hover:bg-slate-700 text-white rounded-lg font-medium transition-all"
             >
-              Sign Out
+              Sair
             </button>
           </div>
 
           <p className="text-xs text-slate-500 mt-8">
-            Dashboard coming soon • We're building your personalized platform
+            Painel em breve • Estamos construindo sua plataforma personalizada
           </p>
         </div>
       </div>
@@ -183,12 +183,12 @@ export default function ConstellationDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4">
       <div className="max-w-2xl w-full bg-slate-900/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8 text-center">
-        <p className="text-white">No payment record found. Please contact support.</p>
+        <p className="text-white">Nenhum registro de pagamento encontrado. Entre em contato com o suporte.</p>
         <button
           onClick={handleSignOut}
           className="mt-4 px-6 py-3 bg-slate-700/50 hover:bg-slate-700 text-white rounded-lg font-medium transition-all"
         >
-          Sign Out
+          Sair
         </button>
       </div>
     </div>
