@@ -295,9 +295,16 @@ export default function ConstellationLogin() {
   }
 
   return (
-    <div className="relative min-h-screen bg-slate-950 flex items-center justify-center px-4 py-4 sm:py-8">
-      {/* Animated stars background */}
-      <div className="absolute inset-0 overflow-hidden">
+    <>
+      <style>{`
+        body {
+          background: #020617;
+          background-attachment: fixed;
+        }
+      `}</style>
+      <div className="relative min-h-screen bg-slate-950 flex items-center justify-center px-4 py-4 sm:py-8">
+        {/* Animated stars background */}
+        <div className="absolute inset-0 overflow-hidden bg-slate-950">
         {[...Array(100)].map((_, i) => (
           <div
             key={i}
@@ -830,5 +837,6 @@ export default function ConstellationLogin() {
         </div>
       </div>
     </div>
+    </>
   )
 }
