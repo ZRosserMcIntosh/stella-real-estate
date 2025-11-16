@@ -9,8 +9,8 @@ export default function ConstellationVisuals() {
       height: Math.random() * 2 + 1,
       top: Math.random() * 100,
       left: Math.random() * 100,
-      animationDelay: Math.random() * 3,
-      animationDuration: Math.random() * 2 + 2,
+      animationDelay: Math.random() * 10, // Random delay up to 10s for staggered twinkling
+      animationDuration: Math.random() * 3 + 2, // 2-5 seconds per twinkle
       opacity: Math.random() * 0.5 + 0.3,
     }));
   }, []); // Empty deps - only generate once
@@ -28,6 +28,19 @@ export default function ConstellationVisuals() {
     }));
   }, []); // Empty deps - only generate once
 
+  // Fast shooting stars - smaller and 40% slower than before (originally twice as fast as normal)
+  const fastShootingStars = useMemo(() => {
+    return Array.from({ length: 5 }, (_, i) => ({
+      id: i,
+      delay: Math.random() * 6, // 3x longer delay (was 2, now 6)
+      duration: (Math.random() * 1 + 1.5) * 0.7, // 40% slower (0.5 * 1.4 = 0.7)
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      width: 50 * (0.5 + Math.random() * 0.5), // Smaller width
+      opacity: 0.8 + Math.random() * 0.2,
+    }));
+  }, []); // Empty deps - only generate once
+
   return (
     <>
       <style>{`
@@ -38,17 +51,29 @@ export default function ConstellationVisuals() {
         }
 
         @keyframes twinkle {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 1; }
+          0%, 100% { 
+            opacity: 0.3; 
+            transform: scale(1);
+          }
+          50% { 
+            opacity: 1;
+            transform: scale(1.2);
+          }
         }
 
         @keyframes shootingStar {
           0% {
             transform: translateX(0) translateY(0) rotate(-45deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
             opacity: 1;
           }
           100% {
-            transform: translateX(-200px) translateY(200px) rotate(-45deg);
+            transform: translateX(-300px) translateY(300px) rotate(-45deg);
             opacity: 0;
           }
         }
@@ -93,6 +118,22 @@ export default function ConstellationVisuals() {
         {shootingStars.map((star) => (
           <div
             key={`shooting-${star.id}`}
+            className="shooting-star"
+            style={{
+              width: `${star.width}px`,
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              animationDelay: `${star.delay}s`,
+              animationDuration: `${star.duration}s`,
+              opacity: star.opacity,
+            }}
+          />
+        ))}
+
+        {/* Fast shooting stars */}
+        {fastShootingStars.map((star) => (
+          <div
+            key={`fast-shooting-${star.id}`}
             className="shooting-star"
             style={{
               width: `${star.width}px`,

@@ -20,8 +20,8 @@ export default function ConstellationLogin() {
       height: Math.random() * 2 + 1,
       top: Math.random() * 100,
       left: Math.random() * 100,
-      animationDelay: Math.random() * 3,
-      animationDuration: Math.random() * 2 + 2,
+      animationDelay: Math.random() * 10, // Random delay up to 10s for staggered twinkling
+      animationDuration: Math.random() * 3 + 2, // 2-5 seconds per twinkle
       opacity: Math.random() * 0.5 + 0.3,
     }));
   }, []); // Empty deps - only generate once
@@ -30,13 +30,12 @@ export default function ConstellationLogin() {
   const shootingStars = useMemo(() => {
     return Array.from({ length: 10 }, (_, i) => ({
       id: i,
-      delay: 0, // All start at the same time
-      duration: (Math.random() * 2 + 3) * (0.7 + Math.random() * 0.6), // +/- 30% variation: base 3-5s (slower), then 70%-130%
-      // Varied origins - more from top-left, some from middle, some from upper-right edge, some from lower-right
-      left: i < 4 ? Math.random() * 33 : i < 6 ? Math.random() * 60 + 20 : Math.random() * 20 + 80, // First 4 from top-left third (0-33%), next 2 middle, last 4 from right edge (80-100%)
-      top: i < 4 ? Math.random() * 30 : i < 6 ? Math.random() * 40 + 10 : i < 8 ? Math.random() * 50 : Math.random() * 50 + 50, // Last 2 from lower half (50-100%)
-      width: 100 * (0.7 + Math.random() * 0.6), // +/- 30% variation: base 100px, range 70-130px
-      opacity: 0.7 + Math.random() * 0.6, // +/- 30% brightness: range 0.7-1.3 (capped at 1 by CSS)
+      delay: 0,
+      duration: (Math.random() * 2 + 3) * (0.7 + Math.random() * 0.6),
+      left: i < 4 ? Math.random() * 33 : i < 6 ? Math.random() * 60 + 20 : Math.random() * 20 + 80,
+      top: i < 4 ? Math.random() * 30 : i < 6 ? Math.random() * 40 + 10 : i < 8 ? Math.random() * 50 : Math.random() * 50 + 50,
+      width: 100 * (0.7 + Math.random() * 0.6),
+      opacity: 0.7 + Math.random() * 0.6,
     }));
   }, []); // Empty deps - only generate once
   
@@ -98,21 +97,79 @@ export default function ConstellationLogin() {
           background-attachment: fixed;
           min-height: 100vh;
         }
+
+        @keyframes twinkle {
+          0%, 100% { 
+            opacity: 0.3; 
+            transform: scale(1);
+          }
+          50% { 
+            opacity: 1;
+            transform: scale(1.2);
+          }
+        }
+
+        @keyframes shootingStar {
+          0% {
+            transform: translateX(0) translateY(0) rotate(-45deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(-300px) translateY(300px) rotate(-45deg);
+            opacity: 0;
+          }
+        }
+
+        .star {
+          position: absolute;
+          background: white;
+          border-radius: 50%;
+          animation: twinkle linear infinite;
+        }
+
+        .shooting-star {
+          position: absolute;
+          height: 2px;
+          background: linear-gradient(90deg, white, transparent);
+          animation: shootingStar linear infinite;
+        }
       `}</style>
-      <div className="relative min-h-screen bg-slate-950 flex items-center justify-center px-4 py-4 sm:py-8">
+      <div className="relative min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-950 flex items-center justify-center px-4 py-4 sm:py-8">
         {/* Animated stars background */}
-        <div className="absolute inset-0 overflow-hidden bg-slate-950">
+        <div className="absolute inset-0 overflow-hidden">
         {staticStars.map((star) => (
           <div
-            key={star.id}
-            className="absolute rounded-full bg-white animate-pulse"
+            key={`static-${star.id}`}
+            className="star"
             style={{
-              width: star.width + 'px',
-              height: star.height + 'px',
-              top: star.top + '%',
-              left: star.left + '%',
-              animationDelay: star.animationDelay + 's',
-              animationDuration: star.animationDuration + 's',
+              width: `${star.width}px`,
+              height: `${star.height}px`,
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              animationDelay: `${star.animationDelay}s`,
+              animationDuration: `${star.animationDuration}s`,
+              opacity: star.opacity,
+            }}
+          />
+        ))}
+
+        {/* Shooting stars */}
+        {shootingStars.map((star) => (
+          <div
+            key={`shooting-${star.id}`}
+            className="shooting-star"
+            style={{
+              width: `${star.width}px`,
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              animationDelay: `${star.delay}s`,
+              animationDuration: `${star.duration}s`,
               opacity: star.opacity,
             }}
           />
@@ -121,22 +178,6 @@ export default function ConstellationLogin() {
 
       {/* Shooting stars effect */}
       <style>{`
-        @keyframes shoot {
-          0% {
-            transform: translateX(0) translateY(0) rotate(-45deg);
-            opacity: 0;
-          }
-          20% {
-            opacity: 1;
-          }
-          85% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateX(-500px) translateY(500px) rotate(-45deg);
-            opacity: 0;
-          }
-        }
         @keyframes fadeIn {
           0% {
             opacity: 0;
@@ -147,30 +188,10 @@ export default function ConstellationLogin() {
             transform: translateY(0);
           }
         }
-        .shooting-star {
-          position: absolute;
-          height: 2px;
-          background: linear-gradient(90deg, #fff, transparent);
-          animation: shoot linear infinite;
-        }
         .animate-fadeIn {
           animation: fadeIn 0.3s ease-out forwards;
         }
       `}</style>
-      {shootingStars.map((star) => (
-        <div
-          key={star.id}
-          className="shooting-star"
-          style={{
-            top: `${star.top}%`,
-            left: `${star.left}%`,
-            width: `${star.width}px`,
-            opacity: star.opacity,
-            animationDelay: `${star.delay}s`,
-            animationDuration: `${star.duration}s`,
-          }}
-        />
-      ))}
 
       {/* Login Card */}
       <div className="relative z-10 w-full max-w-md">
