@@ -34,14 +34,18 @@ export default function Header() {
   const [projectsClosing, setProjectsClosing] = useState(false)
   const [constellationOpen, setConstellationOpen] = useState(false)
   const [constellationClosing, setConstellationClosing] = useState(false)
+  const [loginDropdownOpen, setLoginDropdownOpen] = useState(false)
+  const [loginDropdownClosing, setLoginDropdownClosing] = useState(false)
   const [institutionalButtonCenter, setInstitutionalButtonCenter] = React.useState<number>(0)
   const [hoveredProjectId, setHoveredProjectId] = useState<string | null>(null)
   const headerRef = React.useRef<HTMLHeadElement>(null)
   const buttonRef = React.useRef<HTMLButtonElement>(null)
   const institutionalButtonRef = React.useRef<HTMLButtonElement>(null)
   const constellationButtonRef = React.useRef<HTMLButtonElement>(null)
+  const loginButtonRef = React.useRef<HTMLButtonElement>(null)
   const [buttonCenter, setButtonCenter] = React.useState<number>(0)
   const [constellationButtonCenter, setConstellationButtonCenter] = React.useState<number>(0)
+  const [loginButtonCenter, setLoginButtonCenter] = React.useState<number>(0)
   const closeTimerRef = React.useRef<NodeJS.Timeout | null>(null)
   const handleSignupClick = React.useCallback(() => {
     trackEvent('signup_cta_click', { position: 'header' })
@@ -66,6 +70,10 @@ export default function Header() {
     if (constellationButtonRef.current) {
       const rect = constellationButtonRef.current.getBoundingClientRect()
       setConstellationButtonCenter(rect.left + rect.width / 2)
+    }
+    if (loginButtonRef.current) {
+      const rect = loginButtonRef.current.getBoundingClientRect()
+      setLoginButtonCenter(rect.left + rect.width / 2)
     }
     window.addEventListener('resize', updateHeaderHeight)
     window.addEventListener('scroll', updateHeaderHeight)
@@ -572,15 +580,127 @@ export default function Header() {
             <CurrencySwitcher />
           </div>
           <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30"></div>
-          <Link
-            to="/login"
-            className="hidden sm:flex items-center gap-2 px-3.5 xl:px-4 py-2 text-[#C9B382] hover:text-[#d4c295] border border-[#C9B382]/30 hover:border-[#C9B382]/50 rounded-lg transition-all duration-300 text-sm font-medium whitespace-nowrap"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-              <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
-            </svg>
-            ENTRAR
-          </Link>
+          
+          {/* Login Dropdown */}
+          <div className="relative hidden sm:block">
+            <button
+              ref={loginButtonRef}
+              type="button"
+              onMouseEnter={() => {
+                if (closeTimerRef.current) {
+                  clearTimeout(closeTimerRef.current)
+                  closeTimerRef.current = null
+                }
+                setLoginDropdownClosing(false)
+                setLoginDropdownOpen(true)
+              }}
+              onMouseLeave={() => {
+                setLoginDropdownClosing(true)
+                closeTimerRef.current = setTimeout(() => {
+                  setLoginDropdownOpen(false)
+                  setLoginDropdownClosing(false)
+                }, 300)
+              }}
+              className="flex items-center gap-2 px-3.5 xl:px-4 py-2 text-[#C9B382] hover:text-[#d4c295] border border-[#C9B382]/30 hover:border-[#C9B382]/50 rounded-lg transition-all duration-300 text-sm font-medium whitespace-nowrap"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
+              </svg>
+              ENTRAR
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+              </svg>
+            </button>
+            
+            {/* Login Dropdown Menu */}
+            {loginDropdownOpen && (
+              <div
+                className={`absolute left-1/2 top-full mt-2 w-64 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl overflow-hidden z-[100] ${
+                  loginDropdownClosing ? 'animate-[dropdownSlideUpFast_150ms_ease-out_forwards]' : 'animate-[dropdownRollout_200ms_ease-out]'
+                }`}
+                style={{ transform: 'translateX(-50%)' }}
+                onMouseEnter={() => {
+                  if (closeTimerRef.current) {
+                    clearTimeout(closeTimerRef.current)
+                    closeTimerRef.current = null
+                  }
+                  setLoginDropdownClosing(false)
+                }}
+                onMouseLeave={() => {
+                  setLoginDropdownClosing(true)
+                  closeTimerRef.current = setTimeout(() => {
+                    setLoginDropdownOpen(false)
+                    setLoginDropdownClosing(false)
+                  }, 300)
+                }}
+              >
+                <div className="p-2 space-y-1">
+                  <Link
+                    to="/sub/constellation/login"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group"
+                  >
+                    <div className="flex items-center justify-center w-8 h-8">
+                      <img 
+                        src="/tech-icons/contellation-logo.png" 
+                        alt="Constellation" 
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400">
+                        Constellation
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">
+                        For Realtors
+                      </div>
+                    </div>
+                  </Link>
+                  
+                  <Link
+                    to="/login"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group"
+                  >
+                    <div className="flex items-center justify-center w-8 h-8">
+                      <img 
+                        src="/stella-favicon.png" 
+                        alt="Stella Real" 
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-slate-900 dark:text-white group-hover:text-[#C9B382]">
+                        Stella Real Team
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">
+                        Internal Access
+                      </div>
+                    </div>
+                  </Link>
+                  
+                  <button
+                    type="button"
+                    disabled
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl opacity-50 cursor-not-allowed"
+                  >
+                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600">
+                      <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1 text-left">
+                      <div className="text-sm font-medium text-slate-400 dark:text-slate-500">
+                        Client Login
+                      </div>
+                      <div className="text-xs text-slate-400 dark:text-slate-500">
+                        Coming Soon
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+          
           <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30"></div>
           <div className="hidden sm:flex flex-col items-center text-[#C9B382] px-2">
             <div className="text-[9px] font-mono font-bold tracking-[0.8px] leading-tight">CRECI</div>
