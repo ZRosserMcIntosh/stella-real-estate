@@ -41,7 +41,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       email,
       password,
       userId, // User ID passed from frontend after user creation
-      amount,
     } = req.body
 
     // Validate required fields
@@ -53,54 +52,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Dados da empresa são obrigatórios' })
     }
 
-    // Check if CRECI is already registered
+    // Check if CRECI is already registered with paid status
     const { data: existingMember } = await supabase
       .from('founding_members')
       .select('creci_number')
       .eq('creci_number', creciNumber)
       .eq('creci_uf', creciUf)
-      .eq('payment_status', 'paid')  // Only check for paid members
+      .eq('payment_status', 'paid')
       .single()
 
     if (existingMember) {
       return res.status(400).json({ error: 'Este CRECI já está cadastrado no programa Founding 100' })
     }
 
-    // Check if email is already registered with a paid status
-    const { data: existingEmail } = await supabase
-      .from('founding_members')
-      .select('email')
-      .eq('email', email)
-      .eq('payment_status', 'paid')  // Only check for paid members
-      .single()
-
-    if (existingEmail) {
-      return res.status(400).json({ error: 'Este email já está cadastrado' })
-    }
-
-    // Count current founding members (only paid ones)
-    const { count } = await supabase
-      .from('founding_members')
-      .select('*', { count: 'exact', head: true })
-      .eq('payment_status', 'paid')
-
-    if (count && count >= 100) {
-      return res.status(400).json({ error: 'Programa Founding 100 esgotado. Todas as vagas foram preenchidas.' })
-    }
-
-    // Calculate amount based on payment method to absorb fees
-    // For PIX: reduce base by 3.5% so final charge = target amount
-    // Target: R$ 2,970.00 (297000 cents)
-    const baseAmount = amount || 297000 // R$ 2,970.00
+    // TEST AMOUNT: R$ 3.00 (300 cents)
+    const testAmount = 300 // R$ 3.00 for testing
     
-    // PIX fee is 3.5% - calculate base amount so (base * 1.035) = target
-    const pixAdjustedAmount = Math.round(baseAmount / 1.035)
-    
-    // Create Payment Intent with billing details
+    // Create Payment Intent with test amount
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: pixAdjustedAmount, // Reduced amount for PIX so final = baseAmount after 3.5% fee
+      amount: testAmount,
       currency: 'brl',
-      payment_method_types: ['card', 'pix'], // Re-enabled PIX with fee adjustment
+      payment_method_types: ['card', 'pix'],
       metadata: {
         fullName,
         cpf,
@@ -112,26 +84,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         creciNumber,
         creciUf,
         email,
-        userId, // Store user ID to update their status when paid
+        userId, // Store user ID to update later
         program: 'founding_100',
-        originalAmount: baseAmount.toString(), // Store original target amount
-        adjustedForPixFees: 'true',
+        isTest: 'true', // Mark as test payment
+        originalAmount: '297000', // Store original amount for reference
       },
-      description: 'Founding 100 - Constellation Prime',
+      description: 'Founding 100 - TEST PAYMENT - Constellation Prime',
       receipt_email: email,
     })
-
-    // Don't create founding member record here - it's already created with 'pending' status
-    // The webhook will update it to 'paid' when payment succeeds
 
     return res.status(200).json({
       clientSecret: paymentIntent.client_secret,
       paymentIntentId: paymentIntent.id,
     })
   } catch (error) {
-    console.error('Error creating payment intent:', error)
+    console.error('Error creating test payment intent:', error)
     return res.status(500).json({ 
-      error: error instanceof Error ? error.message : 'Erro ao criar pagamento' 
+      error: error instanceof Error ? error.message : 'Erro ao criar pagamento de teste' 
     })
   }
 }

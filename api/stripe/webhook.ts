@@ -190,6 +190,8 @@ async function handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent) {
     companyName,
     cnpj,
     numberOfPartners,
+    userId, // User ID from metadata
+    isTest, // Check if this is a test payment
   } = paymentIntent.metadata
 
   if (!email || !creciNumber || !creciUf || !fullName || !cpf) {
@@ -198,21 +200,25 @@ async function handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent) {
   }
 
   try {
-    // Check if founding member already exists (shouldn't happen but safety check)
-    const { data: existingMember } = await supabase
+    // Find existing founding member record (created with 'pending' status during registration)
+    const { data: existingMember, error: findError } = await supabase
       .from('founding_members')
-      .select('id')
-      .eq('creci_number', creciNumber)
-      .eq('creci_uf', creciUf)
-      .eq('payment_status', 'paid')
+      .select('id, payment_status')
+      .eq('user_id', userId)
       .single()
 
-    if (existingMember) {
-      console.log('Founding member already exists:', existingMember.id)
+    if (findError || !existingMember) {
+      console.error('Could not find founding member record for user:', userId, findError)
       return
     }
 
-    // Get next member number
+    // If already paid, skip (shouldn't happen but safety check)
+    if (existingMember.payment_status === 'paid') {
+      console.log('Founding member already marked as paid:', existingMember.id)
+      return
+    }
+
+    // Get next member number only for paid members
     const { count } = await supabase
       .from('founding_members')
       .select('*', { count: 'exact', head: true })
@@ -225,65 +231,25 @@ async function handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent) {
       return
     }
 
-    // Create founding member record
-    const { data: member, error: insertError } = await supabase
+    // Update existing founding member record to 'paid' status
+    const { error: updateError } = await supabase
       .from('founding_members')
-      .insert({
+      .update({
         member_number: memberNumber,
-        email,
-        phone: phone || null,
-        full_name: fullName,
-        cpf,
-        account_type: accountType || 'individual',
-        company_name: companyName || null,
-        cnpj: cnpj || null,
-        number_of_partners: numberOfPartners ? parseInt(numberOfPartners) : null,
-        creci_number: creciNumber,
-        creci_uf: creciUf,
-        payment_amount: paymentIntent.amount / 100,
         payment_status: 'paid',
         stripe_payment_intent_id: paymentIntent.id,
         stripe_customer_id: paymentIntent.customer as string,
-        discount_percentage: 75,
         benefits_active: true,
         payment_completed_at: new Date().toISOString(),
       })
-      .select()
-      .single()
+      .eq('id', existingMember.id)
 
-    if (insertError) {
-      console.error('Error creating founding member:', insertError)
+    if (updateError) {
+      console.error('Error updating founding member to paid:', updateError)
       return
     }
 
-    console.log(`Founding member payment completed: ${fullName} (${email})`)
-
-    // Create subscription for 24 months of Team plan
-    const startDate = new Date()
-    const endDate = new Date()
-    endDate.setMonth(endDate.getMonth() + 24)
-
-    const { error: subError } = await supabase
-      .from('subscriptions')
-      .insert({
-        user_id: member.user_id || null, // Will be null until user account is created
-        plan_id: 'TEAM',
-        status: 'active',
-        stripe_customer_id: paymentIntent.customer as string,
-        current_period_start: startDate.toISOString(),
-        current_period_end: endDate.toISOString(),
-        metadata: {
-          founding_member: true,
-          creci_number: creciNumber,
-          creci_uf: creciUf,
-          free_months: 24,
-          discount_percentage: 75,
-        },
-      })
-
-    if (subError) {
-      console.error('Error creating subscription:', subError)
-    }
+    console.log(`Founding member payment confirmed: ${fullName} (${email}) - Member #${memberNumber}${isTest === 'true' ? ' [TEST]' : ''}`)
   } catch (error) {
     console.error('Error in handlePaymentSucceeded:', error)
   }

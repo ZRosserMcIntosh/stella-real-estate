@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import { Check, X } from 'lucide-react'
-import FoundingCheckout from '../components/FoundingCheckout'
 
 export default function Pricing() {
   const { t } = useTranslation()
-  const [checkoutOpen, setCheckoutOpen] = useState(false)
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -265,12 +263,12 @@ export default function Pricing() {
                       </div>
                     </div>
                     <div className="flex flex-col gap-4 items-center justify-center">
-                      <button
-                        onClick={() => setCheckoutOpen(true)}
-                        className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/50 text-lg"
+                      <Link
+                        to="/sub/constellation/signup"
+                        className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/50 text-lg text-center"
                       >
                         Garantir Minha Vaga
-                      </button>
+                      </Link>
                       <div className="text-center">
                         <div className="text-sm text-emerald-300 font-semibold mb-2">
                           Apenas {foundingSlotsRemaining} vagas restantes de 100
@@ -372,15 +370,15 @@ export default function Pricing() {
                       {plan.cta}
                     </a>
                   ) : (plan.id === 'SOLO' || plan.id === 'TEAM') ? (
-                    <button
-                      onClick={() => setCheckoutOpen(true)}
+                    <Link
+                      to="/sub/constellation/signup"
                       className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-lg"
                     >
                       {plan.cta}
-                    </button>
+                    </Link>
                   ) : (
                     <Link
-                      to="/login"
+                      to="/sub/constellation/signup"
                       className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-slate-800 hover:bg-slate-700 text-slate-100"
                     >
                       {plan.cta}
@@ -729,15 +727,6 @@ export default function Pricing() {
         </div>
       </div>
 
-      {/* Founding Checkout Modal */}
-      <FoundingCheckout
-        isOpen={checkoutOpen}
-        onClose={() => setCheckoutOpen(false)}
-        onSuccess={() => {
-          setCheckoutOpen(false)
-          // Optionally show success message or redirect
-        }}
-      />
     </div>
   )
 }

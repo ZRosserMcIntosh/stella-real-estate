@@ -44,6 +44,10 @@ import Members from './pages/Members'
 import StellaReal from './pages/StellaReal'
 import ConstellationPortal from './pages/ConstellationPortal'
 import ConstellationLogin from './pages/constellation/ConstellationLogin'
+import ConstellationSignup from './pages/constellation/ConstellationSignup'
+import ConstellationReset from './pages/constellation/ConstellationReset'
+import ConstellationDashboard from './pages/constellation/ConstellationDashboard'
+import AdminRoute from './components/AdminRoute'
 import CreateSite from './pages/onboarding/CreateSite'
 import ChooseRole from './pages/onboarding/ChooseRole'
 import RealtorLicense from './pages/onboarding/RealtorLicense'
@@ -150,8 +154,11 @@ const router = createBrowserRouter([
       { path: 'sub/constellation', element: <ConstellationPortal /> },
     ],
   },
-  // Constellation login - standalone without header/footer
+  // Constellation login & signup - standalone without header/footer
   { path: '/sub/constellation/login', element: <ConstellationLogin /> },
+  { path: '/sub/constellation/signup', element: <ConstellationSignup /> },
+  { path: '/sub/constellation/reset', element: <ConstellationReset /> },
+  { path: '/sub/constellation/dashboard', element: <ConstellationDashboard /> },
   { path: '/criar-site', element: <CreateSite /> },
   { path: '/onboarding/choose-role', element: <ChooseRole /> },
   { path: '/onboarding/realtor-license', element: <RealtorLicense /> },
@@ -167,9 +174,13 @@ const router = createBrowserRouter([
   { path: '/reset-password', element: <ResetPassword /> },
   {
     path: '/admin',
-    element: <AdminLayout />,
+    element: <AdminRoute />, // Protected route - only stella_admin and stella_team
     children: [
-  { index: true, element: <DealRoom /> },
+      {
+        path: '',
+        element: <AdminLayout />,
+        children: [
+          { index: true, element: <DealRoom /> },
       { path: 'account', element: <Account /> },
       { path: 'listings/new-projects', element: <ListingsNewProjects /> },
       { path: 'listings/for-sale', element: <ListingsForSale /> },
@@ -200,6 +211,7 @@ const router = createBrowserRouter([
         ],
       },
     ],
+    }], // Close AdminRoute children and AdminLayout children
   },
   { path: '/builder', element: <Navigate to="/admin/website-builder" replace /> },
   { path: '*', element: <NotFound /> },
