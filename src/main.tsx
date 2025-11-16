@@ -47,6 +47,7 @@ import ConstellationLogin from './pages/constellation/ConstellationLogin'
 import ConstellationSignup from './pages/constellation/ConstellationSignup'
 import ConstellationReset from './pages/constellation/ConstellationReset'
 import ConstellationDashboard from './pages/constellation/ConstellationDashboard'
+import ConstellationVisuals from './pages/constellation/ConstellationVisuals'
 import AdminRoute from './components/AdminRoute'
 import CreateSite from './pages/onboarding/CreateSite'
 import ChooseRole from './pages/onboarding/ChooseRole'
@@ -159,6 +160,7 @@ const router = createBrowserRouter([
   { path: '/sub/constellation/signup', element: <ConstellationSignup /> },
   { path: '/sub/constellation/reset', element: <ConstellationReset /> },
   { path: '/sub/constellation/dashboard', element: <ConstellationDashboard /> },
+  { path: '/sub/constellation/visuals', element: <ConstellationVisuals /> },
   { path: '/criar-site', element: <CreateSite /> },
   { path: '/onboarding/choose-role', element: <ChooseRole /> },
   { path: '/onboarding/realtor-license', element: <RealtorLicense /> },
