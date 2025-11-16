@@ -499,9 +499,8 @@ export default function ConstellationSignup() {
       return
     }
     
-    // Redirect to Constellation portal (they are external realtors, not internal admin)
-    // TODO: Create a Constellation dashboard at /sub/constellation/dashboard
-    navigate('/sub/constellation', { replace: true })
+    // Redirect to Constellation dashboard
+    navigate('/sub/constellation/dashboard', { replace: true })
   }
 
   const handleSignupSubmit = async (e?: React.FormEvent) => {
