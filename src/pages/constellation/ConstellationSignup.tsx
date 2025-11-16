@@ -331,6 +331,22 @@ export default function ConstellationSignup() {
     setIsRegistering(true) // Prevent redirect during registration
 
     try {
+      console.log('Step 0: Checking if user already exists...')
+      
+      // Check if user with this email already exists
+      const { data: existingMember } = await supabase
+        .from('founding_members')
+        .select('user_id, email')
+        .eq('email', signupData.email)
+        .single()
+      
+      if (existingMember) {
+        setError('User with this email is already registered. Please login instead.')
+        setLoading(false)
+        setIsRegistering(false)
+        return
+      }
+      
       console.log('Step 1: Creating user account...')
       
       // Step 1: Create auth account WITHOUT auto-signing them in
@@ -357,12 +373,8 @@ export default function ConstellationSignup() {
       const newUserId = authData.user.id
       setUserId(newUserId)
       console.log('User created:', newUserId)
-      
-      // Immediately sign out so they stay on the payment page
-      await supabase.auth.signOut()
-      console.log('User signed out, staying on payment page')
 
-      // Step 2: Create user_profile with constellation_user type
+      // Step 2: Create user_profile with constellation_user type (WHILE STILL SIGNED IN)
       console.log('Step 2: Creating user profile...')
       
       const { error: profileError } = await supabase
@@ -380,10 +392,10 @@ export default function ConstellationSignup() {
 
       if (profileError) {
         console.error('Error creating user profile:', profileError)
-        // Don't throw - continue even if profile creation fails
+        throw new Error(profileError.message)
       }
 
-      // Step 3: Create founding_member record with status 'pending'
+      // Step 3: Create founding_member record with status 'pending' (WHILE STILL SIGNED IN)
       console.log('Step 3: Creating founding member record...')
       
       const { error: memberError } = await supabase
@@ -409,6 +421,10 @@ export default function ConstellationSignup() {
       }
 
       console.log('Founding member record created with pending status')
+      
+      // NOW sign out so they stay on the payment page (after all DB inserts)
+      await supabase.auth.signOut()
+      console.log('User signed out, staying on payment page')
 
       // Step 4: Create payment intent
       console.log('Step 4: Creating payment intent...')
