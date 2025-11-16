@@ -32,6 +32,11 @@ async function buffer(readable: any): Promise<Buffer> {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Allow GET for health checks (Stripe webhooks are always POST)
+  if (req.method === 'GET') {
+    return res.status(200).json({ status: 'Webhook endpoint is ready', method: 'GET requests not processed - use POST' })
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed', message: 'This endpoint only accepts POST requests from Stripe' })
   }
