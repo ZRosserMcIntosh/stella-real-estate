@@ -213,6 +213,19 @@ export default function Header() {
             </div>
           )}
         </Link>
+        
+        {/* Mobile Login Button - Only visible on mobile */}
+        <div className="sm:hidden">
+          <Link
+            to="/login"
+            className="flex items-center gap-2 px-3 py-1.5 text-[#C9B382] hover:text-[#d4c295] border border-[#C9B382]/30 hover:border-[#C9B382]/50 rounded-lg transition-all duration-300 text-xs font-medium whitespace-nowrap"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+              <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
+            </svg>
+            ENTRAR
+          </Link>
+        </div>
   {/* Desktop nav with more spacing on larger screens */}
   <nav className="hidden sm:flex items-center gap-2.5 xl:gap-3.5 text-sm font-medium">
         <style>{`
@@ -777,25 +790,25 @@ export default function Header() {
               <Link to="/projetos" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 {t('header.nav.projects')}
               </Link>
-              <Link to="/imoveis" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-                {t('header.nav.listings')}
+              <Link to="/imoveis?type=buy" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                {t('header.nav.buy')}
+              </Link>
+              <Link to="/imoveis?type=rent" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                {t('header.nav.rent')}
               </Link>
               <Link to="/plataforma-stella" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 Constellation
               </Link>
               <div className="border-t border-slate-200 dark:border-slate-800 my-2"></div>
-              <Link to="/sub/constellation/login" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-                Constellation - {t('header.login.constellationSubtitle')}
-              </Link>
-              <Link to="/login" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-                Login Executivo
-              </Link>
-              <div className="border-t border-slate-200 dark:border-slate-800 my-2"></div>
-              <div className="px-3 py-2 flex items-center gap-3">
-                <LanguageSwitcher />
-              </div>
-              <div className="px-3 py-2 flex items-center gap-3">
-                <CurrencySwitcher />
+              <div className="grid grid-cols-2 gap-2 px-3 py-2">
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Idioma</span>
+                  <LanguageSwitcher />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Moeda</span>
+                  <CurrencySwitcher />
+                </div>
               </div>
             </div>
           </div>

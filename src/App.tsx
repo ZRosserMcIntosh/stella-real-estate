@@ -412,11 +412,17 @@ export default function App() {
   <div className="relative min-h-screen flex flex-col">
       {/* Fixed background video that fills the hero section area.
           Positioned to start where main content starts (after pt-20 from Layout).
-          Height matches hero section exactly. */}
+          Height matches hero section exactly. Mobile optimized to cover properly. */}
       <div
         aria-hidden
         className="fixed left-0 w-screen overflow-hidden pointer-events-none z-0"
-        style={{ top: '5rem', height: `${heroHeight}px`, width: '100vw' }}
+        style={{ 
+          top: '5rem', 
+          height: `${heroHeight}px`, 
+          width: '100vw',
+          // Ensure proper coverage on mobile
+          minHeight: '100vh'
+        }}
       >
   {heroUploadedUrl ? (
           <video
@@ -512,19 +518,19 @@ export default function App() {
 
   {/* Header is provided by the shared Layout. */}
 
-      {/* HERO — content area that sits visually over the video. Keep ref to measure height. */}
+      {/* HERO — content area that sits visually over the video. Keep ref to measure height. Mobile optimized for better viewing. */}
       <section
         ref={heroRef}
-        className="relative overflow-hidden h-[75vh] md:h-[80vh] lg:h-[90vh] flex items-center z-10"
+        className="relative overflow-hidden h-[85vh] sm:h-[80vh] md:h-[85vh] lg:h-[90vh] flex items-center z-10"
         aria-label="Hero"
       >
-        <div className="container-padded relative z-20 flex h-full w-full items-center justify-center py-12">
-          <div className="w-full max-w-6xl flex flex-col items-center gap-6">
+        <div className="container-padded relative z-20 flex h-full w-full items-center justify-center py-8 sm:py-12">
+          <div className="w-full max-w-6xl flex flex-col items-center gap-4 sm:gap-6">
             {!heroLogoLoading && heroLogoUrl ? (
               <img
                 src={heroLogoUrl}
                 alt="Stella"
-                className="h-32 sm:h-40 md:h-48 lg:h-56 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]"
+                className="h-24 xs:h-28 sm:h-36 md:h-44 lg:h-52 xl:h-56 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   if (target.src !== '/stella-logo.png') {
@@ -534,7 +540,7 @@ export default function App() {
                 }}
               />
             ) : heroLogoLoading ? (
-              <div className="h-32 sm:h-40 md:h-48 lg:h-56 w-64 bg-white/10 animate-pulse rounded-lg" />
+              <div className="h-24 xs:h-28 sm:h-36 md:h-44 lg:h-52 xl:h-56 w-48 sm:w-56 md:w-64 bg-white/10 animate-pulse rounded-lg" />
             ) : null}
             {heroFeatured.length > 0 && (
               <>
