@@ -113,16 +113,32 @@ export default function ConstellationLogin() {
           0% {
             transform: translateX(0) translateY(0) rotate(-45deg);
             opacity: 0;
+            filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
           }
-          10% {
-            opacity: 1;
+          20% {
+            opacity: 0.5;
+            filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.2));
           }
-          90% {
+          30% {
             opacity: 1;
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.4));
+          }
+          60% {
+            opacity: 1;
+            filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+          }
+          75% {
+            opacity: 1;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+          }
+          95% {
+            opacity: 1;
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
           }
           100% {
             transform: translateX(-300px) translateY(300px) rotate(-45deg);
             opacity: 0;
+            filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
           }
         }
 
@@ -272,7 +288,8 @@ export default function ConstellationLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 sm:py-3 px-3 sm:px-4 text-sm sm:text-base bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-2.5 sm:py-3 px-3 sm:px-4 text-sm sm:text-base bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ fontFamily: 'Outfit, sans-serif' }}
             >
               {loading ? t('constellation.loading') : t('constellation.signin_button')}
             </button>
