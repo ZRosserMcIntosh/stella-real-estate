@@ -11,7 +11,15 @@
       "contact": "Contact",
       "employeeLogin": "Employee Login"
     },
-    "cta": "Get Started"
+    "cta": "Get Started",
+    "login": {
+      "constellation": "Constellation",
+      "constellationSubtitle": "For Realtors",
+      "stellaTeam": "Stella Real Team",
+      "stellaTeamSubtitle": "Executive Login",
+      "clientLogin": "Client Login",
+      "clientLoginSubtitle": "Coming Soon"
+    }
   },
   "home": {
     "hero": {

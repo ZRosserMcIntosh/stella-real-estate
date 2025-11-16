@@ -297,9 +297,10 @@ export default function ConstellationLogin() {
   return (
     <>
       <style>{`
-        body {
-          background: #020617;
+        html, body {
+          background: #020617 !important;
           background-attachment: fixed;
+          min-height: 100vh;
         }
       `}</style>
       <div className="relative min-h-screen bg-slate-950 flex items-center justify-center px-4 py-4 sm:py-8">

@@ -11,7 +11,15 @@
       "contact": "Contato",
       "employeeLogin": "Login de Funcionário"
     },
-    "cta": "Comece Agora"
+    "cta": "Comece Agora",
+    "login": {
+      "constellation": "Constellation",
+      "constellationSubtitle": "Para Corretores",
+      "stellaTeam": "Equipe Stella Real",
+      "stellaTeamSubtitle": "Login Executivo",
+      "clientLogin": "Login de Cliente",
+      "clientLoginSubtitle": "Em Breve"
+    }
   },
   "home": {
     "hero": {

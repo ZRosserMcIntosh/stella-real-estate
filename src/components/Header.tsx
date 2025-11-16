@@ -575,32 +575,41 @@ export default function Header() {
         {/* Right side actions with improved desktop spacing */}
         <div className="flex items-center gap-2.5 xl:gap-3.5">
           <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30"></div>
-          <LanguageSwitcher />
+          <div className="hidden sm:block">
+            <LanguageSwitcher />
+          </div>
           <div className="hidden sm:block">
             <CurrencySwitcher />
           </div>
           <div className="hidden sm:block w-px h-5 bg-slate-300/30 dark:bg-slate-600/30"></div>
           
           {/* Login Dropdown */}
-          <div className="relative hidden sm:block">
+          <div 
+            className="relative hidden sm:block"
+            onMouseEnter={() => {
+              if (closeTimerRef.current) {
+                clearTimeout(closeTimerRef.current)
+                closeTimerRef.current = null
+              }
+              if (loginButtonRef.current) {
+                const rect = loginButtonRef.current.getBoundingClientRect()
+                setLoginButtonCenter(rect.left + rect.width / 2)
+              }
+              setLoginDropdownOpen(true)
+            }}
+            onMouseLeave={() => {
+              closeTimerRef.current = setTimeout(() => {
+                setLoginDropdownClosing(true)
+                setTimeout(() => {
+                  setLoginDropdownOpen(false)
+                  setLoginDropdownClosing(false)
+                }, 350)
+              }, 500)
+            }}
+          >
             <button
               ref={loginButtonRef}
               type="button"
-              onMouseEnter={() => {
-                if (closeTimerRef.current) {
-                  clearTimeout(closeTimerRef.current)
-                  closeTimerRef.current = null
-                }
-                setLoginDropdownClosing(false)
-                setLoginDropdownOpen(true)
-              }}
-              onMouseLeave={() => {
-                setLoginDropdownClosing(true)
-                closeTimerRef.current = setTimeout(() => {
-                  setLoginDropdownOpen(false)
-                  setLoginDropdownClosing(false)
-                }, 300)
-              }}
               className="flex items-center gap-2 px-3.5 xl:px-4 py-2 text-[#C9B382] hover:text-[#d4c295] border border-[#C9B382]/30 hover:border-[#C9B382]/50 rounded-lg transition-all duration-300 text-sm font-medium whitespace-nowrap"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
@@ -615,85 +624,115 @@ export default function Header() {
             {/* Login Dropdown Menu */}
             {loginDropdownOpen && (
               <div
-                className={`absolute left-1/2 top-full mt-2 w-64 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl overflow-hidden z-[100] ${
-                  loginDropdownClosing ? 'animate-[dropdownSlideUpFast_150ms_ease-out_forwards]' : 'animate-[dropdownRollout_200ms_ease-out]'
-                }`}
-                style={{ transform: 'translateX(-50%)' }}
+                className={`dropdown-menu fixed z-[60] backdrop-blur-md bg-white/60 dark:bg-slate-900/60 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-xl w-fit min-w-[200px] overflow-hidden border border-slate-200/20 dark:border-slate-700/20 ${loginDropdownClosing ? 'closing' : ''}`}
+                style={{ 
+                  top: 'calc(var(--header-height, 60px) + 6px)', 
+                  left: `${loginButtonCenter}px`, 
+                  transform: 'translateX(-50%)',
+                }}
                 onMouseEnter={() => {
                   if (closeTimerRef.current) {
                     clearTimeout(closeTimerRef.current)
                     closeTimerRef.current = null
                   }
-                  setLoginDropdownClosing(false)
                 }}
                 onMouseLeave={() => {
-                  setLoginDropdownClosing(true)
                   closeTimerRef.current = setTimeout(() => {
-                    setLoginDropdownOpen(false)
-                    setLoginDropdownClosing(false)
-                  }, 300)
+                    setLoginDropdownClosing(true)
+                    setTimeout(() => {
+                      setLoginDropdownOpen(false)
+                      setLoginDropdownClosing(false)
+                    }, 350)
+                  }, 500)
                 }}
               >
-                <div className="p-2 space-y-1">
+                <div className="grid grid-cols-1 gap-1">
                   <Link
                     to="/sub/constellation/login"
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group"
+                    className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2.5 pl-2 pr-3 transition-all duration-300 w-full text-left group"
                   >
-                    <div className="flex items-center justify-center w-8 h-8">
+                    <div className="flex items-center justify-center w-8 h-8 relative">
+                      <div 
+                        className="absolute inset-0 rounded-full blur-xl opacity-60"
+                        style={{
+                          background: 'radial-gradient(circle, rgba(129, 140, 248, 0.8) 0%, rgba(129, 140, 248, 0.4) 50%, rgba(129, 140, 248, 0) 70%)',
+                          transform: 'scale(1.5)',
+                        }}
+                      />
                       <img 
                         src="/tech-icons/contellation-logo.png" 
                         alt="Constellation" 
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-contain transition-all duration-300 relative z-10"
+                        style={{
+                          filter: 'brightness(1.3) drop-shadow(0 0 8px rgba(129, 140, 248, 0.4)) drop-shadow(0 0 16px rgba(129, 140, 248, 0.2))',
+                        }}
                       />
                     </div>
-                    <div className="flex-1">
-                      <div className="text-sm font-medium text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400">
-                        Constellation
+                    <div className="min-w-0">
+                      <div 
+                        className="text-sm font-light tracking-[0.25em] uppercase transition-all duration-300"
+                        style={{
+                          color: 'rgba(240, 245, 255, 0.95)',
+                          textShadow: '0 0 20px rgba(129, 140, 248, 0.5), 0 0 40px rgba(129, 140, 248, 0.2)',
+                          fontFamily: 'Outfit, sans-serif',
+                        }}
+                      >
+                        {t('header.login.constellation').toUpperCase()}
                       </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400">
-                        For Realtors
-                      </div>
+                      <div className="text-xs text-slate-600 dark:text-slate-400">{t('header.login.constellationSubtitle')}</div>
                     </div>
                   </Link>
                   
                   <Link
                     to="/login"
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group"
+                    className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2.5 pl-2 pr-3 transition-all duration-300 w-full text-left group"
                   >
                     <div className="flex items-center justify-center w-8 h-8">
                       <img 
                         src="/stella-favicon.png" 
                         alt="Stella Real" 
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-contain transition-all duration-300"
+                        style={{
+                          filter: 'drop-shadow(0 0 6px rgba(201, 179, 130, 0.5)) drop-shadow(0 0 12px rgba(201, 179, 130, 0.3))',
+                        }}
                       />
                     </div>
-                    <div className="flex-1">
-                      <div className="text-sm font-medium text-slate-900 dark:text-white group-hover:text-[#C9B382]">
-                        Stella Real Team
+                    <div className="min-w-0">
+                      <div 
+                        className="text-sm font-medium tracking-wider uppercase transition-all duration-300"
+                        style={{
+                          color: '#C9B382',
+                          textShadow: '0 0 8px rgba(201, 179, 130, 0.4)',
+                          fontWeight: 500,
+                        }}
+                      >
+                        {t('header.login.stellaTeam').toUpperCase()}
                       </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400">
-                        Internal Access
-                      </div>
+                      <div className="text-xs text-slate-600 dark:text-slate-400">{t('header.login.stellaTeamSubtitle')}</div>
                     </div>
                   </Link>
                   
                   <button
                     type="button"
                     disabled
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl opacity-50 cursor-not-allowed"
+                    className="mirage-button flex items-center gap-2.5 rounded-lg py-2.5 pl-2 pr-3 w-full text-left opacity-50 cursor-not-allowed"
                   >
                     <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600">
                       <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
-                    <div className="flex-1 text-left">
-                      <div className="text-sm font-medium text-slate-400 dark:text-slate-500">
-                        Client Login
+                    <div className="min-w-0">
+                      <div 
+                        className="text-sm font-light tracking-[0.25em] uppercase"
+                        style={{
+                          color: 'rgba(156, 163, 175, 0.7)',
+                          fontFamily: 'Outfit, sans-serif',
+                        }}
+                      >
+                        {t('header.login.clientLogin').toUpperCase()}
                       </div>
-                      <div className="text-xs text-slate-400 dark:text-slate-500">
-                        Coming Soon
-                      </div>
+                      <div className="text-xs text-slate-400 dark:text-slate-500">{t('header.login.clientLoginSubtitle')}</div>
                     </div>
                   </button>
                 </div>
@@ -742,13 +781,20 @@ export default function Header() {
                 {t('header.nav.listings')}
               </Link>
               <Link to="/plataforma-stella" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-                Constellation Platform
-              </Link>
-              <Link to="/precos" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-                Preços
+                Constellation
               </Link>
               <div className="border-t border-slate-200 dark:border-slate-800 my-2"></div>
-              <div className="px-3 py-2">
+              <Link to="/sub/constellation/login" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                Constellation - {t('header.login.constellationSubtitle')}
+              </Link>
+              <Link to="/login" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                Login Executivo
+              </Link>
+              <div className="border-t border-slate-200 dark:border-slate-800 my-2"></div>
+              <div className="px-3 py-2 flex items-center gap-3">
+                <LanguageSwitcher />
+              </div>
+              <div className="px-3 py-2 flex items-center gap-3">
                 <CurrencySwitcher />
               </div>
             </div>

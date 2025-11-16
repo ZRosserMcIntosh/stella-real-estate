@@ -135,9 +135,10 @@ export default function Login() {
   return (
     <>
       <style>{`
-        body {
-          background: linear-gradient(to bottom, #0a0a0a, #0f0a08, #0a0a0a);
+        html, body {
+          background: linear-gradient(to bottom, #0a0a0a, #0f0a08, #0a0a0a) !important;
           background-attachment: fixed;
+          min-height: 100vh;
         }
       `}</style>
       <div className="relative min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#0f0a08] to-[#0a0a0a] flex items-center justify-center px-4 py-4 sm:py-8">
