@@ -140,6 +140,9 @@
       "noProjects": "Nenhum Projeto Disponível",
       "checkBackSoon": "Volte em breve para novas oportunidades de empreendimentos."
     },
+    "projectDetail": {
+      "viewingPhoto": "Visualizando foto {{current}} / {{total}}"
+    },
     "privacy": { "title": "Política de Privacidade" },
     "legal": { "title": "Jurídico" },
     "listYourProperty": { "title": "Anuncie seu Imóvel" },
@@ -644,6 +647,115 @@
     }
   },
   "constellation": {
+    "nav": {
+      "features": "Recursos",
+      "pricing": "Preços",
+      "about": "Sobre",
+      "contact": "Contato",
+      "sign_in": "Entrar",
+      "get_started": "Começar"
+    },
+    "hero": {
+      "badge": "A Plataforma para Profissionais Imobiliários",
+      "title": "Sua Plataforma Completa de Negócios Imobiliários",
+      "description": "Construa seu site, gerencie imóveis, nutra leads e feche negócios—tudo em uma plataforma poderosa projetada especificamente para corretores e imobiliárias.",
+      "get_started_free": "Começar Grátis",
+      "sign_in": "Entrar"
+    },
+    "benefits": {
+      "title": "Tudo que Você Precisa para Ter Sucesso",
+      "subtitle": "Do seu primeiro anúncio até escalar sua imobiliária, Constellation cresce com você",
+      "features": {
+        "websites": {
+          "title": "Sites Profissionais",
+          "description": "Lance um site imobiliário impressionante em minutos com nosso construtor de arrastar e soltar. Otimizado para mobile e pronto para SEO."
+        },
+        "listings": {
+          "title": "Gestão Poderosa de Imóveis",
+          "description": "Gerencie todas as suas propriedades em um só lugar. Adicione fotos, vídeos, tours 3D e publique em múltiplas plataformas instantaneamente."
+        },
+        "crm": {
+          "title": "CRM Integrado",
+          "description": "Acompanhe cada lead, cliente e negócio. Nunca perca um follow-up com lembretes automáticos e gestão de pipeline."
+        },
+        "tasks": {
+          "title": "Gestão de Tarefas (Balé)",
+          "description": "Organize seu fluxo de trabalho com quadros Kanban. Acompanhe visitas, papelada e tarefas de fechamento sem esforço."
+        },
+        "marketplace": {
+          "title": "Mercado de Varejo",
+          "description": "Liste suas propriedades no Stella Real, nossa plataforma de varejo. Obtenha exposição para milhares de potenciais compradores."
+        },
+        "analytics": {
+          "title": "Análises e Insights",
+          "description": "Entenda seu negócio com análises detalhadas. Acompanhe visualizações, leads, conversões e receita."
+        }
+      }
+    },
+    "how_it_works": {
+      "title": "Comece em Minutos",
+      "subtitle": "Nenhum conhecimento técnico necessário. Vamos guiá-lo em cada etapa do caminho.",
+      "steps": {
+        "step1": {
+          "title": "Cadastre-se e Escolha Seu Plano",
+          "description": "Crie sua conta e selecione o plano que atende às suas necessidades. Comece com nosso teste gratuito."
+        },
+        "step2": {
+          "title": "Construa Seu Site",
+          "description": "Use nosso construtor intuitivo para criar seu site profissional. Escolha entre templates ou comece do zero."
+        },
+        "step3": {
+          "title": "Adicione Imóveis e Entre no Ar",
+          "description": "Envie suas propriedades, conecte seu domínio e comece a atrair clientes imediatamente."
+        }
+      }
+    },
+    "pricing": {
+      "title": "Planos para Cada Profissional",
+      "subtitle": "De corretores solo a grandes imobiliárias",
+      "most_popular": "MAIS POPULAR",
+      "per_month": "mês",
+      "view_all_plans": "Ver Todos os Planos e Recursos",
+      "plans": {
+        "starter": {
+          "name": "Iniciante",
+          "features": ["1 Site", "10 Imóveis", "CRM Básico"]
+        },
+        "pro": {
+          "name": "Pro",
+          "features": ["1 Site", "Imóveis Ilimitados", "CRM Completo", "Tarefas Balé"]
+        },
+        "team": {
+          "name": "Equipe",
+          "features": ["5 Sites", "Tudo Ilimitado", "Gestão de Equipe", "Suporte Prioritário"]
+        }
+      }
+    },
+    "cta": {
+      "title": "Pronto para Transformar Seu Negócio Imobiliário?",
+      "subtitle": "Junte-se a centenas de corretores e imobiliárias já usando Constellation para crescer seus negócios.",
+      "start_trial": "Comece Seu Teste Gratuito",
+      "schedule_demo": "Agende uma Demonstração",
+      "no_credit_card": "Sem cartão de crédito • Cancele a qualquer momento • 14 dias de teste gratuito"
+    },
+    "footer": {
+      "product": "Produto",
+      "features": "Recursos",
+      "pricing": "Preços",
+      "retail_platform": "Plataforma de Varejo",
+      "company": "Empresa",
+      "about": "Sobre",
+      "contact": "Contato",
+      "institutional": "Institucional",
+      "legal": "Legal",
+      "privacy": "Privacidade",
+      "terms": "Termos",
+      "cookies": "Cookies",
+      "support": "Suporte",
+      "help_center": "Central de Ajuda",
+      "sign_in": "Entrar",
+      "copyright": "© 2025 Stella Real Estate. Todos os direitos reservados."
+    },
     "signin": "Entrar",
     "signup": "Cadastrar",
     "signin_subtitle": "Entre na sua conta",

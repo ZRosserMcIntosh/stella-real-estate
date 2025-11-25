@@ -135,13 +135,13 @@ export default function ConstellationDashboard() {
           
           {memberData?.member_number && (
             <p className="text-sm text-indigo-400 mb-6">
-              Membro Fundador #{memberData.member_number}
+              Membro Fundador
             </p>
           )}
 
           <div className="p-6 bg-slate-800/50 border border-slate-700 rounded-xl mb-6">
             <p className="text-slate-300 mb-4">
-              Seu pagamento foi confirmado. Você agora é um <span className="text-indigo-400 font-semibold">Membro Fundador #{memberData?.member_number}</span> da Constellation!
+              Seu pagamento foi confirmado. Você agora é um <span className="text-indigo-400 font-semibold">Membro Fundador</span> da Constellation!
             </p>
             <p className="text-sm text-slate-400 mb-4">
               Email: <span className="text-white">{memberData?.email}</span><br/>
@@ -158,8 +158,14 @@ export default function ConstellationDashboard() {
 
           <div className="flex gap-4 justify-center">
             <button
+              onClick={() => navigate('/sub/constellation/site-builder')}
+              className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
+            >
+              Construtor de Sites
+            </button>
+            <button
               onClick={() => navigate('/sub/constellation')}
-              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all"
+              className="px-6 py-3 bg-slate-700/50 hover:bg-slate-700 text-white rounded-lg font-medium transition-all"
             >
               Voltar ao Portal
             </button>

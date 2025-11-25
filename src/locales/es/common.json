@@ -470,6 +470,115 @@
     }
   },
   "constellation": {
+    "nav": {
+      "features": "Características",
+      "pricing": "Precios",
+      "about": "Acerca de",
+      "contact": "Contacto",
+      "sign_in": "Iniciar Sesión",
+      "get_started": "Comenzar"
+    },
+    "hero": {
+      "badge": "La Plataforma para Profesionales Inmobiliarios",
+      "title": "Tu Plataforma Completa de Negocios Inmobiliarios",
+      "description": "Construye tu sitio web, gestiona propiedades, cultiva leads y cierra negocios—todo en una plataforma poderosa diseñada específicamente para agentes e inmobiliarias.",
+      "get_started_free": "Comenzar Gratis",
+      "sign_in": "Iniciar Sesión"
+    },
+    "benefits": {
+      "title": "Todo lo que Necesitas para Tener Éxito",
+      "subtitle": "Desde tu primer anuncio hasta escalar tu inmobiliaria, Constellation crece contigo",
+      "features": {
+        "websites": {
+          "title": "Sitios Web Profesionales",
+          "description": "Lanza un impresionante sitio web inmobiliario en minutos con nuestro constructor de arrastrar y soltar. Optimizado para móviles y listo para SEO."
+        },
+        "listings": {
+          "title": "Gestión Poderosa de Propiedades",
+          "description": "Gestiona todas tus propiedades en un solo lugar. Agrega fotos, videos, tours 3D y publica en múltiples plataformas al instante."
+        },
+        "crm": {
+          "title": "CRM Integrado",
+          "description": "Rastrea cada lead, cliente y negocio. Nunca pierdas un seguimiento con recordatorios automáticos y gestión de pipeline."
+        },
+        "tasks": {
+          "title": "Gestión de Tareas (Balé)",
+          "description": "Organiza tu flujo de trabajo con tableros Kanban. Rastrea visitas, papeleo y tareas de cierre sin esfuerzo."
+        },
+        "marketplace": {
+          "title": "Mercado Minorista",
+          "description": "Lista tus propiedades en Stella Real, nuestra plataforma minorista. Obtén exposición a miles de compradores potenciales."
+        },
+        "analytics": {
+          "title": "Análisis e Información",
+          "description": "Comprende tu negocio con análisis detallados. Rastrea vistas, leads, conversiones e ingresos."
+        }
+      }
+    },
+    "how_it_works": {
+      "title": "Comienza en Minutos",
+      "subtitle": "No se requieren conocimientos técnicos. Te guiaremos en cada paso del camino.",
+      "steps": {
+        "step1": {
+          "title": "Regístrate y Elige Tu Plan",
+          "description": "Crea tu cuenta y selecciona el plan que se ajuste a tus necesidades. Comienza con nuestra prueba gratuita."
+        },
+        "step2": {
+          "title": "Construye Tu Sitio",
+          "description": "Usa nuestro constructor intuitivo para crear tu sitio web profesional. Elige entre plantillas o comienza desde cero."
+        },
+        "step3": {
+          "title": "Agrega Propiedades y Actívate",
+          "description": "Sube tus propiedades, conecta tu dominio y comienza a atraer clientes de inmediato."
+        }
+      }
+    },
+    "pricing": {
+      "title": "Planes para Cada Profesional",
+      "subtitle": "Desde agentes independientes hasta grandes inmobiliarias",
+      "most_popular": "MÁS POPULAR",
+      "per_month": "mes",
+      "view_all_plans": "Ver Todos los Planes y Características",
+      "plans": {
+        "starter": {
+          "name": "Inicial",
+          "features": ["1 Sitio Web", "10 Propiedades", "CRM Básico"]
+        },
+        "pro": {
+          "name": "Pro",
+          "features": ["1 Sitio Web", "Propiedades Ilimitadas", "CRM Completo", "Tareas Balé"]
+        },
+        "team": {
+          "name": "Equipo",
+          "features": ["5 Sitios Web", "Todo Ilimitado", "Gestión de Equipo", "Soporte Prioritario"]
+        }
+      }
+    },
+    "cta": {
+      "title": "¿Listo para Transformar Tu Negocio Inmobiliario?",
+      "subtitle": "Únete a cientos de agentes e inmobiliarias que ya usan Constellation para hacer crecer su negocio.",
+      "start_trial": "Comienza Tu Prueba Gratuita",
+      "schedule_demo": "Agenda una Demostración",
+      "no_credit_card": "Sin tarjeta de crédito requerida • Cancela en cualquier momento • 14 días de prueba gratuita"
+    },
+    "footer": {
+      "product": "Producto",
+      "features": "Características",
+      "pricing": "Precios",
+      "retail_platform": "Plataforma Minorista",
+      "company": "Empresa",
+      "about": "Acerca de",
+      "contact": "Contacto",
+      "institutional": "Institucional",
+      "legal": "Legal",
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "cookies": "Cookies",
+      "support": "Soporte",
+      "help_center": "Centro de Ayuda",
+      "sign_in": "Iniciar Sesión",
+      "copyright": "© 2025 Stella Real Estate. Todos los derechos reservados."
+    },
     "signin": "Iniciar Sesión",
     "signup": "Registrarse",
     "signin_subtitle": "Inicia sesión en tu cuenta",

@@ -35,7 +35,15 @@ export default function AdminRoute() {
 
       if (error) {
         console.error('Error fetching user type:', error)
-        setUserType(null)
+        // If no profile exists, treat as admin (backward compatibility)
+        // The login page will create the profile on next login
+        if (error.code === 'PGRST116') {
+          // No rows returned - user has no profile yet
+          console.log('No user profile found - allowing admin access for backward compatibility')
+          setUserType('stella_admin')
+        } else {
+          setUserType(null)
+        }
       } else {
         setUserType(data?.user_type || null)
       }

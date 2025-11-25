@@ -70,7 +70,7 @@ const normalizeUnitsFromProject = (project: Project | null | undefined): Project
 }
 
 export default function ProjectDetail() {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
   const { slug } = useParams<{ slug: string }>()
   const [project, setProject] = useState<Project | null | undefined>(undefined)
   const { formatPrice } = useCurrency()
@@ -265,7 +265,7 @@ export default function ProjectDetail() {
   return (
     <div className="relative min-h-screen flex flex-col">
       {videoId && (
-        <div aria-hidden className="fixed left-0 top-0 w-screen overflow-hidden -z-20" style={{ height: '100vh', width: '100vw' }}>
+        <div aria-hidden className="fixed left-0 top-0 w-screen h-screen overflow-hidden -z-20">
           <iframe
             style={{
               position: 'absolute',
@@ -292,7 +292,7 @@ export default function ProjectDetail() {
           <div aria-hidden style={{ position: 'absolute', inset: 0 }} className="-z-10 bg-black/45" />
         </div>
       )}
-      <header ref={heroRef} className="relative overflow-visible pt-24">
+      <header ref={heroRef} className="relative overflow-visible pt-4">
         <div className="container-padded relative z-20">
           <div className="inline-block rounded-2xl bg-black/35 backdrop-blur px-4 py-4 text-white shadow-soft">
             <h1 className="text-3xl sm:text-4xl font-bold leading-tight tracking-tight">{project.name}</h1>
@@ -324,8 +324,12 @@ export default function ProjectDetail() {
               {galleryImages.length > 1 && (
                 <div className="mt-4">
                   {/* Photo counter */}
-                  <div className="mb-3 text-center text-sm text-slate-600 font-medium">
-                    Viewing photo {activeImageIndex + 1} / {galleryImages.length}
+                  <div className="mb-3 text-center text-sm text-white/90 font-medium">
+                    {t('projectDetail.viewingPhoto', { 
+                      current: activeImageIndex + 1, 
+                      total: galleryImages.length,
+                      defaultValue: `Viewing photo ${activeImageIndex + 1} / ${galleryImages.length}`
+                    })}
                   </div>
                   
                   {/* Thumbnail gallery with navigation */}

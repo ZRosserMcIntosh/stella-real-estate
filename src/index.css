@@ -3,15 +3,17 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
 }
 
 html, body, #root {
   height: 100%;
+  background-color: #020617; /* slate-950 */
+  color: #f1f5f9; /* slate-100 */
 }
 
 body {
-  @apply font-sans text-slate-800 dark:text-slate-100 dark:bg-slate-950;
+  @apply font-sans text-slate-100 bg-slate-950;
 }
 
 .container-padded {

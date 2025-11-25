@@ -19,8 +19,7 @@ export default function Header() {
   const { t } = useTranslation()
   const location = useLocation()
   const isHome = location.pathname === '/'
-  // Pages that need solid header background
-  const needsSolidHeader = ['/investidores', '/investors'].includes(location.pathname)
+
   const [hoverOpen, setHoverOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [projects, setProjects] = useState<ProjectLite[]>([])
@@ -179,7 +178,7 @@ export default function Header() {
   console.log('Current logo height class:', currentLogoSize.height)
 
   return (
-  <header ref={headerRef} className={`z-50 ${needsSolidHeader || isHome ? 'bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800' : 'backdrop-blur-md bg-white/60 dark:bg-slate-900/60 border-b border-white/10 dark:border-slate-800/50'}`}>
+  <header ref={headerRef} className="z-50 bg-slate-900 border-b border-slate-800">
       {/* Use wider container on desktop for more breathing room */}
       <div className={`max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 flex items-center justify-between ${currentLogoSize.padding}`}>
         {/* Logo with increased size on desktop */}

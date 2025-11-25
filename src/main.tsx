@@ -6,6 +6,16 @@ import { createBrowserRouter, RouterProvider, Navigate, useParams } from 'react-
 import './i18n'
 import { HelmetProvider } from 'react-helmet-async'
 
+// Force dark mode globally
+if (typeof document !== 'undefined') {
+  document.documentElement.classList.add('dark')
+  // Also set the color-scheme meta tag
+  const meta = document.createElement('meta')
+  meta.name = 'color-scheme'
+  meta.content = 'dark'
+  document.head.appendChild(meta)
+}
+
 // Helper component for dynamic project redirects
 const ProjectRedirect = () => {
   const { slug } = useParams()
@@ -48,6 +58,7 @@ import ConstellationSignup from './pages/constellation/ConstellationSignup'
 import ConstellationReset from './pages/constellation/ConstellationReset'
 import ConstellationDashboard from './pages/constellation/ConstellationDashboard'
 import ConstellationVisuals from './pages/constellation/ConstellationVisuals'
+import ConstellationSiteBuilder from './pages/constellation/ConstellationSiteBuilder'
 import AdminRoute from './components/AdminRoute'
 import CreateSite from './pages/onboarding/CreateSite'
 import ChooseRole from './pages/onboarding/ChooseRole'
@@ -154,15 +165,16 @@ const router = createBrowserRouter([
       { path: 'members', element: <Members /> },
       // Subdomain routes (temporary paths until custom domains are configured)
       { path: 'sub/stellareal', element: <StellaReal /> },
-      { path: 'sub/constellation', element: <ConstellationPortal /> },
     ],
   },
-  // Constellation login & signup - standalone without header/footer
+  // Constellation routes - standalone without main site header/footer
+  { path: '/sub/constellation', element: <ConstellationPortal /> },
   { path: '/sub/constellation/login', element: <ConstellationLogin /> },
   { path: '/sub/constellation/signup', element: <ConstellationSignup /> },
   { path: '/sub/constellation/reset', element: <ConstellationReset /> },
   { path: '/sub/constellation/dashboard', element: <ConstellationDashboard /> },
   { path: '/sub/constellation/visuals', element: <ConstellationVisuals /> },
+  { path: '/sub/constellation/site-builder', element: <ConstellationSiteBuilder /> },
   { path: '/criar-site', element: <CreateSite /> },
   { path: '/onboarding/choose-role', element: <ChooseRole /> },
   { path: '/onboarding/realtor-license', element: <RealtorLicense /> },

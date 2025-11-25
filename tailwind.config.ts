@@ -2,6 +2,7 @@ import type { Config } from 'tailwindcss'
 
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
+  darkMode: 'class', // Use class-based dark mode
   theme: {
     extend: {
       fontFamily: {
@@ -9,16 +10,17 @@ export default {
       },
       colors: {
         brand: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
+          50: '#fdfbf7',
+          100: '#f9f3e8',
+          200: '#f2e5cc',
+          300: '#e8d3a5',
+          400: '#d4b875',
+          500: '#c9a961',  // Main champagne gold - matches logo
+          600: '#b8954d',
+          700: '#9a7a3e',
+          800: '#7d6335',
+          900: '#66512d',
+          950: '#3a2e1a',
         },
       },
       boxShadow: {

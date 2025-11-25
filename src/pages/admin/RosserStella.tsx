@@ -36,10 +36,42 @@ interface IncomeItem {
 export default function RosserStella() {
   const { t, i18n } = useTranslation()
   
-  // Password protection
+  // Password protection - must be at the top before any conditional returns
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [passwordInput, setPasswordInput] = useState('')
   const [passwordError, setPasswordError] = useState(false)
+  const [isClient, setIsClient] = useState(false)
+  
+  // All other state hooks must be declared before any conditional returns
+  const [activeTab, setActiveTab] = useState<'overview' | 'expenses' | 'income' | 'history'>('overview')
+  const [showAddExpense, setShowAddExpense] = useState(false)
+  const [showAddIncome, setShowAddIncome] = useState(false)
+  const [showEditExpense, setShowEditExpense] = useState(false)
+  const [showEditIncome, setShowEditIncome] = useState(false)
+  const [editingExpenseId, setEditingExpenseId] = useState<string | null>(null)
+  const [editingIncomeId, setEditingIncomeId] = useState<string | null>(null)
+  const [expenses, setExpenses] = useState<ExpenseItem[]>([])
+  const [income, setIncome] = useState<IncomeItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [exchangeRate, setExchangeRate] = useState<number>(5.0) // USD to BRL rate
+
+  // Form state for adding/editing expense
+  const [expenseDate, setExpenseDate] = useState('')
+  const [expenseBRL, setExpenseBRL] = useState('')
+  const [expenseUSD, setExpenseUSD] = useState('')
+  const [expenseDescription, setExpenseDescription] = useState('')
+  const [expensePerson, setExpensePerson] = useState<Person>('Rosser')
+  const [expenseStatus, setExpenseStatus] = useState<ExpenseStatus>('pending')
+  const [expenseCategory, setExpenseCategory] = useState('')
+
+  // Form state for adding/editing income
+  const [incomeDate, setIncomeDate] = useState('')
+  const [incomeBRL, setIncomeBRL] = useState('')
+  const [incomeUSD, setIncomeUSD] = useState('')
+  const [incomeDescription, setIncomeDescription] = useState('')
+  const [incomePerson, setIncomePerson] = useState<Person>('Rosser')
+  const [incomeCategory, setIncomeCategory] = useState('')
   
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -47,7 +79,9 @@ export default function RosserStella() {
       setIsAuthenticated(true)
       setPasswordError(false)
       // Store in sessionStorage so user doesn't need to re-enter during session
-      sessionStorage.setItem('rosser_stella_auth', 'true')
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('rosser_stella_auth', 'true')
+      }
     } else {
       setPasswordError(true)
       setPasswordInput('')
@@ -56,10 +90,20 @@ export default function RosserStella() {
   
   // Check if already authenticated in this session
   useEffect(() => {
-    if (sessionStorage.getItem('rosser_stella_auth') === 'true') {
+    setIsClient(true)
+    if (typeof window !== 'undefined' && sessionStorage.getItem('rosser_stella_auth') === 'true') {
       setIsAuthenticated(true)
     }
   }, [])
+  
+  // Show loading state during hydration to prevent mismatch
+  if (!isClient) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+        <div className="text-slate-600 dark:text-slate-400">Loading...</div>
+      </div>
+    )
+  }
   
   // Show password form if not authenticated
   if (!isAuthenticated) {
@@ -116,36 +160,6 @@ export default function RosserStella() {
     )
   }
   
-  const [activeTab, setActiveTab] = useState<'overview' | 'expenses' | 'income' | 'history'>('overview')
-  const [showAddExpense, setShowAddExpense] = useState(false)
-  const [showAddIncome, setShowAddIncome] = useState(false)
-  const [showEditExpense, setShowEditExpense] = useState(false)
-  const [showEditIncome, setShowEditIncome] = useState(false)
-  const [editingExpenseId, setEditingExpenseId] = useState<string | null>(null)
-  const [editingIncomeId, setEditingIncomeId] = useState<string | null>(null)
-  const [expenses, setExpenses] = useState<ExpenseItem[]>([])
-  const [income, setIncome] = useState<IncomeItem[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [exchangeRate, setExchangeRate] = useState<number>(5.0) // USD to BRL rate
-
-  // Form state for adding/editing expense
-  const [expenseDate, setExpenseDate] = useState('')
-  const [expenseBRL, setExpenseBRL] = useState('')
-  const [expenseUSD, setExpenseUSD] = useState('')
-  const [expenseDescription, setExpenseDescription] = useState('')
-  const [expensePerson, setExpensePerson] = useState<Person>('Rosser')
-  const [expenseStatus, setExpenseStatus] = useState<ExpenseStatus>('pending')
-  const [expenseCategory, setExpenseCategory] = useState('')
-
-  // Form state for adding/editing income
-  const [incomeDate, setIncomeDate] = useState('')
-  const [incomeBRL, setIncomeBRL] = useState('')
-  const [incomeUSD, setIncomeUSD] = useState('')
-  const [incomeDescription, setIncomeDescription] = useState('')
-  const [incomePerson, setIncomePerson] = useState<Person>('Rosser')
-  const [incomeCategory, setIncomeCategory] = useState('')
-
   // Load exchange rate on mount
   useEffect(() => {
     const fetchRate = async () => {

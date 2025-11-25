@@ -36,7 +36,7 @@ export default function Footer() {
   const isSpecialPage = ['/privacidade', '/termos', '/cookies', '/msa', '/sla', '/dpa', '/aup', '/politica-suporte', '/termos-beta', '/termos-api', '/termos-indicacao', '/sobre', '/investidores'].includes(location.pathname)
   
   return (
-    <footer className={`border-t ${isSpecialPage ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-slate-200/50 dark:border-slate-800/50' : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'}`}>
+    <footer className={`relative z-50 border-t ${isSpecialPage ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-slate-200/50 dark:border-slate-800/50' : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'}`}>
       <div className="container-padded py-12">
         {/* Grid Layout for Categorized Links */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">

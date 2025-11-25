@@ -138,6 +138,9 @@
       "noProjects": "No Projects Available Yet",
       "checkBackSoon": "Check back soon for exciting new development opportunities."
     },
+    "projectDetail": {
+      "viewingPhoto": "Viewing photo {{current}} / {{total}}"
+    },
     "privacy": { "title": "Privacy Policy" },
     "legal": { "title": "Legal" },
     "listYourProperty": { "title": "List Your Property" },
@@ -641,6 +644,115 @@
     }
   },
   "constellation": {
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "about": "About",
+      "contact": "Contact",
+      "sign_in": "Sign In",
+      "get_started": "Get Started"
+    },
+    "hero": {
+      "badge": "The Platform for Real Estate Professionals",
+      "title": "Your Complete Real Estate Business Platform",
+      "description": "Build your website, manage listings, nurture leads, and close deals—all in one powerful platform designed specifically for realtors and brokerages.",
+      "get_started_free": "Get Started Free",
+      "sign_in": "Sign In"
+    },
+    "benefits": {
+      "title": "Everything You Need to Succeed",
+      "subtitle": "From your first listing to scaling your brokerage, Constellation grows with you",
+      "features": {
+        "websites": {
+          "title": "Professional Websites",
+          "description": "Launch a stunning real estate website in minutes with our drag-and-drop builder. Mobile-optimized and SEO-ready."
+        },
+        "listings": {
+          "title": "Powerful Listing Management",
+          "description": "Manage all your properties in one place. Add photos, videos, 3D tours, and publish to multiple platforms instantly."
+        },
+        "crm": {
+          "title": "Integrated CRM",
+          "description": "Track every lead, client, and deal. Never miss a follow-up with automated reminders and pipeline management."
+        },
+        "tasks": {
+          "title": "Task Management (Balé)",
+          "description": "Organize your workflow with Kanban boards. Track showings, paperwork, and closing tasks effortlessly."
+        },
+        "marketplace": {
+          "title": "Retail Marketplace",
+          "description": "List your properties on Stella Real, our retail platform. Get exposure to thousands of potential buyers."
+        },
+        "analytics": {
+          "title": "Analytics & Insights",
+          "description": "Understand your business with detailed analytics. Track views, leads, conversions, and revenue."
+        }
+      }
+    },
+    "how_it_works": {
+      "title": "Get Started in Minutes",
+      "subtitle": "No technical knowledge required. We'll guide you every step of the way.",
+      "steps": {
+        "step1": {
+          "title": "Sign Up & Choose Your Plan",
+          "description": "Create your account and select the plan that fits your needs. Start with our free trial."
+        },
+        "step2": {
+          "title": "Build Your Site",
+          "description": "Use our intuitive builder to create your professional website. Choose from templates or start fresh."
+        },
+        "step3": {
+          "title": "Add Listings & Go Live",
+          "description": "Upload your properties, connect your domain, and start attracting clients immediately."
+        }
+      }
+    },
+    "pricing": {
+      "title": "Plans for Every Professional",
+      "subtitle": "From solo agents to large brokerages",
+      "most_popular": "MOST POPULAR",
+      "per_month": "mo",
+      "view_all_plans": "View All Plans & Features",
+      "plans": {
+        "starter": {
+          "name": "Starter",
+          "features": ["1 Website", "10 Listings", "Basic CRM"]
+        },
+        "pro": {
+          "name": "Pro",
+          "features": ["1 Website", "Unlimited Listings", "Full CRM", "Balé Tasks"]
+        },
+        "team": {
+          "name": "Team",
+          "features": ["5 Websites", "Unlimited Everything", "Team Management", "Priority Support"]
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Transform Your Real Estate Business?",
+      "subtitle": "Join hundreds of realtors and brokerages already using Constellation to grow their business.",
+      "start_trial": "Start Your Free Trial",
+      "schedule_demo": "Schedule a Demo",
+      "no_credit_card": "No credit card required • Cancel anytime • 14-day free trial"
+    },
+    "footer": {
+      "product": "Product",
+      "features": "Features",
+      "pricing": "Pricing",
+      "retail_platform": "Retail Platform",
+      "company": "Company",
+      "about": "About",
+      "contact": "Contact",
+      "institutional": "Institutional",
+      "legal": "Legal",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "cookies": "Cookies",
+      "support": "Support",
+      "help_center": "Help Center",
+      "sign_in": "Sign In",
+      "copyright": "© 2025 Stella Real Estate. All rights reserved."
+    },
     "signin": "Sign In",
     "signup": "Sign Up",
     "signin_subtitle": "Sign in to your account",

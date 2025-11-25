@@ -996,11 +996,8 @@ export default function ConstellationSignup() {
               <Link to="/sub/constellation" className="text-slate-400 hover:text-indigo-400 transition-colors">
                 ← Voltar
               </Link>
-              <Link to="/sub/constellation/reset" className="text-slate-400 hover:text-indigo-400 transition-colors">
-                Esqueci Senha
-              </Link>
               <Link to="/sub/constellation/login" className="text-slate-400 hover:text-indigo-400 transition-colors">
-                Fazer Login →
+                Já tem uma conta? →
               </Link>
             </div>
           </div>

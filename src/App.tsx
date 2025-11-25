@@ -272,10 +272,27 @@ export default function App() {
   const ytReadyRef = useRef(false)
   const [ytPlaying, setYtPlaying] = useState(false)
   const [showFallbackOverlay, setShowFallbackOverlay] = useState(false)
+  
+  // Detect mobile devices - videos often don't autoplay on mobile
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768
+      setIsMobile(mobile)
+      // Force fallback image on mobile if available
+      if (mobile && heroFallbackImage) {
+        setShowFallbackOverlay(true)
+      }
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [heroFallbackImage])
 
   // Load YT Iframe API when needed
   useEffect(() => {
-    if (!homeVideoId || heroUploadedUrl) return
+    if (!homeVideoId || heroUploadedUrl || isMobile) return // Skip YouTube on mobile
     const ensureYT = () =>
       new Promise<void>((resolve) => {
         const w = window as any
@@ -363,12 +380,12 @@ export default function App() {
     const price = displayPrice != null ? formatPrice(displayPrice) : null
     
     return (
-      <article className="group relative flex flex-col w-full sm:w-[22rem] min-h-[360px] overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-4 text-left text-slate-900 shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:border-white/60">
+      <article className="group relative flex flex-col w-full sm:w-[22rem] min-h-[340px] sm:min-h-[360px] overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-700/50 bg-slate-800/60 p-3 sm:p-4 text-left text-white shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:border-slate-600/60">
         {thumb ? (
-          <div className="relative overflow-hidden rounded-2xl">
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
             {/* On hover, show second image if available */}
             {secondImage ? (
-              <div className="relative h-52 w-full">
+              <div className="relative h-48 sm:h-52 w-full">
                 <img
                   src={thumb}
                   alt={p.title}
@@ -384,22 +401,22 @@ export default function App() {
               <img
                 src={thumb}
                 alt={p.title}
-                className="h-52 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                className="h-48 sm:h-52 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               />
             )}
           </div>
         ) : (
-          <div className="grid h-52 w-full place-items-center rounded-2xl bg-slate-100/80 text-slate-400">
+          <div className="grid h-48 sm:h-52 w-full place-items-center rounded-xl sm:rounded-2xl bg-slate-100/80 text-slate-400 text-sm">
             {t('home.featured.noImage', { defaultValue: 'No image' })}
           </div>
         )}
-        <div className="mt-3 space-y-2 min-h-[92px]">
-          <h3 className="text-lg font-semibold text-slate-900 line-clamp-1">{p.title}</h3>
-          <p className="text-sm text-slate-600">{[p.city, p.state_code].filter(Boolean).join(', ')}</p>
+        <div className="mt-2 sm:mt-3 space-y-1.5 sm:space-y-2 min-h-[88px] sm:min-h-[92px]">
+          <h3 className="text-base sm:text-lg font-semibold text-white group-hover:text-brand-500 transition-all duration-300 line-clamp-1 group-hover:drop-shadow-[0_0_8px_rgba(201,169,97,0.5)]">{p.title}</h3>
+          <p className="text-xs sm:text-sm text-white/80 group-hover:text-brand-400 transition-all duration-300 group-hover:drop-shadow-[0_0_6px_rgba(201,169,97,0.3)]">{[p.city, p.state_code].filter(Boolean).join(', ')}</p>
           {price ? (
-            <p className="text-xl font-bold text-brand-700 tracking-tight truncate">{price}</p>
+            <p className="text-lg sm:text-xl font-bold text-white group-hover:text-brand-500 transition-all duration-300 tracking-tight truncate group-hover:drop-shadow-[0_0_10px_rgba(201,169,97,0.6)]">{price}</p>
           ) : (
-            <p className="text-xs uppercase tracking-[0.25em] text-slate-500">
+            <p className="text-xs uppercase tracking-[0.25em] text-white/60 group-hover:text-brand-400 transition-all duration-300 group-hover:drop-shadow-[0_0_6px_rgba(201,169,97,0.4)]">
               {t('home.featured.priceUnavailable', { defaultValue: 'Price on request' })}
             </p>
           )}
@@ -409,19 +426,21 @@ export default function App() {
   }
 
   return (
-  <div className="relative min-h-screen flex flex-col">
-      {/* Fixed background video that fills the hero section area.
-          Positioned to start where main content starts (after pt-20 from Layout).
-          Height matches hero section exactly. Mobile optimized to cover properly. */}
+  <div className="relative min-h-screen flex flex-col -mt-20">
+      {/* Absolute background video that fills the hero section area.
+          Starts from top of page (under header) with no gap.
+          Negative margin compensates for Layout's pt-20.
+          Height matches hero section exactly. Full width with no black bars.
+          Changed from 'fixed' to 'absolute' to prevent overlaying footer. */}
       <div
         aria-hidden
-        className="fixed left-0 w-screen overflow-hidden pointer-events-none z-0"
+        className="absolute left-0 right-0 w-full overflow-hidden pointer-events-none z-0"
         style={{ 
-          top: '5rem', 
+          top: 0, 
           height: `${heroHeight}px`, 
-          width: '100vw',
+          width: '100%',
           // Ensure proper coverage on mobile
-          minHeight: '100vh'
+          minHeight: '85vh'
         }}
       >
   {heroUploadedUrl ? (
@@ -433,10 +452,14 @@ export default function App() {
             playsInline
             style={{
               position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%) scale(1.02)',
+              width: '100vw',
+              height: '100vh',
+              minWidth: '100vw',
+              minHeight: '100vh',
+              maxWidth: 'none',
               background: 'transparent',
               border: 0,
               filter: `blur(${blur}px)`,
@@ -449,13 +472,17 @@ export default function App() {
         ) : homeVideoId ? (
           <>
           <iframe
-            // cover the container fully
+            // cover the container fully with centered positioning and slight scale for edge-to-edge coverage
             style={{
               position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%) scale(1.02)',
+              width: '100vw',
+              height: '100vh',
+              minWidth: '100vw',
+              minHeight: '100vh',
+              maxWidth: 'none',
               background: 'transparent',
               border: 0,
               filter: `blur(${blur}px)`,
@@ -476,10 +503,14 @@ export default function App() {
               src={heroFallbackImage}
               style={{
                 position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%) scale(1.02)',
+                width: '100vw',
+                height: '100vh',
+                minWidth: '100vw',
+                minHeight: '100vh',
+                maxWidth: 'none',
                 background: 'transparent',
                 border: 0,
                 filter: `blur(${blur}px)`,
@@ -498,10 +529,14 @@ export default function App() {
             src={heroFallbackImage}
             style={{
               position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%) scale(1.02)',
+              width: '100vw',
+              height: '100vh',
+              minWidth: '100vw',
+              minHeight: '100vh',
+              maxWidth: 'none',
               background: 'transparent',
               border: 0,
               filter: `blur(${blur}px)`,
@@ -518,19 +553,20 @@ export default function App() {
 
   {/* Header is provided by the shared Layout. */}
 
-      {/* HERO — content area that sits visually over the video. Keep ref to measure height. Mobile optimized for better viewing. */}
+      {/* HERO — content area that sits visually over the video. Keep ref to measure height. Mobile optimized for better viewing with full-width. 
+          pt-20 accounts for fixed header height. */}
       <section
         ref={heroRef}
-        className="relative overflow-hidden h-[85vh] sm:h-[80vh] md:h-[85vh] lg:h-[90vh] flex items-center z-10"
+        className="relative overflow-hidden h-[90vh] sm:h-[85vh] md:h-[85vh] lg:h-[90vh] flex items-center z-10 w-full pt-20"
         aria-label="Hero"
       >
-        <div className="container-padded relative z-20 flex h-full w-full items-center justify-center py-8 sm:py-12">
-          <div className="w-full max-w-6xl flex flex-col items-center gap-4 sm:gap-6">
+        <div className="container-padded relative z-20 flex h-full w-full items-center justify-center py-6 sm:py-8 md:py-12">
+          <div className="w-full max-w-6xl flex flex-col items-center gap-3 sm:gap-4 md:gap-6">
             {!heroLogoLoading && heroLogoUrl ? (
               <img
                 src={heroLogoUrl}
                 alt="Stella"
-                className="h-24 xs:h-28 sm:h-36 md:h-44 lg:h-52 xl:h-56 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]"
+                className="h-20 xs:h-24 sm:h-32 md:h-40 lg:h-48 xl:h-52 w-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   if (target.src !== '/stella-logo.png') {
@@ -540,18 +576,18 @@ export default function App() {
                 }}
               />
             ) : heroLogoLoading ? (
-              <div className="h-24 xs:h-28 sm:h-36 md:h-44 lg:h-52 xl:h-56 w-48 sm:w-56 md:w-64 bg-white/10 animate-pulse rounded-lg" />
+              <div className="h-20 xs:h-24 sm:h-32 md:h-40 lg:h-48 xl:h-52 w-40 sm:w-48 md:w-56 bg-white/10 animate-pulse rounded-lg" />
             ) : null}
             {heroFeatured.length > 0 && (
               <>
-                {/* Mobile Carousel (< md breakpoint) */}
+                {/* Mobile Carousel (< md breakpoint) - Full width optimized */}
                 <div 
-                  className="md:hidden relative w-full max-w-[22rem] mx-auto"
+                  className="md:hidden relative w-full px-4 sm:px-6"
                   onTouchStart={onTouchStart}
                   onTouchMove={onTouchMove}
                   onTouchEnd={onTouchEnd}
                 >
-                  <div className="relative overflow-hidden">
+                  <div className="relative overflow-hidden rounded-2xl">
                     <div 
                       className="flex transition-transform duration-300 ease-out"
                       style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
@@ -561,10 +597,10 @@ export default function App() {
                         if (p.listing_type === 'new_project') {
                           const slug = makeProjectSlug(p.title || 'project', p.id)
                           return (
-                            <div key={p.id} className="min-w-full px-2">
+                            <div key={p.id} className="min-w-full flex justify-center">
                               <Link
                                 to={`/projetos/${slug}`}
-                                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 w-full max-w-sm"
                                 aria-label={p.title}
                               >
                                 {card}
@@ -573,8 +609,10 @@ export default function App() {
                           )
                         }
                         return (
-                          <div key={p.id} className="min-w-full px-2">
-                            {card}
+                          <div key={p.id} className="min-w-full flex justify-center">
+                            <div className="w-full max-w-sm">
+                              {card}
+                            </div>
                           </div>
                         )
                       })}
@@ -586,17 +624,17 @@ export default function App() {
                     <>
                       <button
                         onClick={prevSlide}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-10 p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-lg hover:bg-white transition-colors"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-10 p-2 rounded-full bg-slate-800/90 backdrop-blur-sm shadow-lg hover:bg-slate-700 transition-colors"
                         aria-label="Previous"
                       >
-                        <ChevronLeft className="w-5 h-5 text-slate-900" />
+                        <ChevronLeft className="w-5 h-5 text-white" />
                       </button>
                       <button
                         onClick={nextSlide}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-10 p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-lg hover:bg-white transition-colors"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-10 p-2 rounded-full bg-slate-800/90 backdrop-blur-sm shadow-lg hover:bg-slate-700 transition-colors"
                         aria-label="Next"
                       >
-                        <ChevronRight className="w-5 h-5 text-slate-900" />
+                        <ChevronRight className="w-5 h-5 text-white" />
                       </button>
                       
                       {/* Dots Indicator */}
@@ -619,7 +657,7 @@ export default function App() {
                 </div>
 
                 {/* Desktop Grid (>= md breakpoint) */}
-                <div className={`hidden md:grid gap-4 text-slate-900 ${heroGridClasses}`}>
+                <div className={`hidden md:grid gap-4 text-white ${heroGridClasses}`}>
                   {heroFeatured.map((p: any) => {
                     const card = renderFeaturedCard(p)
                     if (p.listing_type === 'new_project') {
@@ -648,26 +686,26 @@ export default function App() {
         </div>
       </section>
 
-  {/* MAIN CONTENT */}
-  <main className="flex-1 relative z-40 bg-gradient-to-b from-white/98 via-white/95 to-white dark:from-slate-900 dark:via-slate-850 dark:to-slate-900">
+  {/* MAIN CONTENT - Full width mobile optimized */}
+  <main className="flex-1 relative z-40 w-full bg-gradient-to-b from-slate-900 via-slate-850 to-slate-900">
     {/* New Projects Section */}
     {projects.length > 0 && (
-      <section id="new-projects" className="relative py-24 overflow-hidden">
+      <section id="new-projects" className="relative py-16 sm:py-20 md:py-24 overflow-hidden w-full">
         {/* Very subtle gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-50/10 via-white/80 to-indigo-50/10 dark:from-brand-950/20 dark:via-transparent dark:to-indigo-950/10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-950/20 via-transparent to-indigo-950/10" />
         
-        <div className="container-padded relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-light tracking-tight text-slate-900 dark:text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+        <div className="container-padded relative z-10 w-full">
+          <div className="text-center mb-12 sm:mb-14 md:mb-16 px-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-white mb-3 sm:mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
               {t('home.newProjects.title', { defaultValue: 'New Projects' })}
             </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+            <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
               {t('home.newProjects.subtitle', { defaultValue: 'Discover our latest developments in prime locations' })}
             </p>
-            {projectsError && <p className="mt-4 text-sm text-red-600 dark:text-red-400">{projectsError}</p>}
+            {projectsError && <p className="mt-4 text-sm text-red-400">{projectsError}</p>}
           </div>
           
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 w-full">
             {projects.map((p) => {
               const thumb = (p.media || []).find((m: any) => m.kind === 'thumbnail')?.url || (p.media || [])[0]?.url
               const secondPhoto = (p.media || []).filter((m: any) => m.kind !== 'video_bg' && m.kind !== 'thumbnail')[0]?.url || (p.media || [])[1]?.url
@@ -682,7 +720,7 @@ export default function App() {
               return (
                 <article 
                   key={p.id} 
-                  className="group relative rounded-3xl border border-slate-200/50 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 p-5 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 backdrop-blur-sm"
+                  className="group relative rounded-3xl border border-slate-700/50 bg-slate-800/60 p-5 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 backdrop-blur-sm"
                   onMouseEnter={() => setHoveredProjectId(p.id)}
                   onMouseLeave={() => setHoveredProjectId(null)}
                 >
@@ -694,17 +732,17 @@ export default function App() {
                         className="w-full h-56 object-cover transition-all duration-500 group-hover:scale-105" 
                       />
                     ) : (
-                      <div className="w-full h-56 bg-slate-100 dark:bg-slate-700 rounded-2xl grid place-items-center text-slate-400 dark:text-slate-500 text-sm">No image</div>
+                      <div className="w-full h-56 bg-slate-700 rounded-2xl grid place-items-center text-slate-500 text-sm">No image</div>
                     )}
                     {/* Overlay gradient on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                   
                   <div className="space-y-2">
-                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white line-clamp-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                    <h3 className="text-xl font-semibold text-white line-clamp-2 group-hover:text-brand-400 transition-colors">
                       {p.title}
                     </h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                    <p className="text-sm text-slate-400 flex items-center gap-1">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -712,17 +750,17 @@ export default function App() {
                       {[p.city, p.state_code].filter(Boolean).join(', ')}
                     </p>
                     {expected && (
-                      <p className="text-sm text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                      <p className="text-sm text-slate-300 flex items-center gap-1">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                         {t('home.newProjects.delivery', { defaultValue: 'Delivery' })}: {[p.features?.expected_delivery_month, p.features?.expected_delivery_year].filter(Boolean).join(' ')}
                       </p>
                     )}
-                    <div className="pt-3 mt-3 border-t border-slate-200 dark:border-slate-700">
+                    <div className="pt-3 mt-3 border-t border-slate-700">
                       <div className="flex items-baseline justify-between">
-                        <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium">{t('home.newProjects.startingFrom', { defaultValue: 'Starting from' })}</span>
-                        <span className="text-xl font-bold text-brand-600 dark:text-brand-400">{formatPrice(perUnit, { fallback: '—' })}</span>
+                        <span className="text-xs uppercase tracking-wider text-slate-400 font-medium">{t('home.newProjects.startingFrom', { defaultValue: 'Starting from' })}</span>
+                        <span className="text-xl font-bold text-brand-400">{formatPrice(perUnit, { fallback: '—' })}</span>
                       </div>
                     </div>
                   </div>
@@ -734,24 +772,24 @@ export default function App() {
       </section>
     )}
 
-    {/* About Section */}
-    <section id="about" className="relative py-24 overflow-hidden">
-      {/* Very light elegant background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50/50 via-white to-slate-50/30 dark:from-slate-900 dark:via-slate-850 dark:to-slate-900" />
-      <div className="absolute inset-0 opacity-3 dark:opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(100, 116, 139) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+    {/* About Section - Mobile optimized */}
+    <section id="about" className="relative py-16 sm:py-20 md:py-24 overflow-hidden w-full">
+      {/* Dark elegant background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-850 to-slate-900" />
+      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(100, 116, 139) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
       
-      <div className="container-padded relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl sm:text-5xl font-light tracking-tight text-slate-900 dark:text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+      <div className="container-padded relative z-10 w-full">
+        <div className="max-w-4xl mx-auto text-center px-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-white mb-4 sm:mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
             {t('home.about.title')}
           </h2>
-          <p className="text-xl text-slate-700 dark:text-white/90 leading-relaxed font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+          <p className="text-lg sm:text-xl text-white/90 leading-relaxed font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
             {t('home.about.body')}
           </p>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-8 sm:mt-10 md:mt-12 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4">
             <Link 
               to="/sobre" 
-              className="inline-flex items-center gap-2 rounded-full bg-slate-900 dark:bg-white px-8 py-3 text-sm font-semibold text-white dark:text-slate-900 shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-semibold text-slate-900 shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
             >
               {t('home.about.learnMore', { defaultValue: 'Learn More' })}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -760,7 +798,7 @@ export default function App() {
             </Link>
             <Link 
               to="/imoveis" 
-              className="inline-flex items-center gap-2 rounded-full border border-slate-300 dark:border-white/30 px-8 py-3 text-sm font-semibold text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-all"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 px-8 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-all"
             >
               {t('home.about.viewProperties', { defaultValue: 'View Properties' })}
             </Link>
@@ -769,58 +807,58 @@ export default function App() {
       </div>
     </section>
 
-    {/* Contact Section */}
-    <section id="contact" className="relative py-24 overflow-hidden">
-      {/* Very light gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white via-brand-50/10 to-indigo-50/15 dark:from-slate-900 dark:via-brand-950/20 dark:to-indigo-950/30" />
+    {/* Contact Section - Mobile optimized */}
+    <section id="contact" className="relative py-16 sm:py-20 md:py-24 overflow-hidden w-full">
+      {/* Dark gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-brand-950/20 to-indigo-950/30" />
       
-      <div className="container-padded relative z-10">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl sm:text-5xl font-light tracking-tight text-slate-900 dark:text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+      <div className="container-padded relative z-10 w-full">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="text-center mb-10 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-white mb-3 sm:mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
               {t('home.contact.title')}
             </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+            <p className="text-base sm:text-lg text-slate-400 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
               {t('home.contact.subtitle', { defaultValue: 'Get in touch with our team of real estate experts' })}
             </p>
           </div>
           
-          <form className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-8 sm:p-10 border border-slate-200/50 dark:border-slate-700/50">
+          <form className="bg-slate-800 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 border border-slate-700/50 w-full">
             <div className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <label className="grid gap-2">
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('home.contact.name', { defaultValue: 'Name' })}</span>
+                  <span className="text-sm font-medium text-slate-300">{t('home.contact.name', { defaultValue: 'Name' })}</span>
                   <input 
                     type="text" 
                     placeholder={t('home.contact.namePlaceholder', { defaultValue: 'Your name' })}
-                    className="rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
+                    className="rounded-xl border border-slate-600 bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-white placeholder:text-slate-400"
                   />
                 </label>
                 <label className="grid gap-2">
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('home.contact.email')}</span>
+                  <span className="text-sm font-medium text-slate-300">{t('home.contact.email')}</span>
                   <input 
                     type="email" 
                     placeholder={t('home.contact.emailPlaceholder', { defaultValue: 'you@example.com' })}
-                    className="rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
+                    className="rounded-xl border border-slate-600 bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-white placeholder:text-slate-400"
                   />
                 </label>
               </div>
               
               <label className="grid gap-2">
-                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('home.contact.phone', { defaultValue: 'Phone' })}</span>
+                <span className="text-sm font-medium text-slate-300">{t('home.contact.phone', { defaultValue: 'Phone' })}</span>
                 <input 
                   type="tel" 
                   placeholder={t('home.contact.phonePlaceholder', { defaultValue: '+55 (11) 99999-9999' })}
-                  className="rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
+                  className="rounded-xl border border-slate-600 bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-white placeholder:text-slate-400"
                 />
               </label>
               
               <label className="grid gap-2">
-                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('home.contact.message')}</span>
+                <span className="text-sm font-medium text-slate-300">{t('home.contact.message')}</span>
                 <textarea 
                   placeholder={t('home.contact.messagePlaceholder', { defaultValue: 'Tell us how we can help...' })}
                   rows={5} 
-                  className="rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-slate-900 dark:text-white placeholder:text-slate-400 resize-none"
+                  className="rounded-xl border border-slate-600 bg-slate-900/60 px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition-all text-white placeholder:text-slate-400 resize-none"
                 />
               </label>
               
