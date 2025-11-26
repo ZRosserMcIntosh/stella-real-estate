@@ -512,7 +512,7 @@
     "forgotPrompt": "Esqueceu sua senha?",
   "reset": "Redefinir",
   "exploreDemo": "Explorar em modo demo",
-  "demoHint": "Você pode usar seu email ou digitar DEMO com a senha stella para explorar."
+  "demoHint": "Você pode usar seu email ou digitar demo@stellareal.com.br com a senha stella para explorar."
   },
   "ballet": {
     "loading": "Carregando Ballet...",

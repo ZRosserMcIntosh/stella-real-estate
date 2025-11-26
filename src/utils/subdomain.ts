@@ -12,9 +12,10 @@ export interface SubdomainConfig {
 /**
  * Extract subdomain from hostname
  * Examples:
+ * - constellation.stellareal.com.br -> constellation
  * - stellareal.stella-real-estate.vercel.app -> stellareal
- * - www.stella-real-estate.com -> www
- * - stella-real-estate.com -> null
+ * - www.stellareal.com.br -> www
+ * - stellareal.com.br -> null
  */
 export function getSubdomain(): string | null {
   if (typeof window === 'undefined') return null
@@ -28,8 +29,17 @@ export function getSubdomain(): string | null {
     if (parts.length >= 4) {
       return parts[0]
     }
+  } else if (hostname.includes('.stellareal.com.br')) {
+    // Custom domain format: subdomain.stellareal.com.br
+    if (parts.length > 3) {
+      const sub = parts[0]
+      // Ignore www and common non-subdomain prefixes
+      if (sub !== 'www' && sub !== 'api') {
+        return sub
+      }
+    }
   } else {
-    // Custom domain format
+    // Generic custom domain format
     // For domains like subdomain.example.com
     if (parts.length > 2) {
       const sub = parts[0]
@@ -63,8 +73,11 @@ export function getBaseDomain(): string {
   if (hostname.includes('.vercel.app')) {
     // Return the project domain
     return parts.slice(1).join('.')
+  } else if (hostname.includes('.stellareal.com.br')) {
+    // Return stellareal.com.br
+    return 'stellareal.com.br'
   } else {
-    // Return domain with TLD
+    // Return domain with TLD (last 2 parts)
     return parts.slice(-2).join('.')
   }
 }
@@ -76,7 +89,13 @@ export function getSubdomainUrl(subdomain: string, path: string = '/'): string {
   if (typeof window === 'undefined') return path
   
   const protocol = window.location.protocol
-  const baseDomain = getBaseDomain()
+  const hostname = window.location.hostname
+  let baseDomain = getBaseDomain()
+  
+  // If we're on stellareal.com.br or vercel, use the appropriate base
+  if (hostname.includes('.stellareal.com.br') || hostname.includes('stellareal')) {
+    baseDomain = 'stellareal.com.br'
+  }
   
   if (subdomain) {
     return `${protocol}//${subdomain}.${baseDomain}${path}`

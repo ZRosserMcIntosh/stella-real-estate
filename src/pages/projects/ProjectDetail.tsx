@@ -263,25 +263,28 @@ export default function ProjectDetail() {
   if (!project) return <Navigate to="/projetos" replace />
 
   return (
-    <div className="relative min-h-screen flex flex-col">
+    <div className="relative min-h-screen flex flex-col -mt-20">
       {videoId && (
-        <div aria-hidden className="fixed left-0 top-0 w-screen h-screen overflow-hidden -z-20">
+        <div 
+          aria-hidden 
+          className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none"
+          style={{ zIndex: 0 }}
+        >
           <iframe
             style={{
               position: 'absolute',
               top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%) scale(1.04)',
-              transformOrigin: 'center center',
+              transform: 'translate(-50%, -50%)',
+              width: '100vw',
+              height: '100vh',
               minWidth: `${computedMinWidth}px`,
               minHeight: `${computedMinHeight}px`,
-              width: 'auto',
-              height: 'auto',
               background: 'transparent',
               border: 0,
               filter: `blur(${blur}px)`,
-              transition: 'filter 160ms linear, transform 400ms linear',
-              willChange: 'filter, transform',
+              transition: 'filter 160ms linear',
+              willChange: 'filter',
               pointerEvents: 'none',
             }}
             src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1${videoStart ? `&start=${videoStart}` : ''}`}
@@ -289,10 +292,10 @@ export default function ProjectDetail() {
             allow="autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
           />
-          <div aria-hidden style={{ position: 'absolute', inset: 0 }} className="-z-10 bg-black/45" />
+          <div aria-hidden style={{ position: 'absolute', inset: 0, zIndex: 1 }} className="bg-black/45" />
         </div>
       )}
-      <header ref={heroRef} className="relative overflow-visible pt-4">
+      <header ref={heroRef} className="relative overflow-visible pt-32">
         <div className="container-padded relative z-20">
           <div className="inline-block rounded-2xl bg-black/35 backdrop-blur px-4 py-4 text-white shadow-soft">
             <h1 className="text-3xl sm:text-4xl font-bold leading-tight tracking-tight">{project.name}</h1>

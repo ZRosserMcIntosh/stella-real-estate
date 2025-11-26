@@ -46,7 +46,7 @@ export default function Login() {
     setLoading(true);
 
     // Demo mode check
-    if (email.toLowerCase() === 'demo' && password === 'stella') {
+    if (email.toLowerCase() === 'demo@stellareal.com.br' && password === 'stella') {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('userRole', 'admin');
       navigate('/admin');
@@ -214,7 +214,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-2.5 sm:px-3 py-2 sm:py-2.5 bg-white/5 border border-white/10 rounded-lg sm:rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all text-[10px] sm:text-xs"
-                placeholder="voce@email.com.br"
+                placeholder="voce@stellareal.com.br"
                 required
                 autoCapitalize="none"
                 autoCorrect="off"
@@ -288,7 +288,7 @@ export default function Login() {
         {/* Demo mode hint */}
         <div className="mt-3 sm:mt-4 text-center">
           <p className="text-white/30 text-[9px] sm:text-[10px]">
-            Demo: email: demo, password: stella
+            Demo: email: demo@stellareal.com.br, password: stella
           </p>
         </div>
       </div>

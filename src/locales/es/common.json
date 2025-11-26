@@ -80,6 +80,9 @@
       "noProjects": "No Hay Proyectos Disponibles",
       "checkBackSoon": "Vuelva pronto para nuevas oportunidades de desarrollo."
     },
+    "projectDetail": {
+      "viewingPhoto": "Viendo foto {{current}} / {{total}}"
+    },
     "privacy": { "title": "Política de Privacidad" },
     "legal": { "title": "Legal" },
     "listYourProperty": { "title": "Publica tu Propiedad" },
@@ -444,7 +447,7 @@
     "forgotPrompt": "¿Olvidaste tu contraseña?",
     "reset": "Restablécela",
     "exploreDemo": "Explorar en modo demo",
-    "demoHint": "Puedes usar tu email o escribir DEMO con la contraseña stella para explorar."
+    "demoHint": "Puedes usar tu email o escribir demo@stellareal.com.br con la contraseña stella para explorar."
   },
   "ballet": {
     "loading": "Cargando Ballet..."
