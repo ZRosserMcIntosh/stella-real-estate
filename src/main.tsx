@@ -102,6 +102,7 @@ import { CurrencyProvider } from './context/CurrencyContext'
 import { AuthProvider } from './context/AuthContext'
 import { OnboardingProvider } from './context/OnboardingContext'
 import { SubdomainRouter } from './components/SubdomainRouter'
+import { ErrorBoundary } from './components/ErrorBoundary'
 
 const router = createBrowserRouter([
   {
@@ -238,16 +239,18 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <HelmetProvider>
-      <AuthProvider>
-        <OnboardingProvider>
-          <CurrencyProvider>
-            <SubdomainRouter>
-              <RouterProvider router={router} />
-            </SubdomainRouter>
-          </CurrencyProvider>
-        </OnboardingProvider>
-      </AuthProvider>
-    </HelmetProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <AuthProvider>
+          <OnboardingProvider>
+            <CurrencyProvider>
+              <SubdomainRouter>
+                <RouterProvider router={router} />
+              </SubdomainRouter>
+            </CurrencyProvider>
+          </OnboardingProvider>
+        </AuthProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
   </React.StrictMode>,
 )
