@@ -19,6 +19,7 @@ interface SubdomainRouterProps {
 export function SubdomainRouter({ children }: SubdomainRouterProps) {
   const [subdomainRoute, setSubdomainRoute] = useState<string | null>(null)
   const [isChecking, setIsChecking] = useState(true)
+  const [shouldRedirect, setShouldRedirect] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
@@ -36,7 +37,12 @@ export function SubdomainRouter({ children }: SubdomainRouterProps) {
         if (!window.location.hostname.startsWith(subdomain + '.')) {
           const subdomainUrl = getSubdomainUrl(subdomain, remainingPath || '/')
           console.log(`Redirecting from ${pathname} to ${subdomainUrl}`)
-          window.location.href = subdomainUrl
+          // Use a flag instead of immediate redirect to avoid blocking render
+          setTimeout(() => {
+            window.location.href = subdomainUrl
+          }, 100)
+          setShouldRedirect(true)
+          setIsChecking(false)
           return
         }
       }
@@ -65,9 +71,18 @@ export function SubdomainRouter({ children }: SubdomainRouterProps) {
     setIsChecking(false)
   }, [location])
 
-  // Show nothing while checking (prevents flash of wrong content)
+  // Don't block render - show a loading state briefly instead of null
   if (isChecking) {
-    return null
+    return <div className="min-h-screen bg-white dark:bg-slate-900" />
+  }
+
+  // Show redirecting message if we're about to redirect
+  if (shouldRedirect) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-slate-900 flex items-center justify-center">
+        <div className="text-slate-600 dark:text-slate-400">Redirecting...</div>
+      </div>
+    )
   }
 
   // If we're on a subdomain and not already on the subdomain route, redirect
