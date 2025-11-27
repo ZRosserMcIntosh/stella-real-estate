@@ -109,9 +109,9 @@ export function getSubdomainUrl(subdomain: string, path: string = '/'): string {
  */
 export const SUBDOMAIN_ROUTES: SubdomainConfig[] = [
   {
-    subdomain: 'stellareal',
+    subdomain: 'stellamary',
     route: '/sub/stellareal',
-    title: 'Stella Real - Retail Platform',
+    title: 'Stella Mary - Retail Platform',
     description: 'Browse all published real estate listings'
   },
   {

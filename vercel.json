@@ -10,7 +10,7 @@
     },
     {
       "source": "/sub/stellareal/:path*",
-      "destination": "https://stellareal.stellareal.com.br/:path*",
+      "destination": "https://stellamary.stellareal.com.br/:path*",
       "permanent": false
     },
     {
