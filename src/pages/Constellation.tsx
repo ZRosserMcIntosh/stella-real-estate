@@ -220,9 +220,9 @@ export default function Constellation() {
 
               <div className="grid sm:grid-cols-3 gap-6 mb-8">
                 {[
-                  { plan: 'Starter', price: 'R$ 97', features: ['1 Website', '10 Listings', 'Basic CRM'] },
-                  { plan: 'Pro', price: 'R$ 297', popular: true, features: ['1 Website', 'Unlimited Listings', 'Full CRM', 'Balé Tasks'] },
-                  { plan: 'Team', price: 'R$ 797', features: ['5 Websites', 'Unlimited Everything', 'Team Management', 'Priority Support'] }
+                  { plan: 'Pro', price: 'R$ 299', features: ['1 Website', '50 Listings', 'Full CRM', '3K Contacts'] },
+                  { plan: 'Team', price: 'R$ 499', popular: true, features: ['2 Websites', '150 Listings', 'Full CRM', '10K Contacts', 'Team Tools'] },
+                  { plan: 'Brokerage', price: 'R$ 999', features: ['3 Websites', '500 Listings', '50K Contacts', 'Priority Support'] }
                 ].map((tier, idx) => (
                   <div
                     key={idx}

@@ -4,11 +4,6 @@
   "framework": null,
   "redirects": [
     {
-      "source": "/sub/constellation/:path*",
-      "destination": "https://constellation.stellareal.com.br/:path*",
-      "permanent": false
-    },
-    {
       "source": "/sub/stellareal/:path*",
       "destination": "https://stellamary.stellareal.com.br/:path*",
       "permanent": false

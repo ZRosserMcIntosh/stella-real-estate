@@ -345,9 +345,9 @@ export default function ConstellationPortal() {
 
               <div className="grid sm:grid-cols-3 gap-6 mb-8">
                 {[
-                  { plan: t('constellation.pricing.plans.starter.name'), price: 'R$ 97', features: [t('constellation.pricing.plans.starter.features.0'), t('constellation.pricing.plans.starter.features.1'), t('constellation.pricing.plans.starter.features.2')] },
-                  { plan: t('constellation.pricing.plans.pro.name'), price: 'R$ 297', popular: true, features: [t('constellation.pricing.plans.pro.features.0'), t('constellation.pricing.plans.pro.features.1'), t('constellation.pricing.plans.pro.features.2'), t('constellation.pricing.plans.pro.features.3')] },
-                  { plan: t('constellation.pricing.plans.team.name'), price: 'R$ 797', features: [t('constellation.pricing.plans.team.features.0'), t('constellation.pricing.plans.team.features.1'), t('constellation.pricing.plans.team.features.2'), t('constellation.pricing.plans.team.features.3')] }
+                  { plan: t('constellation.pricing.plans.pro.name'), price: 'R$ 299', features: [t('constellation.pricing.plans.pro.features.0'), t('constellation.pricing.plans.pro.features.1'), t('constellation.pricing.plans.pro.features.2'), t('constellation.pricing.plans.pro.features.3')] },
+                  { plan: t('constellation.pricing.plans.team.name'), price: 'R$ 499', popular: true, features: [t('constellation.pricing.plans.team.features.0'), t('constellation.pricing.plans.team.features.1'), t('constellation.pricing.plans.team.features.2'), t('constellation.pricing.plans.team.features.3')] },
+                  { plan: 'Brokerage', price: 'R$ 999', features: ['3 Websites', '500 Listings', '50K Contacts', 'Priority Support'] }
                 ].map((tier, idx) => (
                   <div
                     key={idx}
