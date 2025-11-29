@@ -3,6 +3,7 @@ import { CheckCircle } from 'lucide-react'
 import { useMemo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import ConstellationHeader from '../components/ConstellationHeader'
+import { ConstellationUrls } from '../utils/constellationUrl'
 
 export default function ConstellationPortal() {
   const { t, i18n } = useTranslation()
@@ -179,12 +180,12 @@ export default function ConstellationPortal() {
               >
                 {t('constellation.hero.get_started_free')}
               </Link>
-              <Link
-                to="/sub/constellation/login"
+              <a
+                href={ConstellationUrls.login()}
                 className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full font-medium transition-all border border-white/20 hover:border-white/30 text-lg"
               >
                 {t('constellation.hero.sign_in')}
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -501,7 +502,7 @@ export default function ConstellationPortal() {
                 <h4 className="text-white font-semibold mb-4">{t('constellation.footer.support')}</h4>
                 <ul className="space-y-2">
                   <li><Link to="/contato" className="text-slate-400 hover:text-white transition-colors">{t('constellation.footer.help_center')}</Link></li>
-                  <li><Link to="/sub/constellation/login" className="text-slate-400 hover:text-white transition-colors">{t('constellation.footer.sign_in')}</Link></li>
+                  <li><a href={ConstellationUrls.login()} className="text-slate-400 hover:text-white transition-colors">{t('constellation.footer.sign_in')}</a></li>
                 </ul>
               </div>
             </div>

@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
+import { ConstellationUrls } from '../utils/constellationUrl'
 
 export default function ConstellationHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -13,17 +14,17 @@ export default function ConstellationHeader() {
       <div className="container-padded">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/sub/constellation" className="flex items-center gap-3 group">
+          <a href={ConstellationUrls.home()} className="flex items-center gap-3 group">
             <img 
               src="/tech-icons/contellation-logo.png" 
               alt="Constellation" 
-              className="h-20 w-auto object-contain transition-all duration-300 group-hover:scale-105"
+              className="h-16 sm:h-20 w-auto object-contain transition-all duration-300 group-hover:scale-105"
               style={{
                 filter: 'brightness(1.3) drop-shadow(0 0 6px rgba(129, 140, 248, 0.3)) drop-shadow(0 0 12px rgba(129, 140, 248, 0.15))'
               }}
             />
             <span 
-              className="text-xl font-light uppercase tracking-[0.3em] text-indigo-200/90 hidden sm:block" 
+              className="text-sm sm:text-xl font-light uppercase tracking-[0.2em] sm:tracking-[0.3em] text-indigo-200/90" 
               style={{ 
                 fontFamily: 'Outfit, sans-serif',
                 textShadow: '0 0 15px rgba(129, 140, 248, 0.4)'
@@ -31,7 +32,7 @@ export default function ConstellationHeader() {
             >
               CONSTELLATION
             </span>
-          </Link>
+          </a>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
@@ -60,12 +61,12 @@ export default function ConstellationHeader() {
               >
                 {t('constellation.nav.contact')}
               </Link>
-              <Link 
-                to="/sub/constellation/login" 
+              <a
+                href={ConstellationUrls.login()}
                 className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
               >
                 {t('constellation.nav.sign_in')}
-              </Link>
+              </a>
             </nav>
             
             <div className="flex items-center gap-4 border-l border-white/10 pl-4">
@@ -123,13 +124,13 @@ export default function ConstellationHeader() {
               {t('constellation.nav.contact')}
             </Link>
             <div className="border-t border-white/10 pt-4 mt-2 flex flex-col gap-3">
-              <Link 
-                to="/sub/constellation/login" 
+              <a
+                href={ConstellationUrls.login()}
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
               >
                 {t('constellation.nav.sign_in')}
-              </Link>
+              </a>
               <div className="py-2">
                 <LanguageSwitcher />
               </div>

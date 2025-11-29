@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import { Eye, EyeOff } from 'lucide-react'
+import { ConstellationUrls } from '../../utils/constellationUrl'
 
 export default function ConstellationLogin() {
   const [identifier, setIdentifier] = useState('')
@@ -45,7 +46,7 @@ export default function ConstellationLogin() {
 
   React.useEffect(() => {
     if (authLoading) return
-    if (session || isDemo) navigate('/sub/constellation/dashboard', { replace: true })
+    if (session || isDemo) navigate(ConstellationUrls.dashboard(), { replace: true })
   }, [authLoading, session, isDemo, navigate])
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -86,7 +87,7 @@ export default function ConstellationLogin() {
     
     // Constellation users go to dashboard, not main admin
     setLoading(false)
-    setTimeout(() => navigate('/sub/constellation/dashboard', { replace: true }), 200)
+    setTimeout(() => navigate(ConstellationUrls.dashboard(), { replace: true }), 200)
   }
 
   return (
@@ -297,13 +298,13 @@ export default function ConstellationLogin() {
 
           {/* Links */}
           <div className="mt-4 sm:mt-6 flex justify-between items-center text-[10px] sm:text-xs">
-            <Link to="/sub/constellation" className="text-slate-400 hover:text-indigo-400 transition-colors">
+            <a href={ConstellationUrls.home()} className="text-slate-400 hover:text-indigo-400 transition-colors">
               ← Voltar
-            </Link>
-            <Link to="/sub/constellation/reset" className="text-slate-400 hover:text-indigo-400 transition-colors">
+            </a>
+            <Link to={ConstellationUrls.reset()} className="text-slate-400 hover:text-indigo-400 transition-colors">
               Esqueci Senha
             </Link>
-            <Link to="/sub/constellation/signup" className="text-slate-400 hover:text-indigo-400 transition-colors">
+            <Link to={ConstellationUrls.signup()} className="text-slate-400 hover:text-indigo-400 transition-colors">
               Criar Conta →
             </Link>
           </div>

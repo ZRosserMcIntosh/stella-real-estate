@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext'
 import { Eye, EyeOff } from 'lucide-react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { ConstellationUrls } from '../../utils/constellationUrl'
 
 // Initialize Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
@@ -91,7 +92,7 @@ function PaymentForm({
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/sub/constellation/payment-success`,
+        return_url: `${window.location.origin}${ConstellationUrls.dashboard()}`,
         receipt_email: signupData.email,
       },
       redirect: 'if_required',
@@ -219,7 +220,7 @@ export default function ConstellationSignup() {
         // User just registered, stay on payment page
         return
       }
-      navigate('/sub/constellation/dashboard', { replace: true })
+      navigate(ConstellationUrls.dashboard(), { replace: true })
     }
   }, [authLoading, session, isDemo, navigate, isRegistering, userId])
 
@@ -497,12 +498,12 @@ export default function ConstellationSignup() {
 
     if (signInError) {
       console.error('Error signing in after payment:', signInError)
-      setError('Payment successful! Please log in at /sub/constellation/login')
+      setError(`Payment successful! Please log in at ${ConstellationUrls.login()}`)
       return
     }
     
     // Redirect to Constellation dashboard
-    navigate('/sub/constellation/dashboard', { replace: true })
+    navigate(ConstellationUrls.dashboard(), { replace: true })
   }
 
   const handleSignupSubmit = async (e?: React.FormEvent) => {
@@ -993,10 +994,10 @@ export default function ConstellationSignup() {
 
             {/* Links */}
             <div className="mt-4 sm:mt-6 flex justify-between items-center text-[10px] sm:text-xs">
-              <Link to="/sub/constellation" className="text-slate-400 hover:text-indigo-400 transition-colors">
+              <a href={ConstellationUrls.home()} className="text-slate-400 hover:text-indigo-400 transition-colors">
                 ← Voltar
-              </Link>
-              <Link to="/sub/constellation/login" className="text-slate-400 hover:text-indigo-400 transition-colors">
+              </a>
+              <Link to={ConstellationUrls.login()} className="text-slate-400 hover:text-indigo-400 transition-colors">
                 Já tem uma conta? →
               </Link>
             </div>
