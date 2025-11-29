@@ -12,29 +12,32 @@ export function SubdomainRedirectHandler() {
 
   useEffect(() => {
     const pathname = location.pathname
+    const hostname = window.location.hostname
     
-    // Handle /sub/* paths - redirect to actual subdomains
+    // If we're on a subdomain but visiting /sub/[subdomain]/* path, clean it up
     if (pathname.startsWith('/sub/')) {
       const pathParts = pathname.split('/')
-      const subdomain = pathParts[2]
+      const pathSubdomain = pathParts[2]
       const remainingPath = '/' + pathParts.slice(3).join('/')
       
-      if (subdomain && !window.location.hostname.startsWith(subdomain + '.')) {
-        const subdomainUrl = getSubdomainUrl(subdomain, remainingPath || '/')
+      // If already on the correct subdomain, just navigate to the clean path
+      if (hostname.startsWith(pathSubdomain + '.')) {
+        console.log(`[SubdomainRedirect] Already on ${pathSubdomain} subdomain, cleaning URL to: ${remainingPath || '/'}`)
+        navigate(remainingPath || '/', { replace: true })
+        return
+      }
+      
+      // If on wrong domain, redirect to correct subdomain
+      if (pathSubdomain && !hostname.startsWith(pathSubdomain + '.')) {
+        const subdomainUrl = getSubdomainUrl(pathSubdomain, remainingPath || '/')
         console.log(`[SubdomainRedirect] Redirecting to: ${subdomainUrl}`)
         window.location.href = subdomainUrl
         return
       }
     }
 
-    // If on a subdomain at root, navigate to subdomain route
-    if (pathname === '/') {
-      const subdomainRoute = getSubdomainRoute()
-      if (subdomainRoute) {
-        console.log(`[SubdomainRedirect] Navigating to subdomain route: ${subdomainRoute}`)
-        navigate(subdomainRoute, { replace: true })
-      }
-    }
+    // Don't auto-navigate if we're on a subdomain - let the routes handle it
+    // This prevents forcing navigation to /sub/constellation
   }, [location, navigate])
 
   return null

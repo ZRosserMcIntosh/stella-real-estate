@@ -9,8 +9,23 @@ import WatermarkedImage from './components/WatermarkedImage'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 import SEO from './components/SEO'
+import { getSubdomain } from './utils/subdomain'
+import ConstellationPortal from './pages/ConstellationPortal'
+import StellaReal from './pages/StellaReal'
 
 export default function App() {
+  // Check if we're on a subdomain and render appropriate component
+  const subdomain = getSubdomain()
+  
+  if (subdomain === 'constellation') {
+    return <ConstellationPortal />
+  }
+  
+  if (subdomain === 'stellamary' || subdomain === 'stellareal') {
+    return <StellaReal />
+  }
+  
+  // Otherwise render the main homepage
   const { t } = useTranslation()
   const heroRef = useRef<HTMLDivElement | null>(null)
 

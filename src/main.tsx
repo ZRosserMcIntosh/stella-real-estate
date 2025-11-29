@@ -166,6 +166,14 @@ const router = createBrowserRouter([
       { path: 'members', element: <Members /> },
       // Subdomain routes (temporary paths until custom domains are configured)
       { path: 'sub/stellareal', element: <StellaReal /> },
+      // Constellation subdomain routes (when visiting constellation.stellareal.com.br)
+      // These are the clean URLs without /sub/constellation prefix
+      { path: 'login', element: <ConstellationLogin /> },
+      { path: 'signup', element: <ConstellationSignup /> },
+      { path: 'reset', element: <ConstellationReset /> },
+      { path: 'dashboard', element: <ConstellationDashboard /> },
+      { path: 'visuals', element: <ConstellationVisuals /> },
+      { path: 'site-builder', element: <ConstellationSiteBuilder /> },
     ],
   },
   // Constellation routes - standalone without main site header/footer
