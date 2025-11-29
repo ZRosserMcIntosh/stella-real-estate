@@ -4,6 +4,7 @@ import { useMemo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import ConstellationHeader from '../components/ConstellationHeader'
 import { ConstellationUrls } from '../utils/constellationUrl'
+import { Helmet } from 'react-helmet-async'
 
 export default function ConstellationPortal() {
   const { t, i18n } = useTranslation()
@@ -44,6 +45,150 @@ export default function ConstellationPortal() {
 
   return (
     <>
+      <Helmet>
+        {/* Primary Meta Tags */}
+        <title>Constellation - Plataforma Profissional para Corretores de Imóveis | Stella Real Estate</title>
+        <meta name="title" content="Constellation - Plataforma Profissional para Corretores de Imóveis | Stella Real Estate" />
+        <meta name="description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A plataforma completa para corretores independentes, imobiliárias e incorporadores. A partir de R$ 147/mês." />
+        <meta name="keywords" content="plataforma imobiliária, CRM imobiliário, site para corretor, gestão de leads imobiliários, mapas 3D, marketing imobiliário, automação imobiliária, software imobiliário, site personalizado corretor, plataforma corretor independente" />
+        
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://constellation.stellareal.com.br/" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://constellation.stellareal.com.br/" />
+        <meta property="og:title" content="Constellation - Plataforma Profissional para Corretores de Imóveis" />
+        <meta property="og:description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A plataforma completa para corretores." />
+        <meta property="og:image" content="https://constellation.stellareal.com.br/tech-icons/contellation-logo.png" />
+        <meta property="og:locale" content="pt_BR" />
+        <meta property="og:site_name" content="Constellation by Stella Real Estate" />
+        
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://constellation.stellareal.com.br/" />
+        <meta property="twitter:title" content="Constellation - Plataforma Profissional para Corretores de Imóveis" />
+        <meta property="twitter:description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A partir de R$ 147/mês." />
+        <meta property="twitter:image" content="https://constellation.stellareal.com.br/tech-icons/contellation-logo.png" />
+        
+        {/* Language and Geo */}
+        <meta httpEquiv="content-language" content="pt-BR" />
+        <meta name="geo.region" content="BR" />
+        <meta name="geo.placename" content="Brasil" />
+        
+        {/* Additional SEO */}
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="author" content="Stella Real Estate" />
+        <meta name="publisher" content="Stella Real Estate" />
+        <meta name="theme-color" content="#020617" />
+        
+        {/* Structured Data - Organization */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Constellation by Stella Real Estate",
+            "url": "https://constellation.stellareal.com.br",
+            "logo": "https://constellation.stellareal.com.br/tech-icons/contellation-logo.png",
+            "description": "Plataforma profissional completa para corretores de imóveis com sites, CRM, mapas 3D e automação de marketing.",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "BR"
+            },
+            "sameAs": [
+              "https://instagram.com",
+              "https://linkedin.com",
+              "https://facebook.com"
+            ]
+          })}
+        </script>
+        
+        {/* Structured Data - SoftwareApplication */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Constellation",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "offers": [
+              {
+                "@type": "Offer",
+                "name": "Plano Solo",
+                "price": "147",
+                "priceCurrency": "BRL",
+                "billingDuration": "P1M",
+                "description": "1 Site, 50 Anúncios, 3K Contatos, 2 Mapas 3D/mês"
+              },
+              {
+                "@type": "Offer",
+                "name": "Plano Team",
+                "price": "397",
+                "priceCurrency": "BRL",
+                "billingDuration": "P1M",
+                "description": "2 Sites, 150 Anúncios, 10K Contatos, 5 Mapas 3D/mês"
+              },
+              {
+                "@type": "Offer",
+                "name": "Plano Brokerage",
+                "price": "997",
+                "priceCurrency": "BRL",
+                "billingDuration": "P1M",
+                "description": "3 Sites, 500 Anúncios, 50K Contatos, 20 Mapas 3D/mês"
+              },
+              {
+                "@type": "Offer",
+                "name": "Site Personalizado",
+                "price": "19900",
+                "priceCurrency": "BRL",
+                "description": "Desenvolvimento totalmente personalizado com entrega em 30 dias"
+              }
+            ],
+            "description": "Plataforma completa para corretores de imóveis: sites profissionais, CRM, gestão de leads, mapas 3D, analytics e automação de marketing.",
+            "featureList": [
+              "Sites Profissionais",
+              "CRM & Gestão de Leads",
+              "Mapas 3D Interativos",
+              "Gestão de Equipe",
+              "Estúdio de Mídias Sociais",
+              "Analytics Avançado",
+              "Cofre de Documentos",
+              "Deal Room",
+              "Automação de Marketing"
+            ],
+            "screenshot": "https://constellation.stellareal.com.br/tech-icons/contellation-logo.png"
+          })}
+        </script>
+        
+        {/* Structured Data - BreadcrumbList */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://constellation.stellareal.com.br/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Plataforma",
+                "item": "https://constellation.stellareal.com.br/plataforma-stella"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Preços",
+                "item": "https://constellation.stellareal.com.br/precos"
+              }
+            ]
+          })}
+        </script>
+      </Helmet>
+
       <style>{`
         html, body {
           background: #020617 !important;

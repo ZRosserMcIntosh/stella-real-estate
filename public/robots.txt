@@ -36,6 +36,7 @@ Allow: /*.svg$
 
 # Sitemap location
 Sitemap: https://stellareal.com.br/sitemap.xml
+Sitemap: https://constellation.stellareal.com.br/constellation-sitemap.xml
 
 # Crawl delay (optional, adjust based on server capacity)
 Crawl-delay: 1
