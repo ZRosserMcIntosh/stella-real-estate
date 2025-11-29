@@ -103,11 +103,12 @@ import { AuthProvider } from './context/AuthContext'
 import { OnboardingProvider } from './context/OnboardingContext'
 import { SubdomainRouter } from './components/SubdomainRouter'
 import { ErrorBoundary } from './components/ErrorBoundary'
+import ConditionalLayout from './components/ConditionalLayout'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <ConditionalLayout />,
     children: [
       { index: true, element: <App /> },
       // Portuguese URLs (primary)
