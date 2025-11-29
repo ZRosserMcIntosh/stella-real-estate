@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import SEO from '../components/SEO'
 
 export default function About() {
   const { t } = useTranslation()
@@ -7,7 +8,47 @@ export default function About() {
   const [ctoExpanded, setCtoExpanded] = useState(false)
 
   return (
-    <div className="bg-white dark:bg-slate-950">
+    <>
+      <SEO
+        title="Sobre a Stella Real Estate | Corretora de Imóveis de Luxo em São Paulo"
+        description="Conheça a Stella Real Estate e nossa equipe de especialistas em imóveis de luxo. Com anos de experiência no mercado imobiliário premium de São Paulo, oferecemos atendimento personalizado e exclusivo para compradores e vendedores de imóveis de alto padrão."
+        keywords="sobre Stella Real Estate, corretora de imóveis São Paulo, equipe imobiliária luxo, especialistas mercado premium, Stella Mary Barbosa, corretor imóveis alto padrão"
+        canonicalUrl="https://stellareal.com.br/about"
+        ogType="profile"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'Stella Real Estate',
+          url: 'https://stellareal.com.br',
+          description: 'Corretora especializada em imóveis de luxo e alto padrão em São Paulo',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'São Paulo',
+            addressRegion: 'SP',
+            addressCountry: 'BR'
+          },
+          founder: {
+            '@type': 'Person',
+            name: 'Stella Mary Barbosa',
+            jobTitle: 'CEO & Founder'
+          },
+          employee: [
+            {
+              '@type': 'Person',
+              name: 'Stella Mary Barbosa',
+              jobTitle: 'CEO & Founder',
+              description: 'Especialista em imóveis de luxo com anos de experiência no mercado imobiliário premium de São Paulo'
+            },
+            {
+              '@type': 'Person',
+              name: 'Rosser McIntosh',
+              jobTitle: 'CTO & Co-Founder',
+              description: 'Especialista em tecnologia imobiliária e desenvolvimento de plataformas digitais'
+            }
+          ]
+        }}
+      />
+      <div className="bg-white dark:bg-slate-950">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-pink-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 -mt-20 pt-20">
         <div className="container-padded py-20 text-center">
@@ -156,5 +197,6 @@ export default function About() {
         </div>
       </section>
     </div>
+    </>
   )
 }

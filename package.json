@@ -13,6 +13,7 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "i18n:audit": "tsx scripts/i18n-audit.ts",
+    "seo:sitemap": "node scripts/generate-sitemap.js",
     "prisma:generate": "prisma generate",
     "prisma:pull": "prisma db pull",
     "prisma:push": "prisma db push",

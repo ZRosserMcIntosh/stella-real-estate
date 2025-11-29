@@ -1,0 +1,67 @@
+# Robots.txt for StellaReal.com.br
+# Updated: November 29, 2025
+
+User-agent: *
+
+# Allow all public pages
+Allow: /
+Allow: /projects
+Allow: /about
+Allow: /list-your-property
+Allow: /members
+Allow: /investors
+
+# Disallow admin and user-specific pages
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /login
+Disallow: /signup
+Disallow: /reset-password
+Disallow: /constellation-portal
+Disallow: /api/
+
+# Disallow utility pages from indexing (but allow crawling)
+Disallow: /legal
+Disallow: /cookies
+Disallow: /terms
+Disallow: /privacy
+
+# Allow crawling of images and assets
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.gif$
+Allow: /*.svg$
+
+# Sitemap location
+Sitemap: https://stellareal.com.br/sitemap.xml
+
+# Crawl delay (optional, adjust based on server capacity)
+Crawl-delay: 1
+
+# Specific rules for common bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block bad bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

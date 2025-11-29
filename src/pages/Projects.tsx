@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabaseClient'
 import { useCurrency } from '../context/CurrencyContext'
+import SEO from '../components/SEO'
 
 type Project = {
   id: string
@@ -45,8 +46,38 @@ export default function Projects() {
   }, [])
 
   return (
-    <section className="container-padded py-16">
-      <h1 className="text-2xl font-bold">{t('pages.projects.title', { defaultValue: 'New Projects' })}</h1>
+    <>
+      <SEO
+        title="Lançamentos Imobiliários em São Paulo | Imóveis de Luxo | Stella Real Estate"
+        description="Confira os lançamentos imobiliários exclusivos em São Paulo. Apartamentos de alto padrão, coberturas de luxo e empreendimentos premium com plantas, fotos e preços. Stella Real Estate - Seu corretor de imóveis de luxo."
+        keywords="lançamentos imobiliários São Paulo, novos empreendimentos SP, apartamentos lançamento, coberturas lançamento, imóveis na planta, lançamentos alto padrão, empreendimentos de luxo São Paulo, imóveis à venda SP"
+        canonicalUrl="https://stellareal.com.br/projects"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          name: 'Lançamentos Imobiliários Stella Real Estate',
+          description: 'Lançamentos imobiliários exclusivos em São Paulo',
+          url: 'https://stellareal.com.br/projects',
+          numberOfItems: items.length,
+          itemListElement: items.slice(0, 10).map((project, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            item: {
+              '@type': 'RealEstateListing',
+              name: project.title,
+              url: `https://stellareal.com.br/projects/${project.id}`,
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: project.city || 'São Paulo',
+                addressRegion: 'SP',
+                addressCountry: 'BR'
+              }
+            }
+          }))
+        }}
+      />
+      <section className="container-padded py-16">
+        <h1 className="text-2xl font-bold">{t('pages.projects.title', { defaultValue: 'New Projects' })}</h1>
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
       {loading && <p className="mt-2 text-sm text-slate-500">Loading…</p>}
 
@@ -124,5 +155,6 @@ export default function Projects() {
         )}
       </div>
     </section>
+    </>
   )
 }

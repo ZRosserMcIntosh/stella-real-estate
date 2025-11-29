@@ -7,6 +7,8 @@ import { makeProjectSlug } from './utils/slug'
 import { useCurrency } from './context/CurrencyContext'
 import WatermarkedImage from './components/WatermarkedImage'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
+import SEO from './components/SEO'
 
 export default function App() {
   const { t } = useTranslation()
@@ -457,7 +459,41 @@ export default function App() {
   }
 
   return (
-  <div className="relative min-h-screen flex flex-col -mt-20">
+    <>
+      <SEO
+        title="Stella Real Estate | Imóveis de Luxo em São Paulo | Apartamentos Alto Padrão"
+        description="Stella Real Estate - Corretora especializada em imóveis de luxo e alto padrão em São Paulo. Apartamentos, coberturas, casas e lançamentos exclusivos. Atendimento personalizado por corretores especializados no mercado premium."
+        keywords="imóveis de luxo São Paulo, apartamentos alto padrão SP, corretora imóveis luxo, coberturas São Paulo, casas alto padrão, lançamentos imobiliários exclusivos, imóveis à venda SP, Stella Real Estate, mercado imobiliário premium, imóveis premium São Paulo"
+        canonicalUrl="https://stellareal.com.br"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'RealEstateAgent',
+          name: 'Stella Real Estate',
+          description: 'Corretora de imóveis de luxo e alto padrão em São Paulo especializada em apartamentos, coberturas e lançamentos exclusivos',
+          url: 'https://stellareal.com.br',
+          logo: 'https://stellareal.com.br/stella-logo.png',
+          image: 'https://stellareal.com.br/stella-og-image.png',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'São Paulo',
+            addressRegion: 'SP',
+            addressCountry: 'BR'
+          },
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: '-23.550520',
+            longitude: '-46.633308'
+          },
+          areaServed: {
+            '@type': 'City',
+            name: 'São Paulo'
+          },
+          priceRange: 'Alto Padrão',
+          knowsAbout: ['Imóveis de Luxo', 'Apartamentos Alto Padrão', 'Coberturas', 'Lançamentos Imobiliários', 'Mercado Imobiliário Premium']
+        }}
+      />
+      
+      <div className="relative min-h-screen flex flex-col -mt-20">
       {/* Absolute background video that fills the hero section area.
           Starts from top of page (under header) with no gap.
           Negative margin compensates for Layout's pt-20.
@@ -943,5 +979,6 @@ export default function App() {
         </svg>
       </a>
     </div>
+    </>
   );
 }
