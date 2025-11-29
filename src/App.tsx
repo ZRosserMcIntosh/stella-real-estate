@@ -12,10 +12,11 @@ export default function App() {
   const { t } = useTranslation()
   const heroRef = useRef<HTMLDivElement | null>(null)
 
-  // Make the background video ~20% blurrier overall and start slightly blurred (~10% of max).
-  // Increased by 5% more: 25.84 * 1.05 = 27.13
+  // Background video blur settings
+  // Start with higher blur (~35% of max) to hide low resolution during initial load
+  // Gradually increases to full blur as user scrolls down
   const maxBlur = 27.13
-  const minBlur = maxBlur * 0.1 // start with ~10% of max
+  const minBlur = maxBlur * 0.35 // start with ~35% of max (~9.5px) to mask low-res loading
   const [blur, setBlur] = useState<number>(minBlur)
   const [heroHeight, setHeroHeight] = useState<number>(typeof window !== 'undefined' ? window.innerHeight : 800)
   // keep main content visually above the fixed video so it covers the video when scrolling
@@ -281,20 +282,29 @@ export default function App() {
       const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768
       setIsMobile(mobile)
       // Force fallback image on mobile if available
-      if (mobile && heroFallbackImage) {
+      if (mobile) {
         setShowFallbackOverlay(true)
       }
     }
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
-  }, [heroFallbackImage])
+  }, [])
 
   // Load YT Iframe API when needed
   useEffect(() => {
     if (!homeVideoId || heroUploadedUrl || isMobile) return // Skip YouTube on mobile
+    
+    // Set a timeout - if video isn't playing within 5 seconds, show fallback
+    const fallbackTimeout = setTimeout(() => {
+      if (!ytPlaying) {
+        console.log('YouTube video not playing after 5s, showing fallback')
+        setShowFallbackOverlay(true)
+      }
+    }, 5000)
+    
     const ensureYT = () =>
-      new Promise<void>((resolve) => {
+      new Promise<void>((resolve, reject) => {
         const w = window as any
         if (w.YT && w.YT.Player) return resolve()
         const prev = document.getElementById('yt-iframe-api') as HTMLScriptElement | null
@@ -302,12 +312,16 @@ export default function App() {
           const s = document.createElement('script')
           s.id = 'yt-iframe-api'
           s.src = 'https://www.youtube.com/iframe_api'
+          s.onerror = () => reject(new Error('Failed to load YouTube API'))
           document.head.appendChild(s)
         }
+        let attempts = 0
+        const maxAttempts = 50 // 3 seconds max
         const check = () => {
           const w = window as any
           if (w.YT && w.YT.Player) resolve()
-          else window.setTimeout(check, 60)
+          else if (attempts++ < maxAttempts) window.setTimeout(check, 60)
+          else reject(new Error('YouTube API timeout'))
         }
         check()
       })
@@ -318,29 +332,46 @@ export default function App() {
       const w = window as any
       const onReady = () => {
         ytReadyRef.current = true
-        // give it a moment to start
-        window.setTimeout(() => {
-          if (!ytPlaying) setShowFallbackOverlay(Boolean(heroFallbackImage))
-        }, 1500)
+        console.log('YouTube player ready')
       }
       const onStateChange = (e: any) => {
         // 1 = playing, 0 = ended, 2 = paused, 3 = buffering, -1 = unstarted, 5 = video cued
-        const playing = e?.data === 1
+        const state = e?.data
+        console.log('YouTube state change:', state)
+        const playing = state === 1
         setYtPlaying(playing)
-        if (playing) setShowFallbackOverlay(false)
+        if (playing) {
+          console.log('YouTube video is playing, hiding fallback')
+          setShowFallbackOverlay(false)
+        }
+        // If video errored or is unplayable
+        if (state === -1 || state === 0) {
+          // Give it a moment before showing fallback in case it's just buffering
+          setTimeout(() => {
+            if (!ytPlaying) setShowFallbackOverlay(true)
+          }, 2000)
+        }
+      }
+      const onError = (e: any) => {
+        console.error('YouTube player error:', e?.data)
+        setShowFallbackOverlay(true)
       }
       try {
         ytPlayerRef.current = new w.YT.Player('hero-youtube-embed', {
-          events: { onReady, onStateChange },
+          events: { onReady, onStateChange, onError },
         })
-      } catch {
-        // If player init fails, show fallback
-        setShowFallbackOverlay(Boolean(heroFallbackImage))
+      } catch (err) {
+        console.error('Failed to init YouTube player:', err)
+        setShowFallbackOverlay(true)
       }
+    }).catch((err) => {
+      console.error('YouTube API error:', err)
+      setShowFallbackOverlay(true)
     })
 
     return () => {
       cancelled = true
+      clearTimeout(fallbackTimeout)
       try {
         const p = ytPlayerRef.current
         if (p && p.destroy) p.destroy()
@@ -349,7 +380,7 @@ export default function App() {
       ytReadyRef.current = false
       setYtPlaying(false)
     }
-  }, [homeVideoId, heroUploadedUrl, heroFallbackImage])
+  }, [homeVideoId, heroUploadedUrl, isMobile, ytPlaying])
 
   // Helper function to render a featured card
   const renderFeaturedCard = (p: any) => {
@@ -440,7 +471,9 @@ export default function App() {
           height: `${heroHeight}px`, 
           width: '100%',
           // Ensure proper coverage on mobile
-          minHeight: '85vh'
+          minHeight: '85vh',
+          // Default gradient background as ultimate fallback
+          background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
         }}
       >
   {heroUploadedUrl ? (
@@ -468,35 +501,14 @@ export default function App() {
               pointerEvents: 'none',
               objectFit: 'cover'
             }}
+            onError={() => {
+              console.warn('Hero uploaded video failed to load')
+              // Could set a state here to show fallback
+            }}
           />
         ) : homeVideoId ? (
           <>
-          <iframe
-            // cover the container fully with centered positioning and slight scale for edge-to-edge coverage
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%) scale(1.02)',
-              width: '100vw',
-              height: '100vh',
-              minWidth: '100vw',
-              minHeight: '100vh',
-              maxWidth: 'none',
-              background: 'transparent',
-              border: 0,
-              filter: `blur(${blur}px)`,
-              opacity: showFallbackOverlay ? 0 : 1,
-              transition: 'filter 160ms linear',
-              willChange: 'filter',
-              pointerEvents: 'none'
-            }}
-            id="hero-youtube-embed"
-            src={`https://www.youtube-nocookie.com/embed/${homeVideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${homeVideoId}&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(typeof window!== 'undefined' ? window.location.origin : '')}`}
-            title="Background video"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowFullScreen
-          />
+          {/* Fallback image shown by default, hidden when video starts playing */}
           {heroFallbackImage && (
             // eslint-disable-next-line jsx-a11y/alt-text
             <img
@@ -514,14 +526,50 @@ export default function App() {
                 background: 'transparent',
                 border: 0,
                 filter: `blur(${blur}px)`,
-                transition: 'filter 160ms linear, opacity 200ms ease-in-out',
+                transition: 'filter 160ms linear, opacity 300ms ease-in-out',
                 willChange: 'filter, opacity',
                 pointerEvents: 'none',
                 objectFit: 'cover',
-                opacity: showFallbackOverlay ? 1 : 0,
+                opacity: showFallbackOverlay || !ytPlaying ? 1 : 0,
+                zIndex: 1,
+              }}
+              onError={(e) => {
+                console.warn('Hero fallback image failed to load:', heroFallbackImage)
+                ;(e.target as HTMLImageElement).style.display = 'none'
               }}
             />
           )}
+          <iframe
+            // cover the container fully with centered positioning and slight scale for edge-to-edge coverage
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%) scale(1.02)',
+              width: '100vw',
+              height: '100vh',
+              minWidth: '100vw',
+              minHeight: '100vh',
+              maxWidth: 'none',
+              background: 'transparent',
+              border: 0,
+              filter: `blur(${blur}px)`,
+              opacity: ytPlaying && !showFallbackOverlay ? 1 : 0,
+              transition: 'filter 160ms linear, opacity 300ms ease-in-out',
+              willChange: 'filter, opacity',
+              pointerEvents: 'none',
+              zIndex: 2,
+            }}
+            id="hero-youtube-embed"
+            src={`https://www.youtube-nocookie.com/embed/${homeVideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${homeVideoId}&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(typeof window!== 'undefined' ? window.location.origin : '')}`}
+            title="Background video"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowFullScreen
+            onError={() => {
+              console.warn('Hero YouTube iframe failed to load')
+              setShowFallbackOverlay(true)
+            }}
+          />
           </>
         ) : heroFallbackImage ? (
           // eslint-disable-next-line jsx-a11y/alt-text
@@ -545,10 +593,14 @@ export default function App() {
               pointerEvents: 'none',
               objectFit: 'cover'
             }}
+            onError={(e) => {
+              console.warn('Hero fallback image failed to load:', heroFallbackImage)
+              ;(e.target as HTMLImageElement).style.display = 'none'
+            }}
           />
         ) : null}
         {/* slightly darker overlay for more contrast */}
-        <div aria-hidden style={{ position: 'absolute', inset: 0 }} className="-z-10 bg-black/50 md:bg-black/45" />
+        <div aria-hidden style={{ position: 'absolute', inset: 0, zIndex: 3 }} className="bg-black/50 md:bg-black/45" />
       </div>
 
   {/* Header is provided by the shared Layout. */}

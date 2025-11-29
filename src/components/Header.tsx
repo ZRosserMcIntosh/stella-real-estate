@@ -35,6 +35,7 @@ export default function Header() {
   const [constellationClosing, setConstellationClosing] = useState(false)
   const [loginDropdownOpen, setLoginDropdownOpen] = useState(false)
   const [loginDropdownClosing, setLoginDropdownClosing] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [institutionalButtonCenter, setInstitutionalButtonCenter] = React.useState<number>(0)
   const [hoveredProjectId, setHoveredProjectId] = useState<string | null>(null)
   const headerRef = React.useRef<HTMLHeadElement>(null)
@@ -79,6 +80,25 @@ export default function Header() {
     return () => {
       window.removeEventListener('resize', updateHeaderHeight)
       window.removeEventListener('scroll', updateHeaderHeight)
+    }
+  }, [])
+
+  // Check authentication state
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      setIsAuthenticated(!!session)
+    }
+    
+    checkAuth()
+    
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session)
+    })
+    
+    return () => {
+      subscription.unsubscribe()
     }
   }, [])
 
@@ -222,7 +242,7 @@ export default function Header() {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
               <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
             </svg>
-            ENTRAR
+            {isAuthenticated ? t('header.myAccount').toUpperCase() : t('header.signIn').toUpperCase()}
           </Link>
         </div>
   {/* Desktop nav with more spacing on larger screens */}
@@ -627,7 +647,7 @@ export default function Header() {
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                 <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
               </svg>
-              ENTRAR
+              {isAuthenticated ? t('header.myAccount').toUpperCase() : t('header.signIn').toUpperCase()}
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                 <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
               </svg>

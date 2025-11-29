@@ -19,7 +19,9 @@
       "stellaTeamSubtitle": "Login Executivo",
       "clientLogin": "Login de Cliente",
       "clientLoginSubtitle": "Em Breve"
-    }
+    },
+    "myAccount": "Minha Conta",
+    "signIn": "Entrar"
   },
   "home": {
     "hero": {

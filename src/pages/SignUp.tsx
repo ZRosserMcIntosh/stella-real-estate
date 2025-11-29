@@ -45,19 +45,26 @@ export default function SignUp() {
     }));
   }, []); // Empty deps - only generate once
 
-  // Format invitation code as user types (XXXX-XXXX-XXXX-XXXX)
+  // Format invitation code as user types (XXXX-XXXX-XXXX-XXXX) - numeric only
   const formatInvitationCode = (value: string) => {
     // Remove all non-digit characters
-    const digits = value.replace(/\D/g, '');
+    const cleaned = value.replace(/\D/g, '');
     // Limit to 16 digits
-    const limited = digits.slice(0, 16);
-    // Add dashes every 4 digits
+    const limited = cleaned.slice(0, 16);
+    // Add dashes every 4 characters
     const formatted = limited.match(/.{1,4}/g)?.join('-') || limited;
     return formatted;
   };
 
   const handleInvitationCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatInvitationCode(e.target.value);
+    setInvitationCode(formatted);
+  };
+
+  const handleInvitationCodePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pastedText = e.clipboardData.getData('text');
+    const formatted = formatInvitationCode(pastedText);
     setInvitationCode(formatted);
   };
 
@@ -71,25 +78,44 @@ export default function SignUp() {
     setError('');
 
     try {
+      console.log('🔍 Validating invitation code:', invitationCode);
+      console.log('� For email:', email.toLowerCase());
+
+      // Validate against Supabase database
       const { data, error: validateError } = await supabase.rpc('validate_invitation_code', {
         p_code: invitationCode,
         p_email: email.toLowerCase(),
       });
 
-      if (validateError) throw validateError;
+      console.log('📦 Supabase response:', { data, error: validateError });
+
+      if (validateError) {
+        console.error('❌ Supabase validation error:', validateError);
+        setError('Código de convite inválido ou expirado');
+        setLoading(false);
+        return false;
+      }
 
       if (data && data.valid) {
-        setValidatedInvitation(data);
+        console.log('✅ Valid invitation found!');
+        setValidatedInvitation({ 
+          ...data, 
+          source: 'supabase',
+          org_name: 'Stella Real Estate',
+        });
+        setLoading(false);
         return true;
       } else {
+        console.log('❌ Invalid invitation:', data?.error);
         setError(data?.error || 'Código de convite inválido ou expirado');
+        setLoading(false);
         return false;
       }
     } catch (err: any) {
-      setError('Erro ao validar código de convite');
-      return false;
-    } finally {
+      console.error('❌ Validation error:', err);
+      setError('Erro ao validar código. Tente novamente.');
       setLoading(false);
+      return false;
     }
   };
 
@@ -136,21 +162,49 @@ export default function SignUp() {
       if (signUpError) throw signUpError;
 
       if (data.user) {
-        // Mark invitation code as used
-        await supabase.rpc('use_invitation_code', {
-          p_code: invitationCode,
-          p_user_id: data.user.id,
-        });
+        // Mark invitation code as used based on source
+        if (validatedInvitation.source === 'localStorage') {
+          // Update localStorage invitation
+          const INVITE_KEY = 'stella:onboarding:invites';
+          try {
+            const stored = localStorage.getItem(INVITE_KEY);
+            if (stored) {
+              const invites = JSON.parse(stored);
+              const updatedInvites = invites.map((inv: any) => 
+                inv.code === validatedInvitation.code 
+                  ? { ...inv, uses: inv.uses + 1 }
+                  : inv
+              );
+              localStorage.setItem(INVITE_KEY, JSON.stringify(updatedInvites));
+            }
+          } catch (err) {
+            console.error('Failed to update localStorage invitation:', err);
+          }
+        } else {
+          // Mark invitation code as used in Supabase
+          try {
+            await supabase.rpc('use_invitation_code', {
+              p_code: invitationCode,
+              p_user_id: data.user.id,
+            });
+          } catch (err) {
+            console.error('Failed to mark invitation as used in Supabase:', err);
+          }
+        }
 
-        // Create team member record
-        await supabase.from('team_members').insert({
-          user_id: data.user.id,
-          full_name: validatedInvitation.full_name,
-          email: email.toLowerCase(),
-          role: validatedInvitation.role,
-          department: validatedInvitation.department,
-          status: 'active',
-        });
+        // Try to create team member record (optional, might not have table)
+        try {
+          await supabase.from('team_members').insert({
+            user_id: data.user.id,
+            full_name: validatedInvitation.full_name || email.split('@')[0],
+            email: email.toLowerCase(),
+            role: validatedInvitation.role,
+            department: validatedInvitation.department,
+            status: 'active',
+          });
+        } catch (err) {
+          console.error('Team member record creation failed (table may not exist):', err);
+        }
 
         // Check if user is a founding member
         const { data: foundingMember } = await supabase
@@ -329,6 +383,7 @@ export default function SignUp() {
                     type="text"
                     value={invitationCode}
                     onChange={handleInvitationCodeChange}
+                    onPaste={handleInvitationCodePaste}
                     className="w-full px-2.5 sm:px-3 py-2 sm:py-2.5 bg-white/5 border border-white/10 rounded-lg sm:rounded-xl text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all text-[10px] sm:text-xs font-mono tracking-widest"
                     placeholder="XXXX-XXXX-XXXX-XXXX"
                     required
@@ -338,7 +393,7 @@ export default function SignUp() {
                     spellCheck="false"
                   />
                   <p className="mt-1 text-[9px] sm:text-[10px] text-white/40">
-                    Entre com o código de 16 dígitos fornecido pelo administrador
+                    Entre com o código de 16 caracteres fornecido pelo administrador
                   </p>
                 </div>
               </>

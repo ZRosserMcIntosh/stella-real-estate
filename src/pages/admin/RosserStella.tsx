@@ -96,6 +96,71 @@ export default function RosserStella() {
     }
   }, [])
   
+  // Load exchange rate on mount
+  useEffect(() => {
+    if (!isAuthenticated) return
+    const fetchRate = async () => {
+      const rate = await getUsdToBrlRate()
+      setExchangeRate(rate)
+    }
+    fetchRate()
+  }, [isAuthenticated])
+
+  // Load data from database
+  useEffect(() => {
+    if (!isAuthenticated) return
+    loadData()
+  }, [isAuthenticated])
+
+  const loadData = async () => {
+    try {
+      setLoading(true)
+      
+      // Load expenses
+      const { data: expensesData, error: expensesError } = await supabase
+        .from('personal_expenses')
+        .select('*')
+        .order('date', { ascending: false })
+      
+      if (expensesError) throw expensesError
+      
+      // Load income
+      const { data: incomeData, error: incomeError } = await supabase
+        .from('personal_income')
+        .select('*')
+        .order('date', { ascending: false })
+      
+      if (incomeError) throw incomeError
+      
+      setExpenses(expensesData || [])
+      setIncome(incomeData || [])
+      setError(null)
+    } catch (err) {
+      console.error('Error loading data:', err)
+      setError('Failed to load data')
+      // Fallback to sample data for development
+      setExpenses([
+        { id: '1', date: '2025-10-20', amount: 3500.00, description: 'Rent at ZYZ', status: 'paid', person: 'Stella' },
+        { id: '2', date: '2025-11-20', amount: 3000.00, description: 'Architect/Designer', status: 'pending', person: 'Stella', usd_amount: 545 },
+        { id: '3', date: '2025-10-10', amount: 212.00, description: 'TIM Cellular', status: 'paid', person: 'Stella' },
+        { id: '4', date: '2025-11-11', amount: 1000.00, description: 'Vallini Lawyer', status: 'paid', person: 'Rosser' },
+        { id: '5', date: '2025-11-10', amount: 1180.00, description: 'Credit Card', status: 'pending', person: 'Stella' },
+        { id: '6', date: '2025-11-10', amount: 1000.00, description: 'Law School', status: 'pending', person: 'Stella' },
+        { id: '7', date: '2025-12-18', amount: 1800.00, description: 'Monthly Apartment Loan', status: 'pending', person: 'Stella', usd_amount: 691 },
+        { id: '8', date: '2025-12-18', amount: 18000.00, description: 'Stella Balloon Payment', status: 'pending', person: 'Stella', usd_amount: 1273 },
+      ])
+      setIncome([
+        { id: '1', date: '2025-11-01', brl_amount: 1650.00, usd_amount: 300.00, description: 'Stella', category: 'Salary', person: 'Stella' },
+        { id: '2', date: '2025-11-05', brl_amount: 7700.00, usd_amount: 1400.00, description: 'Rosser', category: 'Salary', person: 'Rosser' },
+        { id: '3', date: '2025-11-10', brl_amount: 1375.00, usd_amount: 250.00, description: 'Rosser', category: 'Bonus', person: 'Rosser' },
+        { id: '4', date: '2025-11-10', brl_amount: 2117.50, usd_amount: 385.00, description: 'Rosser', category: 'Itaú Pending', person: 'Rosser' },
+        { id: '5', date: '2025-11-10', brl_amount: 300.00, usd_amount: 56.29, description: 'Rosser', category: 'Other', person: 'Rosser' },
+      ])
+    } finally {
+      setLoading(false)
+    }
+  }
+  
   // Show loading state during hydration to prevent mismatch
   if (!isClient) {
     return (
@@ -158,69 +223,6 @@ export default function RosserStella() {
         </div>
       </div>
     )
-  }
-  
-  // Load exchange rate on mount
-  useEffect(() => {
-    const fetchRate = async () => {
-      const rate = await getUsdToBrlRate()
-      setExchangeRate(rate)
-    }
-    fetchRate()
-  }, [])
-
-  // Load data from database
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  const loadData = async () => {
-    try {
-      setLoading(true)
-      
-      // Load expenses
-      const { data: expensesData, error: expensesError } = await supabase
-        .from('personal_expenses')
-        .select('*')
-        .order('date', { ascending: false })
-      
-      if (expensesError) throw expensesError
-      
-      // Load income
-      const { data: incomeData, error: incomeError } = await supabase
-        .from('personal_income')
-        .select('*')
-        .order('date', { ascending: false })
-      
-      if (incomeError) throw incomeError
-      
-      setExpenses(expensesData || [])
-      setIncome(incomeData || [])
-      setError(null)
-    } catch (err) {
-      console.error('Error loading data:', err)
-      setError('Failed to load data')
-      // Fallback to sample data for development
-      setExpenses([
-        { id: '1', date: '2025-10-20', amount: 3500.00, description: 'Rent at ZYZ', status: 'paid', person: 'Stella' },
-        { id: '2', date: '2025-11-20', amount: 3000.00, description: 'Architect/Designer', status: 'pending', person: 'Stella', usd_amount: 545 },
-        { id: '3', date: '2025-10-10', amount: 212.00, description: 'TIM Cellular', status: 'paid', person: 'Stella' },
-        { id: '4', date: '2025-11-11', amount: 1000.00, description: 'Vallini Lawyer', status: 'paid', person: 'Rosser' },
-        { id: '5', date: '2025-11-10', amount: 1180.00, description: 'Credit Card', status: 'pending', person: 'Stella' },
-        { id: '6', date: '2025-11-10', amount: 1000.00, description: 'Law School', status: 'pending', person: 'Stella' },
-        { id: '7', date: '2025-12-18', amount: 1800.00, description: 'Monthly Apartment Loan', status: 'pending', person: 'Stella', usd_amount: 691 },
-        { id: '8', date: '2025-12-18', amount: 18000.00, description: 'Stella Balloon Payment', status: 'pending', person: 'Stella', usd_amount: 1273 },
-      ])
-      setIncome([
-        { id: '1', date: '2025-11-01', brl_amount: 1650.00, usd_amount: 300.00, description: 'Stella', category: 'Salary', person: 'Stella' },
-        { id: '2', date: '2025-11-05', brl_amount: 7700.00, usd_amount: 1400.00, description: 'Rosser', category: 'Salary', person: 'Rosser' },
-        { id: '3', date: '2025-11-10', brl_amount: 1375.00, usd_amount: 250.00, description: 'Rosser', category: 'Bonus', person: 'Rosser' },
-        { id: '4', date: '2025-11-10', brl_amount: 2117.50, usd_amount: 385.00, description: 'Rosser', category: 'Itaú Pending', person: 'Rosser' },
-        { id: '5', date: '2025-11-10', brl_amount: 300.00, usd_amount: 56.29, description: 'Rosser', category: 'Other', person: 'Rosser' },
-      ])
-    } finally {
-      setLoading(false)
-    }
   }
 
   // Helper function to parse date string as local date (not UTC)

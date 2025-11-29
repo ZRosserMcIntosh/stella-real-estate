@@ -20,6 +20,12 @@ export default function AdminLayout() {
   const listingsCloseTimer = React.useRef<NodeJS.Timeout | null>(null)
   const companyCloseTimer = React.useRef<NodeJS.Timeout | null>(null)
   const accountCloseTimer = React.useRef<NodeJS.Timeout | null>(null)
+  const listingsButtonRef = React.useRef<HTMLButtonElement>(null)
+  const companyButtonRef = React.useRef<HTMLButtonElement>(null)
+  const accountButtonRef = React.useRef<HTMLButtonElement>(null)
+  const [listingsButtonLeft, setListingsButtonLeft] = React.useState(0)
+  const [companyButtonLeft, setCompanyButtonLeft] = React.useState(0)
+  const [accountButtonLeft, setAccountButtonLeft] = React.useState(0)
   const handleSignOut = React.useCallback(async () => {
     await signOutAuth()
     navigate('/admin/login')
@@ -29,6 +35,28 @@ export default function AdminLayout() {
     if (authLoading) return
     if (!session && !isDemo) navigate('/admin/login', { replace: true })
   }, [authLoading, session, isDemo, navigate])
+
+  // Calculate button positions for dropdowns
+  React.useEffect(() => {
+    const updatePositions = () => {
+      if (listingsButtonRef.current) {
+        const rect = listingsButtonRef.current.getBoundingClientRect()
+        setListingsButtonLeft(rect.left)
+      }
+      if (companyButtonRef.current) {
+        const rect = companyButtonRef.current.getBoundingClientRect()
+        setCompanyButtonLeft(rect.left)
+      }
+      if (accountButtonRef.current) {
+        const rect = accountButtonRef.current.getBoundingClientRect()
+        setAccountButtonLeft(rect.left)
+      }
+    }
+    
+    updatePositions()
+    window.addEventListener('resize', updatePositions)
+    return () => window.removeEventListener('resize', updatePositions)
+  }, [])
 
   // Load header logo from settings (same as retail header)
   React.useEffect(() => {
@@ -65,22 +93,34 @@ export default function AdminLayout() {
   
   // Navigation structure with icons
   const navItems = [
-    { icon: <img src="/admin-icons/deals.png" alt="" className="w-5 h-5" />, label: 'Deal Room', path: '/admin', end: true },
+    { icon: <img src="/admin-icons/deals.png" alt="" className="w-5 h-5" />, label: 'Home', path: '/admin', end: true },
     { icon: <img src="/admin-icons/for-sale.png" alt="" className="w-5 h-5" />, label: 'Listings', submenu: [
       { label: 'New Projects', path: '/admin/listings/new-projects' },
       { label: 'For Sale', path: '/admin/listings/for-sale' },
       { label: 'For Rent', path: '/admin/listings/for-rent' },
     ]},
-    { icon: <img src="/admin-icons/company.png" alt="" className="w-5 h-5" />, label: 'Company', submenu: [
+    { icon: <img src="/admin-icons/stars.png" alt="" className="w-5 h-5" />, label: 'Constelação', submenu: [
+      { label: 'Dashboard', path: '/admin/crm' },
+      { label: 'Pipeline', path: '/admin/crm?tab=pipeline' },
+      { label: 'Contacts & Accounts', path: '/admin/crm?tab=contacts' },
+      { label: 'Deals', path: '/admin/crm?tab=deals' },
+      { label: 'Social Media', path: '/admin/social-media' },
+      { label: 'Marketing', path: '/admin/crm?tab=marketing' },
       { label: 'Analytics', path: '/admin/analytics' },
+    ]},
+    { icon: <img src="/ballet-new-logo.png" alt="" className="w-5 h-5" />, label: 'Ballet', submenu: [
+      { label: 'Projects', path: '/admin/ballet' },
+      { label: 'My Tasks', path: '/admin/ballet?view=my-tasks' },
+      { label: 'Calendar', path: '/admin/calendar' },
+      { label: 'Team Workload', path: '/admin/team' },
+    ]},
+    { icon: <img src="/admin-icons/company.png" alt="" className="w-5 h-5" />, label: 'Company', submenu: [
       { label: 'Team', path: '/admin/team' },
       { label: 'Site Admin', path: '/admin/site-admin' },
       { label: 'Website Builder', path: '/admin/website-builder' },
     ]},
-    { icon: <img src="/admin-icons/stars.png" alt="" className="w-5 h-5" />, label: 'Constelação', path: '/admin/crm' },
-    { icon: <img src="/ballet-new-logo.png" alt="" className="w-5 h-5" />, label: 'Ballet', path: '/admin/ballet' },
-    { icon: <img src="/admin-icons/iphone.png" alt="" className="w-5 h-5" />, label: 'Social Media', path: '/admin/social-media' },
     { icon: '⚙️', label: 'Developer', path: '/admin/developer' },
+    { icon: '💜', label: 'Rosser & Stella', path: '/admin/rosser-stella' },
   ]
 
   return (
@@ -199,6 +239,10 @@ export default function AdminLayout() {
               className="relative"
               onMouseEnter={() => {
                 if (listingsCloseTimer.current) clearTimeout(listingsCloseTimer.current)
+                if (listingsButtonRef.current) {
+                  const rect = listingsButtonRef.current.getBoundingClientRect()
+                  setListingsButtonLeft(rect.left)
+                }
                 setListingsOpen(true)
               }}
               onMouseLeave={() => {
@@ -206,6 +250,7 @@ export default function AdminLayout() {
               }}
             >
               <button
+                ref={listingsButtonRef}
                 type="button"
                 onClick={() => setListingsOpen(!listingsOpen)}
                 className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1 min-w-[80px] ${
@@ -225,7 +270,7 @@ export default function AdminLayout() {
               {listingsOpen && createPortal(
                 <div 
                   className="fixed z-[60] mt-0 w-56 rounded-lg border border-slate-700/80 bg-slate-800/98 backdrop-blur-lg shadow-2xl shadow-slate-950/70" 
-                  style={{top: '56px', left: '180px'}}
+                  style={{top: '100px', left: `${listingsButtonLeft}px`}}
                   onMouseEnter={() => {
                     if (listingsCloseTimer.current) clearTimeout(listingsCloseTimer.current)
                   }}
@@ -248,6 +293,10 @@ export default function AdminLayout() {
               className="relative"
               onMouseEnter={() => {
                 if (companyCloseTimer.current) clearTimeout(companyCloseTimer.current)
+                if (companyButtonRef.current) {
+                  const rect = companyButtonRef.current.getBoundingClientRect()
+                  setCompanyButtonLeft(rect.left)
+                }
                 setCompanyOpen(true)
               }}
               onMouseLeave={() => {
@@ -255,6 +304,7 @@ export default function AdminLayout() {
               }}
             >
               <button
+                ref={companyButtonRef}
                 type="button"
                 onClick={() => setCompanyOpen(!companyOpen)}
                 className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1 min-w-[80px] ${
@@ -274,7 +324,7 @@ export default function AdminLayout() {
               {companyOpen && createPortal(
                 <div 
                   className="fixed z-[60] mt-0 w-56 rounded-lg border border-slate-700/80 bg-slate-800/98 backdrop-blur-lg shadow-2xl shadow-slate-950/70" 
-                  style={{top: '56px', left: '340px'}}
+                  style={{top: '100px', left: `${companyButtonLeft}px`}}
                   onMouseEnter={() => {
                     if (companyCloseTimer.current) clearTimeout(companyCloseTimer.current)
                   }}
@@ -393,6 +443,10 @@ export default function AdminLayout() {
               className="relative"
               onMouseEnter={() => {
                 if (accountCloseTimer.current) clearTimeout(accountCloseTimer.current)
+                if (accountButtonRef.current) {
+                  const rect = accountButtonRef.current.getBoundingClientRect()
+                  setAccountButtonLeft(rect.left)
+                }
                 setAccountOpen(true)
               }}
               onMouseLeave={() => {
@@ -400,6 +454,7 @@ export default function AdminLayout() {
               }}
             >
               <button
+                ref={accountButtonRef}
                 type="button"
                 onClick={() => setAccountOpen(!accountOpen)}
                 className={`text-sm font-medium px-3 py-1.5 rounded-lg transition-colors inline-flex items-center gap-1 ${

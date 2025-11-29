@@ -11,7 +11,9 @@
       "contact": "Contacto",
       "employeeLogin": "Acceso de Empleados"
     },
-    "cta": "Comenzar"
+    "cta": "Comenzar",
+    "myAccount": "Mi Cuenta",
+    "signIn": "Entrar"
   },
   "home": {
     "hero": {
