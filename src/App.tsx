@@ -475,6 +475,107 @@ export default function App() {
 
   return (
     <>
+      <Helmet>
+        {/* Structured Data for Google Sitelinks */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "WebSite",
+                "@id": "https://stellareal.com.br/#website",
+                "url": "https://stellareal.com.br/",
+                "name": "Stella Real Estate",
+                "description": "Plataforma imobiliária completa com tecnologia moderna",
+                "publisher": {
+                  "@id": "https://stellareal.com.br/#organization"
+                },
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://stellareal.com.br/imoveis?q={search_term_string}"
+                  },
+                  "query-input": "required name=search_term_string"
+                }
+              },
+              {
+                "@type": "Organization",
+                "@id": "https://stellareal.com.br/#organization",
+                "name": "Stella Real Estate",
+                "url": "https://stellareal.com.br/",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://stellareal.com.br/stella-logo.png",
+                  "width": 485,
+                  "height": 483
+                },
+                "description": "Plataforma imobiliária moderna com CRM, automação e gestão de leads",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "São Paulo",
+                  "addressRegion": "SP",
+                  "addressCountry": "BR"
+                },
+                "sameAs": [
+                  "https://www.instagram.com/stellam.real",
+                  "https://stellareal.com.br"
+                ]
+              },
+              {
+                "@type": "ItemList",
+                "@id": "https://stellareal.com.br/#sitelinks",
+                "name": "Site Navigation",
+                "itemListElement": [
+                  {
+                    "@type": "SiteNavigationElement",
+                    "position": 1,
+                    "name": "Novos Projetos",
+                    "description": "Lançamentos e novos empreendimentos imobiliários",
+                    "url": "https://stellareal.com.br/projetos"
+                  },
+                  {
+                    "@type": "SiteNavigationElement",
+                    "position": 2,
+                    "name": "Comprar/Alugar",
+                    "description": "Buscar imóveis para compra ou aluguel",
+                    "url": "https://stellareal.com.br/imoveis"
+                  },
+                  {
+                    "@type": "SiteNavigationElement",
+                    "position": 3,
+                    "name": "Plataforma Constellation",
+                    "description": "Sistema completo para corretores e imobiliárias",
+                    "url": "https://constellation.stellareal.com.br"
+                  },
+                  {
+                    "@type": "SiteNavigationElement",
+                    "position": 4,
+                    "name": "Sobre",
+                    "description": "Conheça a Stella Real Estate",
+                    "url": "https://stellareal.com.br/sobre"
+                  },
+                  {
+                    "@type": "SiteNavigationElement",
+                    "position": 5,
+                    "name": "Contato",
+                    "description": "Entre em contato conosco",
+                    "url": "https://stellareal.com.br/contato"
+                  },
+                  {
+                    "@type": "SiteNavigationElement",
+                    "position": 6,
+                    "name": "Anuncie seu Imóvel",
+                    "description": "Anuncie seu imóvel na plataforma",
+                    "url": "https://stellareal.com.br/anunciar-imovel"
+                  }
+                ]
+              }
+            ]
+          })}
+        </script>
+      </Helmet>
+      
       <SEO
         title="Stella Real Estate | Imóveis de Luxo em São Paulo | Apartamentos Alto Padrão"
         description="Stella Real Estate - Corretora especializada em imóveis de luxo e alto padrão em São Paulo. Apartamentos, coberturas, casas e lançamentos exclusivos. Atendimento personalizado por corretores especializados no mercado premium."
