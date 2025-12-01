@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient'
 import { useAuth } from '../../context/AuthContext'
 import { useTranslation } from 'react-i18next'
+import { ConstellationUrls } from '../../utils/constellationUrl'
 import { 
   Layout, 
   Palette, 
@@ -80,7 +81,7 @@ export default function ConstellationSiteBuilder() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link 
-                to="/sub/constellation/dashboard"
+                to={ConstellationUrls.admin()}
                 className="text-slate-400 hover:text-white transition-colors flex items-center gap-2"
               >
                 <ArrowLeft className="w-4 h-4" />

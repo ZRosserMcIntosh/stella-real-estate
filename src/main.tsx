@@ -174,7 +174,7 @@ const router = createBrowserRouter([
   { path: '/login', element: <ConstellationLogin /> },
   { path: '/signup', element: <ConstellationSignup /> },
   { path: '/reset', element: <ConstellationReset /> },
-  { path: '/dashboard', element: <ConstellationDashboard /> },
+  { path: '/admin', element: <ConstellationDashboard /> },
   { path: '/visuals', element: <ConstellationVisuals /> },
   { path: '/site-builder', element: <ConstellationSiteBuilder /> },
   // Constellation routes - standalone without main site header/footer
@@ -182,7 +182,8 @@ const router = createBrowserRouter([
   { path: '/sub/constellation/login', element: <ConstellationLogin /> },
   { path: '/sub/constellation/signup', element: <ConstellationSignup /> },
   { path: '/sub/constellation/reset', element: <ConstellationReset /> },
-  { path: '/sub/constellation/dashboard', element: <ConstellationDashboard /> },
+  { path: '/sub/constellation/admin', element: <ConstellationDashboard /> },
+  { path: '/sub/constellation/dashboard', element: <Navigate to="/sub/constellation/admin" replace /> },
   { path: '/sub/constellation/visuals', element: <ConstellationVisuals /> },
   { path: '/sub/constellation/site-builder', element: <ConstellationSiteBuilder /> },
   { path: '/criar-site', element: <CreateSite /> },

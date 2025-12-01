@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient'
 import { useAuth } from '../../context/AuthContext'
+import { ConstellationUrls } from '../../utils/constellationUrl'
+import ConstellationHeader from '../../components/ConstellationHeader'
 
 export default function ConstellationDashboard() {
   const [loading, setLoading] = useState(true)
@@ -12,7 +14,7 @@ export default function ConstellationDashboard() {
 
   useEffect(() => {
     if (!session) {
-      navigate('/sub/constellation/login')
+      navigate(ConstellationUrls.login())
       return
     }
 
@@ -44,22 +46,27 @@ export default function ConstellationDashboard() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
-    navigate('/sub/constellation/login')
+    navigate(ConstellationUrls.login())
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center">
-        <div className="text-white text-xl">Carregando...</div>
-      </div>
+      <>
+        <ConstellationHeader />
+        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center pt-20">
+          <div className="text-white text-xl">Carregando...</div>
+        </div>
+      </>
     )
   }
 
   // User has pending payment
   if (paymentStatus === 'pending') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full bg-slate-900/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8 text-center">
+      <>
+        <ConstellationHeader />
+        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4 pt-24">
+          <div className="max-w-2xl w-full bg-slate-900/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8 text-center">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
             <svg className="w-10 h-10 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -94,7 +101,7 @@ export default function ConstellationDashboard() {
               Atualizar Status
             </button>
             <button
-              onClick={() => navigate('/sub/constellation/signup')}
+              onClick={() => navigate(ConstellationUrls.signup())}
               className="py-3 px-6 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-all"
             >
               Completar Pagamento
@@ -111,13 +118,16 @@ export default function ConstellationDashboard() {
           </div>
         </div>
       </div>
+      </>
     )
   }
 
   // User has paid
   if (paymentStatus === 'paid') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4">
+      <>
+        <ConstellationHeader />
+        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4 pt-24">
         <div className="max-w-2xl w-full bg-slate-900/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8 text-center">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center">
             <svg className="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -158,13 +168,13 @@ export default function ConstellationDashboard() {
 
           <div className="flex gap-4 justify-center">
             <button
-              onClick={() => navigate('/sub/constellation/site-builder')}
+              onClick={() => navigate(ConstellationUrls.siteBuilder())}
               className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
             >
               Construtor de Sites
             </button>
             <button
-              onClick={() => navigate('/sub/constellation')}
+              onClick={() => navigate(ConstellationUrls.home())}
               className="px-6 py-3 bg-slate-700/50 hover:bg-slate-700 text-white rounded-lg font-medium transition-all"
             >
               Voltar ao Portal
@@ -182,21 +192,25 @@ export default function ConstellationDashboard() {
           </p>
         </div>
       </div>
+      </>
     )
   }
 
   // Fallback - no payment record found
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4">
-      <div className="max-w-2xl w-full bg-slate-900/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8 text-center">
-        <p className="text-white">Nenhum registro de pagamento encontrado. Entre em contato com o suporte.</p>
-        <button
-          onClick={handleSignOut}
-          className="mt-4 px-6 py-3 bg-slate-700/50 hover:bg-slate-700 text-white rounded-lg font-medium transition-all"
-        >
-          Sair
-        </button>
+    <>
+      <ConstellationHeader />
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4 pt-24">
+        <div className="max-w-2xl w-full bg-slate-900/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8 text-center">
+          <p className="text-white">Nenhum registro de pagamento encontrado. Entre em contato com o suporte.</p>
+          <button
+            onClick={handleSignOut}
+            className="mt-4 px-6 py-3 bg-slate-700/50 hover:bg-slate-700 text-white rounded-lg font-medium transition-all"
+          >
+            Sair
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

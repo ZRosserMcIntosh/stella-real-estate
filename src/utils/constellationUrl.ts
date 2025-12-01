@@ -27,7 +27,8 @@ export const ConstellationUrls = {
   login: () => getConstellationUrl('/login'),
   signup: () => getConstellationUrl('/signup'),
   reset: () => getConstellationUrl('/reset'),
-  dashboard: () => getConstellationUrl('/dashboard'),
+  dashboard: () => getConstellationUrl('/admin'),
+  admin: () => getConstellationUrl('/admin'),
   visuals: () => getConstellationUrl('/visuals'),
   siteBuilder: () => getConstellationUrl('/site-builder'),
 }

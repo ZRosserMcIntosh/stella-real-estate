@@ -73,7 +73,7 @@ export default function AdminRoute() {
   if (userType !== 'stella_admin' && userType !== 'stella_team') {
     // Constellation users or other types - redirect to their dashboard
     if (userType === 'constellation_user') {
-      return <Navigate to="/sub/constellation/dashboard" replace />
+      return <Navigate to="/sub/constellation/admin" replace />
     }
     // Unknown user type - redirect to login
     return <Navigate to="/admin/login" replace />
