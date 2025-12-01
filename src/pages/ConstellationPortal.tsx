@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import ConstellationHeader from '../components/ConstellationHeader'
 import { ConstellationUrls } from '../utils/constellationUrl'
 import { Helmet } from 'react-helmet-async'
+import { trackPageView, trackCTA, trackWhatsAppClick, trackPlanView } from '../utils/analytics'
 
 export default function ConstellationPortal() {
   const { t, i18n } = useTranslation()
@@ -15,6 +16,11 @@ export default function ConstellationPortal() {
       i18n.changeLanguage('pt')
     }
   }, [i18n])
+
+  // Track page view on load
+  useEffect(() => {
+    trackPageView(window.location.pathname, 'Constellation Portal - Home')
+  }, [])
   
   // Static background stars - memoized to prevent regeneration on re-renders
   const staticStars = useMemo(() => {
@@ -321,12 +327,14 @@ export default function ConstellationPortal() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 to="/precos"
+                onClick={() => trackCTA('Ver Planos e Preços', 'hero')}
                 className="px-8 py-4 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
               >
                 Ver Planos e Preços
               </Link>
               <a
                 href={ConstellationUrls.login()}
+                onClick={() => trackCTA('Entrar', 'hero')}
                 className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full font-medium transition-all border border-white/20 hover:border-white/30 text-lg"
               >
                 {t('constellation.hero.sign_in')}
@@ -624,6 +632,10 @@ export default function ConstellationPortal() {
                       href="https://wa.me/5511985853836?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20o%20desenvolvimento%20de%20site%20personalizado."
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => {
+                        trackWhatsAppClick('custom_site_tier');
+                        trackPlanView('Site Personalizado', 19900);
+                      }}
                       className="inline-flex items-center justify-center gap-2 px-4 sm:px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-full font-medium transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-xs sm:text-base w-full sm:w-auto"
                     >
                       <svg className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
@@ -638,6 +650,7 @@ export default function ConstellationPortal() {
               <div className="text-center">
                 <Link
                   to="/precos"
+                  onClick={() => trackCTA('Ver Todos os Planos', 'pricing_section')}
                   className="inline-block px-8 py-4 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-xl hover:shadow-2xl hover:scale-105"
                 >
                   {t('constellation.pricing.view_all_plans')}
