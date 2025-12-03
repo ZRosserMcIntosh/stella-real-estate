@@ -718,8 +718,8 @@ export default function Header() {
                 }}
               >
                 <div className="grid grid-cols-1 gap-1">
-                  <Link
-                    to="/sub/constellation/login"
+                  <a
+                    href={ConstellationUrls.login()}
                     onClick={handleConstellationLogin}
                     className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2.5 pl-2 pr-3 transition-all duration-300 w-full text-left group"
                   >
@@ -755,7 +755,7 @@ export default function Header() {
                         {isAuthenticated ? 'Ir para Dashboard' : t('header.login.constellationSubtitle')}
                       </div>
                     </div>
-                  </Link>
+                  </a>
                   
                   <Link
                     to="/admin/login"
@@ -895,8 +895,8 @@ export default function Header() {
               <div className="px-3 py-1">
                 <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Login</span>
               </div>
-              <Link 
-                to="/sub/constellation/login" 
+              <a 
+                href={ConstellationUrls.login()}
                 onClick={(e) => {
                   handleConstellationLogin(e)
                   if (!isAuthenticated) setMobileOpen(false)
@@ -907,7 +907,7 @@ export default function Header() {
                   <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
                 </svg>
                 Constellation {isAuthenticated && '→ Dashboard'}
-              </Link>
+              </a>
               <Link 
                 to="/admin/login" 
                 onClick={(e) => {

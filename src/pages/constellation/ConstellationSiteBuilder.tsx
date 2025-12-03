@@ -29,7 +29,7 @@ export default function ConstellationSiteBuilder() {
 
   useEffect(() => {
     if (!session) {
-      navigate('/sub/constellation/login')
+      navigate(ConstellationUrls.login())
       return
     }
 
@@ -59,7 +59,7 @@ export default function ConstellationSiteBuilder() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
-    navigate('/sub/constellation/login')
+    navigate(ConstellationUrls.login())
   }
 
   if (loading) {

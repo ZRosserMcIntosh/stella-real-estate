@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 import { Link } from 'react-router-dom'
+import { ConstellationUrls } from '../../utils/constellationUrl'
 
 export default function ConstellationReset() {
   const [email, setEmail] = useState('')
@@ -114,12 +115,12 @@ export default function ConstellationReset() {
                     E-mail de redefinição enviado! Verifique sua caixa de entrada.
                   </p>
                 </div>
-                <Link
-                  to="/sub/constellation/login"
+                <a
+                  href={ConstellationUrls.login()}
                   className="text-indigo-400 hover:text-indigo-300 transition-colors text-sm"
                 >
                   ← Voltar para Login
-                </Link>
+                </a>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
@@ -155,15 +156,15 @@ export default function ConstellationReset() {
 
             {/* Links */}
             <div className="mt-4 sm:mt-6 flex justify-between items-center text-[10px] sm:text-xs">
-              <Link to="/sub/constellation" className="text-slate-400 hover:text-indigo-400 transition-colors">
+              <a href={ConstellationUrls.home()} className="text-slate-400 hover:text-indigo-400 transition-colors">
                 ← Voltar
-              </Link>
-              <Link to="/sub/constellation/login" className="text-slate-400 hover:text-indigo-400 transition-colors">
+              </a>
+              <a href={ConstellationUrls.login()} className="text-slate-400 hover:text-indigo-400 transition-colors">
                 Fazer Login
-              </Link>
-              <Link to="/sub/constellation/signup" className="text-slate-400 hover:text-indigo-400 transition-colors">
+              </a>
+              <a href={ConstellationUrls.signup()} className="text-slate-400 hover:text-indigo-400 transition-colors">
                 Criar Conta →
-              </Link>
+              </a>
             </div>
           </div>
         </div>
