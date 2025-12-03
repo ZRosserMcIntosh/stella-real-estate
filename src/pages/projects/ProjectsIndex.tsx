@@ -225,10 +225,10 @@ export default function ProjectsIndex() {
         {/* Hero Section with SEO Content */}
         <section className="container-padded py-12 md:py-16 bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-950/20 dark:via-slate-900 dark:to-purple-950/20">
           <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+            <h1 className="text-3xl md:text-4xl lg:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
               {seoContent.h1}
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
+            <p className="text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
               {seoContent.subtitle}
             </p>
             {items.length > 0 && (
