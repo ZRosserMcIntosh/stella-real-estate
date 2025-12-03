@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import UserTypeIcon from '../components/icons/UserTypeIcon'
 
 export default function StellaPlatform() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [triggerAnimation, setTriggerAnimation] = useState(1) // Start with 1 to trigger initial animation
   const constellationCardRef = useRef<HTMLDivElement>(null)
   const balletCardRef = useRef<HTMLDivElement>(null)
@@ -16,11 +16,182 @@ export default function StellaPlatform() {
   const [balletSpotlightExit, setBalletSpotlightExit] = useState(false)
 
   // SEO metadata
-  const siteUrl = window.location.origin
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://www.stellareal.com.br'
   const pageUrl = `${siteUrl}/constellation`
   const logoUrl = `${siteUrl}/stella-og-image.png`
-  const pageTitle = 'Stella Real Estate - Plataforma Imobiliária'
-  const pageDescription = 'Plataforma imobiliária completa com CRM, automação, gestão de leads e inteligência artificial. Tecnologia moderna para corretores e incorporadoras brasileiras.'
+  const constellationLogoUrl = `${siteUrl}/constellation-logo.png`
+
+  // Multilingual SEO Content
+  const seoContent = useMemo(() => {
+    const lang = i18n.language
+
+    if (lang === 'en') {
+      return {
+        title: 'Constellation CRM - Real Estate Platform | Stella Real Estate',
+        description: 'Complete real estate platform with CRM, automation, lead management, and AI. Modern technology for Brazilian realtors, brokerages, and developers. Build websites, manage listings, close deals.',
+        keywords: 'real estate CRM, property management software, real estate automation, lead management system, brokerage platform, realtor tools, real estate technology, property listings CRM, real estate website builder, MLS alternative Brazil',
+        ogTitle: 'Constellation - Complete Real Estate Business Platform',
+        ogDescription: 'CRM, website builder, lead automation, and analytics for real estate professionals. Transform your real estate business with modern technology.',
+        h1: 'Constellation Real Estate Platform',
+        subtitle: 'Everything you need to build, manage, and grow your real estate business'
+      }
+    }
+
+    if (lang === 'es') {
+      return {
+        title: 'Constellation CRM - Plataforma Inmobiliaria | Stella Real Estate',
+        description: 'Plataforma inmobiliaria completa con CRM, automatización, gestión de leads e IA. Tecnología moderna para corredores, inmobiliarias y desarrolladores brasileños. Construye sitios web, gestiona propiedades.',
+        keywords: 'CRM inmobiliario, software gestión propiedades, automatización inmobiliaria, sistema gestión leads, plataforma corredores, herramientas inmobiliarias, tecnología inmobiliaria, creador sitios web inmobiliarios',
+        ogTitle: 'Constellation - Plataforma Completa para Negocios Inmobiliarios',
+        ogDescription: 'CRM, constructor de sitios web, automatización de leads y analytics para profesionales inmobiliarios. Transforma tu negocio con tecnología moderna.',
+        h1: 'Plataforma Inmobiliaria Constellation',
+        subtitle: 'Todo lo que necesitas para construir, gestionar y hacer crecer tu negocio inmobiliario'
+      }
+    }
+
+    // Portuguese (default)
+    return {
+      title: 'Constellation CRM - Plataforma Imobiliária | Stella Real Estate',
+      description: 'Plataforma imobiliária completa com CRM, automação, gestão de leads e IA. Tecnologia moderna para corretores, imobiliárias e incorporadoras. Crie sites, gerencie imóveis, feche negócios.',
+      keywords: 'CRM imobiliário, software gestão imóveis, automação imobiliária, sistema gestão leads, plataforma corretores, ferramentas imobiliárias, tecnologia imobiliária, criador sites imobiliários, CRM corretores Brasil, plataforma incorporadoras',
+      ogTitle: 'Constellation - Plataforma Completa para Negócios Imobiliários',
+      ogDescription: 'CRM, construtor de sites, automação de leads e analytics para profissionais imobiliários. Transforme seu negócio com tecnologia moderna.',
+      h1: 'Plataforma Imobiliária Constellation',
+      subtitle: 'Tudo que você precisa para construir, gerenciar e expandir seu negócio imobiliário'
+    }
+  }, [i18n.language])
+
+  // Structured Data
+  const structuredData = useMemo(() => {
+    const softwareAppData = {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Constellation Real Estate Platform",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "CRM",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "AggregateOffer",
+        "lowPrice": "299",
+        "highPrice": "999",
+        "priceCurrency": "BRL",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "billingDuration": "P1M",
+          "billingIncrement": "1"
+        }
+      },
+      "description": seoContent.description,
+      "url": pageUrl,
+      "creator": {
+        "@type": "Organization",
+        "name": "Stella Real Estate",
+        "url": siteUrl
+      },
+      "featureList": [
+        "Real Estate CRM",
+        "Website Builder",
+        "Lead Management",
+        "Property Listing Management",
+        "Task Management (Balé)",
+        "Marketing Automation",
+        "Analytics Dashboard",
+        "Client Portal",
+        "3D Virtual Tours",
+        "WhatsApp Integration"
+      ],
+      "screenshot": logoUrl,
+      "softwareVersion": "2.0",
+      "releaseNotes": "Complete platform redesign with enhanced CRM, automation tools, and AI-powered features"
+    }
+
+    const productData = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Constellation CRM",
+      "description": seoContent.description,
+      "brand": {
+        "@type": "Brand",
+        "name": "Stella Real Estate"
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "lowPrice": "299",
+        "highPrice": "999",
+        "priceCurrency": "BRL",
+        "url": `${siteUrl}/precos`,
+        "availability": "https://schema.org/InStock",
+        "priceValidUntil": "2025-12-31"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "127",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "image": logoUrl,
+      "url": pageUrl
+    }
+
+    const organizationData = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Stella Real Estate",
+      "url": siteUrl,
+      "logo": logoUrl,
+      "description": "Real estate technology platform providing CRM, automation, and business tools for realtors and brokerages in Brazil",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "BR",
+        "addressLocality": "São Paulo"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/stella-real-estate",
+        "https://www.instagram.com/stellarealestate"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+55-11-98641-0429",
+        "contactType": "Customer Support",
+        "availableLanguage": ["Portuguese", "English", "Spanish"],
+        "areaServed": "BR"
+      }
+    }
+
+    const webPageData = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": seoContent.title,
+      "description": seoContent.description,
+      "url": pageUrl,
+      "inLanguage": i18n.language === 'pt' ? 'pt-BR' : i18n.language === 'es' ? 'es-ES' : 'en-US',
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Stella Real Estate",
+        "url": siteUrl
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": siteUrl
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Constellation Platform",
+            "item": pageUrl
+          }
+        ]
+      }
+    }
+
+    return [softwareAppData, productData, organizationData, webPageData]
+  }, [seoContent, pageUrl, siteUrl, logoUrl, i18n.language])
 
   // Helper function to safely get translation arrays
   const getTranslationArray = (key: string): string[] => {
@@ -96,33 +267,50 @@ export default function StellaPlatform() {
   return (
     <div className="bg-slate-950 text-slate-100">
       <Helmet>
-        {/* Basic Meta Tags */}
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
+        {/* Primary Meta Tags */}
+        <title>{seoContent.title}</title>
+        <meta name="title" content={seoContent.title} />
+        <meta name="description" content={seoContent.description} />
+        <meta name="keywords" content={seoContent.keywords} />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content={pageUrl} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
+        <meta property="og:title" content={seoContent.ogTitle} />
+        <meta property="og:description" content={seoContent.ogDescription} />
         <meta property="og:image" content={logoUrl} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Constellation - Real Estate Platform by Stella" />
         <meta property="og:site_name" content="Stella Real Estate" />
-        <meta property="og:locale" content="pt_BR" />
+        <meta property="og:locale" content={i18n.language === 'pt' ? 'pt_BR' : i18n.language === 'es' ? 'es_ES' : 'en_US'} />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content={pageUrl} />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:title" content={seoContent.ogTitle} />
+        <meta name="twitter:description" content={seoContent.ogDescription} />
         <meta name="twitter:image" content={logoUrl} />
-        
-        {/* WhatsApp specific */}
-        <meta property="og:image:alt" content="Stella Real Estate - Plataforma Imobiliária Moderna" />
+        <meta name="twitter:image:alt" content="Constellation Platform - Real Estate CRM & Tools" />
         
         {/* Additional SEO */}
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="googlebot" content="index, follow" />
+        <meta name="bingbot" content="index, follow" />
         <link rel="canonical" href={pageUrl} />
+        
+        {/* Language Alternates */}
+        <link rel="alternate" hrefLang="pt-BR" href={`${siteUrl}/constellation`} />
+        <link rel="alternate" hrefLang="en" href={`${siteUrl}/en/constellation`} />
+        <link rel="alternate" hrefLang="es" href={`${siteUrl}/es/constellation`} />
+        <link rel="alternate" hrefLang="x-default" href={`${siteUrl}/constellation`} />
+        
+        {/* Structured Data */}
+        {structuredData.map((data, index) => (
+          <script key={index} type="application/ld+json">
+            {JSON.stringify(data)}
+          </script>
+        ))}
       </Helmet>
       
       <style>{`
