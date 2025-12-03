@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from './LanguageSwitcher'
 import CurrencySwitcher from './CurrencySwitcher'
 import { supabase } from '../lib/supabaseClient'
 import { trackEvent } from '../lib/telemetry'
 import { getSiteSettings } from '../lib/siteSettings'
+import { ConstellationUrls } from '../utils/constellationUrl'
 
 type ProjectLite = {
   id: string
@@ -18,6 +19,7 @@ type ProjectLite = {
 export default function Header() {
   const { t } = useTranslation()
   const location = useLocation()
+  const navigate = useNavigate()
   const isHome = location.pathname === '/'
 
   const [hoverOpen, setHoverOpen] = useState(false)
@@ -36,6 +38,7 @@ export default function Header() {
   const [loginDropdownOpen, setLoginDropdownOpen] = useState(false)
   const [loginDropdownClosing, setLoginDropdownClosing] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [userEmail, setUserEmail] = useState<string | null>(null)
   const [institutionalButtonCenter, setInstitutionalButtonCenter] = React.useState<number>(0)
   const [hoveredProjectId, setHoveredProjectId] = useState<string | null>(null)
   const headerRef = React.useRef<HTMLHeadElement>(null)
@@ -49,6 +52,40 @@ export default function Header() {
   const closeTimerRef = React.useRef<NodeJS.Timeout | null>(null)
   const handleSignupClick = React.useCallback(() => {
     trackEvent('signup_cta_click', { position: 'header' })
+  }, [])
+
+  // Handle login button clicks - redirect to dashboard if already authenticated
+  const handleConstellationLogin = React.useCallback((e: React.MouseEvent) => {
+    if (isAuthenticated) {
+      e.preventDefault()
+      const dashboardUrl = ConstellationUrls.dashboard()
+      // Check if cross-domain redirect is needed
+      if (dashboardUrl.startsWith('http')) {
+        window.location.href = dashboardUrl
+      } else {
+        navigate(dashboardUrl)
+      }
+    }
+  }, [isAuthenticated, navigate])
+
+  const handleAdminLogin = React.useCallback((e: React.MouseEvent) => {
+    if (isAuthenticated) {
+      e.preventDefault()
+      navigate('/admin')
+    }
+  }, [isAuthenticated, navigate])
+
+  // Handle sign out
+  const handleSignOut = React.useCallback(async () => {
+    await supabase.auth.signOut()
+    setIsAuthenticated(false)
+    setUserEmail(null)
+    // Close dropdown
+    setLoginDropdownClosing(true)
+    setTimeout(() => {
+      setLoginDropdownOpen(false)
+      setLoginDropdownClosing(false)
+    }, 350)
   }, [])
 
   useEffect(() => {
@@ -88,6 +125,7 @@ export default function Header() {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession()
       setIsAuthenticated(!!session)
+      setUserEmail(session?.user?.email || null)
     }
     
     checkAuth()
@@ -95,6 +133,7 @@ export default function Header() {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session)
+      setUserEmail(session?.user?.email || null)
     })
     
     return () => {
@@ -681,6 +720,7 @@ export default function Header() {
                 <div className="grid grid-cols-1 gap-1">
                   <Link
                     to="/sub/constellation/login"
+                    onClick={handleConstellationLogin}
                     className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2.5 pl-2 pr-3 transition-all duration-300 w-full text-left group"
                   >
                     <div className="flex items-center justify-center w-8 h-8 relative">
@@ -711,12 +751,15 @@ export default function Header() {
                       >
                         {t('header.login.constellation').toUpperCase()}
                       </div>
-                      <div className="text-xs text-slate-600 dark:text-slate-400">{t('header.login.constellationSubtitle')}</div>
+                      <div className="text-xs text-slate-600 dark:text-slate-400">
+                        {isAuthenticated ? 'Ir para Dashboard' : t('header.login.constellationSubtitle')}
+                      </div>
                     </div>
                   </Link>
                   
                   <Link
                     to="/admin/login"
+                    onClick={handleAdminLogin}
                     className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2.5 pl-2 pr-3 transition-all duration-300 w-full text-left group"
                   >
                     <div className="flex items-center justify-center w-8 h-8">
@@ -740,7 +783,9 @@ export default function Header() {
                       >
                         {t('header.login.stellaTeam').toUpperCase()}
                       </div>
-                      <div className="text-xs text-slate-600 dark:text-slate-400">{t('header.login.stellaTeamSubtitle')}</div>
+                      <div className="text-xs text-slate-600 dark:text-slate-400">
+                        {isAuthenticated ? 'Ir para Dashboard' : t('header.login.stellaTeamSubtitle')}
+                      </div>
                     </div>
                   </Link>
                   
@@ -767,6 +812,32 @@ export default function Header() {
                       <div className="text-xs text-slate-400 dark:text-slate-500">{t('header.login.clientLoginSubtitle')}</div>
                     </div>
                   </button>
+
+                  {/* Sign Out Button - Only show when authenticated */}
+                  {isAuthenticated && (
+                    <>
+                      <div className="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+                      <button
+                        type="button"
+                        onClick={handleSignOut}
+                        className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 py-2.5 pl-2 pr-3 transition-all duration-300 w-full text-left group"
+                      >
+                        <div className="flex items-center justify-center w-8 h-8">
+                          <svg className="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-sm font-medium text-red-600 dark:text-red-400">
+                            Sair
+                          </div>
+                          <div className="text-xs text-slate-600 dark:text-slate-400">
+                            {userEmail}
+                          </div>
+                        </div>
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             )}
@@ -824,24 +895,49 @@ export default function Header() {
               <div className="px-3 py-1">
                 <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Login</span>
               </div>
-              <Link to="/sub/constellation/login" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
+              <Link 
+                to="/sub/constellation/login" 
+                onClick={(e) => {
+                  handleConstellationLogin(e)
+                  if (!isAuthenticated) setMobileOpen(false)
+                }} 
+                className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2"
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                   <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
                 </svg>
-                Constellation
+                Constellation {isAuthenticated && '→ Dashboard'}
               </Link>
-              <Link to="/admin" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
+              <Link 
+                to="/admin/login" 
+                onClick={(e) => {
+                  handleAdminLogin(e)
+                  if (!isAuthenticated) setMobileOpen(false)
+                }} 
+                className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2"
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                   <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
                 </svg>
-                Stella Real Team
+                Stella Real Team {isAuthenticated && '→ Dashboard'}
               </Link>
-              <Link to="/admin/login" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                  <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
-                </svg>
-                Client Login
-              </Link>
+              
+              {/* Sign Out Button - Mobile */}
+              {isAuthenticated && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleSignOut()
+                    setMobileOpen(false)
+                  }}
+                  className="rounded-lg px-3 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 text-red-600 dark:text-red-400"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Sair ({userEmail})
+                </button>
+              )}
               
               <div className="border-t border-slate-200 dark:border-slate-800 my-2"></div>
               <div className="grid grid-cols-2 gap-2 px-3 py-2">
