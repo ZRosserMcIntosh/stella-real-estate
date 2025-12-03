@@ -667,8 +667,8 @@ export default function StellaPlatform() {
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-emerald-950/10 to-slate-950" />
         <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="grid gap-8 lg:grid-cols-[1.15fr,0.85fr] lg:gap-12 items-center">
-            {/* Video on Left */}
-            <div className="relative group order-2 lg:order-1">
+            {/* Video on Left - Shows FIRST on mobile */}
+            <div className="relative group order-1 lg:order-1">
               <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/50 bg-emerald-500/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.35em] text-emerald-200 mb-4 shadow-lg shadow-emerald-500/20">
                 {t('stellaPlatform.video3d.badge')}
               </div>
@@ -700,8 +700,8 @@ export default function StellaPlatform() {
               </div>
             </div>
             
-            {/* Content on Right */}
-            <div className="order-1 lg:order-2">
+            {/* Content on Right - Shows SECOND on mobile */}
+            <div className="order-2 lg:order-2">
               <h2 className="text-3xl font-light text-white sm:text-4xl lg:text-5xl mb-4 leading-tight" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>
                 {t('stellaPlatform.video3d.title')}
               </h2>

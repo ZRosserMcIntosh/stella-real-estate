@@ -428,12 +428,12 @@ export default function App() {
     const price = displayPrice != null ? formatPrice(displayPrice) : null
     
     return (
-      <article className="group relative flex flex-col w-full sm:w-[22rem] min-h-[340px] sm:min-h-[360px] overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-700/50 bg-slate-800/60 p-3 sm:p-4 text-left text-white shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:border-slate-600/60">
+      <article className="group relative flex flex-col w-full max-w-[280px] sm:max-w-[22rem] min-h-[320px] sm:min-h-[360px] overflow-hidden rounded-xl sm:rounded-3xl border border-slate-700/50 bg-slate-800/60 p-3 sm:p-4 text-left text-white shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:border-slate-600/60">
         {thumb ? (
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl">
+          <div className="relative overflow-hidden rounded-lg sm:rounded-2xl">
             {/* On hover, show second image if available */}
             {secondImage ? (
-              <div className="relative h-48 sm:h-52 w-full">
+              <div className="relative h-44 sm:h-52 w-full">
                 <img
                   src={thumb}
                   alt={p.title}
@@ -449,12 +449,12 @@ export default function App() {
               <img
                 src={thumb}
                 alt={p.title}
-                className="h-48 sm:h-52 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                className="h-44 sm:h-52 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               />
             )}
           </div>
         ) : (
-          <div className="grid h-48 sm:h-52 w-full place-items-center rounded-xl sm:rounded-2xl bg-slate-100/80 text-slate-400 text-sm">
+          <div className="grid h-44 sm:h-52 w-full place-items-center rounded-lg sm:rounded-2xl bg-slate-100/80 text-slate-400 text-sm">
             {t('home.featured.noImage', { defaultValue: 'No image' })}
           </div>
         )}
