@@ -4,6 +4,26 @@ import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import { Check, X } from 'lucide-react'
 
+/**
+ * SEO OPTIMIZATIONS IMPLEMENTED (Virgil's Checklist):
+ * ✅ 1) Meta title: "Planos e Preços da Constellation | Plataforma para Corretores de Imóveis"
+ * ✅ 2) Meta description: R$ 99 pré-lançamento, 3 meses grátis, 50% OFF vitalício
+ * ✅ 3) Exactly one H1: "Planos e preços da Constellation para corretores de imóveis"
+ * ✅ 4) SEO-friendly intro paragraph explaining the page and linking to /plataforma-stella
+ * ✅ 5) FAQ section with H2 "Perguntas frequentes sobre a Constellation e seus planos"
+ *      and H3 questions covering R$99 offer, 3 free months, 50% lifetime discount
+ * ✅ 6) Internal links to Constellation product page and Stella Real site
+ * ✅ 7) Meaningful alt text on all images (tech stack, Constellation logo)
+ * ✅ 8) <html lang="pt-BR"> set via Helmet
+ * ✅ 9) Schema.org JSON-LD markup for SoftwareApplication with pricing offers
+ * ✅ 10) Proper heading hierarchy: H1 → H2 (sections) → H3 (plan names, FAQ questions)
+ * 
+ * Keywords targeted:
+ * - Primary: "plataforma para corretores de imóveis"
+ * - Secondary: "plataforma imobiliária", "corretores de imóveis", "planos e preços"
+ * - Long-tail: "site para corretores", "CRM imobiliário", "automação imobiliária"
+ */
+
 export default function Pricing() {
   const { t } = useTranslation()
 
@@ -23,8 +43,8 @@ export default function Pricing() {
   // SEO metadata
   const siteUrl = window.location.origin
   const pageUrl = `${siteUrl}/precos`
-  const pageTitle = 'Stella Real Estate - Preços e Planos'
-  const pageDescription = 'Plataforma imobiliária completa com CRM, automação e gestão de leads. Planos flexíveis para corretores, equipes e incorporadoras. Tecnologia moderna para o mercado imobiliário brasileiro.'
+  const pageTitle = 'Planos e Preços da Constellation | Plataforma para Corretores de Imóveis'
+  const pageDescription = 'Conheça os planos da Constellation, plataforma imobiliária para corretores de imóveis. Pré-lançamento por R$ 99, 3 meses grátis e 50% OFF vitalício.'
 
   // Founding 100 countdown logic - starts at 99/100, decreases linearly until Dec 31, 2025
   const calculateFoundingSlots = () => {
@@ -158,6 +178,9 @@ export default function Pricing() {
   return (
     <div className="bg-slate-950 text-slate-100 min-h-screen -mt-[var(--header-height,60px)]">
       <Helmet>
+        {/* Language */}
+        <html lang="pt-BR" />
+        
         {/* Basic Meta Tags */}
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
@@ -170,6 +193,7 @@ export default function Pricing() {
         <meta property="og:image" content={`${siteUrl}/stella-og-image.png`} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="pt_BR" />
 
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
@@ -180,6 +204,55 @@ export default function Pricing() {
 
         {/* Canonical */}
         <link rel="canonical" href={pageUrl} />
+        
+        {/* Schema.org Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Constellation",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "offers": [
+              {
+                "@type": "Offer",
+                "name": "Constellation Founding 100",
+                "price": "99.00",
+                "priceCurrency": "BRL",
+                "description": "Pré-lançamento: R$ 99 uma vez, 3 meses grátis, 50% OFF vitalício nos planos mensais"
+              },
+              {
+                "@type": "Offer",
+                "name": "Constellation Pro",
+                "price": "299.00",
+                "priceCurrency": "BRL",
+                "priceSpecification": {
+                  "@type": "UnitPriceSpecification",
+                  "price": "299.00",
+                  "priceCurrency": "BRL",
+                  "billingPeriod": "P1M"
+                }
+              },
+              {
+                "@type": "Offer",
+                "name": "Constellation Team",
+                "price": "499.00",
+                "priceCurrency": "BRL",
+                "priceSpecification": {
+                  "@type": "UnitPriceSpecification",
+                  "price": "499.00",
+                  "priceCurrency": "BRL",
+                  "billingPeriod": "P1M"
+                }
+              }
+            ],
+            "areaServed": {
+              "@type": "Country",
+              "name": "BR"
+            },
+            "description": "Plataforma imobiliária completa para corretores de imóveis com CRM, automação, gestão de leads e criação de sites profissionais"
+          })}
+        </script>
       </Helmet>
 
       {/* Hero Section */}
@@ -207,6 +280,19 @@ export default function Pricing() {
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[calc(var(--header-height,60px)+6rem)] pb-16">
+          {/* SEO H1 and Introduction */}
+          <div className="mb-12 max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-light text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              Planos e preços da Constellation para corretores de imóveis
+            </h1>
+            <p className="text-lg text-slate-300 leading-relaxed mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              A <Link to="/plataforma-stella" className="text-indigo-400 hover:text-indigo-300 underline">Constellation</Link> é uma plataforma imobiliária completa para corretores de imóveis e imobiliárias. Nesta página você encontra os planos e preços da plataforma, incluindo a oferta de pré-lançamento para corretores fundadores, com entrada única de R$ 99, 3 meses grátis e 50% de desconto vitalício nos planos mensais.
+            </p>
+            <p className="text-base text-slate-400" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              O <a href="https://www.stellareal.com.br" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300 underline">próprio site da Stella Real</a> é construído com a Constellation. Veja um exemplo real em produção de como a plataforma pode transformar seu negócio imobiliário.
+            </p>
+          </div>
+
           {/* Pre-Launch Notice */}
           <div className="mb-8 max-w-4xl mx-auto">
             <div className="bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-indigo-500/10 border border-indigo-400/30 rounded-xl p-6 text-center backdrop-blur-sm">
@@ -214,9 +300,9 @@ export default function Pricing() {
                 <div className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse"></div>
                 <span className="text-indigo-200 font-semibold text-lg uppercase tracking-wider">Pré-Lançamento</span>
               </div>
-              <p className="text-white text-xl font-light mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              <h2 className="text-white text-xl font-light mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>
                 Lançamento Oficial: <span className="text-indigo-300 font-semibold">Janeiro 2026</span>
-              </p>
+              </h2>
               <p className="text-slate-300 text-base mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>
                 Potencialize seu negócio imobiliário com a tecnologia Constellation.
               </p>
@@ -241,9 +327,9 @@ export default function Pricing() {
                     </div>
                     
                     <div className="flex items-center justify-center gap-3 mb-4">
-                      <h3 className="text-2xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                        Founding 100 – Constellation Prime
-                      </h3>
+                      <h2 className="text-2xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                        Founding 100 – oferta de pré-lançamento
+                      </h2>
                     </div>
                     <p className="text-slate-200 mb-2 font-light text-center" style={{ fontFamily: 'Outfit, sans-serif' }}>
                       Seja um dos primeiros 100 membros fundadores. Pré-venda exclusiva com benefícios vitalícios.
@@ -316,6 +402,10 @@ export default function Pricing() {
 
         {/* Pricing Cards */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        <h2 className="text-3xl md:text-4xl font-light text-center mb-12 text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>
+          Planos Constellation (Pro, Team, Brokerage, Enterprise)
+        </h2>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {plans.map((plan, index) => {
             const { price, period } = getPrice(plan)
@@ -466,24 +556,24 @@ export default function Pricing() {
           {/* Tech Stack Logos */}
           <div className="mb-8">
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <img src="/tech-icons/color/Visual_Studio_Code_1.35_icon.svg.png" alt="VS Code" className="h-6 object-contain" />
-              <img src="/tech-icons/color/524-5240809_aws-logo-svg-white-clipart.png" alt="AWS" className="h-6 object-contain" />
-              <img src="/tech-icons/color/apple-developer-og-twitter.png" alt="Apple" className="h-12 object-contain" />
-              <img src="/tech-icons/color/NET_BIG.D-52893f5e.png" alt=".NET" className="h-6 object-contain" />
-              <img src="/tech-icons/color/pngimg.com - github_PNG65.png" alt="GitHub" className="h-9 object-contain invert brightness-0 invert" />
-              <img src="/tech-icons/color/Stripe_Logo,_revised_2016.svg.png" alt="Stripe" className="h-6 object-contain" />
-              <img src="/tech-icons/color/supabase-logo-wordmark--dark.png" alt="Supabase" className="h-6 object-contain" />
+              <img src="/tech-icons/color/Visual_Studio_Code_1.35_icon.svg.png" alt="Visual Studio Code - ferramenta de desenvolvimento" className="h-6 object-contain" />
+              <img src="/tech-icons/color/524-5240809_aws-logo-svg-white-clipart.png" alt="AWS - infraestrutura em nuvem" className="h-6 object-contain" />
+              <img src="/tech-icons/color/apple-developer-og-twitter.png" alt="Apple Developer - plataforma de desenvolvimento" className="h-12 object-contain" />
+              <img src="/tech-icons/color/NET_BIG.D-52893f5e.png" alt=".NET - framework de desenvolvimento" className="h-6 object-contain" />
+              <img src="/tech-icons/color/pngimg.com - github_PNG65.png" alt="GitHub - controle de versão" className="h-9 object-contain invert brightness-0 invert" />
+              <img src="/tech-icons/color/Stripe_Logo,_revised_2016.svg.png" alt="Stripe - processamento de pagamentos" className="h-6 object-contain" />
+              <img src="/tech-icons/color/supabase-logo-wordmark--dark.png" alt="Supabase - banco de dados e autenticação" className="h-6 object-contain" />
               <div className="flex items-center gap-2">
                 <img 
                   src="/tech-icons/contellation-logo.png" 
-                  alt="Constellation" 
+                  alt="Logo da plataforma Constellation para corretores de imóveis" 
                   className="h-10 object-contain brightness-150" 
                   style={{ filter: 'brightness(1.5) drop-shadow(0 0 24px rgba(199, 210, 254, 1)) drop-shadow(0 0 12px rgba(199, 210, 254, 0.9)) drop-shadow(0 0 8px rgba(199, 210, 254, 0.8))' }}
                 />
                 <span className="text-sm font-light uppercase tracking-[0.4em] text-indigo-200/80" style={{ fontFamily: 'Outfit, sans-serif' }}>CONSTELLATION</span>
               </div>
               <div className="flex items-center gap-2">
-                <img src="/tech-icons/ballet-new-logo.png" alt="Ballet" className="h-8 object-contain" />
+                <img src="/tech-icons/ballet-new-logo.png" alt="Logo Ballet - gerenciamento de projetos" className="h-8 object-contain" />
                 <span className="text-sm font-light uppercase tracking-[0.4em] text-pink-400/90" style={{ fontFamily: 'Outfit, sans-serif' }}>BALLET</span>
               </div>
             </div>
@@ -723,30 +813,42 @@ export default function Pricing() {
 
       {/* FAQ Section */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <h2 className="text-3xl font-bold text-center mb-12">Perguntas Frequentes</h2>
+        <h2 className="text-3xl md:text-4xl font-light text-center mb-12 text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>
+          Perguntas frequentes sobre a Constellation e seus planos
+        </h2>
         <div className="space-y-6">
           <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6">
-            <h3 className="text-xl font-semibold mb-3">Posso mudar de plano a qualquer momento?</h3>
-            <p className="text-slate-400">
-              Sim! Você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As mudanças entram em vigor no próximo ciclo de cobrança.
+            <h3 className="text-xl font-semibold mb-3 text-white">Como funciona a oferta de pré-lançamento por R$ 99?</h3>
+            <p className="text-slate-300 leading-relaxed">
+              A oferta de pré-lançamento é exclusiva para os primeiros 100 corretores fundadores. Por R$ 99 (pagamento único), você garante acesso à plataforma Constellation quando lançarmos em janeiro de 2026. Após o lançamento, você recebe 3 meses de uso totalmente gratuito para conhecer e integrar a plataforma ao seu negócio imobiliário. Depois dos 3 meses grátis, você paga apenas 50% do valor mensal público do plano que escolher, e esse desconto de 50% é vitalício enquanto sua assinatura permanecer ativa.
             </p>
           </div>
+          
           <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6">
-            <h3 className="text-xl font-semibold mb-3">Existe período de teste gratuito?</h3>
-            <p className="text-slate-400">
-              Sim, oferecemos 14 dias de teste gratuito em todos os planos. Não é necessário cartão de crédito para começar.
+            <h3 className="text-xl font-semibold mb-3 text-white">Quando terei acesso à plataforma Constellation?</h3>
+            <p className="text-slate-300 leading-relaxed">
+              O lançamento oficial da Constellation está previsto para janeiro de 2026. Todos os corretores fundadores que garantirem sua vaga por R$ 99 receberão acesso completo à plataforma imobiliária assim que ela for lançada. Você será notificado por email com todas as instruções de acesso e onboarding.
             </p>
           </div>
+          
           <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6">
-            <h3 className="text-xl font-semibold mb-3">O que acontece se eu exceder o limite de leads?</h3>
-            <p className="text-slate-400">
-              Entraremos em contato para discutir um upgrade do plano. Nunca bloqueamos seus leads sem aviso prévio.
+            <h3 className="text-xl font-semibold mb-3 text-white">O que acontece depois dos 3 meses grátis?</h3>
+            <p className="text-slate-300 leading-relaxed">
+              Após os 3 meses de uso gratuito, você escolhe qual plano mensal melhor atende seu negócio (Pro, Team, Brokerage ou Enterprise) e paga apenas 50% do valor público. Por exemplo, o plano Pro que custa R$ 299/mês terá um custo de apenas R$ 149,50/mês para corretores fundadores. Esse desconto permanente de 50% é mantido vitaliciamente enquanto você permanecer como cliente ativo da plataforma.
             </p>
           </div>
+          
           <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6">
-            <h3 className="text-xl font-semibold mb-3">Os preços incluem impostos?</h3>
-            <p className="text-slate-400">
-              Os preços exibidos não incluem impostos. Os impostos aplicáveis serão adicionados no checkout de acordo com sua localização.
+            <h3 className="text-xl font-semibold mb-3 text-white">Posso mudar de plano depois do lançamento?</h3>
+            <p className="text-slate-300 leading-relaxed">
+              Sim! Como corretor fundador, você pode fazer upgrade ou downgrade entre os planos a qualquer momento. O desconto de 50% se aplica a qualquer plano que você escolher. As mudanças entram em vigor no próximo ciclo de cobrança mensal, dando total flexibilidade para adaptar a plataforma conforme seu negócio imobiliário cresce.
+            </p>
+          </div>
+          
+          <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6">
+            <h3 className="text-xl font-semibold mb-3 text-white">A Constellation é indicada para quais tipos de corretores e imobiliárias?</h3>
+            <p className="text-slate-300 leading-relaxed">
+              A plataforma Constellation foi desenvolvida para atender desde corretores autônomos até grandes imobiliárias e incorporadoras. Oferecemos planos para corretores independentes (Pro), pequenas equipes (Team), imobiliárias de médio porte (Brokerage) e grandes operações (Enterprise). A plataforma inclui CRM completo, automação de marketing, gestão de leads, criação de sites profissionais, mapas 3D de imóveis, e integração com principais portais imobiliários do Brasil. É ideal para profissionais que querem modernizar sua operação e oferecer uma experiência digital de alto nível para seus clientes.
             </p>
           </div>
         </div>
@@ -755,9 +857,9 @@ export default function Pricing() {
       {/* CTA Section */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
         <div className="bg-gradient-to-r from-blue-900/40 via-purple-900/40 to-pink-900/40 backdrop-blur-xl border border-blue-500/50 rounded-2xl p-12 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ainda tem dúvidas?</h2>
+          <p className="text-3xl font-light mb-4 text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>Ainda tem dúvidas?</p>
           <p className="text-slate-300 mb-8 text-lg">
-            Nossa equipe está pronta para ajudar você a escolher o melhor plano para seu negócio.
+            Nossa equipe está pronta para ajudar você a escolher o melhor plano para seu negócio imobiliário.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
