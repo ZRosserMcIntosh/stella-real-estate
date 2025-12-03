@@ -131,7 +131,7 @@ export default function About() {
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-100 to-blue-100 dark:from-cyan-950/50 dark:to-blue-950/50 aspect-square mb-6">
               <img 
                 src="/people/rosser.jpeg" 
-                alt="Z. Rosser McIntosh" 
+                alt="Zack McIntosh" 
                 className="w-full h-full object-cover"
               />
             </div>

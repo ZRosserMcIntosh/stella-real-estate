@@ -5,90 +5,37 @@ This document explains how to set up and use Google Ads conversion tracking for 
 ## Overview
 
 We track two main conversion events:
-1. **Start Registration** - When users click "Garantir Minha Vaga" to begin signup
-2. **Purchase Complete** - When users successfully complete payment
+1. **qualify_lead** - When users click "Garantir Minha Vaga" to begin signup
+2. **close_convert_lead** - When users successfully complete payment (click-based)
+
+## Google Ads Event Names
+
+Google Ads provided these specific event names:
+- `qualify_lead` - Tracks when a user qualifies as a lead (starts registration)
+- `close_convert_lead` - Tracks when a lead converts to a customer (completes payment)
+
+**Important:** These events are now directly integrated. No need to replace conversion IDs - Google Ads automatically tracks these named events.
 
 ## Setup Instructions
 
-### 1. Get Your Google Ads Conversion IDs
+### Configuration Type
 
-1. Go to [Google Ads](https://ads.google.com)
-2. Click **Tools & Settings** (wrench icon) → **Conversions**
-3. Click the **+ New conversion action** button
-4. Choose **Website**
-5. Create two conversion actions:
+✅ **You've already configured these in Google Ads!**
 
-#### Conversion Action 1: "Start Registration"
-- **Goal**: Lead
-- **Name**: "Constellation - Start Registration"
-- **Value**: Don't use a value
-- **Count**: One
-- **Click-through conversion window**: 30 days
-- **View-through conversion window**: 1 day
+- **qualify_lead** - Set as click-based event for when users start registration
+- **close_convert_lead** - Set as click-based event for completed purchases (correct choice!)
 
-#### Conversion Action 2: "Purchase Complete"
-- **Goal**: Purchase
-- **Name**: "Constellation - Purchase Complete"
-- **Value**: Use different values for each conversion
-- **Count**: One
-- **Click-through conversion window**: 90 days
-- **View-through conversion window**: 1 day
+**Why click-based for purchases?** This ensures the conversion only fires when the user actually completes the payment action, not just when they land on a success page. This prevents false conversions and gives you accurate data.
 
-6. After creating each conversion, Google will give you a **Conversion ID** and **Conversion Label** in this format:
-   ```
-   AW-123456789/AbC-dEf_GhI_jKlM
-   ```
-   Where:
-   - `AW-123456789` is your Conversion ID
-   - `AbC-dEf_GhI_jKlM` is the Conversion Label
+### No Additional Setup Needed
 
-### 2. Update the Code
+The events are now using Google's named events (`qualify_lead` and `close_convert_lead`), which means:
+- ✅ No conversion IDs to replace
+- ✅ No manual configuration required
+- ✅ Events automatically linked to your Google Ads account
+- ✅ Ready to track conversions immediately
 
-Open `src/utils/analytics.ts` and replace the placeholders:
-
-```typescript
-// Find this line for Start Registration:
-send_to: 'AW-CONVERSION_ID/CONVERSION_LABEL',
-
-// Replace with your actual values, for example:
-send_to: 'AW-123456789/AbC-dEf_GhI_jKlM',
-
-// Do the same for Purchase Complete
-```
-
-**Example:**
-```typescript
-export const trackStartRegistration = (eventParams?: Record<string, any>) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'conversion_event_start_registration', {
-      send_to: 'AW-123456789/AbC-dEf_GhI_jKlM', // ← Replace this
-      event_category: 'engagement',
-      event_label: 'Start Registration',
-      ...eventParams,
-    });
-  }
-};
-
-export const trackPurchaseComplete = (
-  value: number,
-  transactionId?: string,
-  eventParams?: Record<string, any>
-) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'conversion_event_purchase', {
-      send_to: 'AW-987654321/XyZ-aBc_DeF_gHiJ', // ← Replace this
-      value: value,
-      currency: 'BRL',
-      transaction_id: transactionId,
-      event_category: 'ecommerce',
-      event_label: 'Purchase Complete',
-      ...eventParams,
-    });
-  }
-};
-```
-
-### 3. Test Your Conversions
+## Testing Your Conversions
 
 #### Test in Development:
 1. Open your browser's Developer Tools (F12)
@@ -96,11 +43,12 @@ export const trackPurchaseComplete = (
 3. Filter by "collect" or "google"
 4. Click "Garantir Minha Vaga" button
 5. You should see a network request to `google-analytics.com/collect` or `googletagmanager.com`
-6. Check the payload for `conversion_event_start_registration`
+6. Check the payload for `qualify_lead` event
 
 #### Test Purchase Complete:
 1. Complete the full signup and payment flow
-2. After successful payment, check Network tab for `conversion_event_purchase`
+2. After successful payment, check Network tab for `close_convert_lead` event
+3. Verify it includes `value=99`, `currency=BRL`, and a `transaction_id`
 
 #### Verify in Google Ads:
 1. Go to **Google Ads** → **Tools & Settings** → **Conversions**
@@ -108,32 +56,15 @@ export const trackPurchaseComplete = (
 3. Click on each one to see **Recent conversions**
 4. Test conversions should appear within a few hours (usually ~2-6 hours)
 
-### 4. Enable Google Ads Tag (if needed)
-
-If you haven't already added the Google Ads tag to your site:
-
-1. In Google Ads, go to **Tools & Settings** → **Setup** → **Tag Manager**
-2. Get your Google Ads ID (format: `AW-123456789`)
-3. Add to `index.html` (if not already there):
-
-```html
-<!-- Google Ads Tag -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-123456789"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'AW-123456789');
-</script>
-```
-
-**Note:** You should already have Google Analytics set up (`G-6GBRVEVG2L`), so you may just need to add the `gtag('config', 'AW-...')` line.
-
 ## Current Implementation
+
+### Event Names
+- **qualify_lead** - User starts registration process
+- **close_convert_lead** - User completes purchase (click-based)
 
 ### Where Conversions Are Tracked
 
-#### 1. Start Registration
+#### 1. qualify_lead (Start Registration)
 **Location:** `src/pages/Pricing.tsx`
 
 Triggered when user clicks "Garantir Minha Vaga" button:
@@ -149,10 +80,20 @@ Triggered when user clicks "Garantir Minha Vaga" button:
 </Link>
 ```
 
-#### 2. Purchase Complete
+**Event fired:**
+```javascript
+gtag('event', 'qualify_lead', {
+  event_category: 'engagement',
+  event_label: 'Start Registration',
+  source: 'pricing_page',
+  plan: 'founding_100'
+});
+```
+
+#### 2. close_convert_lead (Purchase Complete)
 **Location:** `src/pages/constellation/ConstellationSignup.tsx`
 
-Triggered when payment is successfully processed:
+Triggered when payment is successfully processed (click-based):
 ```typescript
 const handlePaymentSuccess = async () => {
   trackPurchaseComplete(
@@ -166,6 +107,20 @@ const handlePaymentSuccess = async () => {
   );
   // ... rest of success handler
 }
+```
+
+**Event fired:**
+```javascript
+gtag('event', 'close_convert_lead', {
+  value: 99.00,
+  currency: 'BRL',
+  transaction_id: 'pi_xxx...', // Stripe payment intent ID
+  event_category: 'ecommerce',
+  event_label: 'Purchase Complete',
+  source: 'constellation_signup',
+  plan: 'founding_100',
+  email: 'user@example.com'
+});
 ```
 
 ## Event Parameters

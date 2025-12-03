@@ -185,13 +185,12 @@ export const trackConversion = (conversionName: string, value?: number) => {
  */
 
 /**
- * Track when user starts the registration/signup process
+ * Track when user starts the registration/signup process (qualify_lead)
  * This should be called when the user clicks "Garantir Minha Vaga" or similar CTA
  */
 export const trackStartRegistration = (eventParams?: Record<string, any>) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'conversion_event_start_registration', {
-      send_to: 'AW-CONVERSION_ID/CONVERSION_LABEL', // Replace with your Google Ads conversion ID
+    window.gtag('event', 'qualify_lead', {
       event_category: 'engagement',
       event_label: 'Start Registration',
       ...eventParams,
@@ -200,7 +199,7 @@ export const trackStartRegistration = (eventParams?: Record<string, any>) => {
 };
 
 /**
- * Track completed purchase/checkout
+ * Track completed purchase/checkout (close_convert_lead)
  * This should be called when payment is successfully completed
  * @param value - Transaction value (e.g., 99.00 for R$ 99)
  * @param transactionId - Unique transaction/payment ID
@@ -211,8 +210,7 @@ export const trackPurchaseComplete = (
   eventParams?: Record<string, any>
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'conversion_event_purchase', {
-      send_to: 'AW-CONVERSION_ID/CONVERSION_LABEL', // Replace with your Google Ads conversion ID
+    window.gtag('event', 'close_convert_lead', {
       value: value,
       currency: 'BRL',
       transaction_id: transactionId,
@@ -227,12 +225,12 @@ export const trackPurchaseComplete = (
  * Helper function to delay navigation until gtag event is sent
  * Use this when tracking conversions that should redirect to another page
  * @param url - URL to navigate to after event is tracked
- * @param eventName - Google Ads conversion event name
+ * @param eventName - Google Ads conversion event name ('qualify_lead' or 'close_convert_lead')
  * @param eventParams - Additional event parameters
  */
 export const trackConversionWithRedirect = (
   url: string,
-  eventName: string,
+  eventName: 'qualify_lead' | 'close_convert_lead',
   eventParams?: Record<string, any>
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
@@ -253,4 +251,5 @@ export const trackConversionWithRedirect = (
       window.location.href = url;
     }
   }
+  return false;
 };
