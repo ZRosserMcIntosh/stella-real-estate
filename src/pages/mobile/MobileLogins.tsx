@@ -7,32 +7,8 @@ export default function MobileLogins() {
   const navigate = useNavigate();
   const { session, isDemo, loading: authLoading } = useAuth();
 
-  // If user is already authenticated, redirect to appropriate dashboard
-  useEffect(() => {
-    if (!authLoading && (session || isDemo)) {
-      // Check if it's a constellation user (has constellation-related metadata)
-      // For now, redirect to Constellation dashboard as that's the main use case
-      const dashboardUrl = ConstellationUrls.dashboard();
-      
-      // If it's a full URL (cross-domain), use window.location
-      if (dashboardUrl.startsWith('http')) {
-        window.location.href = dashboardUrl;
-      } else {
-        navigate(dashboardUrl, { replace: true });
-      }
-    }
-  }, [authLoading, session, isDemo, navigate]);
-
-  // Show loading while checking auth
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-[#050505] via-[#080606] to-[#050505] flex items-center justify-center">
-        <div className="text-amber-200/60 text-sm">Carregando...</div>
-      </div>
-    );
-  }
-
   // Static background stars - memoized to prevent regeneration on re-renders
+  // MUST be called before any conditional returns to follow Rules of Hooks
   const staticStars = useMemo(() => {
     return Array.from({ length: 100 }, (_, i) => ({
       id: i,
@@ -58,6 +34,31 @@ export default function MobileLogins() {
       opacity: 0.7 + Math.random() * 0.6,
     }));
   }, []);
+
+  // If user is already authenticated, redirect to appropriate dashboard
+  useEffect(() => {
+    if (!authLoading && (session || isDemo)) {
+      // Check if it's a constellation user (has constellation-related metadata)
+      // For now, redirect to Constellation dashboard as that's the main use case
+      const dashboardUrl = ConstellationUrls.dashboard();
+      
+      // If it's a full URL (cross-domain), use window.location
+      if (dashboardUrl.startsWith('http')) {
+        window.location.href = dashboardUrl;
+      } else {
+        navigate(dashboardUrl, { replace: true });
+      }
+    }
+  }, [authLoading, session, isDemo, navigate]);
+
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-[#050505] via-[#080606] to-[#050505] flex items-center justify-center">
+        <div className="text-amber-200/60 text-sm">Carregando...</div>
+      </div>
+    );
+  }
 
   return (
     <>
