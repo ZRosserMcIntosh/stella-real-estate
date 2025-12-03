@@ -147,7 +147,85 @@
     },
     "privacy": { "title": "Política de Privacidade" },
     "legal": { "title": "Jurídico" },
-    "listYourProperty": { "title": "Anuncie seu Imóvel" },
+    "listYourProperty": { 
+      "title": "Anuncie seu Imóvel",
+      "hero": {
+        "title": "Anuncie Seu Imóvel com a",
+        "titleHighlight": "Stella",
+        "subtitle": "Atendimento personalizado para vender seu imóvel",
+        "ctaWhatsApp": "Falar com Stella no WhatsApp",
+        "ctaEmail": "Enviar Email"
+      },
+      "benefits": {
+        "title": "Por que Anunciar com a Stella?",
+        "subtitle": "Serviço completo e personalizado para vender seu imóvel",
+        "photography": {
+          "title": "Fotografia Profissional",
+          "description": "Fotos e vídeos de alta qualidade que destacam o melhor do seu imóvel"
+        },
+        "marketing": {
+          "title": "Marketing Premium",
+          "description": "Divulgação estratégica nos principais portais e redes sociais"
+        },
+        "evaluation": {
+          "title": "Avaliação Gratuita",
+          "description": "Análise de mercado detalhada para precificação competitiva"
+        },
+        "service": {
+          "title": "Atendimento Personalizado",
+          "description": "Stella cuida de cada detalhe do processo de venda"
+        },
+        "visits": {
+          "title": "Visitas Qualificadas",
+          "description": "Seleção criteriosa de compradores realmente interessados"
+        },
+        "speed": {
+          "title": "Agilidade na Venda",
+          "description": "Processos otimizados para fechar negócio mais rápido"
+        }
+      },
+      "howItWorks": {
+        "title": "Como Funciona?",
+        "subtitle": "Processo simples e transparente do início ao fim",
+        "step1": {
+          "title": "Entre em Contato",
+          "description": "Fale com Stella via WhatsApp ou email"
+        },
+        "step2": {
+          "title": "Avaliação Gratuita",
+          "description": "Receba uma análise completa do seu imóvel"
+        },
+        "step3": {
+          "title": "Marketing Premium",
+          "description": "Seu imóvel com fotos profissionais e ampla divulgação"
+        },
+        "step4": {
+          "title": "Venda Concluída",
+          "description": "Acompanhamento total até o fechamento"
+        }
+      },
+      "contact": {
+        "title": "Pronto para Vender seu Imóvel?",
+        "subtitle": "Entre em contato com a Stella agora e receba uma avaliação gratuita",
+        "whatsapp": {
+          "title": "WhatsApp",
+          "description": "Resposta rápida e atendimento imediato",
+          "cta": "Abrir WhatsApp",
+          "number": "+55 11 98641-0429"
+        },
+        "email": {
+          "title": "Email",
+          "description": "Envie todos os detalhes do seu imóvel",
+          "cta": "Enviar Email",
+          "address": "stellamary@creci.org.br"
+        },
+        "badges": {
+          "personalized": "Atendimento Personalizado",
+          "freeEvaluation": "Avaliação Gratuita",
+          "transparent": "100% Transparente"
+        }
+      }
+    },
     "institutional": { "title": "Institucional" },
     "investors": { 
       "title": "Investidores",

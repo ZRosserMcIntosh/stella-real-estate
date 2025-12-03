@@ -87,7 +87,85 @@
     },
     "privacy": { "title": "Política de Privacidad" },
     "legal": { "title": "Legal" },
-    "listYourProperty": { "title": "Publica tu Propiedad" },
+    "listYourProperty": { 
+      "title": "Publica tu Propiedad",
+      "hero": {
+        "title": "Publica Tu Propiedad con",
+        "titleHighlight": "Stella",
+        "subtitle": "Servicio personalizado para vender tu propiedad",
+        "ctaWhatsApp": "Hablar con Stella en WhatsApp",
+        "ctaEmail": "Enviar Email"
+      },
+      "benefits": {
+        "title": "¿Por qué Publicar con Stella?",
+        "subtitle": "Servicio completo y personalizado para vender tu propiedad",
+        "photography": {
+          "title": "Fotografía Profesional",
+          "description": "Fotos y videos de alta calidad que destacan lo mejor de tu propiedad"
+        },
+        "marketing": {
+          "title": "Marketing Premium",
+          "description": "Promoción estratégica en los principales portales y redes sociales"
+        },
+        "evaluation": {
+          "title": "Evaluación Gratuita",
+          "description": "Análisis de mercado detallado para precios competitivos"
+        },
+        "service": {
+          "title": "Servicio Personalizado",
+          "description": "Stella cuida cada detalle del proceso de venta"
+        },
+        "visits": {
+          "title": "Visitas Calificadas",
+          "description": "Selección cuidadosa de compradores realmente interesados"
+        },
+        "speed": {
+          "title": "Agilidad en la Venta",
+          "description": "Procesos optimizados para cerrar negocios más rápido"
+        }
+      },
+      "howItWorks": {
+        "title": "¿Cómo Funciona?",
+        "subtitle": "Proceso simple y transparente de principio a fin",
+        "step1": {
+          "title": "Ponte en Contacto",
+          "description": "Habla con Stella por WhatsApp o email"
+        },
+        "step2": {
+          "title": "Evaluación Gratuita",
+          "description": "Recibe un análisis completo de tu propiedad"
+        },
+        "step3": {
+          "title": "Marketing Premium",
+          "description": "Tu propiedad con fotos profesionales y amplia difusión"
+        },
+        "step4": {
+          "title": "Venta Completada",
+          "description": "Seguimiento total hasta el cierre"
+        }
+      },
+      "contact": {
+        "title": "¿Listo para Vender tu Propiedad?",
+        "subtitle": "Contacta a Stella ahora y recibe una evaluación gratuita",
+        "whatsapp": {
+          "title": "WhatsApp",
+          "description": "Respuesta rápida y atención inmediata",
+          "cta": "Abrir WhatsApp",
+          "number": "+55 11 98641-0429"
+        },
+        "email": {
+          "title": "Email",
+          "description": "Envía todos los detalles de tu propiedad",
+          "cta": "Enviar Email",
+          "address": "stellamary@creci.org.br"
+        },
+        "badges": {
+          "personalized": "Servicio Personalizado",
+          "freeEvaluation": "Evaluación Gratuita",
+          "transparent": "100% Transparente"
+        }
+      }
+    },
     "institutional": { "title": "Institucional" },
     "stellaPlatform": { "title": "Plataforma Stella" },
     "notFound": { "title": "Página no encontrada", "backHome": "Volver al Inicio" }

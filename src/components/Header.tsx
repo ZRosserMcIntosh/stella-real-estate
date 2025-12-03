@@ -217,15 +217,15 @@ export default function Header() {
   // Using more dramatic size differences and minimal padding
   const logoSizeConfig = {
     small: {
-      height: 'h-12',           // 48px - compact
+      height: 'h-10',           // 40px - compact
       padding: 'py-1.5'         // minimal padding
     },
     medium: {
-      height: 'h-20',           // 80px - standard  
+      height: 'h-14',           // 56px - standard  
       padding: 'py-2'           // small padding
     },
     large: {
-      height: 'h-28',           // 112px - prominent
+      height: 'h-16',           // 64px - prominent
       padding: 'py-2.5'         // moderate padding
     }
   }
@@ -239,13 +239,13 @@ export default function Header() {
   return (
   <header ref={headerRef} className="z-50 bg-slate-900 border-b border-slate-800">
       {/* Use wider container on desktop for more breathing room */}
-      <div className={`max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 flex items-center justify-between ${currentLogoSize.padding}`}>
+      <div className={`max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 flex items-center justify-between ${currentLogoSize.padding}`}>
         {/* Logo with increased size on desktop */}
-        <Link to="/" className="flex items-center gap-3 pr-4 xl:pr-8">
+        <Link to="/" className="flex items-center gap-3 pr-6 xl:pr-10 2xl:pr-12">
           {!logoLoading && !logoFailed && headerLogoUrl ? (
             <img
               src={headerLogoUrl}
-              className={`${currentLogoSize.height} xl:h-24 w-auto object-contain drop-shadow-sm transition-all duration-300`}
+              className={`${currentLogoSize.height} xl:h-16 2xl:h-[4.5rem] w-auto object-contain drop-shadow-sm transition-all duration-300`}
               alt={t('header.brand') as string}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
@@ -259,10 +259,10 @@ export default function Header() {
               }}
             />
           ) : logoLoading ? (
-            <div className={`${currentLogoSize.height} xl:h-24 aspect-square rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse`} />
+            <div className={`${currentLogoSize.height} xl:h-16 2xl:h-[4.5rem] aspect-square rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse`} />
           ) : (
             <div 
-              className={`${currentLogoSize.height} xl:h-24 aspect-square rounded-full bg-gradient-to-br from-brand-400 to-brand-700 shadow-soft grid place-items-center text-white transition-all duration-300`}
+              className={`${currentLogoSize.height} xl:h-16 2xl:h-[4.5rem] aspect-square rounded-full bg-gradient-to-br from-brand-400 to-brand-700 shadow-soft grid place-items-center text-white transition-all duration-300`}
             >
               <div className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wide leading-3 text-center">
                 <div>STELLA</div>
@@ -285,7 +285,7 @@ export default function Header() {
           </Link>
         </div>
   {/* Desktop nav with more spacing on larger screens */}
-  <nav className="hidden sm:flex items-center gap-2.5 xl:gap-3.5 text-sm font-medium">
+  <nav className="hidden sm:flex items-center gap-3 xl:gap-4 2xl:gap-5 text-sm font-medium">
         <style>{`
           
           @keyframes waveBlur {

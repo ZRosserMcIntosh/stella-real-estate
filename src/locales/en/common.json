@@ -145,7 +145,85 @@
     },
     "privacy": { "title": "Privacy Policy" },
     "legal": { "title": "Legal" },
-    "listYourProperty": { "title": "List Your Property" },
+    "listYourProperty": { 
+      "title": "List Your Property",
+      "hero": {
+        "title": "List Your Property with",
+        "titleHighlight": "Stella",
+        "subtitle": "Personalized service to sell your property",
+        "ctaWhatsApp": "Talk to Stella on WhatsApp",
+        "ctaEmail": "Send Email"
+      },
+      "benefits": {
+        "title": "Why List with Stella?",
+        "subtitle": "Complete and personalized service to sell your property",
+        "photography": {
+          "title": "Professional Photography",
+          "description": "High-quality photos and videos that highlight the best of your property"
+        },
+        "marketing": {
+          "title": "Premium Marketing",
+          "description": "Strategic promotion on major portals and social media"
+        },
+        "evaluation": {
+          "title": "Free Evaluation",
+          "description": "Detailed market analysis for competitive pricing"
+        },
+        "service": {
+          "title": "Personalized Service",
+          "description": "Stella takes care of every detail of the sales process"
+        },
+        "visits": {
+          "title": "Qualified Visits",
+          "description": "Careful selection of genuinely interested buyers"
+        },
+        "speed": {
+          "title": "Quick Sales",
+          "description": "Optimized processes to close deals faster"
+        }
+      },
+      "howItWorks": {
+        "title": "How Does It Work?",
+        "subtitle": "Simple and transparent process from start to finish",
+        "step1": {
+          "title": "Get in Touch",
+          "description": "Contact Stella via WhatsApp or email"
+        },
+        "step2": {
+          "title": "Free Evaluation",
+          "description": "Receive a complete analysis of your property"
+        },
+        "step3": {
+          "title": "Premium Marketing",
+          "description": "Your property with professional photos and wide promotion"
+        },
+        "step4": {
+          "title": "Sale Completed",
+          "description": "Full support until closing"
+        }
+      },
+      "contact": {
+        "title": "Ready to Sell Your Property?",
+        "subtitle": "Contact Stella now and receive a free evaluation",
+        "whatsapp": {
+          "title": "WhatsApp",
+          "description": "Quick response and immediate service",
+          "cta": "Open WhatsApp",
+          "number": "+55 11 98641-0429"
+        },
+        "email": {
+          "title": "Email",
+          "description": "Send all details about your property",
+          "cta": "Send Email",
+          "address": "stellamary@creci.org.br"
+        },
+        "badges": {
+          "personalized": "Personalized Service",
+          "freeEvaluation": "Free Evaluation",
+          "transparent": "100% Transparent"
+        }
+      }
+    },
     "institutional": { "title": "Institutional" },
     "investors": { 
       "title": "Investors",
