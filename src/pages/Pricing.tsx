@@ -285,11 +285,8 @@ export default function Pricing() {
             <h1 className="text-4xl md:text-5xl font-light text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif' }}>
               Planos e preços da Constellation para corretores de imóveis
             </h1>
-            <p className="text-lg text-slate-300 leading-relaxed mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-              A <Link to="/plataforma-stella" className="text-indigo-400 hover:text-indigo-300 underline">Constellation</Link> é uma plataforma imobiliária completa para corretores de imóveis e imobiliárias. Nesta página você encontra os planos e preços da plataforma, incluindo a oferta de pré-lançamento para corretores fundadores, com entrada única de R$ 99, 3 meses grátis e 50% de desconto vitalício nos planos mensais.
-            </p>
-            <p className="text-base text-slate-400" style={{ fontFamily: 'Outfit, sans-serif' }}>
-              O <a href="https://www.stellareal.com.br" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300 underline">próprio site da Stella Real</a> é construído com a Constellation. Veja um exemplo real em produção de como a plataforma pode transformar seu negócio imobiliário.
+            <p className="text-lg text-slate-300 leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              <Link to="/plataforma-stella" className="text-indigo-400 hover:text-indigo-300 underline">Plataforma imobiliária completa</Link> para corretores e imobiliárias. Pré-lançamento: <span className="text-emerald-400 font-semibold">R$ 99</span>, 3 meses grátis e <span className="text-emerald-400 font-semibold">50% OFF vitalício</span>. <a href="https://www.stellareal.com.br" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 underline">Veja o site da Stella Real</a> construído com a Constellation.
             </p>
           </div>
 
