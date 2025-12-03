@@ -28,7 +28,7 @@ export default function AdminLayout() {
   const [accountButtonLeft, setAccountButtonLeft] = React.useState(0)
   const handleSignOut = React.useCallback(async () => {
     await signOutAuth()
-    navigate('/admin/login')
+    navigate('/')
   }, [signOutAuth, navigate])
 
   React.useEffect(() => {

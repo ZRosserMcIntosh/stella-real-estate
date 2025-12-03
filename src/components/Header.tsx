@@ -725,7 +725,7 @@ export default function Header() {
                   >
                     <div className="flex items-center justify-center w-8 h-8 relative">
                       <div 
-                        className="absolute inset-0 rounded-full blur-xl opacity-60"
+                        className="absolute inset-0 rounded-full blur-xl opacity-60 pointer-events-none"
                         style={{
                           background: 'radial-gradient(circle, rgba(129, 140, 248, 0.8) 0%, rgba(129, 140, 248, 0.4) 50%, rgba(129, 140, 248, 0) 70%)',
                           transform: 'scale(1.5)',
