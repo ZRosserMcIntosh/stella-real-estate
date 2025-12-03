@@ -60,6 +60,9 @@ import ConstellationDashboard from './pages/constellation/ConstellationDashboard
 import ConstellationVisuals from './pages/constellation/ConstellationVisuals'
 import ConstellationSiteBuilder from './pages/constellation/ConstellationSiteBuilder'
 import { SubdomainRedirect } from './components/SubdomainRedirect'
+import ConditionalLoginRedirect from './components/ConditionalLoginRedirect'
+import ConditionalSignupRedirect from './components/ConditionalSignupRedirect'
+import ConditionalResetRedirect from './components/ConditionalResetRedirect'
 import AdminRoute from './components/AdminRoute'
 import CreateSite from './pages/onboarding/CreateSite'
 import ChooseRole from './pages/onboarding/ChooseRole'
@@ -173,9 +176,9 @@ const router = createBrowserRouter([
   },
   // Constellation subdomain routes (when visiting constellation.stellareal.com.br)
   // These are the clean URLs without /sub/constellation prefix - NO HEADER/FOOTER
-  { path: '/login', element: <ConstellationLogin /> },
-  { path: '/signup', element: <ConstellationSignup /> },
-  { path: '/reset', element: <ConstellationReset /> },
+  { path: '/login', element: <ConditionalLoginRedirect /> },
+  { path: '/signup', element: <ConditionalSignupRedirect /> },
+  { path: '/reset', element: <ConditionalResetRedirect /> },
   { path: '/admin', element: <ConstellationDashboard /> },
   { path: '/visuals', element: <ConstellationVisuals /> },
   { path: '/site-builder', element: <ConstellationSiteBuilder /> },
@@ -201,7 +204,6 @@ const router = createBrowserRouter([
   { path: '/mobile/logins', element: <MobileLogins /> },
   { path: '/admin/login', element: <Login /> },
   { path: '/admin/signup', element: <SignUp /> },
-  { path: '/login', element: <Navigate to="/admin/login" replace /> }, // Redirect old path
   { path: '/forgot-password', element: <ForgotPassword /> },
   { path: '/reset-password', element: <ResetPassword /> },
   {
