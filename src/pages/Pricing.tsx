@@ -57,6 +57,7 @@ export default function Pricing() {
       name: 'Pro',
       description: 'Para corretores independentes crescendo seus negócios',
       monthlyPrice: 299,
+      founderPrice: 149.50,
       features: [
         { name: '1 site (ilimitado)', included: true },
         { name: 'Até 50 anúncios ativos', included: true },
@@ -71,13 +72,14 @@ export default function Pricing() {
         { name: 'Remover marca Stella', included: false },
       ],
       popular: false,
-      cta: 'Começar Agora',
+      cta: 'Disponível no Lançamento',
     },
     {
       id: 'TEAM',
       name: 'Team',
       description: 'Ideal para pequenas equipes e equipes em crescimento',
       monthlyPrice: 499,
+      founderPrice: 249.50,
       features: [
         { name: '2 sites completos', included: true },
         { name: 'Até 150 anúncios ativos', included: true },
@@ -94,13 +96,14 @@ export default function Pricing() {
         { name: 'Suporte prioritário', included: true },
       ],
       popular: true,
-      cta: 'Começar Agora',
+      cta: 'Disponível no Lançamento',
     },
     {
       id: 'BROKERAGE',
       name: 'Brokerage',
       description: 'Para imobiliárias estabelecidas com múltiplas equipes',
       monthlyPrice: 999,
+      founderPrice: 499.50,
       features: [
         { name: '3 sites completos', included: true },
         { name: 'Até 500 anúncios ativos', included: true },
@@ -124,6 +127,7 @@ export default function Pricing() {
       name: 'Enterprise',
       description: 'Soluções personalizadas para grandes operações',
       monthlyPrice: null,
+      founderPrice: null,
       features: [
         { name: 'Sites ilimitados', included: true },
         { name: 'Anúncios ilimitados', included: true },
@@ -342,44 +346,36 @@ export default function Pricing() {
                     {isEnterprise ? (
                       <div className="flex flex-col">
                         <div className="text-3xl font-light text-white mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>Personalizado</div>
-                        <p className="text-sm text-slate-400 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                        <p className="text-sm text-slate-400 font-light mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
                           Fale com nosso time
                         </p>
-                      </div>
-                    ) : price === 0 ? (
-                      <div>
-                        <div className="text-3xl font-light text-slate-400" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                          Grátis
-                        </div>
-                      </div>
-                    ) : (plan.id === 'SOLO' || plan.id === 'TEAM') ? (
-                      <div>
-                        <div className="flex items-baseline gap-2 mb-2">
-                          <span className="text-3xl font-light text-slate-500 line-through" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                            R$ {price}
-                          </span>
-                          <span className="text-slate-500 font-light text-sm line-through" style={{ fontFamily: 'Outfit, sans-serif' }}>/{period}</span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-4xl font-light text-emerald-400 mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                            R$ 0
-                          </span>
-                          <span className="text-sm text-emerald-300 font-medium" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                            {plan.id === 'SOLO' ? 'por 1 ano' : 'por 2 anos'}
-                          </span>
-                          <span className="text-xs text-emerald-400/70 mt-1">
-                            {t('pricing.maps3d.onlyUntil')}
-                          </span>
-                        </div>
+                        <p className="text-xs text-emerald-400 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                          Corretores fundadores mantêm 50% de desconto sobre a tabela mensal negociada
+                        </p>
                       </div>
                     ) : (
-                      <div>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-4xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                      <div className="flex flex-col w-full">
+                        <div className="flex items-baseline gap-2 mb-1">
+                          <span className="text-sm text-slate-500 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                            Preço público:
+                          </span>
+                          <span className="text-2xl font-light text-slate-400 line-through" style={{ fontFamily: 'Outfit, sans-serif' }}>
                             R$ {price}
                           </span>
-                          <span className="text-slate-400 font-light text-sm" style={{ fontFamily: 'Outfit, sans-serif' }}>/{period}</span>
+                          <span className="text-slate-500 font-light text-sm" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
                         </div>
+                        <div className="flex items-baseline gap-2 mb-2">
+                          <span className="text-sm text-emerald-400 font-medium" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                            Corretores fundadores:
+                          </span>
+                          <span className="text-3xl font-light text-emerald-400" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                            R$ {plan.founderPrice}
+                          </span>
+                          <span className="text-emerald-300 font-light text-sm" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
+                        </div>
+                        <p className="text-xs text-slate-400 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                          50% OFF permanente, após 3 meses grátis a partir do lançamento
+                        </p>
                       </div>
                     )}
                   </div>
@@ -393,20 +389,13 @@ export default function Pricing() {
                     >
                       {plan.cta}
                     </a>
-                  ) : (plan.id === 'SOLO' || plan.id === 'TEAM') ? (
-                    <Link
-                      to="/sub/constellation/signup"
-                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-lg"
-                    >
-                      {plan.cta}
-                    </Link>
                   ) : (
-                    <Link
-                      to="/sub/constellation/signup"
-                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-slate-800 hover:bg-slate-700 text-slate-100"
+                    <button
+                      disabled
+                      className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-slate-800/50 text-slate-400 cursor-not-allowed border border-slate-700/50"
                     >
                       {plan.cta}
-                    </Link>
+                    </button>
                   )}
 
                   <div className="space-y-3 flex-grow">
@@ -434,6 +423,42 @@ export default function Pricing() {
               </div>
             )
           })}
+        </div>
+
+        {/* Founder Pricing Explanation */}
+        <div className="mt-12 max-w-4xl mx-auto">
+          <div className="bg-gradient-to-r from-emerald-900/20 via-green-900/20 to-emerald-900/20 border border-emerald-500/30 rounded-xl p-8 backdrop-blur-sm">
+            <h3 className="text-xl font-light text-emerald-300 mb-4 text-center" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              Como Funciona o Preço para Corretores Fundadores
+            </h3>
+            <p className="text-slate-300 text-base leading-relaxed mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              Os valores acima são os <strong className="text-white">preços mensais públicos previstos</strong> para cada plano após o lançamento em janeiro de 2026.
+            </p>
+            <p className="text-slate-300 text-base leading-relaxed mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              Se você entrar agora como <strong className="text-emerald-300">Corretor Fundador</strong> por apenas <strong className="text-emerald-300">R$ 99</strong>, você:
+            </p>
+            <ul className="space-y-3 mb-4">
+              <li className="flex items-start gap-3 text-slate-300">
+                <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <span>Garante acesso assim que a plataforma lançar em <strong className="text-white">janeiro de 2026</strong></span>
+              </li>
+              <li className="flex items-start gap-3 text-slate-300">
+                <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <span>Ganha <strong className="text-emerald-300">3 meses grátis</strong> a partir do lançamento (escolha qualquer plano)</span>
+              </li>
+              <li className="flex items-start gap-3 text-slate-300">
+                <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <span>Depois dos 3 meses grátis, paga apenas <strong className="text-emerald-300">50% do valor mensal público</strong> do plano escolhido</span>
+              </li>
+              <li className="flex items-start gap-3 text-slate-300">
+                <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <span>O desconto de <strong className="text-emerald-300">50% é permanente</strong> enquanto sua assinatura permanecer ativa</span>
+              </li>
+            </ul>
+            <p className="text-center text-sm text-slate-400 italic" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              Esta oferta é exclusiva para os primeiros 100 corretores que garantirem sua vaga agora.
+            </p>
+          </div>
         </div>
 
         {/* 3D Map Packages */}

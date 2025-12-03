@@ -577,6 +577,22 @@ export default function StellaPlatform() {
             </a>
           </div>
 
+          {/* Powered by Constellation Proof */}
+          <div className="mt-12 mb-12">
+            <div className="bg-gradient-to-r from-indigo-900/20 via-purple-900/20 to-indigo-900/20 border border-indigo-500/30 rounded-xl p-8 backdrop-blur-sm">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <div className="w-2 h-2 bg-indigo-400 rounded-full"></div>
+                <span className="text-indigo-300 font-semibold text-sm uppercase tracking-wider">Powered by Constellation</span>
+              </div>
+              <p className="text-slate-300 text-base text-center mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Este site que você está navegando agora foi construído e roda na plataforma Constellation.
+              </p>
+              <p className="text-slate-400 text-sm text-center" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Veja em primeira mão a qualidade, performance e recursos que sua imobiliária terá ao usar a Constellation.
+              </p>
+            </div>
+          </div>
+
           <h2 className="text-3xl font-light text-white sm:text-4xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.pillars.title')}</h2>
           <p className="mt-4 text-base text-slate-300">
             {t('stellaPlatform.pillars.subtitle')}
