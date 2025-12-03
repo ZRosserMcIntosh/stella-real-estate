@@ -355,23 +355,23 @@ export default function Pricing() {
                       </div>
                     ) : (
                       <div className="flex flex-col w-full">
-                        <div className="flex items-baseline gap-2 mb-1">
-                          <span className="text-sm text-slate-500 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                        <div className="flex flex-wrap items-baseline gap-1 mb-1">
+                          <span className="text-sm text-slate-500 font-light whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
                             Preço público:
                           </span>
-                          <span className="text-2xl font-light text-slate-400 line-through" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                          <span className="text-xl sm:text-2xl font-light text-slate-400 line-through whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
                             R$ {price}
                           </span>
-                          <span className="text-slate-500 font-light text-sm" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
+                          <span className="text-slate-500 font-light text-sm whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
                         </div>
-                        <div className="flex items-baseline gap-2 mb-2">
-                          <span className="text-sm text-emerald-400 font-medium" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                        <div className="flex flex-wrap items-baseline gap-1 mb-2">
+                          <span className="text-sm text-emerald-400 font-medium whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
                             Corretores fundadores:
                           </span>
-                          <span className="text-3xl font-light text-emerald-400" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                            R$ {plan.founderPrice}
+                          <span className="text-2xl sm:text-3xl font-light text-emerald-400 whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                            R$ {typeof plan.founderPrice === 'number' ? plan.founderPrice.toFixed(2) : plan.founderPrice}
                           </span>
-                          <span className="text-emerald-300 font-light text-sm" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
+                          <span className="text-emerald-300 font-light text-sm whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
                         </div>
                         <p className="text-xs text-slate-400 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
                           50% OFF permanente, após 3 meses grátis a partir do lançamento
