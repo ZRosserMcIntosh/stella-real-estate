@@ -568,7 +568,7 @@ export default function StellaPlatform() {
           animation: shootingStar linear infinite;
         }
       `}</style>
-      <section className="relative overflow-hidden -mt-20 pt-12 bg-slate-950">
+      <section className="relative overflow-hidden -mt-20 pt-16 md:pt-20 pb-8 md:pb-12 bg-slate-950">
         {/* Animated stars background */}
         <div className="absolute inset-0 overflow-hidden">
           {Array.from({ length: 100 }, (_, i) => ({
@@ -621,9 +621,9 @@ export default function StellaPlatform() {
           ))}
         </div>
         
-        <div className="relative z-10 mx-auto max-w-6xl px-6 py-12 text-center">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 py-12 md:py-16 text-center">
           {/* Constellation Logo */}
-          <div className="flex justify-center mb-4 relative">
+          <div className="flex justify-center mb-6 md:mb-8 relative">
             {/* Subtle glow effect background */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 bg-gradient-to-br from-blue-500/15 to-indigo-500/15 rounded-full blur-3xl"></div>
@@ -631,7 +631,7 @@ export default function StellaPlatform() {
             <img 
               src="/contellation-logo.png" 
               alt="Constellation Logo" 
-              className="h-32 sm:h-40 md:h-48 w-auto relative z-10"
+              className="h-28 sm:h-36 md:h-48 w-auto relative z-10"
               style={{
                 filter: 'drop-shadow(0 0 15px rgba(99, 102, 241, 0.4)) drop-shadow(0 0 30px rgba(139, 92, 246, 0.2))',
               }}
@@ -645,7 +645,7 @@ export default function StellaPlatform() {
           </div>
           
           <div 
-            className="text-3xl font-light uppercase tracking-[0.4em] text-indigo-200 mb-8 mt-1" 
+            className="text-xl sm:text-2xl md:text-3xl font-light uppercase tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.4em] text-indigo-200 mb-6 md:mb-8 mt-1 px-4" 
             style={{ 
               fontFamily: 'Outfit, sans-serif',
               textShadow: '0 0 20px rgba(99, 102, 241, 0.5), 0 0 40px rgba(139, 92, 246, 0.3)',
