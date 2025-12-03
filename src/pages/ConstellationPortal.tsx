@@ -59,23 +59,23 @@ export default function ConstellationPortal() {
         <meta name="keywords" content="plataforma imobiliária, CRM imobiliário, site para corretor, gestão de leads imobiliários, mapas 3D, marketing imobiliário, automação imobiliária, software imobiliário, site personalizado corretor, plataforma corretor independente" />
         
         {/* Canonical URL */}
-        <link rel="canonical" href="https://constellation.stellareal.com.br/" />
+        <link rel="canonical" href="https://stellareal.com.br/constellation" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://constellation.stellareal.com.br/" />
+        <meta property="og:url" content="https://stellareal.com.br/constellation" />
         <meta property="og:title" content="Constellation - Plataforma Profissional para Corretores de Imóveis" />
         <meta property="og:description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A plataforma completa para corretores." />
-        <meta property="og:image" content="https://constellation.stellareal.com.br/tech-icons/contellation-logo.png" />
+        <meta property="og:image" content="https://stellareal.com.br/tech-icons/contellation-logo.png" />
         <meta property="og:locale" content="pt_BR" />
         <meta property="og:site_name" content="Constellation by Stella Real Estate" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://constellation.stellareal.com.br/" />
+        <meta property="twitter:url" content="https://stellareal.com.br/constellation" />
         <meta property="twitter:title" content="Constellation - Plataforma Profissional para Corretores de Imóveis" />
         <meta property="twitter:description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A partir de R$ 147/mês." />
-        <meta property="twitter:image" content="https://constellation.stellareal.com.br/tech-icons/contellation-logo.png" />
+        <meta property="twitter:image" content="https://stellareal.com.br/tech-icons/contellation-logo.png" />
         
         {/* Language and Geo */}
         <meta httpEquiv="content-language" content="pt-BR" />
@@ -94,8 +94,8 @@ export default function ConstellationPortal() {
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "Constellation by Stella Real Estate",
-            "url": "https://constellation.stellareal.com.br",
-            "logo": "https://constellation.stellareal.com.br/tech-icons/contellation-logo.png",
+            "url": "https://stellareal.com.br/constellation",
+            "logo": "https://stellareal.com.br/tech-icons/contellation-logo.png",
             "description": "Plataforma profissional completa para corretores de imóveis com sites, CRM, mapas 3D e automação de marketing.",
             "address": {
               "@type": "PostalAddress",
@@ -162,7 +162,7 @@ export default function ConstellationPortal() {
               "Deal Room",
               "Automação de Marketing"
             ],
-            "screenshot": "https://constellation.stellareal.com.br/tech-icons/contellation-logo.png"
+            "screenshot": "https://stellareal.com.br/tech-icons/contellation-logo.png"
           })}
         </script>
         
@@ -176,19 +176,19 @@ export default function ConstellationPortal() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://constellation.stellareal.com.br/"
+                "item": "https://stellareal.com.br/"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Plataforma",
-                "item": "https://constellation.stellareal.com.br/constellation"
+                "item": "https://stellareal.com.br/constellation"
               },
               {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "Preços",
-                "item": "https://constellation.stellareal.com.br/precos"
+                "item": "https://stellareal.com.br/precos"
               }
             ]
           })}

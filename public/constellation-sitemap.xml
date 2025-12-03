@@ -1,65 +1,23 @@
-<?xml version="1.0" e  </url>
-  <url>
-    <loc>https://constellation.stellareal.com.br/constellation</loc>
-    <lastmod>2024-11-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <!-- Constellation Subdomain Sitemap -->
+  <!-- Constellation Path-Based Sitemap -->
   <url>
-    <loc>https://constellation.stellareal.com.br/</loc>
-    <lastmod>2025-11-29</lastmod>
+    <loc>https://stellareal.com.br/constellation</loc>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://constellation.stellareal.com.br/login</loc>
-    <lastmod>2025-11-29</lastmod>
+    <loc>https://stellareal.com.br/constellation/login</loc>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://constellation.stellareal.com.br/signup</loc>
-    <lastmod>2025-11-29</lastmod>
+    <loc>https://stellareal.com.br/constellation/signup</loc>
+    <lastmod>2025-12-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://constellation.stellareal.com.br/plataforma-stella</loc>
-    <lastmod>2025-11-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://constellation.stellareal.com.br/precos</loc>
-    <lastmod>2025-11-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://constellation.stellareal.com.br/contato</loc>
-    <lastmod>2025-11-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://constellation.stellareal.com.br/sobre</loc>
-    <lastmod>2025-11-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://constellation.stellareal.com.br/privacidade</loc>
-    <lastmod>2025-11-29</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://constellation.stellareal.com.br/termos</loc>
-    <lastmod>2025-11-29</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
   </url>
 </urlset>

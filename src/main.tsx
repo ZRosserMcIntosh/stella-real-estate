@@ -204,6 +204,16 @@ const router = createBrowserRouter([
   { path: '/sub/constellation/dashboard', element: <SubdomainRedirect /> },
   { path: '/sub/constellation/visuals', element: <SubdomainRedirect /> },
   { path: '/sub/constellation/site-builder', element: <SubdomainRedirect /> },
+  // NEW: Constellation routes on main domain (path-based, not subdomain)
+  // These routes replace the subdomain constellation.stellareal.com.br URLs
+  { path: '/constellation', element: <ConstellationPortal /> },
+  { path: '/constellation/login', element: <ConstellationLogin /> },
+  { path: '/constellation/signup', element: <ConstellationSignup /> },
+  { path: '/constellation/reset', element: <ConstellationReset /> },
+  { path: '/constellation/dashboard', element: <ConstellationDashboard /> },
+  { path: '/constellation/admin', element: <ConstellationDashboard /> },
+  { path: '/constellation/visuals', element: <ConstellationVisuals /> },
+  { path: '/constellation/site-builder', element: <ConstellationSiteBuilder /> },
   { path: '/criar-site', element: <CreateSite /> },
   { path: '/onboarding/choose-role', element: <ChooseRole /> },
   { path: '/onboarding/realtor-license', element: <RealtorLicense /> },
