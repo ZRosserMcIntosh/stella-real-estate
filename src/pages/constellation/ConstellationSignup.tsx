@@ -210,6 +210,7 @@ export default function ConstellationSignup() {
     if (authLoading) return
     // Don't redirect during registration process
     if (isRegistering) return
+    
     // Only redirect if they already have a session AND have completed payment
     if (session || isDemo) {
       // Check if user has paid before redirecting
@@ -217,7 +218,28 @@ export default function ConstellationSignup() {
         // User just registered, stay on payment page
         return
       }
-      navigate(ConstellationUrls.dashboard(), { replace: true })
+      
+      // Check if user already has a founding_members record with payment completed
+      const checkPaymentStatus = async () => {
+        try {
+          const { data, error } = await supabase
+            .from('founding_members')
+            .select('payment_status')
+            .eq('user_id', session?.user?.id)
+            .single()
+          
+          // Only redirect if user has already paid
+          if (data && data.payment_status === 'paid') {
+            navigate(ConstellationUrls.dashboard(), { replace: true })
+          }
+          // If they have a pending payment or no record, let them stay on signup page
+        } catch (err) {
+          // If error (no record found), allow them to stay on signup page
+          console.log('No payment record found, allowing signup')
+        }
+      }
+      
+      checkPaymentStatus()
     }
   }, [authLoading, session, isDemo, navigate, isRegistering, userId])
 
