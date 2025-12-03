@@ -20,3 +20,8 @@ supabase/.temp/
 next-app/.next/
 next-app/node_modules/
 next-app/.env.local
+
+# Migration helper scripts
+run-migration.mjs
+verify-migration.mjs
+SIMPLE_MIGRATION.sql
