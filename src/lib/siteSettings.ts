@@ -31,17 +31,26 @@ export async function getSiteSettings(keys: SiteSettingKey[]): Promise<Record<Si
 
   try {
     if ((import.meta as any).env?.VITE_SUPABASE_URL) {
+      console.log(`[getSiteSettings] Loading ${keys.length} settings from database...`)
       const { data, error } = await supabase.from(TABLE).select('*').in('key', keys)
       if (!error && data) {
+        console.log(`[getSiteSettings] ✅ Loaded ${data.length} settings from database`)
         for (const row of data as any[]) {
           result[row.key as SiteSettingKey] = row.value as string
         }
         return result
+      } else if (error) {
+        console.error('[getSiteSettings] Database error:', error)
       }
+    } else {
+      console.warn('[getSiteSettings] No VITE_SUPABASE_URL, using localStorage fallback')
     }
-  } catch { /* fall back */ }
+  } catch (err) {
+    console.error('[getSiteSettings] Exception:', err)
+  }
 
   // Fallback to localStorage
+  console.log('[getSiteSettings] Falling back to localStorage')
   for (const k of keys) {
     const v = localStorage.getItem(`site:${k}`)
     result[k] = v ?? null
@@ -53,12 +62,23 @@ export async function setSiteSetting(key: SiteSettingKey, value: string): Promis
   let saved = false
   try {
     if ((import.meta as any).env?.VITE_SUPABASE_URL) {
+      console.log(`[setSiteSetting] Attempting to save ${key} to database...`)
       const { error } = await supabase.from(TABLE).upsert({ key, value }, { onConflict: 'key' })
-      if (!error) saved = true
+      if (error) {
+        console.error(`[setSiteSetting] Database error for ${key}:`, error)
+      } else {
+        console.log(`[setSiteSetting] ✅ Successfully saved ${key} to database`)
+        saved = true
+      }
+    } else {
+      console.warn('[setSiteSetting] No VITE_SUPABASE_URL, using localStorage fallback')
     }
-  } catch { /* fall back */ }
+  } catch (err) {
+    console.error(`[setSiteSetting] Exception for ${key}:`, err)
+  }
 
   if (!saved) {
+    console.log(`[setSiteSetting] Falling back to localStorage for ${key}`)
     localStorage.setItem(`site:${key}`, value)
   }
 }
