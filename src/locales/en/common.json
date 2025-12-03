@@ -165,9 +165,12 @@
     "pillars": {
       "title": "Platform Pillars",
       "subtitle": "Everything runs on a unified data core. No duplicate entries. No brittle integrations. Just outrageous speed and clarity for brokerages that refuse to be average.",
+      "ctaButtons": {
+        "explorePrices": "Explore Prices and Plans",
+        "viewSite": "Explore Our Site Powered by Constellation"
+      },
       "constelacao": {
-        "subtitle": "The revenue galaxy",
-        "title": "Constelação CRM",
+        "title": "Manage Listings, CRM & Sites",
         "description": "Every relationship, every deal, every whisper of intent captured in a single constellation of truth. Pipeline AI, forecasting rituals, and automations so aggressive they make legacy CRMs look like fax machines. Yes — it absolutely surpasses anything built in 1999.",
         "bullets": [
           "Lead-to-close journeys with predictive nudges and auto-generated next steps",
@@ -176,8 +179,7 @@
         ]
       },
       "bale": {
-        "subtitle": "Flows with choreography",
-        "title": "Balé Task Orchestrator",
+        "title": "Choreograph Your Work and Team",
         "description": "Balé is our Asana-level command center tuned for high-velocity brokerage teams. Every move is choreographed: recurring plays, dependency-aware timelines, approval runs, and AI briefings that keep the entire troupe in sync.",
         "bullets": [
           "List, board, timeline, workload, and portfolio views on a single data spine",

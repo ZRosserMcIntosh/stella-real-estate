@@ -89,7 +89,7 @@ function CheckoutForm({ formData, onSuccess }: { formData: FormData; onSuccess: 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          amount: 297000, // R$ 2,970.00 in cents
+          amount: 9900, // R$ 99.00 in cents
         }),
       })
 

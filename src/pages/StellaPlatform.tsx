@@ -321,16 +321,132 @@ export default function StellaPlatform() {
         .shadow-fade-in {
           animation: shadowFadeIn 2s ease-out forwards;
         }
+
+        @keyframes twinkle {
+          0%, 100% { 
+            opacity: 0.2; 
+            transform: scale(1);
+          }
+          50% { 
+            opacity: 0.6;
+            transform: scale(1.2);
+          }
+        }
+
+        @keyframes shootingStar {
+          0% {
+            transform: translateX(0) translateY(0) rotate(-45deg);
+            opacity: 0;
+            filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
+          }
+          20% {
+            opacity: 0.5;
+            filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.2));
+          }
+          30% {
+            opacity: 1;
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.4));
+          }
+          60% {
+            opacity: 1;
+            filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+          }
+          75% {
+            opacity: 1;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+          }
+          95% {
+            opacity: 1;
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
+          }
+          100% {
+            transform: translateX(-300px) translateY(300px) rotate(-45deg);
+            opacity: 0;
+            filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
+          }
+        }
+
+        .star {
+          position: absolute;
+          background: white;
+          border-radius: 50%;
+          animation: twinkle linear infinite;
+        }
+
+        .hero-shooting-star {
+          position: absolute;
+          height: 2px;
+          background: linear-gradient(90deg, white, transparent);
+          animation: shootingStar linear infinite;
+        }
       `}</style>
-      <section className="relative overflow-hidden -mt-20 pt-12">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(146,171,255,0.28),_rgba(15,23,42,0.95))]" />
+      <section className="relative overflow-hidden -mt-20 pt-12 bg-slate-950">
+        {/* Animated stars background */}
+        <div className="absolute inset-0 overflow-hidden">
+          {Array.from({ length: 100 }, (_, i) => ({
+            id: i,
+            width: Math.random() * 2 + 1,
+            height: Math.random() * 2 + 1,
+            top: Math.random() * 100,
+            left: Math.random() * 100,
+            animationDelay: Math.random() * 10,
+            animationDuration: Math.random() * 3 + 2,
+            opacity: Math.random() * 0.4 + 0.2,
+          })).map((star) => (
+            <div
+              key={`static-${star.id}`}
+              className="star"
+              style={{
+                width: `${star.width}px`,
+                height: `${star.height}px`,
+                top: `${star.top}%`,
+                left: `${star.left}%`,
+                animationDelay: `${star.animationDelay}s`,
+                animationDuration: `${star.animationDuration}s`,
+                opacity: star.opacity,
+              }}
+            />
+          ))}
+
+          {/* Shooting stars */}
+          {Array.from({ length: 10 }, (_, i) => ({
+            id: i,
+            delay: 0,
+            duration: (Math.random() * 2 + 3) * (0.7 + Math.random() * 0.6),
+            left: i < 4 ? Math.random() * 33 : i < 6 ? Math.random() * 60 + 20 : Math.random() * 20 + 80,
+            top: i < 4 ? Math.random() * 30 : i < 6 ? Math.random() * 40 + 10 : i < 8 ? Math.random() * 50 : Math.random() * 50 + 50,
+            width: 100 * (0.7 + Math.random() * 0.6),
+            opacity: 0.7 + Math.random() * 0.6,
+          })).map((star) => (
+            <div
+              key={`shooting-${star.id}`}
+              className="hero-shooting-star"
+              style={{
+                width: `${star.width}px`,
+                top: `${star.top}%`,
+                left: `${star.left}%`,
+                animationDelay: `${star.delay}s`,
+                animationDuration: `${star.duration}s`,
+                opacity: star.opacity,
+              }}
+            />
+          ))}
+        </div>
+        
         <div className="relative z-10 mx-auto max-w-6xl px-6 py-12 text-center">
           {/* Constellation Logo */}
           <div className="flex justify-center mb-4 relative">
+            {/* Subtle glow effect background */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 bg-gradient-to-br from-blue-500/15 to-indigo-500/15 rounded-full blur-3xl"></div>
+            </div>
             <img 
               src="/contellation-logo.png" 
               alt="Constellation Logo" 
-              className="h-32 sm:h-40 md:h-48 w-auto opacity-95 drop-shadow-2xl"
+              className="h-32 sm:h-40 md:h-48 w-auto relative z-10"
+              style={{
+                filter: 'drop-shadow(0 0 15px rgba(99, 102, 241, 0.4)) drop-shadow(0 0 30px rgba(139, 92, 246, 0.2))',
+              }}
             />
             {/* Shooting Star Effect - streaks from top-right to bottom-left */}
             {triggerAnimation > 0 && (
@@ -340,7 +456,13 @@ export default function StellaPlatform() {
             )}
           </div>
           
-          <div className="text-xl font-light uppercase tracking-[0.4em] text-indigo-200/80 mb-8 mt-1" style={{ fontFamily: 'Outfit, sans-serif' }}>
+          <div 
+            className="text-3xl font-light uppercase tracking-[0.4em] text-indigo-200 mb-8 mt-1" 
+            style={{ 
+              fontFamily: 'Outfit, sans-serif',
+              textShadow: '0 0 20px rgba(99, 102, 241, 0.5), 0 0 40px rgba(139, 92, 246, 0.3)',
+            }}
+          >
             CONSTELLATION
           </div>
           <h1 className="text-3xl font-light tracking-tight text-white sm:text-4xl md:text-5xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
@@ -413,6 +535,48 @@ export default function StellaPlatform() {
 
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="mx-auto max-w-3xl text-center">
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            <Link
+              to="/precos"
+              className="group relative inline-flex items-center gap-2 rounded-full border-2 border-indigo-400/30 bg-indigo-950/40 backdrop-blur-sm px-8 py-4 text-base font-semibold text-indigo-100 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-indigo-300/50 hover:bg-indigo-900/50 hover:text-white hover:shadow-2xl"
+              style={{
+                boxShadow: '0 10px 40px -10px rgba(99, 102, 241, 0.25), 0 0 15px rgba(99, 102, 241, 0.15)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 20px 60px -10px rgba(99, 102, 241, 0.4), 0 0 30px rgba(99, 102, 241, 0.3), 0 0 50px rgba(139, 92, 246, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0 10px 40px -10px rgba(99, 102, 241, 0.25), 0 0 15px rgba(99, 102, 241, 0.15)';
+              }}
+            >
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-400/10 to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative">{t('stellaPlatform.pillars.ctaButtons.explorePrices')}</span>
+              <svg className="relative w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+            <a
+              href="/"
+              className="group relative inline-flex items-center gap-2 rounded-full border-2 border-indigo-400/40 bg-slate-800/60 backdrop-blur-sm px-8 py-4 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-indigo-300/60 hover:bg-slate-700/70 hover:shadow-2xl"
+              style={{
+                boxShadow: '0 10px 40px -10px rgba(99, 102, 241, 0.2), 0 0 15px rgba(99, 102, 241, 0.1)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 20px 60px -10px rgba(99, 102, 241, 0.4), 0 0 30px rgba(99, 102, 241, 0.3), 0 0 50px rgba(139, 92, 246, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0 10px 40px -10px rgba(99, 102, 241, 0.2), 0 0 15px rgba(99, 102, 241, 0.1)';
+              }}
+            >
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative">{t('stellaPlatform.pillars.ctaButtons.viewSite')}</span>
+              <svg className="relative w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </div>
+
           <h2 className="text-3xl font-light text-white sm:text-4xl" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.pillars.title')}</h2>
           <p className="mt-4 text-base text-slate-300">
             {t('stellaPlatform.pillars.subtitle')}
@@ -435,8 +599,11 @@ export default function StellaPlatform() {
                 className="h-24 w-auto opacity-95 relative z-10"
               />
             </div>
-            <div className="text-sm font-semibold uppercase tracking-wider text-indigo-200 text-center">{t('stellaPlatform.pillars.constelacao.subtitle')}</div>
-            <h3 className="mt-3 text-2xl font-light text-white text-center" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.pillars.constelacao.title')}</h3>
+            {/* CONSTELLATION text - styled like BALLET on /precos */}
+            <div className="flex justify-center mb-2">
+              <span className="text-xl font-light uppercase tracking-[0.4em] text-indigo-400/90" style={{ fontFamily: 'Outfit, sans-serif' }}>CONSTELLATION</span>
+            </div>
+            <h3 className="mt-3 text-2xl font-light text-white text-center relative z-20" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.pillars.constelacao.title')}</h3>
             <p className="mt-4 text-sm leading-relaxed text-slate-200">{t('stellaPlatform.pillars.constelacao.description')}</p>
             <ul className="mt-6 space-y-3 text-sm text-slate-300">
               {(t('stellaPlatform.pillars.constelacao.bullets', { returnObjects: true }) as string[]).map((item, idx) => (
@@ -530,7 +697,10 @@ export default function StellaPlatform() {
                 }}
               />
             </div>
-            <div className="text-sm font-semibold uppercase tracking-wider text-indigo-200 text-center relative z-20">{t('stellaPlatform.pillars.bale.subtitle')}</div>
+            {/* BALLET text - styled like on /precos */}
+            <div className="flex justify-center mb-2">
+              <span className="text-xl font-light uppercase tracking-[0.4em] text-pink-400/90" style={{ fontFamily: 'Outfit, sans-serif' }}>BALLET</span>
+            </div>
             <h3 className="mt-3 text-2xl font-light text-white text-center relative z-20" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.01em' }}>{t('stellaPlatform.pillars.bale.title')}</h3>
             <p className="mt-4 text-sm leading-relaxed text-slate-200 relative z-20">{t('stellaPlatform.pillars.bale.description')}</p>
             <ul className="mt-6 space-y-3 text-sm text-slate-300 relative z-20">

@@ -167,9 +167,12 @@
     "pillars": {
       "title": "Pilares da Plataforma",
       "subtitle": "Tudo roda em um núcleo de dados unificado. Sem entradas duplicadas. Sem integrações frágeis. Apenas velocidade e clareza ultrajantes para corretoras que se recusam a ser médias.",
+      "ctaButtons": {
+        "explorePrices": "Explore Preços e Planos",
+        "viewSite": "Explore Nosso Site Powered by Constellation"
+      },
       "constelacao": {
-        "subtitle": "A galáxia da receita",
-        "title": "Constelação CRM",
+        "title": "Gerencie Listagens, CRM e Sites",
         "description": "Cada relacionamento, cada negócio, cada sussurro de intenção capturado em uma única constelação de verdade. IA de pipeline, rituais de previsão e automações tão agressivas que fazem CRMs legados parecerem máquinas de fax. Sim — definitivamente supera qualquer coisa construída em 1999.",
         "bullets": [
           "Jornadas de lead a fechamento com alertas preditivos e próximos passos gerados automaticamente",
@@ -178,8 +181,7 @@
         ]
       },
       "bale": {
-        "subtitle": "Fluxos com coreografia",
-        "title": "Balé Task Orchestrator",
+        "title": "Coreografe Seu Trabalho e Equipe",
         "description": "Balé é nosso centro de comando de nível Asana ajustado para equipes de corretagem de alta velocidade. Cada movimento é coreografado: jogadas recorrentes, cronogramas conscientes de dependências, execuções de aprovação e briefings de IA que mantêm toda a trupe sincronizada.",
         "bullets": [
           "Visualizações de lista, quadro, cronograma, carga de trabalho e portfólio em uma única espinha dorsal de dados",

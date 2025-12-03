@@ -203,55 +203,80 @@ export default function Pricing() {
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[calc(var(--header-height,60px)+6rem)] pb-16">
-          <div className="text-center">
-            <h1 className="text-4xl font-light tracking-tight text-white sm:text-5xl md:text-6xl mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
-              Escolha o Plano Perfeito
-            </h1>
-            <p className="text-xl text-slate-300 mb-8 max-w-3xl mx-auto font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
-              Potencialize seu negócio imobiliário com a tecnologia Constellation. 
-              Planos flexíveis para todos os tamanhos de negócio.
-            </p>
+          {/* Pre-Launch Notice */}
+          <div className="mb-8 max-w-4xl mx-auto">
+            <div className="bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-indigo-500/10 border border-indigo-400/30 rounded-xl p-6 text-center backdrop-blur-sm">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <div className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse"></div>
+                <span className="text-indigo-200 font-semibold text-lg uppercase tracking-wider">Pré-Lançamento</span>
+              </div>
+              <p className="text-white text-xl font-light mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Lançamento Oficial: <span className="text-indigo-300 font-semibold">Janeiro 2026</span>
+              </p>
+              <p className="text-slate-300 text-base mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Potencialize seu negócio imobiliário com a tecnologia Constellation.
+              </p>
+              <p className="text-slate-400 text-sm" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Garanta seu lugar como membro fundador. Planos flexíveis para todos os tamanhos de negócio.
+              </p>
+            </div>
+          </div>
 
-            {/* Founding 100 Banner */}
-            {foundingSlotsRemaining > 0 && (
-              <div className="mb-8 max-w-4xl mx-auto">
+          {/* Founding 100 Banner */}
+          {foundingSlotsRemaining > 0 && (
+            <div className="mb-8 max-w-4xl mx-auto">
                 <div className="relative overflow-hidden rounded-2xl border border-emerald-500/50 bg-gradient-to-br from-emerald-900/40 via-green-900/40 to-emerald-900/40 backdrop-blur-xl p-8 shadow-2xl shadow-emerald-500/20">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl"></div>
                   <div className="relative">
+                    {/* Launch Date Badge */}
+                    <div className="flex items-center justify-center mb-4">
+                      <div className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-500/20 to-green-500/20 border border-emerald-400/40 rounded-full">
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                        <span className="text-emerald-200 font-semibold text-sm uppercase tracking-wider">Lançamento Janeiro 2026</span>
+                      </div>
+                    </div>
+                    
                     <div className="flex items-center justify-center gap-3 mb-4">
                       <h3 className="text-2xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>
                         Founding 100 – Constellation Prime
                       </h3>
                     </div>
-                    <p className="text-slate-200 mb-4 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    <p className="text-slate-200 mb-2 font-light text-center" style={{ fontFamily: 'Outfit, sans-serif' }}>
                       Seja um dos primeiros 100 membros fundadores. Pré-venda exclusiva com benefícios vitalícios.
+                    </p>
+                    <p className="text-emerald-300 mb-6 font-medium text-center text-sm" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                      Pagamento único de R$ 99 agora. Sem mensalidades até todos os serviços estarem online em Janeiro 2026.
                     </p>
                     <div className="grid md:grid-cols-3 gap-4 mb-6">
                       <div className="bg-slate-900/50 rounded-lg p-4 border border-emerald-500/30">
-                        <div className="text-3xl font-light text-emerald-300 mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>R$ 2.970</div>
+                        <div className="text-3xl font-light text-emerald-300 mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>R$ 99</div>
                         <div className="text-sm text-slate-300">Pagamento único</div>
                       </div>
                       <div className="bg-slate-900/50 rounded-lg p-4 border border-emerald-500/30">
-                        <div className="text-3xl font-light text-emerald-300 mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>24 meses</div>
-                        <div className="text-sm text-slate-300">Plano Team grátis</div>
+                        <div className="text-3xl font-light text-emerald-300 mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>3 meses</div>
+                        <div className="text-sm text-slate-300">Grátis em todos planos</div>
                       </div>
                       <div className="bg-slate-900/50 rounded-lg p-4 border border-emerald-500/30">
-                        <div className="text-3xl font-light text-emerald-300 mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>75% OFF</div>
-                        <div className="text-sm text-slate-300">Desconto vitalício</div>
+                        <div className="text-3xl font-light text-emerald-300 mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>50% OFF</div>
+                        <div className="text-sm text-slate-300">Permanente após lançamento</div>
                       </div>
                     </div>
                     <div className="space-y-2 mb-6 text-left">
                       <div className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-200">Plano Team completo por 24 meses (valor R$ 11.976)</span>
+                        <span className="text-sm text-slate-200">Primeiro acesso quando lançar em Janeiro 2026</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-slate-200">3 meses grátis em todos os planos após lançamento</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-slate-200">50% desconto permanente em qualquer plano após os 3 meses grátis</span>
                       </div>
                       <div className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-slate-200">10 mapas 3D incluídos por mês (5 extras permanentes)</span>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-200">75% desconto vitalício após os 24 meses</span>
                       </div>
                       <div className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
@@ -284,9 +309,8 @@ export default function Pricing() {
             )}
           </div>
         </div>
-      </div>
 
-      {/* Pricing Cards */}
+        {/* Pricing Cards */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {plans.map((plan, index) => {
