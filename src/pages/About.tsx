@@ -3,50 +3,122 @@ import { useTranslation } from 'react-i18next'
 import SEO from '../components/SEO'
 
 export default function About() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [ceoExpanded, setCeoExpanded] = useState(false)
   const [ctoExpanded, setCtoExpanded] = useState(false)
+  const currentLang = i18n.language
+
+  // SEO content by language
+  const seoContent = {
+    pt: {
+      title: "Sobre a Stella Real Estate | Corretora de Imóveis de Luxo em São Paulo",
+      description: "Conheça a Stella Real Estate e nossa equipe de especialistas em imóveis de luxo. Com expertise no mercado imobiliário premium de São Paulo, oferecemos atendimento personalizado e exclusivo. Stella Mary Barbosa lidera nossa visão de revolucionar o setor imobiliário através de tecnologia.",
+      keywords: "sobre Stella Real Estate, corretora de imóveis São Paulo, equipe imobiliária luxo, especialistas mercado premium, Stella Mary Barbosa, Rosser McIntosh, corretor imóveis alto padrão, tecnologia imobiliária Brasil, CEO Stella Real Estate, CTO Stella",
+      canonical: "https://stellareal.com.br/sobre"
+    },
+    en: {
+      title: "About Stella Real Estate | Luxury Real Estate Brokerage in São Paulo",
+      description: "Meet Stella Real Estate and our team of luxury real estate experts. With expertise in São Paulo's premium real estate market, we offer personalized and exclusive service. Stella Mary Barbosa leads our vision to revolutionize the real estate sector through technology.",
+      keywords: "about Stella Real Estate, São Paulo real estate brokerage, luxury real estate team, premium market experts, Stella Mary Barbosa, Rosser McIntosh, high-end real estate broker, Brazil real estate technology, CEO Stella Real Estate, CTO Stella",
+      canonical: "https://stellareal.com.br/about"
+    },
+    es: {
+      title: "Sobre Stella Real Estate | Corredora de Propiedades de Lujo en São Paulo",
+      description: "Conozca Stella Real Estate y nuestro equipo de expertos en propiedades de lujo. Con experiencia en el mercado inmobiliario premium de São Paulo, ofrecemos servicio personalizado y exclusivo. Stella Mary Barbosa lidera nuestra visión de revolucionar el sector inmobiliario a través de la tecnología.",
+      keywords: "sobre Stella Real Estate, corredora propiedades São Paulo, equipo inmobiliario lujo, expertos mercado premium, Stella Mary Barbosa, Rosser McIntosh, corredor propiedades alto nivel, tecnología inmobiliaria Brasil, CEO Stella Real Estate, CTO Stella",
+      canonical: "https://stellareal.com.br/sobre"
+    }
+  }
+
+  const currentSeo = seoContent[currentLang as keyof typeof seoContent] || seoContent.pt
+
+  // Schema.org structured data
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateAgent',
+    name: 'Stella Real Estate',
+    url: 'https://stellareal.com.br',
+    logo: 'https://stellareal.com.br/stella-logo.png',
+    image: 'https://stellareal.com.br/stella-og-image.png',
+    description: currentLang === 'pt' 
+      ? 'Corretora especializada em imóveis de luxo e alto padrão em São Paulo, com tecnologia avançada e atendimento personalizado'
+      : currentLang === 'es'
+      ? 'Corredora especializada en propiedades de lujo y alto nivel en São Paulo, con tecnología avanzada y servicio personalizado'
+      : 'Luxury and high-end real estate brokerage in São Paulo, with advanced technology and personalized service',
+    email: 'stellamary@creci.org.br',
+    telephone: '+5511986410429',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'São Paulo',
+      addressRegion: 'SP',
+      addressCountry: 'BR',
+      '@id': 'https://www.wikidata.org/wiki/Q174'
+    },
+    areaServed: {
+      '@type': 'City',
+      name: 'São Paulo',
+      '@id': 'https://www.wikidata.org/wiki/Q174'
+    },
+    founder: {
+      '@type': 'Person',
+      name: 'Stella Mary Barbosa',
+      jobTitle: currentLang === 'pt' ? 'Diretora Executiva' : currentLang === 'es' ? 'Directora Ejecutiva' : 'Chief Executive Officer',
+      description: t('pages.about.leadership.ceo.description'),
+      email: 'stellamary@creci.org.br',
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Stella Real Estate'
+      }
+    },
+    employee: [
+      {
+        '@type': 'Person',
+        name: 'Stella Mary Barbosa',
+        jobTitle: currentLang === 'pt' ? 'Diretora Executiva & Fundadora' : currentLang === 'es' ? 'Directora Ejecutiva y Fundadora' : 'CEO & Founder',
+        description: t('pages.about.leadership.ceo.shortBio'),
+        image: 'https://stellareal.com.br/people/stella.jpeg',
+        email: 'stellamary@creci.org.br',
+        sameAs: [
+          'https://www.linkedin.com/company/stella-real-estate'
+        ]
+      },
+      {
+        '@type': 'Person',
+        name: 'Rosser McIntosh',
+        alternateName: 'Zack McIntosh',
+        jobTitle: currentLang === 'pt' ? 'Diretor de Tecnologia & Co-Fundador' : currentLang === 'es' ? 'Director de Tecnología y Cofundador' : 'CTO & Co-Founder',
+        description: t('pages.about.leadership.cto.shortBio'),
+        image: 'https://stellareal.com.br/people/rosser.jpeg',
+        sameAs: [
+          'https://github.com/ZRosserMcIntosh',
+          'https://www.linkedin.com/in/rosser-mcintosh'
+        ]
+      }
+    ],
+    knowsAbout: [
+      currentLang === 'pt' ? 'Imóveis de Luxo' : currentLang === 'es' ? 'Propiedades de Lujo' : 'Luxury Real Estate',
+      currentLang === 'pt' ? 'Tecnologia Imobiliária' : currentLang === 'es' ? 'Tecnología Inmobiliaria' : 'Real Estate Technology',
+      currentLang === 'pt' ? 'Mercado Imobiliário Premium' : currentLang === 'es' ? 'Mercado Inmobiliario Premium' : 'Premium Real Estate Market',
+      'CRM',
+      currentLang === 'pt' ? 'Plataforma Constellation' : currentLang === 'es' ? 'Plataforma Constellation' : 'Constellation Platform',
+      currentLang === 'pt' ? 'Automação Imobiliária' : currentLang === 'es' ? 'Automatización Inmobiliaria' : 'Real Estate Automation'
+    ],
+    sameAs: [
+      'https://www.instagram.com/stellarealoficial',
+      'https://www.linkedin.com/company/stella-real-estate',
+      'https://github.com/ZRosserMcIntosh/stella-real-estate'
+    ]
+  }
 
   return (
     <>
       <SEO
-        title="Sobre a Stella Real Estate | Corretora de Imóveis de Luxo em São Paulo"
-        description="Conheça a Stella Real Estate e nossa equipe de especialistas em imóveis de luxo. Com anos de experiência no mercado imobiliário premium de São Paulo, oferecemos atendimento personalizado e exclusivo para compradores e vendedores de imóveis de alto padrão."
-        keywords="sobre Stella Real Estate, corretora de imóveis São Paulo, equipe imobiliária luxo, especialistas mercado premium, Stella Mary Barbosa, corretor imóveis alto padrão"
-        canonicalUrl="https://stellareal.com.br/about"
-        ogType="profile"
-        schema={{
-          '@context': 'https://schema.org',
-          '@type': 'Organization',
-          name: 'Stella Real Estate',
-          url: 'https://stellareal.com.br',
-          description: 'Corretora especializada em imóveis de luxo e alto padrão em São Paulo',
-          address: {
-            '@type': 'PostalAddress',
-            addressLocality: 'São Paulo',
-            addressRegion: 'SP',
-            addressCountry: 'BR'
-          },
-          founder: {
-            '@type': 'Person',
-            name: 'Stella Mary Barbosa',
-            jobTitle: 'CEO & Founder'
-          },
-          employee: [
-            {
-              '@type': 'Person',
-              name: 'Stella Mary Barbosa',
-              jobTitle: 'CEO & Founder',
-              description: 'Especialista em imóveis de luxo com anos de experiência no mercado imobiliário premium de São Paulo'
-            },
-            {
-              '@type': 'Person',
-              name: 'Rosser McIntosh',
-              jobTitle: 'CTO & Co-Founder',
-              description: 'Especialista em tecnologia imobiliária e desenvolvimento de plataformas digitais'
-            }
-          ]
-        }}
+        title={currentSeo.title}
+        description={currentSeo.description}
+        keywords={currentSeo.keywords}
+        canonicalUrl={currentSeo.canonical}
+        ogType="website"
+        schema={organizationSchema}
       />
       <div className="bg-white dark:bg-slate-950">
       {/* Hero Section */}
@@ -59,6 +131,28 @@ export default function About() {
             {t('pages.about.subtitle')}
           </p>
         </div>
+        
+        {/* Breadcrumb for SEO */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://stellareal.com.br'
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: currentLang === 'pt' ? 'Sobre' : currentLang === 'es' ? 'Acerca de' : 'About',
+                item: currentSeo.canonical
+              }
+            ]
+          })}
+        </script>
       </section>
 
       {/* Leadership Team */}
@@ -76,8 +170,11 @@ export default function About() {
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-100 to-pink-100 dark:from-indigo-950/50 dark:to-pink-950/50 aspect-square mb-6">
               <img 
                 src="/people/stella.jpeg" 
-                alt="Stella Mary Barbosa" 
+                alt={`${t('pages.about.leadership.ceo.name')} - ${t('pages.about.leadership.ceo.title')} ${currentLang === 'pt' ? 'da' : currentLang === 'es' ? 'de' : 'of'} Stella Real Estate`}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                width="600"
+                height="600"
               />
             </div>
             <div>
@@ -105,17 +202,19 @@ export default function About() {
                 <button
                   onClick={() => setCeoExpanded(!ceoExpanded)}
                   className="inline-flex items-center gap-2 text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-semibold transition-colors"
+                  aria-expanded={ceoExpanded}
+                  aria-label={ceoExpanded ? (currentLang === 'pt' ? 'Mostrar menos sobre Stella Mary Barbosa' : currentLang === 'es' ? 'Mostrar menos sobre Stella Mary Barbosa' : 'Show less about Stella Mary Barbosa') : (currentLang === 'pt' ? 'Ler biografia completa de Stella Mary Barbosa' : currentLang === 'es' ? 'Leer biografía completa de Stella Mary Barbosa' : 'Read full bio of Stella Mary Barbosa')}
                 >
                   {ceoExpanded ? (
                     <>
-                      Show Less
+                      {currentLang === 'pt' ? 'Mostrar Menos' : currentLang === 'es' ? 'Mostrar Menos' : 'Show Less'}
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                       </svg>
                     </>
                   ) : (
                     <>
-                      Read Full Bio
+                      {currentLang === 'pt' ? 'Ler Biografia Completa' : currentLang === 'es' ? 'Leer Biografía Completa' : 'Read Full Bio'}
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
@@ -131,8 +230,11 @@ export default function About() {
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-100 to-blue-100 dark:from-cyan-950/50 dark:to-blue-950/50 aspect-square mb-6">
               <img 
                 src="/people/rosser.jpeg" 
-                alt="Zack McIntosh" 
+                alt={`${t('pages.about.leadership.cto.name')} - ${t('pages.about.leadership.cto.title')} ${currentLang === 'pt' ? 'da' : currentLang === 'es' ? 'de' : 'of'} Stella Real Estate`}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                width="600"
+                height="600"
               />
             </div>
             <div>
@@ -160,17 +262,19 @@ export default function About() {
                 <button
                   onClick={() => setCtoExpanded(!ctoExpanded)}
                   className="inline-flex items-center gap-2 text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-semibold transition-colors"
+                  aria-expanded={ctoExpanded}
+                  aria-label={ctoExpanded ? (currentLang === 'pt' ? 'Mostrar menos sobre Rosser McIntosh' : currentLang === 'es' ? 'Mostrar menos sobre Rosser McIntosh' : 'Show less about Rosser McIntosh') : (currentLang === 'pt' ? 'Ler biografia completa de Rosser McIntosh' : currentLang === 'es' ? 'Leer biografía completa de Rosser McIntosh' : 'Read full bio of Rosser McIntosh')}
                 >
                   {ctoExpanded ? (
                     <>
-                      Show Less
+                      {currentLang === 'pt' ? 'Mostrar Menos' : currentLang === 'es' ? 'Mostrar Menos' : 'Show Less'}
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                       </svg>
                     </>
                   ) : (
                     <>
-                      Read Full Bio
+                      {currentLang === 'pt' ? 'Ler Biografia Completa' : currentLang === 'es' ? 'Leer Biografía Completa' : 'Read Full Bio'}
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
