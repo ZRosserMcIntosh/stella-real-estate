@@ -46,7 +46,15 @@ export default function ConstellationLogin() {
 
   React.useEffect(() => {
     if (authLoading) return
-    if (session || isDemo) navigate(ConstellationUrls.dashboard(), { replace: true })
+    if (session || isDemo) {
+      const dashboardUrl = ConstellationUrls.dashboard()
+      // If it's a full URL (cross-domain), use window.location
+      if (dashboardUrl.startsWith('http')) {
+        window.location.href = dashboardUrl
+      } else {
+        navigate(dashboardUrl, { replace: true })
+      }
+    }
   }, [authLoading, session, isDemo, navigate])
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -87,7 +95,13 @@ export default function ConstellationLogin() {
     
     // Constellation users go to dashboard, not main admin
     setLoading(false)
-    setTimeout(() => navigate(ConstellationUrls.dashboard(), { replace: true }), 200)
+    const dashboardUrl = ConstellationUrls.dashboard()
+    // If it's a full URL (cross-domain), use window.location for proper redirect
+    if (dashboardUrl.startsWith('http')) {
+      setTimeout(() => { window.location.href = dashboardUrl }, 200)
+    } else {
+      setTimeout(() => navigate(dashboardUrl, { replace: true }), 200)
+    }
   }
 
   return (
