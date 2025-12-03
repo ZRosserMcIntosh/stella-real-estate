@@ -568,7 +568,7 @@ export default function StellaPlatform() {
           animation: shootingStar linear infinite;
         }
       `}</style>
-      <section className="relative overflow-hidden -mt-20 pt-16 md:pt-20 pb-8 md:pb-12 bg-slate-950">
+      <section className="relative overflow-hidden -mt-20 pt-24 md:pt-32 pb-12 md:pb-16 bg-slate-950">
         {/* Animated stars background */}
         <div className="absolute inset-0 overflow-hidden">
           {Array.from({ length: 100 }, (_, i) => ({
@@ -621,9 +621,9 @@ export default function StellaPlatform() {
           ))}
         </div>
         
-        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 py-12 md:py-16 text-center">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 py-16 md:py-20 text-center">
           {/* Constellation Logo */}
-          <div className="flex justify-center mb-6 md:mb-8 relative">
+          <div className="flex justify-center mb-8 md:mb-10 relative">
             {/* Subtle glow effect background */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 bg-gradient-to-br from-blue-500/15 to-indigo-500/15 rounded-full blur-3xl"></div>
