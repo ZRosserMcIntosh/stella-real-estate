@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 import { fetchAllProjects } from '../../services/projects'
 import type { Project } from '../../types/projects'
 import { useCurrency } from '../../context/CurrencyContext'
@@ -12,7 +13,123 @@ export default function ProjectsIndex() {
   const [sortOrder, setSortOrder] = useState<'high-to-low' | 'low-to-high'>('high-to-low')
   const { formatPrice } = useCurrency()
   const [hoveredId, setHoveredId] = useState<string | null>(null)
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  
+  // SEO content based on language
+  const seoContent = useMemo(() => {
+    const lang = i18n.language
+    
+    if (lang === 'en') {
+      return {
+        title: 'New Real Estate Projects in Brazil | Luxury Developments | Stella Real Estate',
+        description: 'Discover exclusive new real estate developments in Brazil. Browse luxury apartments, penthouses, and residential projects in São Paulo, Rio de Janeiro, and more. Premium properties from trusted developers.',
+        keywords: 'new real estate projects Brazil, luxury developments Brazil, new apartments São Paulo, residential projects Rio de Janeiro, new construction Brazil, pre-launch properties, off-plan properties Brazil, luxury condos Brazil',
+        ogTitle: 'New Real Estate Projects in Brazil - Stella Real Estate',
+        ogDescription: 'Explore exclusive new developments and luxury projects across Brazil. Premium apartments, penthouses, and residential properties from top developers.',
+        h1: 'New Real Estate Projects in Brazil',
+        subtitle: 'Discover exclusive developments and luxury properties from Brazil\'s top developers. Browse pre-launch and under-construction projects with premium amenities.',
+      }
+    } else if (lang === 'es') {
+      return {
+        title: 'Nuevos Proyectos Inmobiliarios en Brasil | Desarrollos de Lujo | Stella Real Estate',
+        description: 'Descubre desarrollos inmobiliarios exclusivos en Brasil. Explora apartamentos de lujo, penthouses y proyectos residenciales en São Paulo, Río de Janeiro y más. Propiedades premium de desarrolladores confiables.',
+        keywords: 'nuevos proyectos inmobiliarios Brasil, desarrollos de lujo Brasil, apartamentos nuevos São Paulo, proyectos residenciales Río de Janeiro, construcción nueva Brasil, propiedades pre-lanzamiento, propiedades sobre plano Brasil',
+        ogTitle: 'Nuevos Proyectos Inmobiliarios en Brasil - Stella Real Estate',
+        ogDescription: 'Explora desarrollos exclusivos y proyectos de lujo en todo Brasil. Apartamentos premium, penthouses y propiedades residenciales de los mejores desarrolladores.',
+        h1: 'Nuevos Proyectos Inmobiliarios en Brasil',
+        subtitle: 'Descubre desarrollos exclusivos y propiedades de lujo de los mejores desarrolladores de Brasil. Explora proyectos en pre-lanzamiento y en construcción con amenidades premium.',
+      }
+    } else {
+      // Portuguese (default)
+      return {
+        title: 'Lançamentos Imobiliários no Brasil | Empreendimentos de Luxo | Stella Real Estate',
+        description: 'Descubra lançamentos imobiliários exclusivos no Brasil. Explore apartamentos de luxo, coberturas e projetos residenciais em São Paulo, Rio de Janeiro e mais. Imóveis premium de incorporadoras confiáveis.',
+        keywords: 'lançamentos imobiliários Brasil, empreendimentos de luxo Brasil, apartamentos novos São Paulo, projetos residenciais Rio de Janeiro, construção nova Brasil, imóveis pré-lançamento, imóveis na planta Brasil, condomínios de luxo Brasil',
+        ogTitle: 'Lançamentos Imobiliários no Brasil - Stella Real Estate',
+        ogDescription: 'Explore empreendimentos exclusivos e projetos de luxo em todo o Brasil. Apartamentos premium, coberturas e imóveis residenciais das melhores incorporadoras.',
+        h1: 'Lançamentos Imobiliários no Brasil',
+        subtitle: 'Descubra empreendimentos exclusivos e imóveis de luxo das melhores incorporadoras do Brasil. Navegue por projetos em pré-lançamento e em construção com amenidades premium.',
+      }
+    }
+  }, [i18n.language])
+
+  // Generate structured data for SEO
+  const structuredData = useMemo(() => {
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://www.stellareal.com.br'
+    
+    // ItemList for all projects
+    const itemListData = {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      'name': seoContent.h1,
+      'description': seoContent.description,
+      'numberOfItems': items.length,
+      'itemListElement': items.slice(0, 20).map((project, index) => ({
+        '@type': 'ListItem',
+        'position': index + 1,
+        'item': {
+          '@type': 'Apartment',
+          '@id': `${baseUrl}/projetos/${project.slug}`,
+          'name': project.name,
+          'url': `${baseUrl}/projetos/${project.slug}`,
+          'description': project.description || `${project.name} - Lançamento imobiliário exclusivo`,
+          'image': project.heroImageUrl || (project.media && project.media[0]?.url),
+          'address': project.city && project.state ? {
+            '@type': 'PostalAddress',
+            'addressLocality': project.city,
+            'addressRegion': project.state,
+            'addressCountry': 'BR'
+          } : undefined,
+          'offers': typeof project.price === 'number' ? {
+            '@type': 'Offer',
+            'price': project.price,
+            'priceCurrency': 'BRL',
+            'availability': 'https://schema.org/InStock',
+            'seller': {
+              '@type': 'Organization',
+              'name': 'Stella Real Estate'
+            }
+          } : undefined
+        }
+      }))
+    }
+
+    // WebPage structured data
+    const webPageData = {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      '@id': `${baseUrl}/projetos`,
+      'url': `${baseUrl}/projetos`,
+      'name': seoContent.title,
+      'description': seoContent.description,
+      'inLanguage': i18n.language,
+      'isPartOf': {
+        '@type': 'WebSite',
+        '@id': `${baseUrl}/#website`,
+        'url': baseUrl,
+        'name': 'Stella Real Estate'
+      },
+      'breadcrumb': {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Home',
+            'item': baseUrl
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': i18n.language === 'pt' ? 'Projetos' : i18n.language === 'es' ? 'Proyectos' : 'Projects',
+            'item': `${baseUrl}/projetos`
+          }
+        ]
+      }
+    }
+
+    return [itemListData, webPageData]
+  }, [items, seoContent, i18n.language])
 
   useEffect(() => {
     const run = async () => {
@@ -57,9 +174,73 @@ export default function ProjectsIndex() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 -mt-20 pt-20">
-      {/* Content Section */}
-      <section className="container-padded py-12">
+    <>
+      {/* SEO Meta Tags */}
+      <Helmet>
+        {/* Primary Meta Tags */}
+        <title>{seoContent.title}</title>
+        <meta name="title" content={seoContent.title} />
+        <meta name="description" content={seoContent.description} />
+        <meta name="keywords" content={seoContent.keywords} />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : 'https://www.stellareal.com.br/projetos'} />
+        <meta property="og:title" content={seoContent.ogTitle} />
+        <meta property="og:description" content={seoContent.ogDescription} />
+        <meta property="og:image" content={items[0]?.heroImageUrl || 'https://www.stellareal.com.br/stella-og-image.png'} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Stella Real Estate" />
+        <meta property="og:locale" content={i18n.language === 'pt' ? 'pt_BR' : i18n.language === 'es' ? 'es_ES' : 'en_US'} />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={typeof window !== 'undefined' ? window.location.href : 'https://www.stellareal.com.br/projetos'} />
+        <meta name="twitter:title" content={seoContent.ogTitle} />
+        <meta name="twitter:description" content={seoContent.ogDescription} />
+        <meta name="twitter:image" content={items[0]?.heroImageUrl || 'https://www.stellareal.com.br/stella-og-image.png'} />
+        
+        {/* Additional SEO */}
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="googlebot" content="index, follow" />
+        <meta name="bingbot" content="index, follow" />
+        <link rel="canonical" href="https://www.stellareal.com.br/projetos" />
+        
+        {/* Language Alternates */}
+        <link rel="alternate" hrefLang="pt-BR" href="https://www.stellareal.com.br/projetos" />
+        <link rel="alternate" hrefLang="en" href="https://www.stellareal.com.br/en/projetos" />
+        <link rel="alternate" hrefLang="es" href="https://www.stellareal.com.br/es/projetos" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.stellareal.com.br/projetos" />
+        
+        {/* Structured Data */}
+        {structuredData.map((data, index) => (
+          <script key={index} type="application/ld+json">
+            {JSON.stringify(data)}
+          </script>
+        ))}
+      </Helmet>
+
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 -mt-20 pt-20">
+        {/* Hero Section with SEO Content */}
+        <section className="container-padded py-12 md:py-16 bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-950/20 dark:via-slate-900 dark:to-purple-950/20">
+          <div className="max-w-7xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+              {seoContent.h1}
+            </h1>
+            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
+              {seoContent.subtitle}
+            </p>
+            {items.length > 0 && (
+              <p className="mt-6 text-sm text-slate-500 dark:text-slate-500">
+                <strong className="text-indigo-600 dark:text-indigo-400 font-semibold">{items.length}</strong> {items.length === 1 ? 'empreendimento disponível' : 'empreendimentos disponíveis'}
+              </p>
+            )}
+          </div>
+        </section>
+        
+        {/* Content Section */}
+        <section className="container-padded py-12">
         {error && (
           <div className="max-w-7xl mx-auto mb-8 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
             <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
@@ -273,6 +454,7 @@ export default function ProjectsIndex() {
           </div>
         )}
       </section>
-    </div>
+      </div>
+    </>
   )
 }
