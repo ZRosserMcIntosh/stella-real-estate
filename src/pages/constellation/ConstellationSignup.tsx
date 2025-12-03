@@ -59,12 +59,10 @@ function PaymentForm({
   onSuccess, 
   onBack, 
   signupData,
-  isTestMode = false,
 }: { 
   onSuccess: () => void
   onBack: () => void
   signupData: SignupFormData
-  isTestMode?: boolean
 }) {
   const stripe = useStripe()
   const elements = useElements()
@@ -113,10 +111,9 @@ function PaymentForm({
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-white mb-2">
             Founding 100 - Constellation Prime
-            {isTestMode && <span className="ml-2 text-xs text-amber-400">(TEST MODE)</span>}
           </h3>
           <p className="text-2xl font-bold text-indigo-400">
-            {isTestMode ? 'R$ 3,00' : 'R$ 99,00'}
+            R$ 99,00
           </p>
           <p className="text-xs text-slate-400 mt-1">
             Pagamento único • Acesso no lançamento
@@ -202,7 +199,6 @@ export default function ConstellationSignup() {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null)
   const [userId, setUserId] = useState<string | null>(null) // Store user ID after creation
-  const [useTestPayment, setUseTestPayment] = useState(false) // Toggle for test payment
   const [isRegistering, setIsRegistering] = useState(false) // Prevent redirect during registration
   
   const navigate = useNavigate()
@@ -415,7 +411,7 @@ export default function ConstellationSignup() {
           creci_number: signupData.creciNumber,
           creci_uf: signupData.creciUf,
           payment_status: 'pending', // Mark as pending until payment
-          payment_amount: useTestPayment ? 3.00 : 99.00,
+          payment_amount: 99.00,
         })
 
       if (memberError) {
@@ -432,17 +428,13 @@ export default function ConstellationSignup() {
       // Step 4: Create payment intent
       console.log('Step 4: Creating payment intent...')
       
-      const apiEndpoint = useTestPayment 
-        ? '/api/stripe/create-test-payment' 
-        : '/api/stripe/create-payment-intent'
-      
-      const response = await fetch(apiEndpoint, {
+      const response = await fetch('/api/stripe/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...signupData,
           userId: newUserId, // Pass user ID to payment API
-          amount: useTestPayment ? 300 : 9900, // R$ 3.00 or R$ 99.00 in cents
+          amount: 9900, // R$ 99.00 in cents
         }),
       })
 
@@ -857,22 +849,6 @@ export default function ConstellationSignup() {
                   <p className="text-xs text-indigo-300/60 uppercase tracking-wider">{t('constellation.step_3_title')}</p>
                 </div>
 
-                {/* Test Payment Toggle */}
-                <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl">
-                  <label className="flex items-center justify-between cursor-pointer">
-                    <div>
-                      <p className="text-sm font-medium text-amber-300">Test Mode (R$ 3.00)</p>
-                      <p className="text-xs text-amber-400/60">For testing only - still confirms as realtor</p>
-                    </div>
-                    <input
-                      type="checkbox"
-                      checked={useTestPayment}
-                      onChange={(e) => setUseTestPayment(e.target.checked)}
-                      className="w-5 h-5 rounded bg-slate-700 border-slate-600 text-amber-500 focus:ring-2 focus:ring-amber-500/50"
-                    />
-                  </label>
-                </div>
-
                 <div>
                   <label htmlFor="signup-email" className="block text-sm font-medium text-slate-300 mb-2">
                     {t('constellation.email')}
@@ -975,7 +951,6 @@ export default function ConstellationSignup() {
                         setError(null)
                       }}
                       signupData={signupData}
-                      isTestMode={useTestPayment}
                     />
                   </Elements>
                 ) : (
