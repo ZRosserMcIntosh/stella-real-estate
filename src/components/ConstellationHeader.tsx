@@ -38,7 +38,7 @@ export default function ConstellationHeader() {
           <div className="hidden md:flex items-center gap-6">
             <nav className="flex items-center gap-6">
               <Link 
-                to="/plataforma-stella" 
+                to="/constellation" 
                 className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
               >
                 {t('constellation.nav.features')}
@@ -96,7 +96,7 @@ export default function ConstellationHeader() {
         <div className="md:hidden bg-slate-950/95 backdrop-blur-lg border-t border-white/10">
           <nav className="container-padded py-6 flex flex-col gap-4">
             <Link 
-              to="/plataforma-stella" 
+              to="/constellation" 
               onClick={() => setMobileMenuOpen(false)}
               className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
             >

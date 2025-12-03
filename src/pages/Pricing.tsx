@@ -10,7 +10,7 @@ import { trackStartRegistration } from '../utils/analytics'
  * ✅ 1) Meta title: "Planos e Preços da Constellation | Plataforma para Corretores de Imóveis"
  * ✅ 2) Meta description: R$ 99 pré-lançamento, 3 meses grátis, 50% OFF vitalício
  * ✅ 3) Exactly one H1: "Planos e preços da Constellation para corretores de imóveis"
- * ✅ 4) SEO-friendly intro paragraph explaining the page and linking to /plataforma-stella
+ * ✅ 4) SEO-friendly intro paragraph explaining the page and linking to /constellation
  * ✅ 5) FAQ section with H2 "Perguntas frequentes sobre a Constellation e seus planos"
  *      and H3 questions covering R$99 offer, 3 free months, 50% lifetime discount
  * ✅ 6) Internal links to Constellation product page and Stella Real site
@@ -287,7 +287,7 @@ export default function Pricing() {
               Planos e preços da Constellation para corretores de imóveis
             </h1>
             <p className="text-lg text-slate-300 leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
-              <Link to="/plataforma-stella" className="text-indigo-400 hover:text-indigo-300 underline">Plataforma imobiliária completa</Link> para corretores e imobiliárias. Pré-lançamento: <span className="text-emerald-400 font-semibold">R$ 99</span>, 3 meses grátis e <span className="text-emerald-400 font-semibold">50% OFF vitalício</span>. <a href="https://www.stellareal.com.br" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 underline">Veja o site da Stella Real</a> construído com a Constellation.
+              <Link to="/constellation" className="text-indigo-400 hover:text-indigo-300 underline">Plataforma imobiliária completa</Link> para corretores e imobiliárias. Pré-lançamento: <span className="text-emerald-400 font-semibold">R$ 99</span>, 3 meses grátis e <span className="text-emerald-400 font-semibold">50% OFF vitalício</span>. <a href="https://www.stellareal.com.br" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 underline">Veja o site da Stella Real</a> construído com a Constellation.
             </p>
           </div>
 
@@ -868,7 +868,7 @@ export default function Pricing() {
               Fale Conosco
             </Link>
             <Link
-              to="/plataforma-stella"
+              to="/constellation"
               className="px-8 py-3 bg-slate-800 text-white rounded-lg font-semibold hover:bg-slate-700 transition-all"
             >
               Ver Plataforma

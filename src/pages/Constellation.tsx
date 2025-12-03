@@ -303,7 +303,7 @@ export default function Constellation() {
               <div>
                 <h4 className="text-white font-semibold mb-4">Product</h4>
                 <ul className="space-y-2">
-                  <li><Link to="/plataforma-stella" className="text-slate-400 hover:text-white transition-colors">Features</Link></li>
+                  <li><Link to="/constellation" className="text-slate-400 hover:text-white transition-colors">Features</Link></li>
                   <li><Link to="/precos" className="text-slate-400 hover:text-white transition-colors">Pricing</Link></li>
                   <li><Link to="/sub/stellareal" className="text-slate-400 hover:text-white transition-colors">Retail Platform</Link></li>
                 </ul>

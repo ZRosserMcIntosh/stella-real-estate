@@ -593,7 +593,7 @@ export default function Header() {
             <button
               ref={constellationButtonRef}
               className="nav-button"
-              onClick={() => window.location.href = '/plataforma-stella'}
+              onClick={() => window.location.href = '/constellation'}
             >
               CONSTELLATION
             </button>
@@ -623,7 +623,7 @@ export default function Header() {
               >
                 <div className="grid grid-cols-1 gap-1">
                   <button
-                    onClick={() => window.location.href = '/plataforma-stella'}
+                    onClick={() => window.location.href = '/constellation'}
                     className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 px-3 transition-all duration-300 w-full text-left"
                   >
                     <div className="min-w-0">
@@ -886,7 +886,7 @@ export default function Header() {
               <Link to="/imoveis?type=rent" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 {t('header.nav.rent')}
               </Link>
-              <Link to="/plataforma-stella" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+              <Link to="/constellation" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800">
                 Constellation
               </Link>
               

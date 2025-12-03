@@ -182,7 +182,7 @@ export default function ConstellationPortal() {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Plataforma",
-                "item": "https://constellation.stellareal.com.br/plataforma-stella"
+                "item": "https://constellation.stellareal.com.br/constellation"
               },
               {
                 "@type": "ListItem",
@@ -737,7 +737,7 @@ export default function ConstellationPortal() {
                 <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">{t('home.footer.servicesTitle')}</h4>
                 <ul className="space-y-2 text-sm">
                   <li><Link to="/anuncie-seu-imovel" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.listProperty')}</Link></li>
-                  <li><Link to="/plataforma-stella" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.constellationPlatform')}</Link></li>
+                  <li><Link to="/constellation" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.constellationPlatform')}</Link></li>
                   <li><Link to="/precos" className="text-slate-400 hover:text-white transition-colors">{t('constellation.footer.pricing')}</Link></li>
                   <li><Link to="/curso/creci" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.creciCourse')}</Link></li>
                   <li><Link to="/consumidores" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.consumers')}</Link></li>
