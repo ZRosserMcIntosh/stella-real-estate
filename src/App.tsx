@@ -243,11 +243,11 @@ export default function App() {
   const heroGridClasses = useMemo(() => {
     switch (heroFeatured.length) {
       case 1:
-        return 'grid-cols-1 justify-items-center w-full max-w-[22rem]'
+        return 'grid-cols-1 place-items-center w-full max-w-[22rem] mx-auto'
       case 2:
-        return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 justify-items-center sm:justify-items-center w-full max-w-4xl'
+        return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 w-full max-w-4xl mx-auto'
       default:
-        return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center sm:justify-items-center w-full max-w-6xl'
+        return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto'
     }
   }, [heroFeatured.length])
 
@@ -428,7 +428,7 @@ export default function App() {
     const price = displayPrice != null ? formatPrice(displayPrice) : null
     
     return (
-      <article className="group relative flex flex-col w-full max-w-[280px] sm:max-w-[22rem] min-h-[320px] sm:min-h-[360px] overflow-hidden rounded-xl sm:rounded-3xl border border-slate-700/50 bg-slate-800/60 p-3 sm:p-4 text-left text-white shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:border-slate-600/60">
+      <article className="group relative flex flex-col w-full max-w-[280px] sm:w-full sm:max-w-none min-h-[320px] sm:min-h-[360px] overflow-hidden rounded-xl sm:rounded-3xl border border-slate-700/50 bg-slate-800/60 p-3 sm:p-4 text-left text-white shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:border-slate-600/60">
         {thumb ? (
           <div className="relative overflow-hidden rounded-lg sm:rounded-2xl">
             {/* On hover, show second image if available */}
@@ -786,7 +786,7 @@ export default function App() {
               <>
                 {/* Mobile Carousel (< md breakpoint) - Full width optimized */}
                 <div 
-                  className="md:hidden relative w-full px-4 sm:px-6"
+                  className="md:hidden relative w-full"
                   onTouchStart={onTouchStart}
                   onTouchMove={onTouchMove}
                   onTouchEnd={onTouchEnd}
@@ -804,7 +804,7 @@ export default function App() {
                             <div key={p.id} className="min-w-full flex justify-center">
                               <Link
                                 to={`/projetos/${slug}`}
-                                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 w-full max-w-sm"
+                                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
                                 aria-label={p.title}
                               >
                                 {card}
@@ -814,7 +814,7 @@ export default function App() {
                         }
                         return (
                           <div key={p.id} className="min-w-full flex justify-center">
-                            <div className="w-full max-w-sm">
+                            <div>
                               {card}
                             </div>
                           </div>
