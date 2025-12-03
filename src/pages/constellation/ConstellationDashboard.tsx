@@ -5,10 +5,22 @@ import { useAuth } from '../../context/AuthContext'
 import { ConstellationUrls } from '../../utils/constellationUrl'
 import ConstellationHeader from '../../components/ConstellationHeader'
 
+// Declare gtag for TypeScript
+declare global {
+  interface Window {
+    gtag?: (
+      command: 'config' | 'event' | 'js' | 'set',
+      targetId: string | Date,
+      config?: Record<string, any>
+    ) => void;
+  }
+}
+
 export default function ConstellationDashboard() {
   const [loading, setLoading] = useState(true)
   const [paymentStatus, setPaymentStatus] = useState<'pending' | 'paid' | null>(null)
   const [memberData, setMemberData] = useState<any>(null)
+  const [conversionTracked, setConversionTracked] = useState(false)
   const navigate = useNavigate()
   const { session } = useAuth()
 
@@ -20,6 +32,28 @@ export default function ConstellationDashboard() {
 
     checkPaymentStatus()
   }, [session, navigate])
+
+  // Fire Google Ads conversion event when payment is confirmed
+  useEffect(() => {
+    if (paymentStatus === 'paid' && !conversionTracked && typeof window !== 'undefined' && window.gtag) {
+      console.log('🎉 Firing Google Ads purchase conversion event')
+      
+      // Fire Google Ads conversion event
+      window.gtag('event', 'purchase', {
+        transaction_id: memberData?.stripe_payment_intent_id || memberData?.id || 'unknown',
+        value: 99.00, // Constellation membership price in BRL
+        currency: 'BRL',
+        items: [{
+          item_id: 'constellation_membership',
+          item_name: 'Constellation Founding Member',
+          price: 99.00,
+          quantity: 1
+        }]
+      })
+      
+      setConversionTracked(true)
+    }
+  }, [paymentStatus, conversionTracked, memberData])
 
   const checkPaymentStatus = async () => {
     try {
