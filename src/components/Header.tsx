@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@tanstack/react-query'
 import LanguageSwitcher from './LanguageSwitcher'
 import CurrencySwitcher from './CurrencySwitcher'
 import { supabase } from '../lib/supabaseClient'
 import { trackEvent } from '../lib/telemetry'
 import { getSiteSettings } from '../lib/siteSettings'
 import { ConstellationUrls } from '../utils/constellationUrl'
+import { getOptimizedImageUrl, IMAGE_PRESETS } from '../utils/imageOptimization'
 
 type ProjectLite = {
   id: string
@@ -24,8 +26,6 @@ export default function Header() {
 
   const [hoverOpen, setHoverOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [projects, setProjects] = useState<ProjectLite[]>([])
-  const [loading, setLoading] = useState(false)
   const [logoFailed, setLogoFailed] = useState(false)
   const [headerLogoUrl, setHeaderLogoUrl] = useState<string>('')
   const [headerLogoSize, setHeaderLogoSize] = useState<string>('medium')
@@ -141,31 +141,25 @@ export default function Header() {
     }
   }, [])
 
-  useEffect(() => {
-    let cancelled = false
-    const load = async () => {
-      if (!(import.meta as any).env?.VITE_SUPABASE_URL) return
-      setLoading(true)
-      try {
-        const { data, error } = await supabase
-          .from('listings')
-          .select('id,title,city,state_code,media')
-          .eq('listing_type', 'new_project')
-          .neq('status', 'archived')
-          .order('created_at', { ascending: false })
-          .limit(4)
-        if (error) throw error
-        if (!cancelled) setProjects((data || []) as any)
-      } catch {
-        if (!cancelled) setProjects([])
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
-    }
-    load()
-    return () => { cancelled = true }
-  }, [])
-  
+  // Use React Query to fetch and cache projects
+  const { data: projects = [], isLoading: loading } = useQuery({
+    queryKey: ['header-projects'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('listings')
+        .select('id,title,city,state_code,media')
+        .eq('listing_type', 'new_project')
+        .neq('status', 'archived')
+        .order('created_at', { ascending: false })
+        .limit(4)
+      
+      if (error) throw error
+      return (data || []) as ProjectLite[]
+    },
+    staleTime: 10 * 60 * 1000, // Cache for 10 minutes
+    enabled: !!(import.meta as any).env?.VITE_SUPABASE_URL,
+  })
+
   // Load header logo from settings
   useEffect(() => {
     let cancelled = false
@@ -502,6 +496,8 @@ export default function Header() {
                 <div className="grid grid-cols-1 gap-2">
                   {projects.map((p, index) => {
                     const thumb = (p.media || []).find(m => m.kind === 'thumbnail')?.url || (p.media || [])[0]?.url
+                    // Optimize thumbnail image
+                    const optimizedThumb = thumb ? getOptimizedImageUrl(thumb, IMAGE_PRESETS.thumbnail) : null
                     const slugBase = (p.title || 'project').toString().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')
                     const slug = `${slugBase}-${p.id}`
                     const isHovered = hoveredProjectId === p.id
@@ -527,9 +523,14 @@ export default function Header() {
                         style={shouldWave ? { animation: `waveBlur 0.6s ease-in-out ${animationDelay} forwards` } : {}}
                         className={`mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 pl-2 pr-3 transition-all duration-300 w-full text-left`}
                       >
-                        {thumb ? (
+                        {optimizedThumb ? (
                           // eslint-disable-next-line jsx-a11y/alt-text
-                          <img src={thumb} className={`h-11 w-11 rounded-md object-cover flex-none pointer-events-none transition-all duration-300 ${hasHover && !isHovered ? 'blur-xs' : 'blur-none'}`} />
+                          <img 
+                            src={optimizedThumb} 
+                            loading="lazy"
+                            decoding="async"
+                            className={`h-11 w-11 rounded-md object-cover flex-none pointer-events-none transition-all duration-300 ${hasHover && !isHovered ? 'blur-xs' : 'blur-none'}`} 
+                          />
                         ) : (
                           <div className={`h-11 w-11 rounded-md bg-slate-100 dark:bg-slate-800 grid place-items-center text-slate-400 text-xs flex-none transition-all duration-300 ${hasHover && !isHovered ? 'blur-xs' : 'blur-none'}`}>No image</div>
                         )}

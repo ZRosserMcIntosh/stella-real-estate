@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabaseClient'
 import { useCurrency } from '../context/CurrencyContext'
 import SEO from '../components/SEO'
+import { getOptimizedImageUrl, IMAGE_PRESETS } from '../utils/imageOptimization'
 
 type Project = {
   id: string
@@ -117,8 +118,10 @@ export default function Projects() {
               <div className="relative overflow-hidden rounded-xl">
                 {displayImage ? (
                   <img 
-                    src={displayImage} 
+                    src={getOptimizedImageUrl(displayImage, IMAGE_PRESETS.card)} 
                     alt={p.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-44 object-cover transition-opacity duration-300" 
                   />
                 ) : (

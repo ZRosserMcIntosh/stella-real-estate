@@ -12,6 +12,7 @@ import SEO from './components/SEO'
 import { getSubdomain } from './utils/subdomain'
 import ConstellationPortal from './pages/ConstellationPortal'
 import StellaReal from './pages/StellaReal'
+import { getOptimizedImageUrl, IMAGE_PRESETS } from './utils/imageOptimization'
 
 export default function App() {
   // Check if we're on a subdomain and render appropriate component
@@ -435,20 +436,26 @@ export default function App() {
             {secondImage ? (
               <div className="relative h-44 sm:h-52 w-full">
                 <img
-                  src={thumb}
+                  src={getOptimizedImageUrl(thumb, IMAGE_PRESETS.card)}
                   alt={p.title}
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-0"
                 />
                 <img
-                  src={secondImage}
+                  src={getOptimizedImageUrl(secondImage, IMAGE_PRESETS.card)}
                   alt={`${p.title} - alternate`}
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                 />
               </div>
             ) : (
               <img
-                src={thumb}
+                src={getOptimizedImageUrl(thumb, IMAGE_PRESETS.card)}
                 alt={p.title}
+                loading="lazy"
+                decoding="async"
                 className="h-44 sm:h-52 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               />
             )}
@@ -931,8 +938,10 @@ export default function App() {
                   <div className="relative overflow-hidden rounded-2xl mb-4">
                     {displayImage ? (
                       <img 
-                        src={displayImage} 
-                        alt={p.title} 
+                        src={getOptimizedImageUrl(displayImage, IMAGE_PRESETS.card)} 
+                        alt={p.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-56 object-cover transition-all duration-500 group-hover:scale-105" 
                       />
                     ) : (
