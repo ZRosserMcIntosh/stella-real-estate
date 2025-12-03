@@ -179,3 +179,78 @@ export const trackConversion = (conversionName: string, value?: number) => {
     currency: 'BRL',
   });
 };
+
+/**
+ * Google Ads Conversion Tracking
+ */
+
+/**
+ * Track when user starts the registration/signup process
+ * This should be called when the user clicks "Garantir Minha Vaga" or similar CTA
+ */
+export const trackStartRegistration = (eventParams?: Record<string, any>) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'conversion_event_start_registration', {
+      send_to: 'AW-CONVERSION_ID/CONVERSION_LABEL', // Replace with your Google Ads conversion ID
+      event_category: 'engagement',
+      event_label: 'Start Registration',
+      ...eventParams,
+    });
+  }
+};
+
+/**
+ * Track completed purchase/checkout
+ * This should be called when payment is successfully completed
+ * @param value - Transaction value (e.g., 99.00 for R$ 99)
+ * @param transactionId - Unique transaction/payment ID
+ */
+export const trackPurchaseComplete = (
+  value: number,
+  transactionId?: string,
+  eventParams?: Record<string, any>
+) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'conversion_event_purchase', {
+      send_to: 'AW-CONVERSION_ID/CONVERSION_LABEL', // Replace with your Google Ads conversion ID
+      value: value,
+      currency: 'BRL',
+      transaction_id: transactionId,
+      event_category: 'ecommerce',
+      event_label: 'Purchase Complete',
+      ...eventParams,
+    });
+  }
+};
+
+/**
+ * Helper function to delay navigation until gtag event is sent
+ * Use this when tracking conversions that should redirect to another page
+ * @param url - URL to navigate to after event is tracked
+ * @param eventName - Google Ads conversion event name
+ * @param eventParams - Additional event parameters
+ */
+export const trackConversionWithRedirect = (
+  url: string,
+  eventName: string,
+  eventParams?: Record<string, any>
+) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    const callback = function () {
+      if (typeof url === 'string') {
+        window.location.href = url;
+      }
+    };
+
+    window.gtag('event', eventName, {
+      event_callback: callback,
+      event_timeout: 2000,
+      ...eventParams,
+    });
+  } else {
+    // If gtag is not available, just navigate
+    if (typeof url === 'string') {
+      window.location.href = url;
+    }
+  }
+};

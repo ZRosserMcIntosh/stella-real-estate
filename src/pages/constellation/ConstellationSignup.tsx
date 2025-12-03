@@ -7,6 +7,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { ConstellationUrls } from '../../utils/constellationUrl'
+import { trackPurchaseComplete } from '../../utils/analytics'
 
 // Initialize Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
@@ -479,6 +480,17 @@ export default function ConstellationSignup() {
     // User and founding_member record already created with pending status
     // Payment webhook will update status to 'paid' when payment succeeds
     console.log('Payment successful! Signing in and redirecting...')
+    
+    // Track Google Ads conversion for completed purchase
+    trackPurchaseComplete(
+      99.00, // R$ 99 purchase value
+      paymentIntentId || undefined, // Stripe payment intent ID as transaction ID
+      {
+        source: 'constellation_signup',
+        plan: 'founding_100',
+        email: signupData.email,
+      }
+    )
     
     setIsRegistering(false) // Allow navigation now
     
