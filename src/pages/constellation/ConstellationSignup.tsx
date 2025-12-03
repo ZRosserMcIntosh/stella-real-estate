@@ -116,10 +116,10 @@ function PaymentForm({
             {isTestMode && <span className="ml-2 text-xs text-amber-400">(TEST MODE)</span>}
           </h3>
           <p className="text-2xl font-bold text-indigo-400">
-            {isTestMode ? 'R$ 3,00' : 'R$ 2.970,00'}
+            {isTestMode ? 'R$ 3,00' : 'R$ 99,00'}
           </p>
           <p className="text-xs text-slate-400 mt-1">
-            Pagamento único • Acesso vitalício
+            Pagamento único • Acesso no lançamento
           </p>
         </div>
         
@@ -415,7 +415,7 @@ export default function ConstellationSignup() {
           creci_number: signupData.creciNumber,
           creci_uf: signupData.creciUf,
           payment_status: 'pending', // Mark as pending until payment
-          payment_amount: useTestPayment ? 3.00 : 2970.00,
+          payment_amount: useTestPayment ? 3.00 : 99.00,
         })
 
       if (memberError) {
@@ -442,7 +442,7 @@ export default function ConstellationSignup() {
         body: JSON.stringify({
           ...signupData,
           userId: newUserId, // Pass user ID to payment API
-          amount: useTestPayment ? 300 : 297000, // R$ 3.00 or R$ 2,970.00 in cents
+          amount: useTestPayment ? 300 : 9900, // R$ 3.00 or R$ 99.00 in cents
         }),
       })
 
