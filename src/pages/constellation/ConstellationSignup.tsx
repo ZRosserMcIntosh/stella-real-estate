@@ -291,11 +291,8 @@ export default function ConstellationSignup() {
         return false
       }
     }
-    if (!signupData.creciNumber.trim()) {
-      setError(t('constellation.error_creci_required'))
-      return false
-    }
-    if (!signupData.creciUf) {
+    // CRECI is now optional - only validate UF if CRECI is provided
+    if (signupData.creciNumber.trim() && !signupData.creciUf) {
       setError(t('constellation.error_state_required'))
       return false
     }
@@ -796,7 +793,7 @@ export default function ConstellationSignup() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    {t('constellation.creci_number')}
+                    {t('constellation.creci_number')} <span className="text-slate-500 font-normal">(opcional)</span>
                   </label>
                   <input
                     type="text"
@@ -809,7 +806,7 @@ export default function ConstellationSignup() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    {t('constellation.state')}
+                    {t('constellation.state')} <span className="text-slate-500 font-normal">(opcional)</span>
                   </label>
                   <select
                     value={signupData.creciUf}
