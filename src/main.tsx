@@ -59,6 +59,7 @@ import ConstellationReset from './pages/constellation/ConstellationReset'
 import ConstellationDashboard from './pages/constellation/ConstellationDashboard'
 import ConstellationVisuals from './pages/constellation/ConstellationVisuals'
 import ConstellationSiteBuilder from './pages/constellation/ConstellationSiteBuilder'
+import { SubdomainRedirect } from './components/SubdomainRedirect'
 import AdminRoute from './components/AdminRoute'
 import CreateSite from './pages/onboarding/CreateSite'
 import ChooseRole from './pages/onboarding/ChooseRole'
@@ -179,14 +180,14 @@ const router = createBrowserRouter([
   { path: '/visuals', element: <ConstellationVisuals /> },
   { path: '/site-builder', element: <ConstellationSiteBuilder /> },
   // Constellation routes - standalone without main site header/footer
-  { path: '/sub/constellation', element: <ConstellationPortal /> },
-  { path: '/sub/constellation/login', element: <ConstellationLogin /> },
-  { path: '/sub/constellation/signup', element: <ConstellationSignup /> },
-  { path: '/sub/constellation/reset', element: <ConstellationReset /> },
-  { path: '/sub/constellation/admin', element: <ConstellationDashboard /> },
-  { path: '/sub/constellation/dashboard', element: <Navigate to="/sub/constellation/admin" replace /> },
-  { path: '/sub/constellation/visuals', element: <ConstellationVisuals /> },
-  { path: '/sub/constellation/site-builder', element: <ConstellationSiteBuilder /> },
+  { path: '/sub/constellation', element: <SubdomainRedirect /> },
+  { path: '/sub/constellation/login', element: <SubdomainRedirect /> },
+  { path: '/sub/constellation/signup', element: <SubdomainRedirect /> },
+  { path: '/sub/constellation/reset', element: <SubdomainRedirect /> },
+  { path: '/sub/constellation/admin', element: <SubdomainRedirect /> },
+  { path: '/sub/constellation/dashboard', element: <SubdomainRedirect /> },
+  { path: '/sub/constellation/visuals', element: <SubdomainRedirect /> },
+  { path: '/sub/constellation/site-builder', element: <SubdomainRedirect /> },
   { path: '/criar-site', element: <CreateSite /> },
   { path: '/onboarding/choose-role', element: <ChooseRole /> },
   { path: '/onboarding/realtor-license', element: <RealtorLicense /> },
