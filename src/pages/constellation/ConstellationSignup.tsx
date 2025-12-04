@@ -213,38 +213,35 @@ export default function ConstellationSignup() {
     // Don't redirect during registration process
     if (isRegistering) return
     
-    // Only redirect if they already have a session AND have completed payment
-    if (session || isDemo) {
-      // Check if user has paid before redirecting
-      if (userId) {
-        // User just registered, stay on payment page
-        return
-      }
-      
-      // Check if user already has a founding_members record with payment completed
-      const checkPaymentStatus = async () => {
+    // Only redirect if they already have a session AND are a constellation user with payment completed
+    if (session && !isDemo) {
+      // Check if this user is a constellation user with a founding_members record
+      const checkConstellationUser = async () => {
         try {
           const { data, error } = await supabase
             .from('founding_members')
-            .select('payment_status')
-            .eq('user_id', session?.user?.id)
+            .select('payment_status, user_id')
+            .eq('user_id', session.user.id)
             .single()
           
-          // Only redirect if user has already paid
-          if (data && data.payment_status === 'paid') {
-            navigate(ConstellationUrls.dashboard(), { replace: true })
-          } else if (data && data.payment_status === 'pending') {
-            // If payment is pending, redirect to dashboard which will show pending state
+          // Only redirect if user has a founding_members record (is a constellation user)
+          if (data) {
+            // If they just registered (userId is set), stay on payment page
+            if (userId === data.user_id) {
+              return
+            }
+            
+            // Otherwise redirect to dashboard
             navigate(ConstellationUrls.dashboard(), { replace: true })
           }
-          // If they have a pending payment or no record, let them stay on signup page
+          // If no founding_members record, they're not a constellation user yet - allow signup
         } catch (err) {
-          // If error (no record found), allow them to stay on signup page
-          console.log('No payment record found, allowing signup')
+          // If error (no record found), they're not a constellation user - allow signup
+          console.log('Not a constellation user yet, allowing signup')
         }
       }
       
-      checkPaymentStatus()
+      checkConstellationUser()
     }
   }, [authLoading, session, isDemo, navigate, isRegistering, userId])
 
