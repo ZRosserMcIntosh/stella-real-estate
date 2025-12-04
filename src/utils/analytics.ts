@@ -253,3 +253,34 @@ export const trackConversionWithRedirect = (
   }
   return false;
 };
+
+/**
+ * Track conversion_event_purchase with delayed navigation
+ * This is used specifically for the "Garantir Minha Vaga" button to track purchase intent
+ * @param url - URL to navigate to after event is tracked
+ * @param eventParams - Additional event parameters
+ */
+export const trackPurchaseEventWithRedirect = (
+  url: string,
+  eventParams?: Record<string, any>
+) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    const callback = function () {
+      if (typeof url === 'string') {
+        window.location.href = url;
+      }
+    };
+
+    window.gtag('event', 'conversion_event_purchase', {
+      event_callback: callback,
+      event_timeout: 2000,
+      ...eventParams,
+    });
+  } else {
+    // If gtag is not available, just navigate
+    if (typeof url === 'string') {
+      window.location.href = url;
+    }
+  }
+  return false;
+};
