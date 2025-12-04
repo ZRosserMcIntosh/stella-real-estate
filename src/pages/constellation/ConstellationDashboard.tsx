@@ -31,7 +31,7 @@ export default function ConstellationDashboard() {
     }
 
     checkPaymentStatus()
-  }, [session, navigate])
+  }, [session]) // Remove navigate from dependencies to prevent infinite loop
 
   // Fire Google Ads conversion event when payment is confirmed
   useEffect(() => {
@@ -57,6 +57,7 @@ export default function ConstellationDashboard() {
 
   const checkPaymentStatus = async () => {
     try {
+      console.log('Checking payment status for user:', session?.user?.id)
       const { data, error } = await supabase
         .from('founding_members')
         .select('*')
@@ -69,15 +70,18 @@ export default function ConstellationDashboard() {
         return
       }
 
+      console.log('Member data:', data)
       setMemberData(data)
       setPaymentStatus(data.payment_status)
       
       // Redirect to payment pending page if payment is not completed
       if (data.payment_status === 'pending') {
+        console.log('Payment is pending, redirecting to payment-pending page')
         navigate(ConstellationUrls.paymentPending(), { replace: true })
         return
       }
       
+      console.log('Payment status is:', data.payment_status)
       setLoading(false)
     } catch (err) {
       console.error('Error:', err)
