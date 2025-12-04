@@ -7,10 +7,15 @@
  */
 
 export function getConstellationUrl(path: string = '/'): string {
-  // Always use path-based URLs under /constellation
+  // Always use ABSOLUTE URLs to main domain to prevent subdomain issues
   // Remove leading slash if present to avoid double slashes
   const cleanPath = path.startsWith('/') ? path.slice(1) : path
-  return `/constellation/${cleanPath}`
+  
+  // Build absolute URL to ensure we always go to main domain
+  const protocol = typeof window !== 'undefined' ? window.location.protocol : 'https:'
+  const mainDomain = 'stellareal.com.br'
+  
+  return `${protocol}//${mainDomain}/constellation/${cleanPath}`
 }
 
 /**
