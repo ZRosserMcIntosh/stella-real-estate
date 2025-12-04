@@ -749,6 +749,8 @@ export default function StellaPlatform() {
             </Link>
             <a
               href="/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group relative inline-flex items-center gap-2 rounded-full border-2 border-indigo-400/40 bg-slate-800/60 backdrop-blur-sm px-8 py-4 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-indigo-300/60 hover:bg-slate-700/70 hover:shadow-2xl"
               style={{
                 boxShadow: '0 10px 40px -10px rgba(99, 102, 241, 0.2), 0 0 15px rgba(99, 102, 241, 0.1)',
