@@ -22,16 +22,18 @@ export default function ConstellationDashboard() {
   const [memberData, setMemberData] = useState<any>(null)
   const [conversionTracked, setConversionTracked] = useState(false)
   const navigate = useNavigate()
-  const { session } = useAuth()
+  const { session, loading: authLoading } = useAuth()
 
   useEffect(() => {
+    if (authLoading) return // Don't redirect while still checking auth
+    
     if (!session) {
-      navigate(ConstellationUrls.login())
+      navigate(ConstellationUrls.login(), { replace: true })
       return
     }
 
     checkPaymentStatus()
-  }, [session]) // Remove navigate from dependencies to prevent infinite loop
+  }, [session, authLoading]) // Add authLoading to dependencies
 
   // Fire Google Ads conversion event when payment is confirmed
   useEffect(() => {
