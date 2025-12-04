@@ -379,7 +379,10 @@ export default function Pricing() {
                     <div className="flex flex-col gap-4 items-center justify-center">
                       <a
                         href={ConstellationUrls.signup()}
-                        onClick={() => trackStartRegistration({ source: 'pricing_page', plan: 'founding_100' })}
+                        onClick={(e) => {
+                          console.log('🔗 Constellation signup URL:', ConstellationUrls.signup());
+                          trackStartRegistration({ source: 'pricing_page', plan: 'founding_100' });
+                        }}
                         className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/50 text-lg text-center"
                       >
                         Garantir Minha Vaga

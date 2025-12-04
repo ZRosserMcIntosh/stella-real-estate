@@ -2,9 +2,9 @@
  * Helper to generate correct Constellation URLs
  * - Always use path-based URLs: /constellation/path
  * - No more subdomain routing
+ * 
+ * Updated: December 3, 2025 - Removed subdomain logic
  */
-
-import { getSubdomain } from './subdomain'
 
 export function getConstellationUrl(path: string = '/'): string {
   // Always use path-based URLs under /constellation
