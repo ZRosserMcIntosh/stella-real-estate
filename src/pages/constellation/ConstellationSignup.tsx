@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../../context/AuthContext'
 import { Eye, EyeOff } from 'lucide-react'
 import { loadStripe } from '@stripe/stripe-js'
@@ -536,6 +537,12 @@ export default function ConstellationSignup() {
 
   return (
     <>
+      <Helmet>
+        <title>Cadastro Founding 100 - Constellation | R$ 99</title>
+        <meta name="description" content="Junte-se aos primeiros 100 membros da Constellation por R$ 99 - Plataforma completa para corretores com CRM, automação e marketing imobiliário." />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://constellation.stellareal.com.br/signup" />
+      </Helmet>
       <style>{`
         html, body {
           background: #020617 !important;

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../../context/AuthContext'
 import { Eye, EyeOff } from 'lucide-react'
 import { ConstellationUrls } from '../../utils/constellationUrl'
@@ -106,6 +107,12 @@ export default function ConstellationLogin() {
 
   return (
     <>
+      <Helmet>
+        <title>Login - Constellation | Plataforma para Corretores</title>
+        <meta name="description" content="Acesse sua conta Constellation - Plataforma completa para corretores de imóveis com CRM, automação e ferramentas de marketing." />
+        <meta name="robots" content="noindex, nofollow" />
+        <link rel="canonical" href="https://constellation.stellareal.com.br/login" />
+      </Helmet>
       <style>{`
         html, body {
           background: #020617 !important;

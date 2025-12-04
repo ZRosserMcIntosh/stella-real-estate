@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { supabase } from '../../lib/supabaseClient'
 import { useAuth } from '../../context/AuthContext'
 import { ConstellationUrls } from '../../utils/constellationUrl'
@@ -92,6 +93,11 @@ export default function ConstellationDashboard() {
   if (loading) {
     return (
       <>
+        <Helmet>
+          <title>Dashboard - Constellation | Minha Conta</title>
+          <meta name="description" content="Acesse seu painel Constellation - Gerencie sua conta, acesse ferramentas de CRM e automação para corretores de imóveis." />
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
         <ConstellationHeader />
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center pt-20">
           <div className="text-white text-xl">Carregando...</div>
@@ -104,6 +110,11 @@ export default function ConstellationDashboard() {
   if (paymentStatus === 'pending') {
     return (
       <>
+        <Helmet>
+          <title>Pagamento Pendente - Constellation</title>
+          <meta name="description" content="Complete seu pagamento para ter acesso à plataforma Constellation." />
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
         <ConstellationHeader />
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4 pt-24">
           <div className="max-w-2xl w-full bg-slate-900/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8 text-center">
@@ -163,7 +174,7 @@ export default function ConstellationDashboard() {
               Atualizar Status
             </button>
             <button
-              onClick={() => navigate(ConstellationUrls.signup())}
+              onClick={() => navigate(ConstellationUrls.paymentPending())}
               className="py-3 px-6 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-all"
             >
               Completar Pagamento
@@ -188,6 +199,11 @@ export default function ConstellationDashboard() {
   if (paymentStatus === 'paid') {
     return (
       <>
+        <Helmet>
+          <title>Bem-vindo - Constellation Dashboard</title>
+          <meta name="description" content="Parabéns! Você é agora um membro Constellation Founding 100. Acesse suas ferramentas de CRM e automação." />
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
         <ConstellationHeader />
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4 pt-24">
         <div className="max-w-2xl w-full bg-slate-900/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8 text-center">
