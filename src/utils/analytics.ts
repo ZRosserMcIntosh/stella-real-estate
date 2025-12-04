@@ -190,11 +190,14 @@ export const trackConversion = (conversionName: string, value?: number) => {
  */
 export const trackStartRegistration = (eventParams?: Record<string, any>) => {
   if (typeof window !== 'undefined' && window.gtag) {
+    console.log('🎯 GTM Event: qualify_lead', eventParams);
     window.gtag('event', 'qualify_lead', {
       event_category: 'engagement',
       event_label: 'Start Registration',
       ...eventParams,
     });
+  } else {
+    console.warn('⚠️ gtag not available for qualify_lead event');
   }
 };
 
@@ -210,6 +213,7 @@ export const trackPurchaseComplete = (
   eventParams?: Record<string, any>
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
+    console.log('🎯 GTM Event: close_convert_lead', { value, transactionId, ...eventParams });
     window.gtag('event', 'close_convert_lead', {
       value: value,
       currency: 'BRL',
@@ -218,6 +222,8 @@ export const trackPurchaseComplete = (
       event_label: 'Purchase Complete',
       ...eventParams,
     });
+  } else {
+    console.warn('⚠️ gtag not available for close_convert_lead event');
   }
 };
 
@@ -265,7 +271,9 @@ export const trackPurchaseEventWithRedirect = (
   eventParams?: Record<string, any>
 ) => {
   if (typeof window !== 'undefined' && window.gtag) {
+    console.log('🎯 GTM Event: conversion_event_purchase', { url, ...eventParams });
     const callback = function () {
+      console.log('✅ Event callback fired, redirecting to:', url);
       if (typeof url === 'string') {
         window.location.href = url;
       }
@@ -277,6 +285,7 @@ export const trackPurchaseEventWithRedirect = (
       ...eventParams,
     });
   } else {
+    console.warn('⚠️ gtag not available for conversion_event_purchase event');
     // If gtag is not available, just navigate
     if (typeof url === 'string') {
       window.location.href = url;
