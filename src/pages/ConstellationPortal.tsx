@@ -325,13 +325,13 @@ export default function ConstellationPortal() {
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link
-                to="/precos"
-                onClick={() => trackCTA('Ver Planos e Preços', 'hero')}
+              <a
+                href="https://stellareal.com.br/constellation"
+                onClick={() => trackCTA('Saiba Mais', 'hero')}
                 className="px-8 py-4 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
               >
-                Ver Planos e Preços
-              </Link>
+                Saiba Mais
+              </a>
               <a
                 href={ConstellationUrls.login()}
                 onClick={() => trackCTA('Entrar', 'hero')}

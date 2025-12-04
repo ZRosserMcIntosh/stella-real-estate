@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { Helmet } from 'react-helmet-async'
 
 export default function ConstellationVisuals() {
   // Static background stars - memoized to prevent regeneration on re-renders
@@ -43,6 +44,11 @@ export default function ConstellationVisuals() {
 
   return (
     <>
+      <Helmet>
+        <title>Mídias Sociais - Constellation</title>
+        <meta name="description" content="Estúdio de criação de conteúdo visual para mídias sociais - Plataforma Constellation." />
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <style>{`
         html, body {
           background: #020617 !important;

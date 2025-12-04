@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { ConstellationUrls } from '../../utils/constellationUrl'
 
 export default function ConstellationReset() {
@@ -59,6 +60,11 @@ export default function ConstellationReset() {
 
   return (
     <>
+      <Helmet>
+        <title>Redefinir Senha - Constellation</title>
+        <meta name="description" content="Redefinir sua senha da plataforma Constellation." />
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       {/* Animated star background */}
       <div className="fixed inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 overflow-hidden">
         {/* Static stars */}

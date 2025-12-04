@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { supabase } from '../../lib/supabaseClient'
 import { useAuth } from '../../context/AuthContext'
 import { useTranslation } from 'react-i18next'
@@ -74,7 +75,13 @@ export default function ConstellationSiteBuilder() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-950">
+    <>
+      <Helmet>
+        <title>Criador de Sites - Constellation</title>
+        <meta name="description" content="Crie e personalize seu site profissional de imóveis com o construtor da Constellation." />
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-950">
       {/* Header */}
       <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm">
         <div className="container-padded py-4">
@@ -323,5 +330,6 @@ export default function ConstellationSiteBuilder() {
         </div>
       </div>
     </div>
+    </>
   )
 }
