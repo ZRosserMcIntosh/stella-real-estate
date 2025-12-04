@@ -71,6 +71,13 @@ export default function ConstellationDashboard() {
 
       setMemberData(data)
       setPaymentStatus(data.payment_status)
+      
+      // Redirect to payment pending page if payment is not completed
+      if (data.payment_status === 'pending') {
+        navigate(ConstellationUrls.paymentPending(), { replace: true })
+        return
+      }
+      
       setLoading(false)
     } catch (err) {
       console.error('Error:', err)
