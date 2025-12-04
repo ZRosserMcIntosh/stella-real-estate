@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { getSubdomainUrl } from '../utils/subdomain'
 
 /**
@@ -8,6 +8,7 @@ import { getSubdomainUrl } from '../utils/subdomain'
  */
 export function SubdomainRedirect() {
   const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const pathname = location.pathname
@@ -20,17 +21,20 @@ export function SubdomainRedirect() {
       const remainingPath = '/' + pathParts.slice(3).join('/') // /sub/constellation/login -> /login
       
       if (subdomain) {
-        // Build the subdomain URL
-        const subdomainUrl = getSubdomainUrl(subdomain, remainingPath || '/')
-        
-        // Only redirect if we're not already on the subdomain
-        if (!window.location.hostname.startsWith(subdomain + '.')) {
-          console.log(`Redirecting from ${pathname} to ${subdomainUrl}`)
-          window.location.href = subdomainUrl
+        // If we're already on the subdomain, navigate to the clean path
+        if (window.location.hostname.startsWith(subdomain + '.')) {
+          console.log(`Already on ${subdomain} subdomain, navigating to ${remainingPath || '/'}`)
+          navigate(remainingPath || '/', { replace: true })
+          return
         }
+        
+        // Otherwise, redirect to the subdomain URL
+        const subdomainUrl = getSubdomainUrl(subdomain, remainingPath || '/')
+        console.log(`Redirecting from ${pathname} to ${subdomainUrl}`)
+        window.location.href = subdomainUrl
       }
     }
-  }, [location])
+  }, [location, navigate])
 
   return null
 }
