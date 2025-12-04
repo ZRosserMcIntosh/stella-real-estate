@@ -7,7 +7,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { ConstellationUrls } from '../../utils/constellationUrl'
-import { trackPurchaseComplete } from '../../utils/analytics'
+import { trackPurchaseComplete, trackStartRegistration } from '../../utils/analytics'
 
 // Initialize Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
@@ -340,6 +340,14 @@ export default function ConstellationSignup() {
     if (!validateProfessionalInfo()) {
       return
     }
+    
+    // Track qualify_lead event when user initiates the payment flow
+    trackStartRegistration({ 
+      source: 'constellation_signup', 
+      step: 'finalizar_button',
+      account_type: signupData.accountType 
+    });
+    
     setError(null)
     setLoading(true)
     setIsRegistering(true) // Prevent redirect during registration
