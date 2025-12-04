@@ -74,13 +74,6 @@ export default function ConstellationDashboard() {
       setMemberData(data)
       setPaymentStatus(data.payment_status)
       
-      // Redirect to payment pending page if payment is not completed
-      if (data.payment_status === 'pending') {
-        console.log('Payment is pending, redirecting to payment-pending page')
-        navigate(ConstellationUrls.paymentPending(), { replace: true })
-        return
-      }
-      
       console.log('Payment status is:', data.payment_status)
       setLoading(false)
     } catch (err) {
@@ -133,6 +126,28 @@ export default function ConstellationDashboard() {
             <p className="text-sm text-slate-400">
               Se você acabou de completar o pagamento, aguarde alguns segundos e clique em "Atualizar Status" abaixo.
             </p>
+          </div>
+
+          {/* Warning about losing spot */}
+          <div className="p-6 bg-red-500/10 border border-red-500/30 rounded-xl mb-6">
+            <div className="flex items-start gap-3 mb-3">
+              <svg className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <div className="text-left">
+                <h3 className="text-lg font-semibold text-red-300 mb-2">
+                  ⚠️ Importante: Complete seu Pagamento
+                </h3>
+                <p className="text-slate-300 text-sm mb-3">
+                  Seu cadastro será <strong className="text-red-300">cancelado automaticamente</strong> se o pagamento não for confirmado em até <strong className="text-red-300">24 horas</strong>.
+                </p>
+                <ul className="text-sm text-slate-400 space-y-1.5">
+                  <li>• Você perderá sua vaga no programa Founding 100</li>
+                  <li>• Não terá acesso ao preço promocional de R$ 99</li>
+                  <li>• Precisará se cadastrar novamente pagando o preço regular</li>
+                </ul>
+              </div>
+            </div>
           </div>
 
           <div className="flex gap-4 justify-center">

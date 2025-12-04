@@ -234,8 +234,8 @@ export default function ConstellationSignup() {
           if (data && data.payment_status === 'paid') {
             navigate(ConstellationUrls.dashboard(), { replace: true })
           } else if (data && data.payment_status === 'pending') {
-            // If payment is pending, redirect to payment pending page
-            navigate(ConstellationUrls.paymentPending(), { replace: true })
+            // If payment is pending, redirect to dashboard which will show pending state
+            navigate(ConstellationUrls.dashboard(), { replace: true })
           }
           // If they have a pending payment or no record, let them stay on signup page
         } catch (err) {
