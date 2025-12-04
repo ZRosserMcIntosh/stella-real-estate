@@ -188,15 +188,14 @@ const router = createBrowserRouter([
       { path: 'sub/stellareal', element: <StellaReal /> },
     ],
   },
-  // OLD: Constellation subdomain routes (constellation.stellareal.com.br)
-  // These now redirect to the new path-based URLs (stellareal.com.br/constellation/*)
-  { path: '/login', element: <SubdomainToPathRedirect /> },
-  { path: '/signup', element: <SubdomainToPathRedirect /> },
-  { path: '/reset', element: <SubdomainToPathRedirect /> },
-  { path: '/admin', element: <SubdomainToPathRedirect /> },
-  { path: '/dashboard', element: <SubdomainToPathRedirect /> },
-  { path: '/visuals', element: <SubdomainToPathRedirect /> },
-  { path: '/site-builder', element: <SubdomainToPathRedirect /> },
+  // Constellation subdomain routes (when visiting constellation.stellareal.com.br)
+  // These are the clean URLs without /sub/constellation prefix - NO HEADER/FOOTER
+  { path: '/login', element: <ConditionalLoginRedirect /> },
+  { path: '/signup', element: <ConditionalSignupRedirect /> },
+  { path: '/reset', element: <ConditionalResetRedirect /> },
+  { path: '/admin', element: <ConstellationDashboard /> },
+  { path: '/visuals', element: <ConstellationVisuals /> },
+  { path: '/site-builder', element: <ConstellationSiteBuilder /> },
   // Constellation routes - standalone without main site header/footer
   { path: '/sub/constellation', element: <SubdomainRedirect /> },
   { path: '/sub/constellation/login', element: <SubdomainRedirect /> },
