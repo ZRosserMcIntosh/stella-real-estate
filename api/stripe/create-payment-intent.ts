@@ -44,26 +44,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       amount,
     } = req.body
 
-    // Validate required fields
-    if (!fullName || !cpf || !phone || !creciNumber || !creciUf || !email || !userId) {
+    // Validate required fields (CPF and CRECI are now optional)
+    if (!fullName || !phone || !email || !userId) {
       return res.status(400).json({ error: 'Campos obrigatórios faltando' })
     }
 
-    if (accountType === 'company' && (!companyName || !cnpj)) {
-      return res.status(400).json({ error: 'Dados da empresa são obrigatórios' })
+    // Company fields only required if account type is company
+    if (accountType === 'company' && companyName && !cnpj) {
+      return res.status(400).json({ error: 'CNPJ é obrigatório para empresas' })
     }
 
-    // Check if CRECI is already registered
-    const { data: existingMember } = await supabase
-      .from('founding_members')
-      .select('creci_number')
-      .eq('creci_number', creciNumber)
-      .eq('creci_uf', creciUf)
-      .eq('payment_status', 'paid')  // Only check for paid members
-      .single()
+    // Check if CRECI is already registered (only if provided)
+    if (creciNumber && creciUf) {
+      const { data: existingMember } = await supabase
+        .from('founding_members')
+        .select('creci_number')
+        .eq('creci_number', creciNumber)
+        .eq('creci_uf', creciUf)
+        .eq('payment_status', 'paid')  // Only check for paid members
+        .single()
 
-    if (existingMember) {
-      return res.status(400).json({ error: 'Este CRECI já está cadastrado no programa Founding 100' })
+      if (existingMember) {
+        return res.status(400).json({ error: 'Este CRECI já está cadastrado no programa Founding 100' })
+      }
     }
 
     // Check if email is already registered with a paid status
