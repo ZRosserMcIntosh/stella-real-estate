@@ -196,6 +196,7 @@ const router = createBrowserRouter([
   { path: '/reset', element: <ConditionalResetRedirect /> },
   { path: '/payment-pending', element: <ConstellationPaymentPending /> },
   { path: '/admin', element: <ConstellationDashboard /> },
+  { path: '/dashboard', element: <ConstellationDashboard /> },
   { path: '/visuals', element: <ConstellationVisuals /> },
   { path: '/site-builder', element: <ConstellationSiteBuilder /> },
   // Constellation routes - standalone without main site header/footer
