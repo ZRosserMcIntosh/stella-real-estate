@@ -44,15 +44,16 @@ const BRAZIL_STATES = [
 
 interface SignupFormData {
   fullName: string
-  cpf: string
   phone: string
+  email: string
+  password: string
+  // Optional CRECI fields (page 2)
+  cpf: string
   accountType: 'individual' | 'company'
   companyName: string
   cnpj: string
   creciNumber: string
   creciUf: string
-  email: string
-  password: string
 }
 
 // Payment Form Component
@@ -184,18 +185,19 @@ export default function ConstellationSignup() {
     }));
   }, []); // Empty deps - only generate once
   
-  const [signupStep, setSignupStep] = useState<'personal' | 'business' | 'credentials' | 'payment'>('personal')
+  const [signupStep, setSignupStep] = useState<'account' | 'professional' | 'payment'>('account')
   const [signupData, setSignupData] = useState<SignupFormData>({
     fullName: '',
-    cpf: '',
     phone: '',
+    email: '',
+    password: '',
+    // Optional CRECI fields
+    cpf: '',
     accountType: 'individual',
     companyName: '',
     cnpj: '',
     creciNumber: '',
     creciUf: '',
-    email: '',
-    password: '',
   })
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null)
@@ -284,65 +286,55 @@ export default function ConstellationSignup() {
     return cleaned.length === 10 || cleaned.length === 11
   }
 
-  // Step 1: Personal Info validation
-  const validatePersonalInfo = () => {
+  // Step 1: Account Info validation (name, email, phone, password)
+  const validateAccountInfo = () => {
     if (!signupData.fullName.trim()) {
-      setError(t('constellation.error_full_name_required'))
+      setError('Por favor, informe seu nome completo')
       return false
     }
-    if (!validateCPF(signupData.cpf)) {
-      setError(t('constellation.error_cpf_required'))
+    if (!signupData.email.includes('@')) {
+      setError('Por favor, informe um email válido')
       return false
     }
     if (!validatePhone(signupData.phone)) {
-      setError(t('constellation.error_phone_required'))
+      setError('Por favor, informe um telefone válido')
+      return false
+    }
+    if (signupData.password.length < 6) {
+      setError('A senha deve ter pelo menos 6 caracteres')
       return false
     }
     return true
   }
 
-  // Step 2: Business Info validation
-  const validateBusinessInfo = () => {
-    if (signupData.accountType === 'company') {
-      if (!signupData.companyName.trim()) {
-        setError(t('constellation.error_company_name_required'))
-        return false
-      }
+  // Step 2: Professional Info validation (all optional)
+  const validateProfessionalInfo = () => {
+    // All professional fields are optional
+    // Only validate format if provided
+    if (signupData.accountType === 'company' && signupData.companyName.trim()) {
       if (!validateCNPJ(signupData.cnpj)) {
-        setError(t('constellation.error_cnpj_required'))
+        setError('CNPJ inválido')
         return false
       }
     }
-    // CRECI is now optional - only validate UF if CRECI is provided
+    // If CRECI number is provided, UF is required
     if (signupData.creciNumber.trim() && !signupData.creciUf) {
-      setError(t('constellation.error_state_required'))
+      setError('Por favor, selecione o estado do CRECI')
       return false
     }
     return true
   }
 
   // Step handlers
-  const handlePersonalInfoNext = () => {
-    if (validatePersonalInfo()) {
+  const handleAccountInfoNext = () => {
+    if (validateAccountInfo()) {
       setError(null)
-      setSignupStep('business')
+      setSignupStep('professional')
     }
   }
 
-  const handleBusinessInfoNext = () => {
-    if (validateBusinessInfo()) {
-      setError(null)
-      setSignupStep('credentials')
-    }
-  }
-
-  const handleCredentialsNext = async () => {
-    if (!signupData.email.includes('@')) {
-      setError(t('constellation.error_email_required'))
-      return
-    }
-    if (signupData.password.length < 6) {
-      setError(t('constellation.error_password_length'))
+  const handleProfessionalInfoNext = async () => {
+    if (!validateProfessionalInfo()) {
       return
     }
     setError(null)
@@ -402,9 +394,9 @@ export default function ConstellationSignup() {
           user_id: newUserId,
           full_name: signupData.fullName,
           user_type: 'constellation_user',
-          creci_number: signupData.creciNumber,
-          creci_uf: signupData.creciUf,
-          creci_type: signupData.accountType === 'company' ? 'corporate' : 'individual',
+          creci_number: signupData.creciNumber || null,
+          creci_uf: signupData.creciUf || null,
+          creci_type: signupData.creciNumber ? (signupData.accountType === 'company' ? 'corporate' : 'individual') : null,
           phone: signupData.phone,
           company_name: signupData.companyName || null,
         })
@@ -424,12 +416,12 @@ export default function ConstellationSignup() {
           email: signupData.email,
           phone: signupData.phone,
           full_name: signupData.fullName,
-          cpf: signupData.cpf,
+          cpf: signupData.cpf || null,
           account_type: signupData.accountType,
           company_name: signupData.companyName || null,
           cnpj: signupData.cnpj || null,
-          creci_number: signupData.creciNumber,
-          creci_uf: signupData.creciUf,
+          creci_number: signupData.creciNumber || null,
+          creci_uf: signupData.creciUf || null,
           payment_status: 'pending', // Mark as pending until payment
           payment_amount: 99.00,
         })
@@ -683,29 +675,103 @@ export default function ConstellationSignup() {
               </p>
             </div>
 
-            {/* Sign Up Form - Step 1: Personal Info */}
-            {signupStep === 'personal' && (
+            {/* Sign Up Form - Step 1: Account Info (Name, Email, Phone, Password) */}
+            {signupStep === 'account' && (
               <div className="space-y-4 animate-fadeIn">
                 <div className="text-center mb-4">
-                  <p className="text-xs text-indigo-300/60 uppercase tracking-wider">{t('constellation.step_1_title')}</p>
+                  <p className="text-xs text-indigo-300/60 uppercase tracking-wider">Passo 1 de 2 - Informações da Conta</p>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    {t('constellation.full_name')}
+                    Nome Completo
                   </label>
                   <input
                     type="text"
                     value={signupData.fullName}
                     onChange={(e) => setSignupData(prev => ({ ...prev, fullName: e.target.value }))}
-                    placeholder={t('constellation.full_name_placeholder')}
+                    placeholder="Seu nome completo"
                     className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    {t('constellation.cpf')}
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={signupData.email}
+                    onChange={(e) => setSignupData(prev => ({ ...prev, email: e.target.value }))}
+                    placeholder="seu@email.com"
+                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Telefone
+                  </label>
+                  <input
+                    type="text"
+                    value={signupData.phone}
+                    onChange={(e) => setSignupData(prev => ({ ...prev, phone: formatPhone(e.target.value) }))}
+                    placeholder="(00) 00000-0000"
+                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Senha
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={signupData.password}
+                      onChange={(e) => setSignupData(prev => ({ ...prev, password: e.target.value }))}
+                      placeholder="••••••••"
+                      className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300"
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-1">Mínimo 6 caracteres</p>
+                </div>
+
+                {error && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+                    <p className="text-sm text-red-300">{error}</p>
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={handleAccountInfoNext}
+                  className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl text-xs sm:text-sm"
+                  style={{ fontFamily: 'Outfit, sans-serif' }}
+                >
+                  Próximo
+                </button>
+              </div>
+            )}
+
+            {/* Sign Up Form - Step 2: Professional Info (Optional CRECI) */}
+            {signupStep === 'professional' && (
+              <div className="space-y-4 animate-fadeIn">
+                <div className="text-center mb-4">
+                  <p className="text-xs text-indigo-300/60 uppercase tracking-wider">Passo 2 de 2 - Informações Profissionais (Opcional)</p>
+                  <p className="text-xs text-slate-400 mt-2">Estas informações são opcionais mas ajudam a personalizar sua experiência</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    CPF <span className="text-slate-500 font-normal">(opcional)</span>
                   </label>
                   <input
                     type="text"
@@ -718,44 +784,7 @@ export default function ConstellationSignup() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    {t('constellation.phone')}
-                  </label>
-                  <input
-                    type="text"
-                    value={signupData.phone}
-                    onChange={(e) => setSignupData(prev => ({ ...prev, phone: formatPhone(e.target.value) }))}
-                    placeholder="(00) 00000-0000"
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
-                  />
-                </div>
-
-                {error && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
-                    <p className="text-sm text-red-300">{error}</p>
-                  </div>
-                )}
-
-                <button
-                  type="button"
-                  onClick={handlePersonalInfoNext}
-                  className="w-full py-3 px-4 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl text-xs sm:text-sm"
-                  style={{ fontFamily: 'Outfit, sans-serif' }}
-                >
-                  {t('constellation.next_business_info')}
-                </button>
-              </div>
-            )}
-
-            {/* Sign Up Form - Step 2: Business Info */}
-            {signupStep === 'business' && (
-              <div className="space-y-4 animate-fadeIn">
-                <div className="text-center mb-4">
-                  <p className="text-xs text-indigo-300/60 uppercase tracking-wider">{t('constellation.step_2_title')}</p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    {t('constellation.account_type')}
+                    Tipo de Conta
                   </label>
                   <div className="flex gap-2 p-1 bg-slate-900/50 rounded-xl border border-white/5">
                     <button
@@ -767,7 +796,7 @@ export default function ConstellationSignup() {
                           : 'text-slate-400 hover:text-slate-300'
                       }`}
                     >
-                      {t('constellation.individual')}
+                      Individual
                     </button>
                     <button
                       type="button"
@@ -778,7 +807,7 @@ export default function ConstellationSignup() {
                           : 'text-slate-400 hover:text-slate-300'
                       }`}
                     >
-                      {t('constellation.company')}
+                      Empresa
                     </button>
                   </div>
                 </div>
@@ -787,20 +816,20 @@ export default function ConstellationSignup() {
                   <>
                     <div>
                       <label className="block text-sm font-medium text-slate-300 mb-2">
-                        {t('constellation.company_name')}
+                        Nome da Empresa <span className="text-slate-500 font-normal">(opcional)</span>
                       </label>
                       <input
                         type="text"
                         value={signupData.companyName}
                         onChange={(e) => setSignupData(prev => ({ ...prev, companyName: e.target.value }))}
-                        placeholder={t('constellation.company_name')}
+                        placeholder="Nome da empresa"
                         className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
                       />
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-slate-300 mb-2">
-                        {t('constellation.cnpj')}
+                        CNPJ <span className="text-slate-500 font-normal">(opcional)</span>
                       </label>
                       <input
                         type="text"
@@ -815,7 +844,7 @@ export default function ConstellationSignup() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    {t('constellation.creci_number')} <span className="text-slate-500 font-normal">(opcional)</span>
+                    Número CRECI <span className="text-slate-500 font-normal">(opcional)</span>
                   </label>
                   <input
                     type="text"
@@ -828,14 +857,14 @@ export default function ConstellationSignup() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
-                    {t('constellation.state')} <span className="text-slate-500 font-normal">(opcional)</span>
+                    Estado do CRECI <span className="text-slate-500 font-normal">(opcional)</span>
                   </label>
                   <select
                     value={signupData.creciUf}
                     onChange={(e) => setSignupData(prev => ({ ...prev, creciUf: e.target.value }))}
                     className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
                   >
-                    <option value="">{t('constellation.select_state')}</option>
+                    <option value="">Selecione o estado</option>
                     {BRAZIL_STATES.map((state) => (
                       <option key={state.value} value={state.value}>
                         {state.label}
@@ -854,103 +883,27 @@ export default function ConstellationSignup() {
                   <button
                     type="button"
                     onClick={() => {
-                      setSignupStep('personal')
+                      setSignupStep('account')
                       setError(null)
                     }}
                     className="flex-1 py-3 px-4 bg-slate-700/50 hover:bg-slate-700 text-white rounded-xl font-medium transition-all"
                   >
-                    {t('constellation.back')}
+                    Voltar
                   </button>
                   <button
                     type="button"
-                    onClick={handleBusinessInfoNext}
-                    className="flex-1 py-3 px-4 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl text-xs sm:text-sm"
-                    style={{ fontFamily: 'Outfit, sans-serif' }}
-                  >
-                    {t('constellation.next')}
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Sign Up Form - Step 3: Credentials */}
-            {signupStep === 'credentials' && (
-              <div className="space-y-4 animate-fadeIn">
-                <div className="text-center mb-4">
-                  <p className="text-xs text-indigo-300/60 uppercase tracking-wider">{t('constellation.step_3_title')}</p>
-                </div>
-
-                <div>
-                  <label htmlFor="signup-email" className="block text-sm font-medium text-slate-300 mb-2">
-                    {t('constellation.email')}
-                  </label>
-                  <input
-                    id="signup-email"
-                    type="email"
-                    value={signupData.email}
-                    onChange={(e) => setSignupData(prev => ({ ...prev, email: e.target.value }))}
-                    placeholder={t('constellation.email_placeholder')}
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="signup-password" className="block text-sm font-medium text-slate-300 mb-2">
-                    {t('constellation.password')}
-                  </label>
-                  <div className="relative">
-                    <input
-                      id="signup-password"
-                      type={showPassword ? 'text' : 'password'}
-                      value={signupData.password}
-                      onChange={(e) => setSignupData(prev => ({ ...prev, password: e.target.value }))}
-                      placeholder="••••••••"
-                      className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300"
-                    >
-                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                    </button>
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1">{t('constellation.password_placeholder')}</p>
-                </div>
-
-                {error && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
-                    <p className="text-sm text-red-300">{error}</p>
-                  </div>
-                )}
-
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSignupStep('business')
-                      setError(null)
-                    }}
-                    className="flex-1 py-3 px-4 bg-slate-700/50 hover:bg-slate-700 text-white rounded-xl font-medium transition-all"
-                  >
-                    {t('constellation.back')}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleCredentialsNext}
+                    onClick={handleProfessionalInfoNext}
                     disabled={loading}
-                    className="flex-1 py-3 px-4 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
+                    className="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
                     style={{ fontFamily: 'Outfit, sans-serif' }}
                   >
-                    {loading ? t('constellation.creating_account') : t('constellation.finish_registration')}
+                    {loading ? 'Criando conta...' : 'Finalizar'}
                   </button>
                 </div>
               </div>
             )}
 
-            {/* Sign Up Form - Step 4: Payment */}
+            {/* Sign Up Form - Step 3: Payment */}
             {signupStep === 'payment' && (
               <div className="space-y-4 animate-fadeIn">
                 <div className="text-center mb-4">
@@ -978,7 +931,7 @@ export default function ConstellationSignup() {
                     <PaymentForm
                       onSuccess={handlePaymentSuccess}
                       onBack={() => {
-                        setSignupStep('credentials')
+                        setSignupStep('professional')
                         setError(null)
                       }}
                       signupData={signupData}
