@@ -80,7 +80,14 @@ function FoundingBenefitsList() {
  */
 
 export default function Pricing() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+
+  // Force Portuguese language on constellation subdomain
+  useEffect(() => {
+    if (i18n.language !== 'pt') {
+      i18n.changeLanguage('pt')
+    }
+  }, [i18n])
 
   // Scroll to top when component mounts
   useEffect(() => {

@@ -7,8 +7,15 @@ import { ConstellationUrls } from '../utils/constellationUrl'
 import { trackStartRegistration, trackPurchaseEventWithRedirect } from '../utils/analytics'
 
 export default function Constellation() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [showStickyCTA, setShowStickyCTA] = useState(false)
+
+  // Force Portuguese language on constellation subdomain
+  useEffect(() => {
+    if (i18n.language !== 'pt') {
+      i18n.changeLanguage('pt')
+    }
+  }, [i18n])
 
   // Calculate founding slots remaining
   const calculateFoundingSlots = () => {
