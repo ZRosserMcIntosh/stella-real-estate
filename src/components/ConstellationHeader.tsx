@@ -41,13 +41,7 @@ export default function ConstellationHeader() {
                 to="/constellation"
                 className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
               >
-                {t('constellation.nav.platform')}
-              </Link>
-              <Link 
-                to="/precos"
-                className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
-              >
-                {t('constellation.nav.plans')}
+                {t('constellation.nav.platform_and_plans')}
               </Link>
               <Link 
                 to="/sobre"
@@ -100,14 +94,7 @@ export default function ConstellationHeader() {
               onClick={() => setMobileMenuOpen(false)}
               className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
             >
-              {t('constellation.nav.platform')}
-            </Link>
-            <Link 
-              to="/precos"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
-            >
-              {t('constellation.nav.plans')}
+              {t('constellation.nav.platform_and_plans')}
             </Link>
             <Link 
               to="/sobre"
