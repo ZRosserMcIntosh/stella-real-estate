@@ -129,6 +129,8 @@ import ConditionalLayout from './components/ConditionalLayout'
 import SmartHomepage from './components/SmartHomepage'
 import SmartConstellation from './components/SmartConstellation'
 import SmartPrecos from './components/SmartPrecos'
+import SmartLogin from './components/SmartLogin'
+import SmartSignup from './components/SmartSignup'
 
 const router = createBrowserRouter([
   {
@@ -194,8 +196,8 @@ const router = createBrowserRouter([
       { path: 'constellation', element: <SmartConstellation /> },
       { path: 'precos', element: <SmartPrecos /> },
       // Authentication routes (needed for constellation subdomain)
-      { path: 'login', element: <Login /> },
-      { path: 'signup', element: <SignUp /> },
+      { path: 'login', element: <SmartLogin /> },
+      { path: 'signup', element: <SmartSignup /> },
       { path: 'forgot-password', element: <ForgotPassword /> },
       { path: 'reset-password', element: <ResetPassword /> },
       // Subdomain routes (temporary paths until custom domains are configured)

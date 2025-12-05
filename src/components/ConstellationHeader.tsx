@@ -61,22 +61,22 @@ export default function ConstellationHeader() {
               >
                 {t('constellation.nav.contact')}
               </Link>
-              <a
-                href={ConstellationUrls.login()}
+              <Link
+                to="/login"
                 className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
               >
                 {t('constellation.nav.sign_in')}
-              </a>
+              </Link>
             </nav>
             
             <div className="flex items-center gap-4 border-l border-white/10 pl-4">
               <LanguageSwitcher />
-              <a 
-                href={ConstellationUrls.signup()}
+              <Link 
+                to="/signup"
                 className="px-6 py-2.5 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-lg hover:shadow-xl hover:scale-105 text-sm"
               >
                 {t('constellation.nav.get_started')}
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -124,23 +124,23 @@ export default function ConstellationHeader() {
               {t('constellation.nav.contact')}
             </Link>
             <div className="border-t border-white/10 pt-4 mt-2 flex flex-col gap-3">
-              <a
-                href={ConstellationUrls.login()}
+              <Link
+                to="/login"
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
               >
                 {t('constellation.nav.sign_in')}
-              </a>
+              </Link>
               <div className="py-2">
                 <LanguageSwitcher />
               </div>
-              <a 
-                href={ConstellationUrls.signup()}
+              <Link 
+                to="/signup"
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-6 py-3 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-lg text-center"
               >
                 {t('constellation.nav.get_started')}
-              </a>
+              </Link>
             </div>
           </nav>
         </div>
