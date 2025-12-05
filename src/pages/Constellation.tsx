@@ -107,20 +107,14 @@ export default function Constellation() {
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center">
-              <a
-                href={ConstellationUrls.signup()}
-                onClick={(e) => {
-                  e.preventDefault()
-                  trackStartRegistration({ source: 'hero_cta', plan: 'founding_100' })
-                  trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
-                    source: 'hero_cta',
-                    plan: 'founding_100'
-                  })
+              <button
+                onClick={() => {
+                  document.getElementById('pricing-section')?.scrollIntoView({ behavior: 'smooth' })
                 }}
                 className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
               >
-                Garantir Acesso - R$ 99
-              </a>
+                Ver Planos e Preços
+              </button>
               <a
                 href="https://www.stellareal.com.br"
                 target="_blank"
@@ -243,16 +237,21 @@ export default function Constellation() {
       </section>
 
       {/* Pricing Teaser */}
-      <section className="py-20 lg:py-24 relative">
+      <section id="pricing-section" className="py-20 lg:py-24 relative">
         <div className="container-padded">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
+            <div className="text-center mb-8">
               <h2 className="text-3xl md:text-4xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
                 Planos Constellation
               </h2>
-              <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+              <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-4">
                 Planos flexíveis para todos os tamanhos de negócio
               </p>
+              <div className="inline-block bg-blue-900/30 border border-blue-500/50 rounded-lg px-6 py-3 max-w-3xl">
+                <p className="text-sm text-blue-300 font-light leading-relaxed">
+                  <span className="font-semibold">Importante:</span> A plataforma é atualmente somente por convite, mas será lançada EXCLUSIVAMENTE para pré-cadastrados em Janeiro. Após o lançamento, devido a limitações de GPU, aceitaremos entre 1-3 novos cadastros por semana conforme escalamos. Cadastrar-se agora garante sua vaga.
+                </p>
+              </div>
             </div>
 
             {/* Tech Stack Logos */}
@@ -287,8 +286,8 @@ export default function Constellation() {
                   id: 'SOLO',
                   name: 'Pro',
                   description: 'Para corretores independentes crescendo seus negócios',
-                  monthlyPrice: 299,
-                  founderPrice: 149,
+                  monthlyPrice: 199,
+                  founderPrice: 99,
                   features: [
                     { name: '1 site (ilimitado)', included: true },
                     { name: 'Até 50 anúncios ativos', included: true },
@@ -303,14 +302,16 @@ export default function Constellation() {
                     { name: 'Remover marca Stella', included: false },
                   ],
                   popular: false,
-                  cta: 'Disponível no Lançamento',
+                  cta: 'Garantir Vaga Agora',
+                  preRegisterPrice: 'R$ 99/mês para pré-cadastrados',
+                  afterLaunchPrice: 'R$ 199/mês após Janeiro'
                 },
                 {
                   id: 'TEAM',
                   name: 'Team',
                   description: 'Ideal para pequenas equipes e equipes em crescimento',
-                  monthlyPrice: 499,
-                  founderPrice: 249,
+                  monthlyPrice: 399,
+                  founderPrice: 199,
                   features: [
                     { name: '2 sites completos', included: true },
                     { name: 'Até 150 anúncios ativos', included: true },
@@ -327,7 +328,9 @@ export default function Constellation() {
                     { name: 'Suporte prioritário', included: true },
                   ],
                   popular: true,
-                  cta: 'Disponível no Lançamento',
+                  cta: 'Garantir Vaga Agora',
+                  preRegisterPrice: 'R$ 199/mês para pré-cadastrados',
+                  afterLaunchPrice: 'R$ 399/mês após Janeiro'
                 },
                 {
                   id: 'BROKERAGE',
@@ -416,7 +419,7 @@ export default function Constellation() {
                           <div className="flex flex-col w-full">
                             <div className="flex flex-wrap items-baseline gap-1 mb-1">
                               <span className="text-sm text-slate-500 font-light whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                                Preço público:
+                                Após Janeiro:
                               </span>
                               <span className="text-xl sm:text-2xl font-light text-slate-400 line-through whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
                                 R$ {plan.monthlyPrice}
@@ -425,7 +428,7 @@ export default function Constellation() {
                             </div>
                             <div className="flex flex-wrap items-baseline gap-1 mb-2">
                               <span className="text-sm text-emerald-400 font-medium whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                                Corretores fundadores:
+                                Pré-cadastrados:
                               </span>
                               <span className="text-2xl sm:text-3xl font-light text-emerald-400 whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
                                 R$ {plan.founderPrice}
@@ -433,7 +436,7 @@ export default function Constellation() {
                               <span className="text-emerald-300 font-light text-sm whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
                             </div>
                             <p className="text-xs text-slate-400 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                              50% OFF permanente, após 3 meses grátis a partir do lançamento
+                              Garantia de preço para pré-cadastrados
                             </p>
                           </div>
                         )}
@@ -449,12 +452,20 @@ export default function Constellation() {
                           {plan.cta}
                         </a>
                       ) : (
-                        <button
-                          disabled
-                          className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-slate-800/50 text-slate-400 cursor-not-allowed border border-slate-700/50"
+                        <a
+                          href={ConstellationUrls.signup()}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            trackStartRegistration({ source: 'pricing_card', plan: plan.id })
+                            trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
+                              source: 'pricing_card',
+                              plan: plan.id
+                            })
+                          }}
+                          className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-lg hover:shadow-xl hover:scale-105"
                         >
                           {plan.cta}
-                        </button>
+                        </a>
                       )}
 
                       <div className="space-y-3 flex-grow">
@@ -535,93 +546,6 @@ export default function Constellation() {
               >
                 Garantir Acesso - R$ 99
               </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Founding 100 Offer */}
-      <section className="py-20 lg:py-24 relative">
-        <div className="container-padded">
-          <div className="max-w-5xl mx-auto">
-            <div className="bg-gradient-to-br from-emerald-900/40 via-green-900/40 to-emerald-900/40 border-2 border-emerald-500/50 rounded-3xl p-8 md:p-12 backdrop-blur-sm shadow-2xl shadow-emerald-500/20">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/40 rounded-full text-emerald-300 text-sm mb-4">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Oferta Limitada
-                </div>
-                <h2 className="text-4xl md:text-5xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Faça Parte dos <span className="text-emerald-300">Founding 100</span>
-                </h2>
-                <p className="text-xl text-slate-300 mb-2">
-                  Garanta benefícios vitalícios por apenas <span className="text-emerald-300 font-semibold">R$ 99</span>
-                </p>
-                <p className="text-sm text-slate-400">
-                  Pagamento único • Sem assinatura • Benefícios permanentes
-                </p>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-slate-900/50 rounded-lg p-6 border border-emerald-500/30 text-center">
-                  <div className="text-4xl font-light text-emerald-300 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>R$ 99</div>
-                  <div className="text-sm text-slate-300">Pagamento único</div>
-                </div>
-                <div className="bg-slate-900/50 rounded-lg p-6 border border-emerald-500/30 text-center">
-                  <div className="text-4xl font-light text-emerald-300 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>3 meses</div>
-                  <div className="text-sm text-slate-300">Grátis em todos planos</div>
-                </div>
-                <div className="bg-slate-900/50 rounded-lg p-6 border border-emerald-500/30 text-center">
-                  <div className="text-4xl font-light text-emerald-300 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>50% OFF</div>
-                  <div className="text-sm text-slate-300">Permanente após lançamento</div>
-                </div>
-              </div>
-
-              <div className="mb-8">
-                <h3 className="text-xl font-semibold text-white mb-4 text-center">Benefícios Vitalícios Inclusos:</h3>
-                <div className="grid md:grid-cols-2 gap-3">
-                  {[
-                    'Contato direto com nosso Diretor de Tecnologia',
-                    '50% desconto permanente em qualquer plano',
-                    '3 meses grátis em todos os planos após lançamento',
-                    'Primeiro acesso quando lançar em Janeiro 2026',
-                    '10 mapas 3D incluídos por mês (5 extras permanentes)',
-                    'Mapas 3D extras por R$ 10 (sempre, vs R$ 160+)',
-                    'Badge de Founding Partner + acesso antecipado a novos recursos'
-                  ].map((benefit, idx) => (
-                    <div key={idx} className="flex items-start gap-3 bg-slate-900/30 rounded-lg p-3">
-                      <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-slate-200">{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4 items-center">
-                <a
-                  href={ConstellationUrls.signup()}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    trackStartRegistration({ source: 'founding_section', plan: 'founding_100' })
-                    trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
-                      source: 'founding_section',
-                      plan: 'founding_100'
-                    })
-                  }}
-                  className="px-10 py-5 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-bold transition-all shadow-xl shadow-emerald-500/50 hover:scale-105 text-xl"
-                >
-                  Garantir Acesso Agora
-                </a>
-                <div className="text-center">
-                  <div className="text-sm text-emerald-300 font-semibold mb-2">
-                    Apenas {foundingSlotsRemaining} vagas restantes de 100
-                  </div>
-                  <div className="text-xs text-slate-400 max-w-md">
-                    A partir de 1º de janeiro, aceitaremos no máximo 3 a 5 novas contas por semana
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
