@@ -3,25 +3,13 @@ import { useState } from 'react'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 import { ConstellationUrls } from '../utils/constellationUrl'
-import { getSubdomain } from '../utils/subdomain'
 
 export default function ConstellationHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { t } = useTranslation()
-  const subdomain = getSubdomain()
-  const isOnSubdomain = subdomain === 'constellation'
 
-  // For subdomain, use anchor links to sections on homepage
-  // For main domain, use regular links that will redirect to subdomain
+  // All navigation uses regular paths now - routes exist on subdomain
   const getNavLink = (path: string) => {
-    if (isOnSubdomain) {
-      // On subdomain, scroll to sections on the same page
-      if (path === '/constellation') return '#recursos'
-      if (path === '/precos') return '#precos'
-      if (path === '/sobre') return '/sobre'  // This route should exist
-      if (path === '/contato') return '/contato'  // This route should exist
-      return '/'
-    }
     return path
   }
 

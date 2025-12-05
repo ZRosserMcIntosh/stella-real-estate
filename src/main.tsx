@@ -67,6 +67,8 @@ import Members from './pages/Members'
 import StellaReal from './pages/StellaReal'
 import International from './pages/International'
 import ConstellationPortal from './pages/ConstellationPortal'
+import ConstellationPage from './pages/Constellation'
+import PricingPage from './pages/Pricing'
 import ConstellationLogin from './pages/constellation/ConstellationLogin'
 import ConstellationSignup from './pages/constellation/ConstellationSignup'
 import ConstellationReset from './pages/constellation/ConstellationReset'
@@ -193,6 +195,10 @@ const router = createBrowserRouter([
   },
   // Constellation subdomain routes (when visiting constellation.stellareal.com.br)
   // These are the clean URLs without /sub/constellation prefix - NO HEADER/FOOTER
+  { path: '/constellation', element: <ConstellationPage /> },
+  { path: '/precos', element: <PricingPage /> },
+  { path: '/sobre', element: <About /> },
+  { path: '/contato', element: <Contact /> },
   { path: '/login', element: <ConditionalLoginRedirect /> },
   { path: '/signup', element: <ConditionalSignupRedirect /> },
   { path: '/reset', element: <ConditionalResetRedirect /> },

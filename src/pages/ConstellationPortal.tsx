@@ -630,7 +630,7 @@ export default function ConstellationPortal() {
 
               <div className="text-center">
                 <a
-                  href="#precos"
+                  href="/precos"
                   onClick={() => trackCTA('Ver Todos os Planos', 'pricing_section')}
                   className="inline-block px-8 py-4 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-xl hover:shadow-2xl hover:scale-105"
                 >
