@@ -138,20 +138,17 @@ export default function Constellation() {
           <div className="max-w-7xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-8 items-stretch">
               {/* Left: Explanation */}
-              <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-8 flex flex-col justify-center">
+              <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6 flex flex-col justify-between">
                 <div>
-                  <h2 className="text-3xl font-light text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                    Mapas 3D Interativos
-                  </h2>
-                  <p className="text-slate-300 mb-6 text-lg font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  <p className="text-slate-300 mb-6 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
                     Transformamos seus vídeos 2D em mundos 3D totalmente exploráveis. Você grava, nós criamos uma experiência imersiva onde seus clientes podem "caminhar" pelo imóvel como se estivessem lá.
                   </p>
                   
                   <div className="text-left">
-                    <p className="text-brand-400 text-sm font-semibold mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    <p className="text-blue-400 text-sm font-semibold mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
                       Especificações Técnicas:
                     </p>
-                    <ul className="text-brand-300 text-xs space-y-1 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    <ul className="text-blue-300 text-xs space-y-1 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
                       <li>• Estimativa de pose e mapeamento denso (~12min)</li>
                       <li>• 3D Gaussian Splatting para síntese fotorrealista (~20-38min em GPUs L4/L40S)</li>
                       <li>• Cenas web-optimized com splats tileados e compressão adaptativa</li>
@@ -165,8 +162,8 @@ export default function Constellation() {
 
               {/* Right: Demo Video */}
               <div className="relative group">
-                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-brand-500/40 via-indigo-500/30 to-brand-500/40 opacity-75 blur-2xl group-hover:opacity-100 transition duration-500" />
-                <div className="relative overflow-hidden rounded-2xl border border-brand-400/40 shadow-[0_20px_80px_-20px_rgba(99,102,241,0.6)] ring-1 ring-brand-400/10">
+                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-500/40 via-cyan-500/30 to-emerald-500/40 opacity-75 blur-2xl group-hover:opacity-100 transition duration-500" />
+                <div className="relative overflow-hidden rounded-2xl border border-emerald-400/40 shadow-[0_20px_80px_-20px_rgba(16,185,129,0.6)] ring-1 ring-emerald-400/10">
                   <video
                     autoPlay
                     loop
@@ -181,10 +178,10 @@ export default function Constellation() {
                   <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-slate-950/95 to-transparent">
                     <div className="flex items-center gap-2">
                       <div className="flex h-2 w-2 shrink-0">
-                        <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-brand-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-400"></span>
+                        <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                       </div>
-                      <div className="text-xs font-semibold uppercase tracking-wider text-brand-200">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-emerald-200">
                         Demonstração ao Vivo
                       </div>
                     </div>
