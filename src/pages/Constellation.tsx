@@ -218,11 +218,37 @@ export default function Constellation() {
                 </p>
               </div>
 
-              <div className="grid sm:grid-cols-3 gap-6 mb-8">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 {[
-                  { plan: 'Pro', price: 'R$ 299', features: ['1 Website', '50 Listings', 'Full CRM', '3K Contacts'] },
-                  { plan: 'Team', price: 'R$ 499', popular: true, features: ['2 Websites', '150 Listings', 'Full CRM', '10K Contacts', 'Team Tools'] },
-                  { plan: 'Brokerage', price: 'R$ 999', features: ['3 Websites', '500 Listings', '50K Contacts', 'Priority Support'] }
+                  { 
+                    plan: 'Pro', 
+                    price: 'R$ 299',
+                    founderPrice: 'R$ 149',
+                    description: 'Para corretores independentes',
+                    features: ['1 site', '50 anúncios', '3K contatos', '2 mapas 3D/mês', '2 usuários'] 
+                  },
+                  { 
+                    plan: 'Team', 
+                    price: 'R$ 499',
+                    founderPrice: 'R$ 249',
+                    description: 'Para pequenas equipes',
+                    popular: true, 
+                    features: ['2 sites', '150 anúncios', '10K contatos', '5 mapas 3D/mês', '5 usuários', 'Lead scoring'] 
+                  },
+                  { 
+                    plan: 'Brokerage', 
+                    price: 'R$ 999',
+                    founderPrice: 'R$ 499',
+                    description: 'Para imobiliárias',
+                    features: ['3 sites', '500 anúncios', '50K contatos', '20 mapas 3D/mês', '30 usuários', 'White label'] 
+                  },
+                  { 
+                    plan: 'Enterprise', 
+                    price: 'Personalizado',
+                    founderPrice: '50% OFF vitalício',
+                    description: 'Soluções personalizadas',
+                    features: ['Sites ilimitados', 'Tudo ilimitado', 'Mapas 3D customizados', 'SLA + CSM dedicado'] 
+                  }
                 ].map((tier, idx) => (
                   <div
                     key={idx}
@@ -233,12 +259,17 @@ export default function Constellation() {
                     {tier.popular && (
                       <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                         <span className="px-3 py-1 bg-gradient-to-r from-brand-600 to-indigo-600 text-white text-xs font-bold rounded-full">
-                          MOST POPULAR
+                          MAIS POPULAR
                         </span>
                       </div>
                     )}
                     <h3 className="text-xl font-semibold text-white mb-2">{tier.plan}</h3>
-                    <div className="text-3xl font-bold text-brand-400 mb-4">{tier.price}<span className="text-sm text-slate-400">/mo</span></div>
+                    <p className="text-slate-400 text-xs mb-3">{tier.description}</p>
+                    <div className="mb-1">
+                      <div className="text-lg text-slate-500 line-through">{tier.price}</div>
+                      <div className="text-2xl font-bold text-emerald-400 mb-1">{tier.founderPrice}<span className="text-sm text-slate-400">/mês</span></div>
+                      <div className="text-xs text-slate-400 mb-4">Preço fundador</div>
+                    </div>
                     <ul className="space-y-2">
                       {tier.features.map((feature, i) => (
                         <li key={i} className="flex items-center gap-2 text-slate-300 text-sm">

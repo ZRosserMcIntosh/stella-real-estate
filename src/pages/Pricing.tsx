@@ -79,7 +79,7 @@ export default function Pricing() {
       name: 'Pro',
       description: 'Para corretores independentes crescendo seus negócios',
       monthlyPrice: 299,
-      founderPrice: 149.50,
+      founderPrice: 149,
       features: [
         { name: '1 site (ilimitado)', included: true },
         { name: 'Até 50 anúncios ativos', included: true },
@@ -101,7 +101,7 @@ export default function Pricing() {
       name: 'Team',
       description: 'Ideal para pequenas equipes e equipes em crescimento',
       monthlyPrice: 499,
-      founderPrice: 249.50,
+      founderPrice: 249,
       features: [
         { name: '2 sites completos', included: true },
         { name: 'Até 150 anúncios ativos', included: true },
@@ -125,7 +125,7 @@ export default function Pricing() {
       name: 'Brokerage',
       description: 'Para imobiliárias estabelecidas com múltiplas equipes',
       monthlyPrice: 999,
-      founderPrice: 499.50,
+      founderPrice: 499,
       features: [
         { name: '3 sites completos', included: true },
         { name: 'Até 500 anúncios ativos', included: true },
