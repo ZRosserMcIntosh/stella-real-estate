@@ -121,12 +121,14 @@ export default function Constellation() {
               >
                 Garantir Acesso - R$ 99
               </a>
-              <Link
-                to="/login"
+              <a
+                href="https://www.stellareal.com.br"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full font-medium transition-all border border-white/20 hover:border-white/30 text-lg"
               >
-                Entrar
-              </Link>
+                Explore a Site Created with Constellation
+              </a>
             </div>
           </div>
         </div>
