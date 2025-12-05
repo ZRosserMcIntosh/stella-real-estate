@@ -126,13 +126,16 @@ import { OnboardingProvider } from './context/OnboardingContext'
 import { SubdomainRouter } from './components/SubdomainRouter'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import ConditionalLayout from './components/ConditionalLayout'
+import SmartHomepage from './components/SmartHomepage'
+import SmartConstellation from './components/SmartConstellation'
+import SmartPrecos from './components/SmartPrecos'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <ConditionalLayout />,
     children: [
-      { index: true, element: <App /> },
+      { index: true, element: <SmartHomepage /> },
       // Portuguese URLs (primary)
       { path: 'sobre', element: <About /> },
       { path: 'contato', element: <Contact /> },
@@ -189,37 +192,14 @@ const router = createBrowserRouter([
       { path: 'pricing', element: <Navigate to="/precos" replace /> },
       { path: 'list-your-property', element: <Navigate to="/anuncie-seu-imovel" replace /> },
       { path: 'members', element: <Members /> },
+      // Constellation-specific routes (smart components that render differently based on subdomain)
+      { path: 'constellation', element: <SmartConstellation /> },
+      { path: 'precos', element: <SmartPrecos /> },
       // Subdomain routes (temporary paths until custom domains are configured)
       { path: 'sub/stellareal', element: <StellaReal /> },
     ],
   },
-  // Constellation subdomain routes (when visiting constellation.stellareal.com.br)
-  // These are the clean URLs without /sub/constellation prefix - NO HEADER/FOOTER
-  { path: '/', element: <ConstellationPortal /> },
-  { path: '/constellation', element: <ConstellationPage /> },
-  { path: '/precos', element: <PricingPage /> },
-  { path: '/sobre', element: <About /> },
-  { path: '/contato', element: <Contact /> },
-  { path: '/login', element: <ConditionalLoginRedirect /> },
-  { path: '/signup', element: <ConditionalSignupRedirect /> },
-  { path: '/reset', element: <ConditionalResetRedirect /> },
-  { path: '/payment-pending', element: <ConstellationPaymentPending /> },
-  { path: '/admin', element: <ConstellationDashboard /> },
-  { path: '/dashboard', element: <ConstellationDashboard /> },
-  { path: '/visuals', element: <ConstellationVisuals /> },
-  { path: '/site-builder', element: <ConstellationSiteBuilder /> },
-  // Constellation routes - standalone without main site header/footer
-  { path: '/sub/constellation', element: <SubdomainRedirect /> },
-  { path: '/sub/constellation/login', element: <SubdomainRedirect /> },
-  { path: '/sub/constellation/signup', element: <SubdomainRedirect /> },
-  { path: '/sub/constellation/reset', element: <SubdomainRedirect /> },
-  { path: '/sub/constellation/admin', element: <SubdomainRedirect /> },
-  { path: '/sub/constellation/dashboard', element: <SubdomainRedirect /> },
-  { path: '/sub/constellation/visuals', element: <SubdomainRedirect /> },
-  { path: '/sub/constellation/site-builder', element: <SubdomainRedirect /> },
-  // Removed conflicting /constellation/* routes - these are now handled by:
-  // 1. App.tsx subdomain detection (constellation.stellareal.com.br → ConstellationPortal)
-  // 2. ConstellationRedirect at /constellation (stellareal.com.br/constellation → constellation.stellareal.com.br)
+  // Removed duplicate standalone constellation routes - now handled by SmartHomepage + child routes above
   { path: '/criar-site', element: <CreateSite /> },
   { path: '/onboarding/choose-role', element: <ChooseRole /> },
   { path: '/onboarding/realtor-license', element: <RealtorLicense /> },
