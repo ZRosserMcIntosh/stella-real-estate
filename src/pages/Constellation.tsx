@@ -138,9 +138,9 @@ export default function Constellation() {
       <section className="py-12 lg:py-16 relative bg-slate-950">
         <div className="container-padded">
           <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-8 items-stretch">
+            <div className="grid lg:grid-cols-2 gap-8">
               {/* Left: Explanation */}
-              <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6 flex flex-col justify-between">
+              <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6 flex flex-col justify-between h-full">
                 <div>
                   <p className="text-slate-300 mb-6 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
                     Transformamos seus vídeos 2D em mundos 3D totalmente exploráveis. Você grava, nós criamos uma experiência imersiva onde seus clientes podem "caminhar" pelo imóvel como se estivessem lá.
@@ -163,15 +163,15 @@ export default function Constellation() {
               </div>
 
               {/* Right: Demo Video */}
-              <div className="relative group">
+              <div className="relative group h-full">
                 <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-500/40 via-cyan-500/30 to-emerald-500/40 opacity-75 blur-2xl group-hover:opacity-100 transition duration-500" />
-                <div className="relative overflow-hidden rounded-2xl border border-emerald-400/40 shadow-[0_20px_80px_-20px_rgba(16,185,129,0.6)] ring-1 ring-emerald-400/10">
+                <div className="relative overflow-hidden rounded-2xl border border-emerald-400/40 shadow-[0_20px_80px_-20px_rgba(16,185,129,0.6)] ring-1 ring-emerald-400/10 h-full flex flex-col">
                   <video
                     autoPlay
                     loop
                     muted
                     playsInline
-                    className="w-full h-auto"
+                    className="w-full h-full object-cover"
                     poster="/video/office-3D-poster.jpg"
                   >
                     <source src="/video/office-3D.mp4" type="video/mp4" />
@@ -189,6 +189,52 @@ export default function Constellation() {
                     </div>
                     <div className="text-sm text-slate-300 mt-1">Experiência 3D interativa em tempo real</div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof & Statistics Section */}
+      <section className="py-16 lg:py-20 relative bg-gradient-to-b from-slate-950 to-slate-900">
+        <div className="container-padded">
+          <div className="max-w-7xl mx-auto">
+            {/* Statistics */}
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              <div className="text-center p-8 bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-xl">
+                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  80%+
+                </div>
+                <p className="text-slate-300 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Redução em visitas que não resultam em fechamento
+                </p>
+              </div>
+              
+              <div className="text-center p-8 bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-xl">
+                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400 mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  500%+
+                </div>
+                <p className="text-slate-300 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  ROI médio em tecnologia imobiliária
+                </p>
+              </div>
+              
+              <div className="text-center p-8 bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-xl">
+                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400 mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  24/7
+                </div>
+                <p className="text-slate-300 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Tours virtuais disponíveis para seus clientes
+                </p>
+              </div>
+            </div>
+
+            {/* Trustpilot Widget */}
+            <div className="flex justify-center">
+              <div className="w-full max-w-2xl">
+                <div className="trustpilot-widget" data-locale="pt-BR" data-template-id="5419b6a8b0d04a076446a9ad" data-businessunit-id="693347c6fde29e408a4d2089" data-style-height="24px" data-style-width="100%" data-theme="dark">
+                  <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener">Trustpilot</a>
                 </div>
               </div>
             </div>
