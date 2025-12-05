@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { AnimatedBackground } from '../../../../components/AnimatedBackground';
 
 interface Feature {
   id: string;
@@ -531,7 +530,6 @@ export const FeaturesChecklist: React.FC = () => {
 
   return (
     <div className="h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative">
-      <AnimatedBackground variant="ballet" interactive={true} />
       {/* Header */}
       <div className="border-b border-slate-700/50 p-6 bg-slate-800/40 backdrop-blur-sm relative z-10">
         <div className="max-w-6xl mx-auto">

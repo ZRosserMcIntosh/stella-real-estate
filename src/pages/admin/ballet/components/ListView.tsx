@@ -204,7 +204,7 @@ export function ListView({ project, tasks, users, onTaskClick, onTaskUpdate, onT
       {/* Empty State */}
       {tasks.length === 0 && (
         <div className="flex flex-col items-center justify-center p-12 text-center">
-          <div className="text-6xl mb-4 animate-bounce">📋</div>
+          <div className="text-6xl mb-4">📋</div>
           <h3 className="text-lg font-semibold text-slate-100 mb-2">No tasks yet</h3>
           <p className="text-sm text-slate-400">Create your first task to get started</p>
         </div>

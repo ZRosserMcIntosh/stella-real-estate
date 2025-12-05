@@ -21,7 +21,7 @@ export function TimelineView({ project, tasks, users, onTaskClick }: TimelineVie
   if (tasksWithDates.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border border-slate-700/50 bg-slate-800/60 backdrop-blur-sm p-12 text-center shadow-2xl shadow-pink-500/5">
-        <div className="text-6xl mb-4 animate-bounce">📊</div>
+        <div className="text-6xl mb-4">📊</div>
         <h3 className="text-lg font-semibold text-slate-100 mb-2">{t('ballet.timeline.noData')}</h3>
         <p className="text-sm text-slate-400">{t('ballet.timeline.addDatesHint')}</p>
       </div>
