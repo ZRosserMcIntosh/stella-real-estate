@@ -127,7 +127,7 @@ export default function Constellation() {
                 rel="noopener noreferrer"
                 className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full font-medium transition-all border border-white/20 hover:border-white/30 text-lg"
               >
-                Explore a Site Created with Constellation
+                Explorar Site Criado com Constellation
               </a>
             </div>
           </div>
