@@ -92,13 +92,6 @@ export default function Constellation() {
         
         <div className="container-padded relative z-10">
           <div className="max-w-5xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-500/10 border border-brand-500/30 rounded-full text-brand-400 text-sm mb-8">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-              </svg>
-              The Platform for Real Estate Professionals
-            </div>
-            
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-indigo-400 to-purple-400">
                 Constellation
@@ -158,12 +151,13 @@ export default function Constellation() {
                     <p className="text-brand-400 text-sm font-semibold mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
                       Especificações Técnicas:
                     </p>
-                    <ul className="text-brand-300 text-sm space-y-2 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    <ul className="text-brand-300 text-xs space-y-1 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
                       <li>• Estimativa de pose e mapeamento denso (~12min)</li>
-                      <li>• 3D Gaussian Splatting para síntese fotorrealista (~20-38min)</li>
+                      <li>• 3D Gaussian Splatting para síntese fotorrealista (~20-38min em GPUs L4/L40S)</li>
                       <li>• Cenas web-optimized com splats tileados e compressão adaptativa</li>
                       <li>• Renderização high-FPS em browser sem plugins</li>
                       <li>• Armazenamento S3 multi-tier + entrega via CDN edge-cached</li>
+                      <li>• Custos variáveis: disponibilidade GPU, consumo energético datacenter, demanda computacional</li>
                     </ul>
                   </div>
                 </div>
