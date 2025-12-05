@@ -186,7 +186,7 @@ export default function ConstellationSignup() {
     }));
   }, []); // Empty deps - only generate once
   
-  const [signupStep, setSignupStep] = useState<'account' | 'professional' | 'payment'>('account')
+  const [signupStep, setSignupStep] = useState<'account' | 'payment'>('account')
   const [signupData, setSignupData] = useState<SignupFormData>({
     fullName: '',
     phone: '',
@@ -308,34 +308,9 @@ export default function ConstellationSignup() {
     return true
   }
 
-  // Step 2: Professional Info validation (all optional)
-  const validateProfessionalInfo = () => {
-    // All professional fields are optional
-    // Only validate format if provided
-    if (signupData.accountType === 'company' && signupData.companyName.trim()) {
-      if (!validateCNPJ(signupData.cnpj)) {
-        setError('CNPJ inválido')
-        return false
-      }
-    }
-    // If CRECI number is provided, UF is required
-    if (signupData.creciNumber.trim() && !signupData.creciUf) {
-      setError('Por favor, selecione o estado do CRECI')
-      return false
-    }
-    return true
-  }
-
   // Step handlers
-  const handleAccountInfoNext = () => {
-    if (validateAccountInfo()) {
-      setError(null)
-      setSignupStep('professional')
-    }
-  }
-
-  const handleProfessionalInfoNext = async () => {
-    if (!validateProfessionalInfo()) {
+  const handleAccountInfoNext = async () => {
+    if (!validateAccountInfo()) {
       return
     }
     
@@ -403,11 +378,11 @@ export default function ConstellationSignup() {
           user_id: newUserId,
           full_name: signupData.fullName,
           user_type: 'constellation_user',
-          creci_number: signupData.creciNumber || null,
-          creci_uf: signupData.creciUf || null,
-          creci_type: signupData.creciNumber ? (signupData.accountType === 'company' ? 'corporate' : 'individual') : null,
+          creci_number: null, // Optional, can be added later
+          creci_uf: null,
+          creci_type: null,
           phone: signupData.phone,
-          company_name: signupData.companyName || null,
+          company_name: null, // Optional, can be added later
         })
 
       if (profileError) {
@@ -425,12 +400,12 @@ export default function ConstellationSignup() {
           email: signupData.email,
           phone: signupData.phone,
           full_name: signupData.fullName,
-          cpf: signupData.cpf || null,
-          account_type: signupData.accountType,
-          company_name: signupData.companyName || null,
-          cnpj: signupData.cnpj || null,
-          creci_number: signupData.creciNumber || null,
-          creci_uf: signupData.creciUf || null,
+          cpf: null, // Optional, can be added later
+          account_type: 'individual', // Default to individual
+          company_name: null,
+          cnpj: null,
+          creci_number: null,
+          creci_uf: null,
           payment_status: 'pending', // Mark as pending until payment
           payment_amount: 99.00,
         })
@@ -690,11 +665,11 @@ export default function ConstellationSignup() {
               </p>
             </div>
 
-            {/* Sign Up Form - Step 1: Account Info (Name, Email, Phone, Password) */}
+            {/* Sign Up Form - Account Info (Name, Email, Phone, Password) */}
             {signupStep === 'account' && (
               <div className="space-y-4 animate-fadeIn">
                 <div className="text-center mb-4">
-                  <p className="text-xs text-indigo-300/60 uppercase tracking-wider">Passo 1 de 2 - Informações da Conta</p>
+                  <p className="text-xs text-indigo-300/60 uppercase tracking-wider">Crie sua conta</p>
                 </div>
 
                 <div>
@@ -768,157 +743,16 @@ export default function ConstellationSignup() {
                 <button
                   type="button"
                   onClick={handleAccountInfoNext}
-                  className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl text-xs sm:text-sm"
+                  disabled={loading}
+                  className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl text-xs sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ fontFamily: 'Outfit, sans-serif' }}
                 >
-                  Próximo
+                  {loading ? 'Criando conta...' : 'Continuar para pagamento'}
                 </button>
               </div>
             )}
 
-            {/* Sign Up Form - Step 2: Professional Info (Optional CRECI) */}
-            {signupStep === 'professional' && (
-              <div className="space-y-4 animate-fadeIn">
-                <div className="text-center mb-4">
-                  <p className="text-xs text-indigo-300/60 uppercase tracking-wider">Passo 2 de 2 - Informações Profissionais (Opcional)</p>
-                  <p className="text-xs text-slate-400 mt-2">Estas informações são opcionais mas ajudam a personalizar sua experiência</p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    CPF <span className="text-slate-500 font-normal">(opcional)</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={signupData.cpf}
-                    onChange={(e) => setSignupData(prev => ({ ...prev, cpf: formatCPF(e.target.value) }))}
-                    placeholder="000.000.000-00"
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Tipo de Conta
-                  </label>
-                  <div className="flex gap-2 p-1 bg-slate-900/50 rounded-xl border border-white/5">
-                    <button
-                      type="button"
-                      onClick={() => setSignupData(prev => ({ ...prev, accountType: 'individual' }))}
-                      className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
-                        signupData.accountType === 'individual'
-                          ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                          : 'text-slate-400 hover:text-slate-300'
-                      }`}
-                    >
-                      Individual
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSignupData(prev => ({ ...prev, accountType: 'company' }))}
-                      className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
-                        signupData.accountType === 'company'
-                          ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                          : 'text-slate-400 hover:text-slate-300'
-                      }`}
-                    >
-                      Empresa
-                    </button>
-                  </div>
-                </div>
-
-                {signupData.accountType === 'company' && (
-                  <>
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">
-                        Nome da Empresa <span className="text-slate-500 font-normal">(opcional)</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={signupData.companyName}
-                        onChange={(e) => setSignupData(prev => ({ ...prev, companyName: e.target.value }))}
-                        placeholder="Nome da empresa"
-                        className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">
-                        CNPJ <span className="text-slate-500 font-normal">(opcional)</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={signupData.cnpj}
-                        onChange={(e) => setSignupData(prev => ({ ...prev, cnpj: formatCNPJ(e.target.value) }))}
-                        placeholder="00.000.000/0000-00"
-                        className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
-                      />
-                    </div>
-                  </>
-                )}
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Número CRECI <span className="text-slate-500 font-normal">(opcional)</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={signupData.creciNumber}
-                    onChange={(e) => setSignupData(prev => ({ ...prev, creciNumber: e.target.value }))}
-                    placeholder="123456"
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Estado do CRECI <span className="text-slate-500 font-normal">(opcional)</span>
-                  </label>
-                  <select
-                    value={signupData.creciUf}
-                    onChange={(e) => setSignupData(prev => ({ ...prev, creciUf: e.target.value }))}
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
-                  >
-                    <option value="">Selecione o estado</option>
-                    {BRAZIL_STATES.map((state) => (
-                      <option key={state.value} value={state.value}>
-                        {state.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {error && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
-                    <p className="text-sm text-red-300">{error}</p>
-                  </div>
-                )}
-
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSignupStep('account')
-                      setError(null)
-                    }}
-                    className="flex-1 py-3 px-4 bg-slate-700/50 hover:bg-slate-700 text-white rounded-xl font-medium transition-all"
-                  >
-                    Voltar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleProfessionalInfoNext}
-                    disabled={loading}
-                    className="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
-                    style={{ fontFamily: 'Outfit, sans-serif' }}
-                  >
-                    {loading ? 'Criando conta...' : 'Finalizar'}
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Sign Up Form - Step 3: Payment */}
+            {/* Sign Up Form - Step 2: Payment */}
             {signupStep === 'payment' && (
               <div className="space-y-4 animate-fadeIn">
                 <div className="text-center mb-4">
@@ -946,7 +780,7 @@ export default function ConstellationSignup() {
                     <PaymentForm
                       onSuccess={handlePaymentSuccess}
                       onBack={() => {
-                        setSignupStep('professional')
+                        setSignupStep('account')
                         setError(null)
                       }}
                       signupData={signupData}
