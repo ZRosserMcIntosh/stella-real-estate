@@ -82,7 +82,7 @@ export default function Constellation() {
         </a>
       </div>
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 lg:py-32">
+      <section className="relative overflow-hidden pt-32 lg:pt-40 pb-8 lg:pb-12">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{ 
             backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(100, 116, 139) 1px, transparent 0)', 
@@ -99,11 +99,11 @@ export default function Constellation() {
             </h1>
             
             <p className="text-2xl sm:text-3xl text-slate-300 mb-4 font-light">
-              Your Complete Real Estate Business Platform
+              Plataforma Completa para Corretores de Imóveis
             </p>
             
             <p className="text-lg sm:text-xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Build your website, manage listings, nurture leads, and close deals—all in one powerful platform designed specifically for realtors and brokerages.
+              Crie seu site, gerencie imóveis, cultive leads e feche negócios—tudo em uma plataforma poderosa projetada especificamente para corretores e imobiliárias.
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center">
@@ -122,10 +122,10 @@ export default function Constellation() {
                 Garantir Acesso - R$ 99
               </a>
               <Link
-                to="/admin/login"
+                to="/login"
                 className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full font-medium transition-all border border-white/20 hover:border-white/30 text-lg"
               >
-                Sign In
+                Entrar
               </Link>
             </div>
           </div>
