@@ -44,8 +44,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       amount,
     } = req.body
 
-    // Validate required fields (CPF and CRECI are now optional)
-    if (!fullName || !phone || !email || !userId) {
+    // Validate required fields (CPF, CRECI, and phone are now optional for faster signup)
+    // Check for both null/undefined and empty string
+    if (!fullName?.trim() || !email?.trim() || !userId) {
+      console.error('Validation failed - missing required fields:', { fullName, email, userId })
       return res.status(400).json({ error: 'Campos obrigatórios faltando' })
     }
 
@@ -106,14 +108,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       payment_method_types: ['card', 'pix'], // Re-enabled PIX with fee adjustment
       metadata: {
         fullName,
-        cpf,
-        phone,
+        cpf: cpf || '',
+        phone: phone || '', // Optional - can be added later
         accountType,
         companyName: companyName || '',
         cnpj: cnpj || '',
         numberOfPartners: numberOfPartners || '',
-        creciNumber,
-        creciUf,
+        creciNumber: creciNumber || '',
+        creciUf: creciUf || '',
         email,
         userId, // Store user ID to update their status when paid
         program: 'founding_100',
