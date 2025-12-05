@@ -735,8 +735,10 @@
   "constellation": {
     "nav": {
       "features": "Features",
+      "platform": "Platform",
+      "plans": "Plans",
       "pricing": "Pricing",
-      "about": "About",
+      "about": "About Us",
       "contact": "Contact",
       "sign_in": "Sign In",
       "get_started": "Get Started"

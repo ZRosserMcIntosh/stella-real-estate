@@ -557,8 +557,10 @@
   "constellation": {
     "nav": {
       "features": "Características",
+      "platform": "Platform",
+      "plans": "Plans",
       "pricing": "Precios",
-      "about": "Acerca de",
+      "about": "Sobre Nosotros",
       "contact": "Contacto",
       "sign_in": "Iniciar Sesión",
       "get_started": "Comenzar"
