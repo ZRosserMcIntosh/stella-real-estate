@@ -749,7 +749,7 @@ export default function ConstellationPortal() {
             {/* Social Media Icons */}
             <div className="pt-6 flex justify-center">
               <div className="flex items-center gap-6">
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                <a href="https://www.instagram.com/stellam.real/" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
                   <img src="/social-icons/instagram.png" alt="Instagram" className="h-8 w-auto" />
                 </a>
                 <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">

@@ -50,7 +50,7 @@ export default function SEO({
     priceRange: 'Alto Padrão',
     telephone: '+55-11-XXXX-XXXX',
     sameAs: [
-      'https://www.instagram.com/stellarealestate',
+      'https://www.instagram.com/stellam.real/',
       'https://www.facebook.com/stellarealestate'
     ]
   }
