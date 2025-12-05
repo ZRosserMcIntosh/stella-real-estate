@@ -33,8 +33,6 @@ export default function Header() {
   const [institutionalOpen, setInstitutionalOpen] = useState(false)
   const [institutionalClosing, setInstitutionalClosing] = useState(false)
   const [projectsClosing, setProjectsClosing] = useState(false)
-  const [constellationOpen, setConstellationOpen] = useState(false)
-  const [constellationClosing, setConstellationClosing] = useState(false)
   const [loginDropdownOpen, setLoginDropdownOpen] = useState(false)
   const [loginDropdownClosing, setLoginDropdownClosing] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -44,10 +42,8 @@ export default function Header() {
   const headerRef = React.useRef<HTMLHeadElement>(null)
   const buttonRef = React.useRef<HTMLButtonElement>(null)
   const institutionalButtonRef = React.useRef<HTMLButtonElement>(null)
-  const constellationButtonRef = React.useRef<HTMLButtonElement>(null)
   const loginButtonRef = React.useRef<HTMLButtonElement>(null)
   const [buttonCenter, setButtonCenter] = React.useState<number>(0)
-  const [constellationButtonCenter, setConstellationButtonCenter] = React.useState<number>(0)
   const [loginButtonCenter, setLoginButtonCenter] = React.useState<number>(0)
   const closeTimerRef = React.useRef<NodeJS.Timeout | null>(null)
   const handleSignupClick = React.useCallback(() => {
@@ -103,10 +99,6 @@ export default function Header() {
     if (institutionalButtonRef.current) {
       const rect = institutionalButtonRef.current.getBoundingClientRect()
       setInstitutionalButtonCenter(rect.left + rect.width / 2)
-    }
-    if (constellationButtonRef.current) {
-      const rect = constellationButtonRef.current.getBoundingClientRect()
-      setConstellationButtonCenter(rect.left + rect.width / 2)
     }
     if (loginButtonRef.current) {
       const rect = loginButtonRef.current.getBoundingClientRect()
@@ -568,81 +560,13 @@ export default function Header() {
           >
             {t('header.nav.rent').toUpperCase?.() || 'RENT'}
           </button>
-          <div
-            className="relative"
-            onMouseEnter={() => {
-              if (closeTimerRef.current) {
-                clearTimeout(closeTimerRef.current)
-                closeTimerRef.current = null
-              }
-              if (constellationButtonRef.current) {
-                const rect = constellationButtonRef.current.getBoundingClientRect()
-                setConstellationButtonCenter(rect.left + rect.width / 2)
-              }
-              setConstellationOpen(true)
-            }}
-            onMouseLeave={() => {
-              closeTimerRef.current = setTimeout(() => {
-                setConstellationClosing(true)
-                setTimeout(() => {
-                  setConstellationOpen(false)
-                  setConstellationClosing(false)
-                }, 350)
-              }, 500)
-            }}
+          <a
+            href="https://constellation.stellareal.com.br/"
+            className="nav-button"
+            target="_self"
           >
-            <button
-              ref={constellationButtonRef}
-              className="nav-button"
-              onClick={() => window.location.href = '/constellation'}
-            >
-              CONSTELLATION
-            </button>
-            {constellationOpen && (
-              <div
-                className={`dropdown-menu fixed z-[60] backdrop-blur-md bg-white/60 dark:bg-slate-900/60 shadow-[0_12px_28px_-12px_rgba(0,0,0,0.48)] p-2 rounded-xl w-fit min-w-[200px] overflow-hidden border border-slate-200/20 dark:border-slate-700/20 ${constellationClosing ? 'closing' : ''}`}
-                style={{ 
-                  top: 'calc(var(--header-height, 60px) + 6px)', 
-                  left: `${constellationButtonCenter}px`, 
-                  transform: 'translateX(-50%)',
-                }}
-                onMouseEnter={() => {
-                  if (closeTimerRef.current) {
-                    clearTimeout(closeTimerRef.current)
-                    closeTimerRef.current = null
-                  }
-                }}
-                onMouseLeave={() => {
-                  closeTimerRef.current = setTimeout(() => {
-                    setConstellationClosing(true)
-                    setTimeout(() => {
-                      setConstellationOpen(false)
-                      setConstellationClosing(false)
-                    }, 350)
-                  }, 500)
-                }}
-              >
-                <div className="grid grid-cols-1 gap-1">
-                  <button
-                    onClick={() => window.location.href = '/constellation'}
-                    className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 px-3 transition-all duration-300 w-full text-left"
-                  >
-                    <div className="min-w-0">
-                      <div className="text-sm font-medium text-slate-900 dark:text-slate-100">Plataforma</div>
-                    </div>
-                  </button>
-                  <button
-                    onClick={() => window.location.href = '/precos'}
-                    className="mirage-button flex items-center gap-2.5 rounded-lg hover:bg-slate-100/50 dark:hover:bg-slate-800/50 py-2 px-3 transition-all duration-300 w-full text-left"
-                  >
-                    <div className="min-w-0">
-                      <div className="text-sm font-medium text-slate-900 dark:text-slate-100">Preços</div>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+            CONSTELLATION
+          </a>
         </nav>
         {/* Right side actions with improved desktop spacing */}
         <div className="flex items-center gap-2.5 xl:gap-3.5">
