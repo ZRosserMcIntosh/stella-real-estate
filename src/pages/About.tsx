@@ -129,39 +129,28 @@ export default function About() {
         schema={organizationSchema}
       />
       <div className="bg-white dark:bg-slate-950">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-pink-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 -mt-20 pt-20">
-        <div className="container-padded py-20 text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
-            {t('pages.about.title')}
-          </h1>
-          <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
-            {t('pages.about.subtitle')}
-          </p>
-        </div>
-        
-        {/* Breadcrumb for SEO */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'BreadcrumbList',
-            itemListElement: [
-              {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Home',
-                item: 'https://stellareal.com.br'
-              },
-              {
-                '@type': 'ListItem',
-                position: 2,
-                name: currentLang === 'pt' ? 'Sobre' : currentLang === 'es' ? 'Acerca de' : 'About',
-                item: currentSeo.canonical
-              }
-            ]
-          })}
-        </script>
-      </section>
+      
+      {/* Breadcrumb for SEO */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: 'Home',
+              item: 'https://stellareal.com.br'
+            },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: currentLang === 'pt' ? 'Sobre' : currentLang === 'es' ? 'Acerca de' : 'About',
+              item: currentSeo.canonical
+            }
+          ]
+        })}
+      </script>
 
       {/* Leadership Team */}
       <section className="container-padded py-20">
