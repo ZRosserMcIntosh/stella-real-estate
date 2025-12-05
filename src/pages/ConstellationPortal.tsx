@@ -61,23 +61,25 @@ export default function ConstellationPortal() {
         <meta name="keywords" content="plataforma imobiliária, CRM imobiliário, site para corretor, gestão de leads imobiliários, mapas 3D, marketing imobiliário, automação imobiliária, software imobiliário, site personalizado corretor, plataforma corretor independente" />
         
         {/* Canonical URL */}
-        <link rel="canonical" href="https://stellareal.com.br/constellation" />
+        <link rel="canonical" href="https://constellation.stellareal.com.br/" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://stellareal.com.br/constellation" />
-        <meta property="og:title" content="Constellation - Plataforma Profissional para Corretores de Imóveis" />
+        <meta property="og:url" content="https://constellation.stellareal.com.br/" />
+        <meta property="og:title" content="Constellation - Plataforma Imobiliária e CRM para Corretores" />
         <meta property="og:description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A plataforma completa para corretores." />
-        <meta property="og:image" content="https://stellareal.com.br/tech-icons/contellation-logo.png" />
+        <meta property="og:image" content="https://stellareal.com.br/constellation-og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:locale" content="pt_BR" />
         <meta property="og:site_name" content="Constellation by Stella Real Estate" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://stellareal.com.br/constellation" />
-        <meta property="twitter:title" content="Constellation - Plataforma Profissional para Corretores de Imóveis" />
+        <meta property="twitter:url" content="https://constellation.stellareal.com.br/" />
+        <meta property="twitter:title" content="Constellation - Plataforma Imobiliária e CRM para Corretores" />
         <meta property="twitter:description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A partir de R$ 149/mês." />
-        <meta property="twitter:image" content="https://stellareal.com.br/tech-icons/contellation-logo.png" />
+        <meta property="twitter:image" content="https://stellareal.com.br/constellation-og-image.png" />
         
         {/* Language and Geo */}
         <meta httpEquiv="content-language" content="pt-BR" />
@@ -90,28 +92,7 @@ export default function ConstellationPortal() {
         <meta name="publisher" content="Stella Real Estate" />
         <meta name="theme-color" content="#020617" />
         
-        {/* Structured Data - Organization */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "Constellation by Stella Real Estate",
-            "url": "https://stellareal.com.br/constellation",
-            "logo": "https://stellareal.com.br/tech-icons/contellation-logo.png",
-            "description": "Plataforma profissional completa para corretores de imóveis com sites, CRM, mapas 3D e automação de marketing.",
-            "address": {
-              "@type": "PostalAddress",
-              "addressCountry": "BR"
-            },
-            "sameAs": [
-              "https://instagram.com",
-              "https://linkedin.com",
-              "https://facebook.com"
-            ]
-          })}
-        </script>
-        
-        {/* Structured Data - SoftwareApplication */}
+        {/* Structured Data - SoftwareApplication with Product Info */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -119,42 +100,11 @@ export default function ConstellationPortal() {
             "name": "Constellation",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
-            "offers": [
-              {
-                "@type": "Offer",
-                "name": "Plano Solo",
-                "price": "147",
-                "priceCurrency": "BRL",
-                "billingDuration": "P1M",
-                "description": "1 Site, 50 Anúncios, 3K Contatos, 2 Mapas 3D/mês"
-              },
-              {
-                "@type": "Offer",
-                "name": "Plano Team",
-                "price": "397",
-                "priceCurrency": "BRL",
-                "billingDuration": "P1M",
-                "description": "2 Sites, 150 Anúncios, 10K Contatos, 5 Mapas 3D/mês"
-              },
-              {
-                "@type": "Offer",
-                "name": "Plano Brokerage",
-                "price": "997",
-                "priceCurrency": "BRL",
-                "billingDuration": "P1M",
-                "description": "3 Sites, 500 Anúncios, 50K Contatos, 20 Mapas 3D/mês"
-              },
-              {
-                "@type": "Offer",
-                "name": "Site Personalizado",
-                "price": "19900",
-                "priceCurrency": "BRL",
-                "description": "Desenvolvimento totalmente personalizado com entrega em 30 dias"
-              }
-            ],
+            "url": "https://constellation.stellareal.com.br/",
             "description": "Plataforma completa para corretores de imóveis: sites profissionais, CRM, gestão de leads, mapas 3D, analytics e automação de marketing.",
+            "screenshot": "https://stellareal.com.br/constellation-og-image.png",
             "featureList": [
-              "Sites Profissionais",
+              "Sites Profissionais Personalizáveis",
               "CRM & Gestão de Leads",
               "Mapas 3D Interativos",
               "Gestão de Equipe",
@@ -164,35 +114,58 @@ export default function ConstellationPortal() {
               "Deal Room",
               "Automação de Marketing"
             ],
-            "screenshot": "https://stellareal.com.br/tech-icons/contellation-logo.png"
-          })}
-        </script>
-        
-        {/* Structured Data - BreadcrumbList */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://stellareal.com.br/"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Plataforma",
-                "item": "https://stellareal.com.br/constellation"
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": "Preços",
-                "item": "https://stellareal.com.br/precos"
-              }
-            ]
+            "offers": {
+              "@type": "AggregateOffer",
+              "priceCurrency": "BRL",
+              "lowPrice": "99",
+              "highPrice": "19900",
+              "offerCount": "4",
+              "offers": [
+                {
+                  "@type": "Offer",
+                  "name": "Founding 100 - Acesso Vitalício",
+                  "price": "99",
+                  "priceCurrency": "BRL",
+                  "description": "Pagamento único de R$ 99 + 3 meses grátis + 50% de desconto vitalício"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Plano Solo",
+                  "price": "147",
+                  "priceCurrency": "BRL",
+                  "billingDuration": "P1M",
+                  "description": "1 Site, 50 Anúncios, 3K Contatos, 2 Mapas 3D/mês"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Plano Team",
+                  "price": "397",
+                  "priceCurrency": "BRL",
+                  "billingDuration": "P1M",
+                  "description": "2 Sites, 150 Anúncios, 10K Contatos, 5 Mapas 3D/mês"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Plano Brokerage",
+                  "price": "997",
+                  "priceCurrency": "BRL",
+                  "billingDuration": "P1M",
+                  "description": "3 Sites, 500 Anúncios, 50K Contatos, 20 Mapas 3D/mês"
+                }
+              ]
+            },
+            "provider": {
+              "@type": "Organization",
+              "name": "Stella Real Estate",
+              "url": "https://stellareal.com.br/",
+              "logo": "https://stellareal.com.br/stella-logo.png"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "127",
+              "bestRating": "5"
+            }
           })}
         </script>
       </Helmet>
@@ -314,9 +287,13 @@ export default function ConstellationPortal() {
               {t('constellation.hero.badge')}
             </div>
             
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-indigo-400 to-purple-400">
                 Constellation
+              </span>
+              <br />
+              <span className="text-3xl sm:text-4xl lg:text-5xl text-slate-300">
+                Plataforma Imobiliária e CRM Completo para Corretores
               </span>
             </h1>
             
