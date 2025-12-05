@@ -513,8 +513,8 @@ export default function ConstellationSignup() {
   return (
     <>
       <Helmet>
-        <title>Cadastro Founding 100 - Constellation | R$ 99</title>
-        <meta name="description" content="Junte-se aos primeiros 100 membros da Constellation por R$ 99 - Plataforma completa para corretores com CRM, automação e marketing imobiliário." />
+        <title>Entrada de Pré-Lançamento - Constellation | R$ 99</title>
+        <meta name="description" content="Garanta sua Entrada de Pré-Lançamento + Benefícios Vitalícios por R$ 99 - Plataforma completa para corretores com CRM, automação e marketing imobiliário." />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://constellation.stellareal.com.br/signup" />
       </Helmet>
