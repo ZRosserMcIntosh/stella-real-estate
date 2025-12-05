@@ -6,6 +6,58 @@ import { Check, X } from 'lucide-react'
 import { trackStartRegistration, trackPurchaseEventWithRedirect } from '../utils/analytics'
 import { ConstellationUrls } from '../utils/constellationUrl'
 
+// Expandable Benefits List Component
+function FoundingBenefitsList() {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const benefits = [
+    { text: 'Contato direto com nosso Diretor de Tecnologia', highlight: true },
+    { text: '50% desconto permanente em qualquer plano após os 3 meses grátis', highlight: true },
+    { text: '3 meses grátis em todos os planos após lançamento', highlight: true },
+    { text: 'Primeiro acesso quando lançar em Janeiro 2026', highlight: false },
+    { text: '10 mapas 3D incluídos por mês (5 extras permanentes)', highlight: false },
+    { text: 'Mapas 3D extras por R$ 10 (sempre, vs R$ 160+)', highlight: false },
+    { text: 'Badge de Founding Partner + acesso antecipado a novos recursos', highlight: false }
+  ];
+  
+  const visibleBenefits = isExpanded ? benefits : benefits.slice(0, 3);
+  
+  return (
+    <div className="space-y-2">
+      {visibleBenefits.map((benefit, idx) => (
+        <div key={idx} className="flex items-start gap-2">
+          <Check className={`w-5 h-5 ${benefit.highlight ? 'text-emerald-300' : 'text-emerald-400'} flex-shrink-0 mt-0.5`} />
+          <span className={`text-sm ${benefit.highlight ? 'text-slate-100 font-medium' : 'text-slate-200'}`}>
+            {benefit.text}
+          </span>
+        </div>
+      ))}
+      {!isExpanded && (
+        <button
+          onClick={() => setIsExpanded(true)}
+          className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 text-sm font-medium mt-2 transition-colors"
+        >
+          <span>Ver todos os benefícios ({benefits.length - 3} mais)</span>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+      )}
+      {isExpanded && (
+        <button
+          onClick={() => setIsExpanded(false)}
+          className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 text-sm font-medium mt-2 transition-colors"
+        >
+          <span>Ver menos</span>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+      )}
+    </div>
+  );
+}
+
 /**
  * SEO OPTIMIZATIONS IMPLEMENTED (Virgil's Checklist):
  * ✅ 1) Meta title: "Planos e Preços da Constellation | Plataforma para Corretores de Imóveis"
@@ -350,31 +402,8 @@ export default function Pricing() {
                         <div className="text-sm text-slate-300">Permanente após lançamento</div>
                       </div>
                     </div>
-                    <div className="space-y-2 mb-6 text-left">
-                      <div className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-200">Primeiro acesso quando lançar em Janeiro 2026</span>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-200">3 meses grátis em todos os planos após lançamento</span>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-200">50% desconto permanente em qualquer plano após os 3 meses grátis</span>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-200">10 mapas 3D incluídos por mês (5 extras permanentes)</span>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-200">Mapas 3D extras por R$ 10 (sempre, vs R$ 160+)</span>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-200">Badge de Founding Partner + acesso antecipado a novos recursos</span>
-                      </div>
+                    <div className="mb-6 text-left">
+                      <FoundingBenefitsList />
                     </div>
                     <div className="flex flex-col gap-4 items-center justify-center">
                       <a
