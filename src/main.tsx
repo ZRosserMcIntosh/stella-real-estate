@@ -65,6 +65,7 @@ import StellaPlatform from './pages/StellaPlatform'
 import Pricing from './pages/Pricing'
 import Members from './pages/Members'
 import StellaReal from './pages/StellaReal'
+import International from './pages/International'
 import ConstellationPortal from './pages/ConstellationPortal'
 import ConstellationLogin from './pages/constellation/ConstellationLogin'
 import ConstellationSignup from './pages/constellation/ConstellationSignup'
@@ -156,6 +157,7 @@ const router = createBrowserRouter([
       { path: 'seguro-fianca', element: <SeguroFianca /> },
       { path: 'constellation', element: <StellaPlatform /> },
       { path: 'precos', element: <Pricing /> },
+      { path: 'international', element: <International /> },
       { path: 'anuncie-seu-imovel', element: <ListYourProperty /> },
       { path: 'consumidores', element: <ListYourProperty /> },
       { path: 'corretores-independentes', element: <ListYourProperty /> },
