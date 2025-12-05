@@ -553,7 +553,7 @@ export default function App() {
                     "position": 3,
                     "name": "Plataforma Constellation",
                     "description": "Sistema completo para corretores e imobiliárias",
-                    "url": "https://stellareal.com.br/constellation"
+                    "url": "https://constellation.stellareal.com.br/"
                   },
                   {
                     "@type": "SiteNavigationElement",
