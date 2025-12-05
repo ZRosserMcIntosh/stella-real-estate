@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { CheckCircle, Check } from 'lucide-react'
+import { CheckCircle, Check, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import ConstellationHeader from '../components/ConstellationHeader'
 import { ConstellationUrls } from '../utils/constellationUrl'
@@ -431,97 +431,270 @@ export default function Constellation() {
       {/* Pricing Teaser */}
       <section className="py-20 lg:py-24 relative">
         <div className="container-padded">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-gradient-to-br from-brand-600/20 to-indigo-600/20 border border-brand-500/30 rounded-3xl p-12 backdrop-blur-sm">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl sm:text-4xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Plans for Every Professional
-                </h2>
-                <p className="text-xl text-slate-300">
-                  From solo agents to large brokerages
-                </p>
-              </div>
-
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                {[
-                  { 
-                    plan: 'Pro', 
-                    price: 'R$ 299',
-                    founderPrice: 'R$ 149',
-                    description: 'Para corretores independentes',
-                    features: ['1 site', '50 anúncios', '3K contatos', '2 mapas 3D/mês', '2 usuários'] 
-                  },
-                  { 
-                    plan: 'Team', 
-                    price: 'R$ 499',
-                    founderPrice: 'R$ 249',
-                    description: 'Para pequenas equipes',
-                    popular: true, 
-                    features: ['2 sites', '150 anúncios', '10K contatos', '5 mapas 3D/mês', '5 usuários', 'Lead scoring'] 
-                  },
-                  { 
-                    plan: 'Brokerage', 
-                    price: 'R$ 999',
-                    founderPrice: 'R$ 499',
-                    description: 'Para imobiliárias',
-                    features: ['3 sites', '500 anúncios', '50K contatos', '20 mapas 3D/mês', '30 usuários', 'White label'] 
-                  },
-                  { 
-                    plan: 'Enterprise', 
-                    price: 'Personalizado',
-                    founderPrice: '50% OFF vitalício',
-                    description: 'Soluções personalizadas',
-                    features: ['Sites ilimitados', 'Tudo ilimitado', 'Mapas 3D customizados', 'SLA + CSM dedicado'] 
-                  }
-                ].map((tier, idx) => (
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Planos Constellation (Pro, Team, Brokerage, Enterprise)
+              </h2>
+              <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+                Planos flexíveis para todos os tamanhos de negócio
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+              {[
+                {
+                  id: 'SOLO',
+                  name: 'Pro',
+                  description: 'Para corretores independentes crescendo seus negócios',
+                  monthlyPrice: 299,
+                  founderPrice: 149,
+                  features: [
+                    { name: '1 site (ilimitado)', included: true },
+                    { name: 'Até 50 anúncios ativos', included: true },
+                    { name: 'Domínio personalizado', included: true },
+                    { name: '3.000 contatos CRM', included: true },
+                    { name: '2 pipelines', included: true },
+                    { name: 'Mapas 3D incluídos', included: true, detail: '2/mês' },
+                    { name: 'Mapas extras', included: true, detail: 'R$200 cada' },
+                    { name: 'Automações básicas', included: true },
+                    { name: '2 usuários', included: true },
+                    { name: 'Lead scoring', included: false },
+                    { name: 'Remover marca Stella', included: false },
+                  ],
+                  popular: false,
+                  cta: 'Disponível no Lançamento',
+                },
+                {
+                  id: 'TEAM',
+                  name: 'Team',
+                  description: 'Ideal para pequenas equipes e equipes em crescimento',
+                  monthlyPrice: 499,
+                  founderPrice: 249,
+                  features: [
+                    { name: '2 sites completos', included: true },
+                    { name: 'Até 150 anúncios ativos', included: true },
+                    { name: 'Domínio personalizado', included: true },
+                    { name: '10.000 contatos CRM', included: true },
+                    { name: 'Pipelines ilimitados', included: true },
+                    { name: 'Mapas 3D incluídos', included: true, detail: '5/mês' },
+                    { name: 'Mapas extras', included: true, detail: 'R$160 cada' },
+                    { name: 'Automações completas', included: true },
+                    { name: 'Lead scoring', included: true },
+                    { name: '5 usuários', included: true },
+                    { name: 'Controle de permissões', included: true },
+                    { name: 'Remover marca Stella', included: true },
+                    { name: 'Suporte prioritário', included: true },
+                  ],
+                  popular: true,
+                  cta: 'Disponível no Lançamento',
+                },
+                {
+                  id: 'BROKERAGE',
+                  name: 'Brokerage',
+                  description: 'Para imobiliárias estabelecidas com múltiplas equipes',
+                  monthlyPrice: 999,
+                  founderPrice: 499,
+                  features: [
+                    { name: '3 sites completos', included: true },
+                    { name: 'Até 500 anúncios ativos', included: true },
+                    { name: 'Domínio personalizado', included: true },
+                    { name: '50.000 contatos CRM', included: true },
+                    { name: 'Pipelines ilimitados', included: true },
+                    { name: 'Mapas 3D incluídos', included: true, detail: '20/mês' },
+                    { name: 'Mapas extras', included: true, detail: 'R$120 cada' },
+                    { name: 'Automações avançadas', included: true },
+                    { name: 'Lead scoring avançado', included: true },
+                    { name: '30 usuários', included: true },
+                    { name: 'RBAC completo', included: true },
+                    { name: 'White label', included: true },
+                    { name: 'Suporte prioritário + chat', included: true },
+                  ],
+                  popular: false,
+                  cta: 'Chegando T2 2026',
+                },
+                {
+                  id: 'ENTERPRISE',
+                  name: 'Enterprise',
+                  description: 'Soluções personalizadas para grandes operações',
+                  monthlyPrice: null,
+                  founderPrice: null,
+                  features: [
+                    { name: 'Sites ilimitados', included: true },
+                    { name: 'Anúncios ilimitados', included: true },
+                    { name: 'Múltiplos domínios', included: true },
+                    { name: 'Contatos ilimitados', included: true },
+                    { name: 'Tudo ilimitado', included: true },
+                    { name: 'Mapas 3D customizados', included: true },
+                    { name: 'Preços por contrato', included: true },
+                    { name: 'Automações enterprise', included: true },
+                    { name: 'IA e scoring avançado', included: true },
+                    { name: 'Usuários ilimitados', included: true },
+                    { name: 'White label completo', included: true },
+                    { name: 'SLA + CSM dedicado', included: true },
+                    { name: 'Acesso antecipado', included: true },
+                  ],
+                  popular: false,
+                  cta: 'Falar com Vendas',
+                },
+              ].map((plan, index) => {
+                const isEnterprise = plan.monthlyPrice === null
+                
+                return (
                   <div
-                    key={idx}
-                    className={`relative bg-slate-800/60 backdrop-blur-sm rounded-2xl p-6 border ${
-                      tier.popular ? 'border-brand-500 ring-2 ring-brand-500/50' : 'border-slate-700/50'
+                    key={index}
+                    className={`relative rounded-2xl backdrop-blur-xl border transition-all duration-300 hover:scale-105 flex flex-col ${
+                      plan.popular
+                        ? 'bg-gradient-to-br from-blue-900/40 via-purple-900/40 to-pink-900/40 border-blue-500/50 shadow-2xl shadow-blue-500/20'
+                        : 'bg-slate-900/40 border-slate-700/50 hover:border-slate-600/50'
                     }`}
                   >
-                    {tier.popular && (
-                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                        <span className="px-3 py-1 bg-gradient-to-r from-brand-600 to-indigo-600 text-white text-xs font-bold rounded-full">
-                          MAIS POPULAR
+                    {plan.popular && (
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                        <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold whitespace-nowrap">
+                          Mais Popular
                         </span>
                       </div>
                     )}
-                    <h3 className="text-xl font-semibold text-white mb-2">{tier.plan}</h3>
-                    <p className="text-slate-400 text-xs mb-3">{tier.description}</p>
-                    <div className="mb-1">
-                      <div className="text-lg text-slate-500 line-through">{tier.price}</div>
-                      <div className="text-2xl font-bold text-emerald-400 mb-1">{tier.founderPrice}<span className="text-sm text-slate-400">/mês</span></div>
-                      <div className="text-xs text-slate-400 mb-4">Preço fundador</div>
-                    </div>
-                    <ul className="space-y-2">
-                      {tier.features.map((feature, i) => (
-                        <li key={i} className="flex items-center gap-2 text-slate-300 text-sm">
-                          <CheckCircle className="w-4 h-4 text-brand-400" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
 
-              <div className="text-center">
-                <a
-                  href={ConstellationUrls.signup()}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    trackStartRegistration({ source: 'pricing_section', plan: 'founding_100' })
-                    trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
-                      source: 'pricing_section',
-                      plan: 'founding_100'
-                    })
-                  }}
-                  className="inline-block px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105"
-                >
-                  Garantir Acesso - R$ 99
-                </a>
+                    <div className="p-6 flex flex-col flex-grow">
+                      <h3 className="text-2xl font-light mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>{plan.name}</h3>
+                      <p className="text-slate-400 text-sm mb-6 min-h-[40px]">{plan.description}</p>
+
+                      <div className="mb-6 min-h-[140px] flex items-start">
+                        {isEnterprise ? (
+                          <div className="flex flex-col">
+                            <div className="text-3xl font-light text-white mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>Personalizado</div>
+                            <p className="text-sm text-slate-400 font-light mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                              Fale com nosso time
+                            </p>
+                            <p className="text-xs text-emerald-400 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                              Corretores fundadores mantêm 50% de desconto sobre a tabela mensal negociada
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col w-full">
+                            <div className="flex flex-wrap items-baseline gap-1 mb-1">
+                              <span className="text-sm text-slate-500 font-light whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                Preço público:
+                              </span>
+                              <span className="text-xl sm:text-2xl font-light text-slate-400 line-through whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                R$ {plan.monthlyPrice}
+                              </span>
+                              <span className="text-slate-500 font-light text-sm whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
+                            </div>
+                            <div className="flex flex-wrap items-baseline gap-1 mb-2">
+                              <span className="text-sm text-emerald-400 font-medium whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                Corretores fundadores:
+                              </span>
+                              <span className="text-2xl sm:text-3xl font-light text-emerald-400 whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                R$ {plan.founderPrice}
+                              </span>
+                              <span className="text-emerald-300 font-light text-sm whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
+                            </div>
+                            <p className="text-xs text-slate-400 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                              50% OFF permanente, após 3 meses grátis a partir do lançamento
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      {isEnterprise ? (
+                        <a
+                          href="https://wa.me/5511986410429?text=Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20o%20plano%20Enterprise"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-slate-800 hover:bg-slate-700 text-slate-100"
+                        >
+                          {plan.cta}
+                        </a>
+                      ) : (
+                        <button
+                          disabled
+                          className="block w-full text-center py-3 rounded-lg font-semibold transition-all mb-6 bg-slate-800/50 text-slate-400 cursor-not-allowed border border-slate-700/50"
+                        >
+                          {plan.cta}
+                        </button>
+                      )}
+
+                      <div className="space-y-3 flex-grow">
+                        {plan.features.map((feature, featureIndex) => (
+                          <div key={featureIndex} className="flex items-start gap-2">
+                            {feature.included ? (
+                              <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                            ) : (
+                              <X className="w-4 h-4 text-slate-600 flex-shrink-0 mt-0.5" />
+                            )}
+                            <span
+                              className={`text-xs ${
+                                feature.included ? 'text-slate-300' : 'text-slate-600'
+                              }`}
+                            >
+                              {feature.name}
+                              {'detail' in feature && feature.detail && (
+                                <span className="ml-1 text-slate-400">({feature.detail})</span>
+                              )}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Founder Pricing Explanation */}
+            <div className="max-w-4xl mx-auto mb-8">
+              <div className="bg-gradient-to-r from-emerald-900/20 via-green-900/20 to-emerald-900/20 border border-emerald-500/30 rounded-xl p-8 backdrop-blur-sm">
+                <h3 className="text-xl font-light text-emerald-300 mb-4 text-center" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Como Funciona o Preço para Corretores Fundadores
+                </h3>
+                <p className="text-slate-300 text-base leading-relaxed mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Os valores acima são os <strong className="text-white">preços mensais públicos previstos</strong> para cada plano após o lançamento em janeiro de 2026.
+                </p>
+                <p className="text-slate-300 text-base leading-relaxed mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Se você entrar agora como <strong className="text-emerald-300">Corretor Fundador</strong> por apenas <strong className="text-emerald-300">R$ 99</strong>, você:
+                </p>
+                <ul className="space-y-3 mb-4">
+                  <li className="flex items-start gap-3 text-slate-300">
+                    <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <span>Garante acesso assim que a plataforma lançar em <strong className="text-white">janeiro de 2026</strong></span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-300">
+                    <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <span>Ganha <strong className="text-emerald-300">3 meses grátis</strong> a partir do lançamento (escolha qualquer plano)</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-300">
+                    <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <span>Depois dos 3 meses grátis, paga apenas <strong className="text-emerald-300">50% do valor mensal público</strong> do plano escolhido</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-300">
+                    <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <span>O desconto de <strong className="text-emerald-300">50% é permanente</strong> enquanto sua assinatura permanecer ativa</span>
+                  </li>
+                </ul>
+                <p className="text-center text-sm text-slate-400 italic" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Esta oferta é exclusiva para os primeiros 100 corretores que garantirem sua vaga agora.
+                </p>
               </div>
+            </div>
+
+            <div className="text-center">
+              <a
+                href={ConstellationUrls.signup()}
+                onClick={(e) => {
+                  e.preventDefault()
+                  trackStartRegistration({ source: 'pricing_section', plan: 'founding_100' })
+                  trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
+                    source: 'pricing_section',
+                    plan: 'founding_100'
+                  })
+                }}
+                className="inline-block px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105"
+              >
+                Garantir Acesso - R$ 99
+              </a>
             </div>
           </div>
         </div>
