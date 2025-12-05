@@ -172,7 +172,7 @@ export default function About() {
           {t('pages.about.leadership.subtitle')}
         </p>
 
-        <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-12 max-w-7xl mx-auto">
           {/* CEO */}
           <div className="group">
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-100 to-pink-100 dark:from-indigo-950/50 dark:to-pink-950/50 aspect-square mb-6">
