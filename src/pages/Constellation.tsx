@@ -196,247 +196,13 @@ export default function Constellation() {
         </div>
       </section>
 
-      {/* Founding 100 Offer */}
-      <section className="py-20 lg:py-24 relative">
-        <div className="container-padded">
-          <div className="max-w-5xl mx-auto">
-            <div className="bg-gradient-to-br from-emerald-900/40 via-green-900/40 to-emerald-900/40 border-2 border-emerald-500/50 rounded-3xl p-8 md:p-12 backdrop-blur-sm shadow-2xl shadow-emerald-500/20">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/40 rounded-full text-emerald-300 text-sm mb-4">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Oferta Limitada
-                </div>
-                <h2 className="text-4xl md:text-5xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Faça Parte dos <span className="text-emerald-300">Founding 100</span>
-                </h2>
-                <p className="text-xl text-slate-300 mb-2">
-                  Garanta benefícios vitalícios por apenas <span className="text-emerald-300 font-semibold">R$ 99</span>
-                </p>
-                <p className="text-sm text-slate-400">
-                  Pagamento único • Sem assinatura • Benefícios permanentes
-                </p>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-slate-900/50 rounded-lg p-6 border border-emerald-500/30 text-center">
-                  <div className="text-4xl font-light text-emerald-300 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>R$ 99</div>
-                  <div className="text-sm text-slate-300">Pagamento único</div>
-                </div>
-                <div className="bg-slate-900/50 rounded-lg p-6 border border-emerald-500/30 text-center">
-                  <div className="text-4xl font-light text-emerald-300 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>3 meses</div>
-                  <div className="text-sm text-slate-300">Grátis em todos planos</div>
-                </div>
-                <div className="bg-slate-900/50 rounded-lg p-6 border border-emerald-500/30 text-center">
-                  <div className="text-4xl font-light text-emerald-300 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>50% OFF</div>
-                  <div className="text-sm text-slate-300">Permanente após lançamento</div>
-                </div>
-              </div>
-
-              <div className="mb-8">
-                <h3 className="text-xl font-semibold text-white mb-4 text-center">Benefícios Vitalícios Inclusos:</h3>
-                <div className="grid md:grid-cols-2 gap-3">
-                  {[
-                    'Contato direto com nosso Diretor de Tecnologia',
-                    '50% desconto permanente em qualquer plano',
-                    '3 meses grátis em todos os planos após lançamento',
-                    'Primeiro acesso quando lançar em Janeiro 2026',
-                    '10 mapas 3D incluídos por mês (5 extras permanentes)',
-                    'Mapas 3D extras por R$ 10 (sempre, vs R$ 160+)',
-                    'Badge de Founding Partner + acesso antecipado a novos recursos'
-                  ].map((benefit, idx) => (
-                    <div key={idx} className="flex items-start gap-3 bg-slate-900/30 rounded-lg p-3">
-                      <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-slate-200">{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4 items-center">
-                <a
-                  href={ConstellationUrls.signup()}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    trackStartRegistration({ source: 'founding_section', plan: 'founding_100' })
-                    trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
-                      source: 'founding_section',
-                      plan: 'founding_100'
-                    })
-                  }}
-                  className="px-10 py-5 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-bold transition-all shadow-xl shadow-emerald-500/50 hover:scale-105 text-xl"
-                >
-                  Garantir Acesso Agora
-                </a>
-                <div className="text-center">
-                  <div className="text-sm text-emerald-300 font-semibold mb-2">
-                    Apenas {foundingSlotsRemaining} vagas restantes de 100
-                  </div>
-                  <div className="text-xs text-slate-400 max-w-md">
-                    A partir de 1º de janeiro, aceitaremos no máximo 3 a 5 novas contas por semana
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Key Benefits */}
-      <section className="py-20 lg:py-24 relative">
-        <div className="container-padded">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl font-light tracking-tight text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                Everything You Need to Succeed
-              </h2>
-              <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-                From your first listing to scaling your brokerage, Constellation grows with you
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                {
-                  title: 'Professional Websites',
-                  description: 'Launch a stunning real estate website in minutes with our drag-and-drop builder. Mobile-optimized and SEO-ready.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Powerful Listing Management',
-                  description: 'Manage all your properties in one place. Add photos, videos, 3D tours, and publish to multiple platforms instantly.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Integrated CRM',
-                  description: 'Track every lead, client, and deal. Never miss a follow-up with automated reminders and pipeline management.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Task Management (Balé)',
-                  description: 'Organize your workflow with Kanban boards. Track showings, paperwork, and closing tasks effortlessly.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Retail Marketplace',
-                  description: 'List your properties on Stella Real, our retail platform. Get exposure to thousands of potential buyers.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Analytics & Insights',
-                  description: 'Understand your business with detailed analytics. Track views, leads, conversions, and revenue.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                  )
-                },
-              ].map((feature, idx) => (
-                <div
-                  key={idx}
-                  className="bg-slate-800/40 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-brand-500/50 transition-all hover:shadow-xl hover:shadow-brand-500/10 group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-500/20 to-indigo-500/20 border border-brand-500/30 flex items-center justify-center text-brand-400 mb-4 group-hover:scale-110 transition-transform">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-white mb-3">
-                    {feature.title}
-                  </h3>
-                  <p className="text-slate-400 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-20 lg:py-24 relative">
-        <div className="container-padded">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl font-light tracking-tight text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                Get Started in Minutes
-              </h2>
-              <p className="text-lg text-slate-400">
-                No technical knowledge required. We'll guide you every step of the way.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  step: '1',
-                  title: 'Sign Up & Choose Your Plan',
-                  description: 'Create your account and select the plan that fits your needs. Start with our free trial.'
-                },
-                {
-                  step: '2',
-                  title: 'Build Your Site',
-                  description: 'Use our intuitive builder to create your professional website. Choose from templates or start fresh.'
-                },
-                {
-                  step: '3',
-                  title: 'Add Listings & Go Live',
-                  description: 'Upload your properties, connect your domain, and start attracting clients immediately.'
-                }
-              ].map((item, idx) => (
-                <div key={idx} className="relative">
-                  <div className="bg-gradient-to-br from-brand-500/10 to-indigo-500/10 border border-brand-500/30 rounded-2xl p-8 text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand-600 to-indigo-600 flex items-center justify-center text-white text-2xl font-bold">
-                      {item.step}
-                    </div>
-                    <h3 className="text-xl font-semibold text-white mb-3">
-                      {item.title}
-                    </h3>
-                    <p className="text-slate-400">
-                      {item.description}
-                    </p>
-                  </div>
-                  {idx < 2 && (
-                    <div className="hidden md:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2">
-                      <svg className="w-8 h-8 text-brand-500/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Pricing Teaser */}
       <section className="py-20 lg:py-24 relative">
         <div className="container-padded">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                Planos Constellation (Pro, Team, Brokerage, Enterprise)
+                Planos Constellation
               </h2>
               <p className="text-lg text-slate-400 max-w-2xl mx-auto">
                 Planos flexíveis para todos os tamanhos de negócio
@@ -723,6 +489,240 @@ export default function Constellation() {
               >
                 Garantir Acesso - R$ 99
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Founding 100 Offer */}
+      <section className="py-20 lg:py-24 relative">
+        <div className="container-padded">
+          <div className="max-w-5xl mx-auto">
+            <div className="bg-gradient-to-br from-emerald-900/40 via-green-900/40 to-emerald-900/40 border-2 border-emerald-500/50 rounded-3xl p-8 md:p-12 backdrop-blur-sm shadow-2xl shadow-emerald-500/20">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/40 rounded-full text-emerald-300 text-sm mb-4">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Oferta Limitada
+                </div>
+                <h2 className="text-4xl md:text-5xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Faça Parte dos <span className="text-emerald-300">Founding 100</span>
+                </h2>
+                <p className="text-xl text-slate-300 mb-2">
+                  Garanta benefícios vitalícios por apenas <span className="text-emerald-300 font-semibold">R$ 99</span>
+                </p>
+                <p className="text-sm text-slate-400">
+                  Pagamento único • Sem assinatura • Benefícios permanentes
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
+                <div className="bg-slate-900/50 rounded-lg p-6 border border-emerald-500/30 text-center">
+                  <div className="text-4xl font-light text-emerald-300 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>R$ 99</div>
+                  <div className="text-sm text-slate-300">Pagamento único</div>
+                </div>
+                <div className="bg-slate-900/50 rounded-lg p-6 border border-emerald-500/30 text-center">
+                  <div className="text-4xl font-light text-emerald-300 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>3 meses</div>
+                  <div className="text-sm text-slate-300">Grátis em todos planos</div>
+                </div>
+                <div className="bg-slate-900/50 rounded-lg p-6 border border-emerald-500/30 text-center">
+                  <div className="text-4xl font-light text-emerald-300 mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>50% OFF</div>
+                  <div className="text-sm text-slate-300">Permanente após lançamento</div>
+                </div>
+              </div>
+
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold text-white mb-4 text-center">Benefícios Vitalícios Inclusos:</h3>
+                <div className="grid md:grid-cols-2 gap-3">
+                  {[
+                    'Contato direto com nosso Diretor de Tecnologia',
+                    '50% desconto permanente em qualquer plano',
+                    '3 meses grátis em todos os planos após lançamento',
+                    'Primeiro acesso quando lançar em Janeiro 2026',
+                    '10 mapas 3D incluídos por mês (5 extras permanentes)',
+                    'Mapas 3D extras por R$ 10 (sempre, vs R$ 160+)',
+                    'Badge de Founding Partner + acesso antecipado a novos recursos'
+                  ].map((benefit, idx) => (
+                    <div key={idx} className="flex items-start gap-3 bg-slate-900/30 rounded-lg p-3">
+                      <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm text-slate-200">{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-4 items-center">
+                <a
+                  href={ConstellationUrls.signup()}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    trackStartRegistration({ source: 'founding_section', plan: 'founding_100' })
+                    trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
+                      source: 'founding_section',
+                      plan: 'founding_100'
+                    })
+                  }}
+                  className="px-10 py-5 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-bold transition-all shadow-xl shadow-emerald-500/50 hover:scale-105 text-xl"
+                >
+                  Garantir Acesso Agora
+                </a>
+                <div className="text-center">
+                  <div className="text-sm text-emerald-300 font-semibold mb-2">
+                    Apenas {foundingSlotsRemaining} vagas restantes de 100
+                  </div>
+                  <div className="text-xs text-slate-400 max-w-md">
+                    A partir de 1º de janeiro, aceitaremos no máximo 3 a 5 novas contas por semana
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Key Benefits */}
+      <section className="py-20 lg:py-24 relative">
+        <div className="container-padded">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl sm:text-4xl font-light tracking-tight text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Everything You Need to Succeed
+              </h2>
+              <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+                From your first listing to scaling your brokerage, Constellation grows with you
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                {
+                  title: 'Professional Websites',
+                  description: 'Launch a stunning real estate website in minutes with our drag-and-drop builder. Mobile-optimized and SEO-ready.',
+                  icon: (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                    </svg>
+                  )
+                },
+                {
+                  title: 'Powerful Listing Management',
+                  description: 'Manage all your properties in one place. Add photos, videos, 3D tours, and publish to multiple platforms instantly.',
+                  icon: (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                  )
+                },
+                {
+                  title: 'Integrated CRM',
+                  description: 'Track every lead, client, and deal. Never miss a follow-up with automated reminders and pipeline management.',
+                  icon: (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  )
+                },
+                {
+                  title: 'Task Management (Balé)',
+                  description: 'Organize your workflow with Kanban boards. Track showings, paperwork, and closing tasks effortlessly.',
+                  icon: (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                  )
+                },
+                {
+                  title: 'Retail Marketplace',
+                  description: 'List your properties on Stella Real, our retail platform. Get exposure to thousands of potential buyers.',
+                  icon: (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    </svg>
+                  )
+                },
+                {
+                  title: 'Analytics & Insights',
+                  description: 'Understand your business with detailed analytics. Track views, leads, conversions, and revenue.',
+                  icon: (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                  )
+                },
+              ].map((feature, idx) => (
+                <div
+                  key={idx}
+                  className="bg-slate-800/40 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-brand-500/50 transition-all hover:shadow-xl hover:shadow-brand-500/10 group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-500/20 to-indigo-500/20 border border-brand-500/30 flex items-center justify-center text-brand-400 mb-4 group-hover:scale-110 transition-transform">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-slate-400 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 lg:py-24 relative">
+        <div className="container-padded">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl sm:text-4xl font-light tracking-tight text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Get Started in Minutes
+              </h2>
+              <p className="text-lg text-slate-400">
+                No technical knowledge required. We'll guide you every step of the way.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  step: '1',
+                  title: 'Sign Up & Choose Your Plan',
+                  description: 'Create your account and select the plan that fits your needs. Start with our free trial.'
+                },
+                {
+                  step: '2',
+                  title: 'Build Your Site',
+                  description: 'Use our intuitive builder to create your professional website. Choose from templates or start fresh.'
+                },
+                {
+                  step: '3',
+                  title: 'Add Listings & Go Live',
+                  description: 'Upload your properties, connect your domain, and start attracting clients immediately.'
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="relative">
+                  <div className="bg-gradient-to-br from-brand-500/10 to-indigo-500/10 border border-brand-500/30 rounded-2xl p-8 text-center">
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand-600 to-indigo-600 flex items-center justify-center text-white text-2xl font-bold">
+                      {item.step}
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mb-3">
+                      {item.title}
+                    </h3>
+                    <p className="text-slate-400">
+                      {item.description}
+                    </p>
+                  </div>
+                  {idx < 2 && (
+                    <div className="hidden md:block absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2">
+                      <svg className="w-8 h-8 text-brand-500/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </div>
