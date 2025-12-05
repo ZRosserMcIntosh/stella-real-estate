@@ -306,13 +306,13 @@ export default function ConstellationPortal() {
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center">
-              <a
-                href={ConstellationUrls.home()}
+              <Link
+                to="/constellation"
                 onClick={() => trackCTA('Saiba Mais', 'hero')}
                 className="px-8 py-4 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
               >
                 Saiba Mais
-              </a>
+              </Link>
               <a
                 href={ConstellationUrls.login()}
                 onClick={() => trackCTA('Entrar', 'hero')}
@@ -629,13 +629,13 @@ export default function ConstellationPortal() {
               </div>
 
               <div className="text-center">
-                <a
-                  href="/precos"
+                <Link
+                  to="/precos"
                   onClick={() => trackCTA('Ver Todos os Planos', 'pricing_section')}
                   className="inline-block px-8 py-4 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-xl hover:shadow-2xl hover:scale-105"
                 >
                   {t('constellation.pricing.view_all_plans')}
-                </a>
+                </Link>
               </div>
             </div>
           </div>
