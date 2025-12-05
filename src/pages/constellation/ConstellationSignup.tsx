@@ -45,7 +45,7 @@ const BRAZIL_STATES = [
 
 interface SignupFormData {
   fullName: string
-  phone: string
+  phone: string // Optional - can be added later in "complete your account"
   email: string
   password: string
   // Optional CRECI fields (page 2)
@@ -287,7 +287,7 @@ export default function ConstellationSignup() {
     return cleaned.length === 10 || cleaned.length === 11
   }
 
-  // Step 1: Account Info validation (name, email, phone, password)
+  // Step 1: Account Info validation (name, email, password only - phone is optional)
   const validateAccountInfo = () => {
     if (!signupData.fullName.trim()) {
       setError('Por favor, informe seu nome completo')
@@ -295,10 +295,6 @@ export default function ConstellationSignup() {
     }
     if (!signupData.email.includes('@')) {
       setError('Por favor, informe um email válido')
-      return false
-    }
-    if (!validatePhone(signupData.phone)) {
-      setError('Por favor, informe um telefone válido')
       return false
     }
     if (signupData.password.length < 6) {
@@ -381,7 +377,7 @@ export default function ConstellationSignup() {
           creci_number: null, // Optional, can be added later
           creci_uf: null,
           creci_type: null,
-          phone: signupData.phone,
+          phone: null, // Optional, can be added later in "complete your account"
           company_name: null, // Optional, can be added later
         })
 
@@ -398,7 +394,7 @@ export default function ConstellationSignup() {
         .insert({
           user_id: newUserId,
           email: signupData.email,
-          phone: signupData.phone,
+          phone: null, // Optional, can be added later in "complete your account"
           full_name: signupData.fullName,
           cpf: null, // Optional, can be added later
           account_type: 'individual', // Default to individual
@@ -665,7 +661,7 @@ export default function ConstellationSignup() {
               </p>
             </div>
 
-            {/* Sign Up Form - Account Info (Name, Email, Phone, Password) */}
+            {/* Sign Up Form - Account Info (Name, Email, Password) - Fast signup! */}
             {signupStep === 'account' && (
               <div className="space-y-4 animate-fadeIn">
                 <div className="text-center mb-4">
@@ -694,19 +690,6 @@ export default function ConstellationSignup() {
                     value={signupData.email}
                     onChange={(e) => setSignupData(prev => ({ ...prev, email: e.target.value }))}
                     placeholder="seu@email.com"
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Telefone
-                  </label>
-                  <input
-                    type="text"
-                    value={signupData.phone}
-                    onChange={(e) => setSignupData(prev => ({ ...prev, phone: formatPhone(e.target.value) }))}
-                    placeholder="(00) 00000-0000"
                     className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
                   />
                 </div>
