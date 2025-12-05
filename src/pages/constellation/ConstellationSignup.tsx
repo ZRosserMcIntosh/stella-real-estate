@@ -9,6 +9,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { ConstellationUrls } from '../../utils/constellationUrl'
 import { trackPurchaseComplete, trackStartRegistration } from '../../utils/analytics'
+import { ConstellationGTMHead, ConstellationGTMBody } from '../../components/ConstellationGTM'
 
 // Initialize Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
@@ -514,12 +515,16 @@ export default function ConstellationSignup() {
 
   return (
     <>
+      <ConstellationGTMHead />
       <Helmet>
         <title>Entrada de Pré-Lançamento - Constellation | R$ 99</title>
         <meta name="description" content="Garanta sua Entrada de Pré-Lançamento + Benefícios Vitalícios por R$ 99 - Plataforma completa para corretores com CRM, automação e marketing imobiliário." />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://constellation.stellareal.com.br/signup" />
       </Helmet>
+
+      <ConstellationGTMBody />
+
       <style>{`
         html, body {
           background: #020617 !important;
