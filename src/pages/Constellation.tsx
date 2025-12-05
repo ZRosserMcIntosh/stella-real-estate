@@ -46,8 +46,16 @@ export default function Constellation() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Set body background to match Pricing page
+  useEffect(() => {
+    document.body.style.backgroundColor = '#020617' // slate-950
+    return () => {
+      document.body.style.backgroundColor = '' // Reset on unmount
+    }
+  }, [])
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="bg-slate-950 text-slate-100 min-h-screen -mt-[var(--header-height,60px)]">
       {/* Constellation Header */}
       <ConstellationHeader />
 
@@ -126,6 +134,70 @@ export default function Constellation() {
               >
                 Sign In
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3D Maps Video Demo Section */}
+      <section className="py-12 lg:py-16 relative bg-slate-950">
+        <div className="container-padded">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-8 items-stretch">
+              {/* Left: Explanation */}
+              <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-8 flex flex-col justify-center">
+                <div>
+                  <h2 className="text-3xl font-light text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    Mapas 3D Interativos
+                  </h2>
+                  <p className="text-slate-300 mb-6 text-lg font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    Transformamos seus vídeos 2D em mundos 3D totalmente exploráveis. Você grava, nós criamos uma experiência imersiva onde seus clientes podem "caminhar" pelo imóvel como se estivessem lá.
+                  </p>
+                  
+                  <div className="text-left">
+                    <p className="text-brand-400 text-sm font-semibold mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                      Especificações Técnicas:
+                    </p>
+                    <ul className="text-brand-300 text-sm space-y-2 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                      <li>• Estimativa de pose e mapeamento denso (~12min)</li>
+                      <li>• 3D Gaussian Splatting para síntese fotorrealista (~20-38min)</li>
+                      <li>• Cenas web-optimized com splats tileados e compressão adaptativa</li>
+                      <li>• Renderização high-FPS em browser sem plugins</li>
+                      <li>• Armazenamento S3 multi-tier + entrega via CDN edge-cached</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Demo Video */}
+              <div className="relative group">
+                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-brand-500/40 via-indigo-500/30 to-brand-500/40 opacity-75 blur-2xl group-hover:opacity-100 transition duration-500" />
+                <div className="relative overflow-hidden rounded-2xl border border-brand-400/40 shadow-[0_20px_80px_-20px_rgba(99,102,241,0.6)] ring-1 ring-brand-400/10">
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-auto"
+                    poster="/video/office-3D-poster.jpg"
+                  >
+                    <source src="/video/office-3D.mp4" type="video/mp4" />
+                  </video>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-slate-950/95 to-transparent">
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-2 w-2 shrink-0">
+                        <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-brand-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-400"></span>
+                      </div>
+                      <div className="text-xs font-semibold uppercase tracking-wider text-brand-200">
+                        Demonstração ao Vivo
+                      </div>
+                    </div>
+                    <div className="text-sm text-slate-300 mt-1">Experiência 3D interativa em tempo real</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
