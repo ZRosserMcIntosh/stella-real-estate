@@ -5,6 +5,7 @@ import { fetchProjectBySlug } from '../../services/projects'
 import type { Project, ProjectMediaItem, ProjectUnitSummary } from '../../types/projects'
 import { useCurrency } from '../../context/CurrencyContext'
 import WatermarkedImage from '../../components/WatermarkedImage'
+import SEO from '../../components/SEO'
 
 const youtubeIdFromUrl = (input?: string | null): string => {
   if (!input) return ''
@@ -259,10 +260,111 @@ export default function ProjectDetail() {
   const videoId = useMemo(() => youtubeIdFromUrl(project?.videoBgUrl), [project?.videoBgUrl])
   const videoStart = useMemo(() => youtubeStartFromUrl(project?.videoBgUrl), [project?.videoBgUrl])
 
+  // SEO Data
+  const seoData = useMemo(() => {
+    if (!project) return null
+    
+    const neighborhood = (project?.rawFeatures as any)?.neighborhood ?? ''
+    const location = [neighborhood, project?.city, project?.state].filter(Boolean).join(', ')
+    const f = project.features || project.rawFeatures || {}
+    
+    const bedrooms = f.bedrooms || f.beds || f.dormitorios
+    const bathrooms = f.bathrooms || f.baths || f.banheiros
+    const parking = f.parkingSpaces || f.parking || f.vagas
+    const area = f.areaPrivateM2 || f.area_m2 || f.area
+    
+    const bedroomsText = bedrooms ? `${bedrooms} dormitórios` : ''
+    const bathroomsText = bathrooms ? `${bathrooms} banheiros` : ''
+    const parkingText = parking ? `${parking} vagas` : ''
+    const areaText = area ? `${area}m²` : ''
+    
+    const features = [bedroomsText, bathroomsText, parkingText, areaText].filter(Boolean).join(' • ')
+    
+    const title = `${project.name} - Lançamento ${location ? `em ${location}` : 'em São Paulo'} | Stella Real Estate`
+    const description = `${project.name} - Lançamento imobiliário de alto padrão ${location ? `em ${location}` : 'em São Paulo'}. ${features}. ${project.description || 'Apartamentos de luxo com acabamento premium, infraestrutura completa e localização privilegiada.'} Plantas, fotos e informações completas. Agende sua visita com a Stella Real Estate.`
+    
+    const images = galleryImages.slice(0, 5).map(img => img.url).filter(Boolean)
+    const primaryImage = images[0] || project.heroImageUrl || 'https://stellareal.com.br/stella-og-image.png'
+    
+    const price = (project.features as any)?.priceMin || project.price || (project.rawFeatures as any)?.price_min
+    const priceMin = (project.features as any)?.priceMin || project.price || (project.rawFeatures as any)?.price_min || 0
+    const priceMax = (project.features as any)?.priceMax || project.price || (project.rawFeatures as any)?.price_max || priceMin
+    const priceText = price ? formatPrice(price) : null
+    
+    const keywords = [
+      project.name,
+      `lançamento ${project.city || 'São Paulo'}`,
+      neighborhood && `apartamento ${neighborhood}`,
+      bedrooms && `${bedrooms} dormitórios`,
+      'alto padrão',
+      'imóvel de luxo',
+      project.city || 'São Paulo',
+      'lançamento imobiliário',
+      'apartamento na planta',
+      'Stella Real Estate'
+    ].filter(Boolean).join(', ')
+    
+    return { title, description, keywords, images, primaryImage, location, priceText, features, priceMin, priceMax }
+  }, [project, galleryImages, formatPrice])
+
   if (project === undefined) return <div className="container-padded py-12">Loading…</div>
   if (!project) return <Navigate to="/projetos" replace />
 
   return (
+    <>
+      {seoData && (
+        <SEO
+          title={seoData.title}
+          description={seoData.description}
+          keywords={seoData.keywords}
+          canonicalUrl={`https://stellareal.com.br/projetos/${project.slug || project.id}`}
+          ogImage={seoData.primaryImage}
+          schema={{
+            '@context': 'https://schema.org',
+            '@type': 'RealEstateListing',
+            name: project.name,
+            description: project.description || seoData.description,
+            url: `https://stellareal.com.br/projetos/${project.slug || project.id}`,
+            image: seoData.images,
+            offers: seoData.priceText ? {
+              '@type': 'AggregateOffer',
+              priceCurrency: 'BRL',
+              lowPrice: seoData.priceMin,
+              highPrice: seoData.priceMax,
+              offerCount: unitsAvailable || 1,
+            } : undefined,
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: project.city || 'São Paulo',
+              addressRegion: project.state || 'SP',
+              addressCountry: 'BR',
+              streetAddress: (project.rawFeatures as any)?.address || undefined
+            },
+            geo: (project.rawFeatures as any)?.latitude && (project.rawFeatures as any)?.longitude ? {
+              '@type': 'GeoCoordinates',
+              latitude: (project.rawFeatures as any)?.latitude,
+              longitude: (project.rawFeatures as any)?.longitude
+            } : undefined,
+            numberOfRooms: project.features?.bedrooms || project.rawFeatures?.bedrooms || undefined,
+            floorSize: project.features?.areaPrivateM2 || project.rawFeatures?.area_m2 ? {
+              '@type': 'QuantitativeValue',
+              value: project.features?.areaPrivateM2 || project.rawFeatures?.area_m2,
+              unitCode: 'MTK'
+            } : undefined,
+            amenityFeature: highlights.map(h => ({
+              '@type': 'LocationFeatureSpecification',
+              name: h
+            })),
+            provider: {
+              '@type': 'RealEstateAgent',
+              name: 'Stella Real Estate',
+              url: 'https://stellareal.com.br',
+              telephone: '+5511986410429',
+              email: 'stellamary@creci.org.br'
+            }
+          }}
+        />
+      )}
     <div className="relative min-h-screen flex flex-col -mt-20">
       {videoId && (
         <div 
@@ -761,5 +863,6 @@ export default function ProjectDetail() {
         </div>
       )}
     </div>
+    </>
   )
 }
