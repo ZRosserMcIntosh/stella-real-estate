@@ -113,7 +113,7 @@ function PaymentForm({
       <div className="p-4 bg-slate-900/50 border border-white/10 rounded-xl">
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-white mb-2">
-            Assinatura de Pré-Lançamento + benefícios vitalícios
+            Entrada de Pré-Lançamento + Benefícios Vitalícios
           </h3>
           <p className="text-2xl font-bold text-indigo-400">
             R$ 99
