@@ -11,11 +11,15 @@ export default function ConstellationHeader() {
   const subdomain = getSubdomain()
   const isOnSubdomain = subdomain === 'constellation'
 
-  // For subdomain, use anchor links to homepage
+  // For subdomain, use anchor links to sections on homepage
   // For main domain, use regular links that will redirect to subdomain
   const getNavLink = (path: string) => {
     if (isOnSubdomain) {
-      // On subdomain, all content is on homepage, so just link to root
+      // On subdomain, scroll to sections on the same page
+      if (path === '/constellation') return '#recursos'
+      if (path === '/precos') return '#precos'
+      if (path === '/sobre') return '/sobre'  // This route should exist
+      if (path === '/contato') return '/contato'  // This route should exist
       return '/'
     }
     return path

@@ -326,7 +326,7 @@ export default function ConstellationPortal() {
       </section>
 
       {/* Key Benefits */}
-      <section className="py-20 lg:py-24 relative">
+      <section id="recursos" className="py-20 lg:py-24 relative scroll-mt-20">
         <div className="container-padded">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
@@ -500,7 +500,7 @@ export default function ConstellationPortal() {
       </section>
 
       {/* Pricing Teaser */}
-      <section className="py-20 lg:py-24 relative">
+      <section id="precos" className="py-20 lg:py-24 relative scroll-mt-20">
         <div className="container-padded">
           <div className="max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-brand-600/20 to-indigo-600/20 border border-brand-500/30 rounded-3xl p-12 backdrop-blur-sm">
@@ -629,13 +629,13 @@ export default function ConstellationPortal() {
               </div>
 
               <div className="text-center">
-                <Link
-                  to="/precos"
+                <a
+                  href="#precos"
                   onClick={() => trackCTA('Ver Todos os Planos', 'pricing_section')}
                   className="inline-block px-8 py-4 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-xl hover:shadow-2xl hover:scale-105"
                 >
                   {t('constellation.pricing.view_all_plans')}
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -653,18 +653,18 @@ export default function ConstellationPortal() {
               {t('constellation.cta.subtitle')}
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link
-                to="/precos"
+              <a
+                href={ConstellationUrls.signup()}
                 className="px-8 py-4 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
               >
                 {t('constellation.cta.start_trial')}
-              </Link>
-              <Link
-                to="/contato"
+              </a>
+              <a
+                href="/contato"
                 className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full font-medium transition-all border border-white/20 hover:border-white/30 text-lg"
               >
                 {t('constellation.cta.schedule_demo')}
-              </Link>
+              </a>
             </div>
           </div>
         </div>
