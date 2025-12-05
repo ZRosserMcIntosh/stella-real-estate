@@ -383,32 +383,38 @@ export default function ConstellationSignup() {
 
       if (profileError) {
         console.error('Error creating user profile:', profileError)
-        throw new Error(profileError.message)
+        console.error('Profile error details:', JSON.stringify(profileError, null, 2))
+        throw new Error(`Profile error: ${profileError.message || profileError.details || 'Unknown error'}`)
       }
 
       // Step 3: Create founding_member record with status 'pending' (WHILE STILL SIGNED IN)
       console.log('Step 3: Creating founding member record...')
       
+      const memberData = {
+        user_id: newUserId,
+        email: signupData.email,
+        phone: null, // Optional, can be added later in "complete your account"
+        full_name: signupData.fullName,
+        cpf: null, // Optional, can be added later
+        account_type: 'individual', // Default to individual
+        company_name: null,
+        cnpj: null,
+        creci_number: null,
+        creci_uf: null,
+        payment_status: 'pending', // Mark as pending until payment
+        payment_amount: 99.00,
+      }
+      
+      console.log('Inserting founding member with data:', memberData)
+      
       const { error: memberError } = await supabase
         .from('founding_members')
-        .insert({
-          user_id: newUserId,
-          email: signupData.email,
-          phone: null, // Optional, can be added later in "complete your account"
-          full_name: signupData.fullName,
-          cpf: null, // Optional, can be added later
-          account_type: 'individual', // Default to individual
-          company_name: null,
-          cnpj: null,
-          creci_number: null,
-          creci_uf: null,
-          payment_status: 'pending', // Mark as pending until payment
-          payment_amount: 99.00,
-        })
+        .insert(memberData)
 
       if (memberError) {
         console.error('Error creating founding member:', memberError)
-        throw new Error(memberError.message)
+        console.error('Member error details:', JSON.stringify(memberError, null, 2))
+        throw new Error(`Founding member error: ${memberError.message || memberError.details || 'Unknown error'}`)
       }
 
       console.log('Founding member record created with pending status')
