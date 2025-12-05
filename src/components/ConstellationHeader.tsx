@@ -1,13 +1,25 @@
-import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 import { ConstellationUrls } from '../utils/constellationUrl'
+import { getSubdomain } from '../utils/subdomain'
 
 export default function ConstellationHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { t } = useTranslation()
+  const subdomain = getSubdomain()
+  const isOnSubdomain = subdomain === 'constellation'
+
+  // For subdomain, use anchor links to homepage
+  // For main domain, use regular links that will redirect to subdomain
+  const getNavLink = (path: string) => {
+    if (isOnSubdomain) {
+      // On subdomain, all content is on homepage, so just link to root
+      return '/'
+    }
+    return path
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/10">
@@ -37,30 +49,30 @@ export default function ConstellationHeader() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
             <nav className="flex items-center gap-6">
-              <Link 
-                to="/constellation" 
+              <a 
+                href={getNavLink('/constellation')}
                 className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
               >
                 {t('constellation.nav.features')}
-              </Link>
-              <Link 
-                to="/precos" 
+              </a>
+              <a 
+                href={getNavLink('/precos')}
                 className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
               >
                 {t('constellation.nav.pricing')}
-              </Link>
-              <Link 
-                to="/sobre" 
+              </a>
+              <a 
+                href={getNavLink('/sobre')}
                 className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
               >
                 {t('constellation.nav.about')}
-              </Link>
-              <Link 
-                to="/contato" 
+              </a>
+              <a 
+                href={getNavLink('/contato')}
                 className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
               >
                 {t('constellation.nav.contact')}
-              </Link>
+              </a>
               <a
                 href={ConstellationUrls.login()}
                 className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
@@ -71,12 +83,12 @@ export default function ConstellationHeader() {
             
             <div className="flex items-center gap-4 border-l border-white/10 pl-4">
               <LanguageSwitcher />
-              <Link 
-                to="/precos" 
+              <a 
+                href={ConstellationUrls.signup()}
                 className="px-6 py-2.5 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-lg hover:shadow-xl hover:scale-105 text-sm"
               >
                 {t('constellation.nav.get_started')}
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -95,34 +107,34 @@ export default function ConstellationHeader() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-slate-950/95 backdrop-blur-lg border-t border-white/10">
           <nav className="container-padded py-6 flex flex-col gap-4">
-            <Link 
-              to="/constellation" 
+            <a 
+              href={getNavLink('/constellation')}
               onClick={() => setMobileMenuOpen(false)}
               className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
             >
               {t('constellation.nav.features')}
-            </Link>
-            <Link 
-              to="/precos" 
+            </a>
+            <a 
+              href={getNavLink('/precos')}
               onClick={() => setMobileMenuOpen(false)}
               className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
             >
               {t('constellation.nav.pricing')}
-            </Link>
-            <Link 
-              to="/sobre" 
+            </a>
+            <a 
+              href={getNavLink('/sobre')}
               onClick={() => setMobileMenuOpen(false)}
               className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
             >
               {t('constellation.nav.about')}
-            </Link>
-            <Link 
-              to="/contato" 
+            </a>
+            <a 
+              href={getNavLink('/contato')}
               onClick={() => setMobileMenuOpen(false)}
               className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
             >
               {t('constellation.nav.contact')}
-            </Link>
+            </a>
             <div className="border-t border-white/10 pt-4 mt-2 flex flex-col gap-3">
               <a
                 href={ConstellationUrls.login()}
@@ -134,13 +146,13 @@ export default function ConstellationHeader() {
               <div className="py-2">
                 <LanguageSwitcher />
               </div>
-              <Link 
-                to="/precos" 
+              <a 
+                href={ConstellationUrls.signup()}
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-6 py-3 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-full font-medium transition-all shadow-lg text-center"
               >
                 {t('constellation.nav.get_started')}
-              </Link>
+              </a>
             </div>
           </nav>
         </div>
