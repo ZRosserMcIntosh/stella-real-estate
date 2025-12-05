@@ -116,7 +116,7 @@ function PaymentForm({
             Founding 100 - Constellation Prime
           </h3>
           <p className="text-2xl font-bold text-indigo-400">
-            R$ 99,00
+            R$ 99
           </p>
           <p className="text-xs text-slate-400 mt-1">
             Pagamento único • Acesso no lançamento
@@ -756,7 +756,7 @@ export default function ConstellationSignup() {
             {signupStep === 'payment' && (
               <div className="space-y-4 animate-fadeIn">
                 <div className="text-center mb-4">
-                  <p className="text-xs text-indigo-300/60 uppercase tracking-wider">{t('constellation.step_4_title')}</p>
+                  <p className="text-xs text-indigo-300/60 uppercase tracking-wider">Pagamento</p>
                 </div>
 
                 {clientSecret ? (
