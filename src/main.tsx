@@ -61,8 +61,8 @@ import LuisaMarketing from './pages/LuisaMarketing'
 import LegalServices from './pages/LegalServices'
 import SeguroFianca from './pages/SeguroFianca'
 import RequestAccess from './pages/investors/RequestAccess'
-import StellaPlatform from './pages/StellaPlatform'
-import Pricing from './pages/Pricing'
+import ConstellationRedirect from './pages/ConstellationRedirect'
+import PrecosRedirect from './pages/PrecosRedirect'
 import Members from './pages/Members'
 import StellaReal from './pages/StellaReal'
 import International from './pages/International'
@@ -155,8 +155,8 @@ const router = createBrowserRouter([
       { path: 'luisa-marketing', element: <LuisaMarketing /> },
       { path: 'servicos-juridicos', element: <LegalServices /> },
       { path: 'seguro-fianca', element: <SeguroFianca /> },
-      { path: 'constellation', element: <StellaPlatform /> },
-      { path: 'precos', element: <Pricing /> },
+      { path: 'constellation', element: <ConstellationRedirect /> },
+      { path: 'precos', element: <PrecosRedirect /> },
       { path: 'international', element: <International /> },
       { path: 'anuncie-seu-imovel', element: <ListYourProperty /> },
       { path: 'consumidores', element: <ListYourProperty /> },
