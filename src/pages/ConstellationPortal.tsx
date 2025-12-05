@@ -689,9 +689,6 @@ export default function ConstellationPortal() {
                 {t('constellation.cta.schedule_demo')}
               </Link>
             </div>
-            <p className="text-sm text-slate-400 mt-6">
-              {t('constellation.cta.no_credit_card')}
-            </p>
           </div>
         </div>
       </section>
