@@ -195,6 +195,7 @@ const router = createBrowserRouter([
   },
   // Constellation subdomain routes (when visiting constellation.stellareal.com.br)
   // These are the clean URLs without /sub/constellation prefix - NO HEADER/FOOTER
+  { path: '/', element: <ConstellationPortal /> },
   { path: '/constellation', element: <ConstellationPage /> },
   { path: '/precos', element: <PricingPage /> },
   { path: '/sobre', element: <About /> },

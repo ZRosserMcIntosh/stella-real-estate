@@ -15,18 +15,7 @@ import StellaReal from './pages/StellaReal'
 import { getOptimizedImageUrl, IMAGE_PRESETS } from './utils/imageOptimization'
 
 export default function App() {
-  // Check if we're on a subdomain and render appropriate component
-  const subdomain = getSubdomain()
-  
-  if (subdomain === 'constellation') {
-    return <ConstellationPortal />
-  }
-  
-  if (subdomain === 'stellamary' || subdomain === 'stellareal') {
-    return <StellaReal />
-  }
-  
-  // Otherwise render the main homepage
+  // Main homepage component - renders Stella Real Estate homepage
   const { t } = useTranslation()
   const heroRef = useRef<HTMLDivElement | null>(null)
 
