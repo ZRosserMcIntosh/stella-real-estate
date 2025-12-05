@@ -88,7 +88,7 @@ export default function About() {
         alternateName: 'Zack McIntosh',
         jobTitle: currentLang === 'pt' ? 'Diretor de Tecnologia & Co-Fundador' : currentLang === 'es' ? 'Director de Tecnología y Cofundador' : 'CTO & Co-Founder',
         description: t('pages.about.leadership.cto.shortBio'),
-        image: 'https://stellareal.com.br/people/rosser.jpeg',
+        image: 'https://stellareal.com.br/people/rosser.jpg',
         sameAs: [
           'https://github.com/ZRosserMcIntosh',
           'https://www.linkedin.com/in/rosser-mcintosh'
@@ -229,7 +229,7 @@ export default function About() {
           <div className="group">
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-100 to-blue-100 dark:from-cyan-950/50 dark:to-blue-950/50 aspect-square mb-6">
               <img 
-                src="/people/rosser.jpeg" 
+                src="/people/rosser.jpg" 
                 alt={`${t('pages.about.leadership.cto.name')} - ${t('pages.about.leadership.cto.title')} ${currentLang === 'pt' ? 'da' : currentLang === 'es' ? 'de' : 'of'} Stella Real Estate`}
                 className="w-full h-full object-cover"
                 loading="lazy"
