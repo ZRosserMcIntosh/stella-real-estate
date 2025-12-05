@@ -160,8 +160,6 @@ const router = createBrowserRouter([
       { path: 'luisa-marketing', element: <LuisaMarketing /> },
       { path: 'servicos-juridicos', element: <LegalServices /> },
       { path: 'seguro-fianca', element: <SeguroFianca /> },
-      { path: 'constellation', element: <ConstellationRedirect /> },
-      { path: 'precos', element: <PrecosRedirect /> },
       { path: 'international', element: <International /> },
       { path: 'anuncie-seu-imovel', element: <ListYourProperty /> },
       { path: 'consumidores', element: <ListYourProperty /> },
