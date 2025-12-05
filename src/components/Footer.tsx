@@ -148,6 +148,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/international" className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                  International
+                </Link>
+              </li>
+              <li>
                 <Link to="/criar-site" onClick={() => trackEvent('signup_cta_click', { position: 'footer' })} className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Criar meu site
                 </Link>
