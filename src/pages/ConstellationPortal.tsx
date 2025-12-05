@@ -55,7 +55,7 @@ export default function ConstellationPortal() {
         {/* Primary Meta Tags */}
         <title>Constellation - Plataforma Profissional para Corretores de Imóveis | Stella Real Estate</title>
         <meta name="title" content="Constellation - Plataforma Profissional para Corretores de Imóveis | Stella Real Estate" />
-        <meta name="description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A plataforma completa para corretores independentes, imobiliárias e incorporadores. A partir de R$ 147/mês." />
+        <meta name="description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A plataforma completa para corretores independentes, imobiliárias e incorporadores. A partir de R$ 149/mês." />
         <meta name="keywords" content="plataforma imobiliária, CRM imobiliário, site para corretor, gestão de leads imobiliários, mapas 3D, marketing imobiliário, automação imobiliária, software imobiliário, site personalizado corretor, plataforma corretor independente" />
         
         {/* Canonical URL */}
@@ -74,7 +74,7 @@ export default function ConstellationPortal() {
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://stellareal.com.br/constellation" />
         <meta property="twitter:title" content="Constellation - Plataforma Profissional para Corretores de Imóveis" />
-        <meta property="twitter:description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A partir de R$ 147/mês." />
+        <meta property="twitter:description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A partir de R$ 149/mês." />
         <meta property="twitter:image" content="https://stellareal.com.br/tech-icons/contellation-logo.png" />
         
         {/* Language and Geo */}
@@ -535,19 +535,19 @@ export default function ConstellationPortal() {
               <div className="grid sm:grid-cols-3 gap-6 mb-8">
                 {[
                   { 
-                    plan: 'Solo', 
-                    price: 'R$ 147', 
+                    plan: 'Pro', 
+                    price: 'R$ 149', 
                     features: ['1 Site', '50 Anúncios', '3K Contatos', '2 Mapas 3D/mês'] 
                   },
                   { 
                     plan: 'Team', 
-                    price: 'R$ 397', 
+                    price: 'R$ 249', 
                     popular: true, 
                     features: ['2 Sites', '150 Anúncios', '10K Contatos', '5 Mapas 3D/mês', 'Lead Scoring'] 
                   },
                   { 
                     plan: 'Brokerage', 
-                    price: 'R$ 997', 
+                    price: 'R$ 499', 
                     features: ['3 Sites', '500 Anúncios', '50K Contatos', '20 Mapas 3D/mês', 'Suporte Prioritário'] 
                   }
                 ].map((tier, idx) => (
