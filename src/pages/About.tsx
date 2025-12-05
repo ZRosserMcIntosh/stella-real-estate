@@ -6,6 +6,7 @@ export default function About() {
   const { t, i18n } = useTranslation()
   const [ceoExpanded, setCeoExpanded] = useState(false)
   const [ctoExpanded, setCtoExpanded] = useState(false)
+  const [advisorExpanded, setAdvisorExpanded] = useState(false)
   const currentLang = i18n.language
 
   // SEO content by language
@@ -93,6 +94,13 @@ export default function About() {
           'https://github.com/ZRosserMcIntosh',
           'https://www.linkedin.com/in/rosser-mcintosh'
         ]
+      },
+      {
+        '@type': 'Person',
+        name: 'Pedro Garcia',
+        jobTitle: currentLang === 'pt' ? 'Consultor de Tecnologia' : currentLang === 'es' ? 'Consultor de Tecnología' : 'Technology Advisor',
+        description: t('pages.about.leadership.advisor.shortBio'),
+        image: 'https://stellareal.com.br/people/pedro.jpg'
       }
     ],
     knowsAbout: [
@@ -266,6 +274,66 @@ export default function About() {
                   aria-label={ctoExpanded ? (currentLang === 'pt' ? 'Mostrar menos sobre Rosser McIntosh' : currentLang === 'es' ? 'Mostrar menos sobre Rosser McIntosh' : 'Show less about Rosser McIntosh') : (currentLang === 'pt' ? 'Ler biografia completa de Rosser McIntosh' : currentLang === 'es' ? 'Leer biografía completa de Rosser McIntosh' : 'Read full bio of Rosser McIntosh')}
                 >
                   {ctoExpanded ? (
+                    <>
+                      {currentLang === 'pt' ? 'Mostrar Menos' : currentLang === 'es' ? 'Mostrar Menos' : 'Show Less'}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                      </svg>
+                    </>
+                  ) : (
+                    <>
+                      {currentLang === 'pt' ? 'Ler Biografia Completa' : currentLang === 'es' ? 'Leer Biografía Completa' : 'Read Full Bio'}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Technology Advisor */}
+          <div className="group">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-950/50 dark:to-indigo-950/50 aspect-square mb-6">
+              <img 
+                src="/people/pedro.jpg" 
+                alt={`${t('pages.about.leadership.advisor.name')} - ${t('pages.about.leadership.advisor.title')} ${currentLang === 'pt' ? 'da' : currentLang === 'es' ? 'de' : 'of'} Stella Real Estate`}
+                className="w-full h-full object-cover"
+                loading="lazy"
+                width="600"
+                height="600"
+              />
+            </div>
+            <div>
+              <div className="text-center mb-4">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                  {t('pages.about.leadership.advisor.name')}
+                </h3>
+                <p className="text-brand-600 dark:text-brand-400 font-semibold">
+                  {t('pages.about.leadership.advisor.title')}
+                </p>
+              </div>
+              <div className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                <p className="mb-4">
+                  {t('pages.about.leadership.advisor.shortBio')}
+                </p>
+                <div
+                  className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                    advisorExpanded ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
+                  }`}
+                >
+                  <p className="mb-4">
+                    {t('pages.about.leadership.advisor.fullBio')}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setAdvisorExpanded(!advisorExpanded)}
+                  className="inline-flex items-center gap-2 text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-semibold transition-colors"
+                  aria-expanded={advisorExpanded}
+                  aria-label={advisorExpanded ? (currentLang === 'pt' ? 'Mostrar menos sobre Pedro Garcia' : currentLang === 'es' ? 'Mostrar menos sobre Pedro Garcia' : 'Show less about Pedro Garcia') : (currentLang === 'pt' ? 'Ler biografia completa de Pedro Garcia' : currentLang === 'es' ? 'Leer biografía completa de Pedro Garcia' : 'Read full bio of Pedro Garcia')}
+                >
+                  {advisorExpanded ? (
                     <>
                       {currentLang === 'pt' ? 'Mostrar Menos' : currentLang === 'es' ? 'Mostrar Menos' : 'Show Less'}
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
