@@ -468,7 +468,7 @@ export default function Pricing() {
                             Corretores fundadores:
                           </span>
                           <span className="text-2xl sm:text-3xl font-light text-emerald-400 whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                            R$ {typeof plan.founderPrice === 'number' ? plan.founderPrice.toFixed(2) : plan.founderPrice}
+                            R$ {plan.founderPrice}
                           </span>
                           <span className="text-emerald-300 font-light text-sm whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
                         </div>
