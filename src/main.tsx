@@ -193,6 +193,11 @@ const router = createBrowserRouter([
       // Constellation-specific routes (smart components that render differently based on subdomain)
       { path: 'constellation', element: <SmartConstellation /> },
       { path: 'precos', element: <SmartPrecos /> },
+      // Authentication routes (needed for constellation subdomain)
+      { path: 'login', element: <Login /> },
+      { path: 'signup', element: <SignUp /> },
+      { path: 'forgot-password', element: <ForgotPassword /> },
+      { path: 'reset-password', element: <ResetPassword /> },
       // Subdomain routes (temporary paths until custom domains are configured)
       { path: 'sub/stellareal', element: <StellaReal /> },
     ],
