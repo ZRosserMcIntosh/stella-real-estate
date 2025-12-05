@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async'
 import { Check, X } from 'lucide-react'
 import { trackStartRegistration, trackPurchaseEventWithRedirect } from '../utils/analytics'
 import { ConstellationUrls } from '../utils/constellationUrl'
+import { ConstellationGTMHead, ConstellationGTMBody } from '../components/ConstellationGTM'
 
 // Expandable Benefits List Component
 function FoundingBenefitsList() {
@@ -231,6 +232,7 @@ export default function Pricing() {
 
   return (
     <div className="bg-slate-950 text-slate-100 min-h-screen -mt-[var(--header-height,60px)]">
+      <ConstellationGTMHead />
       <Helmet>
         {/* Language */}
         <html lang="pt-BR" />
@@ -308,6 +310,8 @@ export default function Pricing() {
           })}
         </script>
       </Helmet>
+
+      <ConstellationGTMBody />
 
       {/* Hero Section */}
       <div className="relative overflow-hidden">

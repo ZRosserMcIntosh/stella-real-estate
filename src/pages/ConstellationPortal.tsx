@@ -6,6 +6,7 @@ import ConstellationHeader from '../components/ConstellationHeader'
 import { ConstellationUrls } from '../utils/constellationUrl'
 import { Helmet } from 'react-helmet-async'
 import { trackPageView, trackCTA, trackWhatsAppClick, trackPlanView } from '../utils/analytics'
+import { ConstellationGTMHead, ConstellationGTMBody } from '../components/ConstellationGTM'
 
 export default function ConstellationPortal() {
   const { t, i18n } = useTranslation()
@@ -51,6 +52,7 @@ export default function ConstellationPortal() {
 
   return (
     <>
+      <ConstellationGTMHead />
       <Helmet>
         {/* Primary Meta Tags */}
         <title>Constellation - Plataforma Profissional para Corretores de Imóveis | Stella Real Estate</title>
@@ -261,6 +263,8 @@ export default function ConstellationPortal() {
         }
       `}</style>
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-950">
+        <ConstellationGTMBody />
+        
         {/* Constellation Header */}
         <ConstellationHeader />
         
