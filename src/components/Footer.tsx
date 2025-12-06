@@ -293,6 +293,13 @@ export default function Footer() {
                 className="h-8 w-auto"
               />
             </a>
+            <a href="https://tiktok.com/@stellarealbr" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+              <img 
+                src="/social-icons/tiktok-color.png" 
+                alt="TikTok" 
+                className="h-8 w-auto"
+              />
+            </a>
             <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
               <img 
                 src="/social-icons/whatsapp.png" 

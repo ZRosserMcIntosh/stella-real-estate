@@ -1062,8 +1062,8 @@ export default function Constellation() {
                 <a href="https://www.youtube.com/@StellaRealBrasil" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
                   <img src="/social-icons/youtube.png" alt="YouTube" className="h-8 w-auto" />
                 </a>
-                <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-                  <img src="/social-icons/tiktok-white.png" alt="TikTok" className="h-8 w-auto invert" />
+                <a href="https://tiktok.com/@stellarealbr" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                  <img src="/social-icons/tiktok-color.png" alt="TikTok" className="h-8 w-auto" />
                 </a>
               </div>
             </div>
