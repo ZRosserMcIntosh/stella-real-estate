@@ -170,14 +170,16 @@ export default function UserSite() {
                 {logoUrl ? (
                   <img src={logoUrl} alt={siteName} className="h-10 w-auto object-contain" />
                 ) : (
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-lg" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${siteConfig?.secondary_color || '#8b5cf6'})` }}>
-                    {firstName.charAt(0)}
+                  <div 
+                    className="px-3 py-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 flex items-center justify-center"
+                  >
+                    <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">SEU LOGO</span>
                   </div>
                 )}
                 <div>
                   <h1 className="font-semibold text-slate-900">{siteName}</h1>
                   {userData.creci_number && (
-                    <p className="text-xs text-slate-500">CRECI {userData.creci_number}/{userData.creci_uf}</p>
+                    <p className="text-xs text-slate-500">CRECI {userData.creci_number}{userData.creci_uf ? `/${userData.creci_uf}` : ''}</p>
                   )}
                 </div>
               </div>
@@ -273,20 +275,26 @@ export default function UserSite() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl font-bold text-slate-900 mb-6">Sobre</h2>
-              <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-3xl">
-                {firstName.charAt(0)}
-              </div>
+              {logoUrl ? (
+                <img src={logoUrl} alt={siteName} className="w-24 h-24 mx-auto mb-6 object-contain" />
+              ) : (
+                <div 
+                  className="w-24 h-24 mx-auto mb-6 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-100 flex items-center justify-center"
+                >
+                  <span className="text-sm font-medium text-slate-400 uppercase tracking-wider">SEU LOGO</span>
+                </div>
+              )}
               <h3 className="text-2xl font-semibold text-slate-900 mb-2">{userData.full_name}</h3>
               {userData.creci_number && (
-                <p className="text-indigo-600 font-medium mb-4">CRECI {userData.creci_number}/{userData.creci_uf}</p>
+                <p style={{ color: primaryColor }} className="font-medium mb-4">CRECI {userData.creci_number}{userData.creci_uf ? `/${userData.creci_uf}` : ''}</p>
               )}
               {userData.company_name && (
                 <p className="text-slate-600 mb-6">{userData.company_name}</p>
               )}
               <p className="text-slate-600 leading-relaxed">
-                Corretor de imóveis especializado em ajudar você a encontrar o imóvel perfeito. 
+                {siteConfig?.about_description || `Corretor de imóveis especializado em ajudar você a encontrar o imóvel perfeito. 
                 Com atendimento personalizado e conhecimento do mercado local, estou aqui para 
-                tornar sua jornada imobiliária mais fácil e segura.
+                tornar sua jornada imobiliária mais fácil e segura.`}
               </p>
             </div>
           </div>
@@ -335,16 +343,15 @@ export default function UserSite() {
                   <img src={logoUrl} alt={siteName} className="h-10 w-auto object-contain brightness-0 invert" />
                 ) : (
                   <div 
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold"
-                    style={{ background: `linear-gradient(135deg, ${primaryColor}, ${siteConfig?.secondary_color || '#8b5cf6'})` }}
+                    className="px-3 py-2 rounded-lg border-2 border-dashed border-slate-600 bg-slate-800 flex items-center justify-center"
                   >
-                    {firstName.charAt(0)}
+                    <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">SEU LOGO</span>
                   </div>
                 )}
                 <div>
                   <p className="font-semibold">{siteName}</p>
                   {userData.creci_number && (
-                    <p className="text-xs text-slate-400">CRECI {userData.creci_number}/{userData.creci_uf}</p>
+                    <p className="text-xs text-slate-400">CRECI {userData.creci_number}{userData.creci_uf ? `/${userData.creci_uf}` : ''}</p>
                   )}
                 </div>
               </div>
