@@ -331,14 +331,31 @@ export default function Constellation() {
                               <span className="text-sm text-emerald-400 font-medium whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
                                 Pré-cadastrados:
                               </span>
-                              <span className="text-2xl sm:text-3xl font-light text-emerald-400 whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                                R$ {plan.founderPrice}
-                              </span>
-                              <span className="text-emerald-300 font-light text-sm whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
+                              {(plan.id === 'SOLO' || plan.id === 'TEAM') ? (
+                                <>
+                                  <span className="text-2xl sm:text-3xl font-light text-emerald-400 whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                    R$ 0
+                                  </span>
+                                  <span className="text-emerald-300 font-light text-sm whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês no 1º ano</span>
+                                </>
+                              ) : (
+                                <>
+                                  <span className="text-2xl sm:text-3xl font-light text-emerald-400 whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                    R$ {plan.founderPrice}
+                                  </span>
+                                  <span className="text-emerald-300 font-light text-sm whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês</span>
+                                </>
+                              )}
                             </div>
-                            <p className="text-xs text-slate-400 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                              Garantia de preço para pré-cadastrados
-                            </p>
+                            {(plan.id === 'SOLO' || plan.id === 'TEAM') ? (
+                              <p className="text-xs text-slate-400 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                Depois R$ {plan.founderPrice}/mês para pré-cadastrados
+                              </p>
+                            ) : (
+                              <p className="text-xs text-slate-400 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                Garantia de preço para pré-cadastrados
+                              </p>
+                            )}
                           </div>
                         )}
                       </div>
