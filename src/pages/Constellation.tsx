@@ -317,12 +317,12 @@ export default function Constellation() {
                     alt="Brasão da República Federativa do Brasil" 
                     className="h-10"
                   />
-                  <span className="text-sm font-bold">
+                  <span className="text-lg font-bold">
                     <span className="text-white">CRECI</span>
                     <span className="text-red-500">SP</span>
                   </span>
                 </a>
-                <span className="text-sm text-slate-300">309568</span>
+                <span className="text-lg text-slate-300">309568</span>
               </div>
             </div>
           </div>
@@ -1138,12 +1138,12 @@ export default function Constellation() {
                     alt="Brasão da República Federativa do Brasil" 
                     className="h-10"
                   />
-                  <span className="text-sm font-bold">
+                  <span className="text-lg font-bold">
                     <span className="text-white">CRECI</span>
                     <span className="text-red-500">SP</span>
                   </span>
                 </a>
-                <span className="text-sm text-slate-300">309568</span>
+                <span className="text-lg text-slate-300">309568</span>
               </div>
             </div>
           </div>
