@@ -1010,6 +1010,8 @@ export default function Constellation() {
                   <li><Link to="/termos-beta" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.betaTerms')}</Link></li>
                   <li><Link to="/termos-api" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.apiTerms')}</Link></li>
                   <li><Link to="/termos-indicacao" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.referralTerms')}</Link></li>
+                  <li><Link to="/creci-disclosure" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.creciDisclosure')}</Link></li>
+                  <li><Link to="/politica-pld" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.amlPolicy')}</Link></li>
                   <li><Link to="/juridico" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.legal')}</Link></li>
                 </ul>
               </div>

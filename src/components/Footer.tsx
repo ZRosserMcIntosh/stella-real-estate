@@ -101,6 +101,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/creci-disclosure" className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                  {t('home.footer.creciDisclosure')}
+                </Link>
+              </li>
+              <li>
+                <Link to="/politica-pld" className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                  {t('home.footer.amlPolicy')}
+                </Link>
+              </li>
+              <li>
                 <Link to="/juridico" className="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   {t('home.footer.legal')}
                 </Link>

@@ -53,6 +53,8 @@ import BetaTerms from './pages/BetaTerms'
 import APITerms from './pages/APITerms'
 import ReferralTerms from './pages/ReferralTerms'
 import Legal from './pages/Legal'
+import CreciDisclosure from './pages/CreciDisclosure'
+import AMLPolicy from './pages/AMLPolicy'
 import ListYourProperty from './pages/ListYourProperty'
 import NotFound from './pages/NotFound'
 import Institutional from './pages/Institutional'
@@ -165,6 +167,8 @@ const router = createBrowserRouter([
       { path: 'termos-api', element: <APITerms /> },
       { path: 'termos-indicacao', element: <ReferralTerms /> },
       { path: 'juridico', element: <Legal /> },
+      { path: 'creci-disclosure', element: <CreciDisclosure /> },
+      { path: 'politica-pld', element: <AMLPolicy /> },
       { path: 'institucional', element: <Institutional /> },
       { path: 'investidores', element: <Investors /> },
       { path: 'luisa-marketing', element: <LuisaMarketing /> },

@@ -52,7 +52,9 @@
       "listProperty": "Publica tu Propiedad",
       "legal": "Legal",
       "admin": "Admin",
-      "institutional": "Institucional"
+      "institutional": "Institucional",
+      "creciDisclosure": "Divulgación CRECI",
+      "amlPolicy": "Política Antilavado de Dinero"
     }
   },
   "pages": {
