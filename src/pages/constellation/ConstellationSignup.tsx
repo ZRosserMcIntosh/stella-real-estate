@@ -217,7 +217,7 @@ export default function ConstellationSignup() {
     
     // Only redirect if they already have a session AND are a constellation user with payment completed
     if (session && !isDemo) {
-      // Check if this user is a constellation user with a founding_members record
+      // Check if this user is a constellation user with a COMPLETED payment
       const checkConstellationUser = async () => {
         try {
           const { data, error } = await supabase
@@ -226,17 +226,17 @@ export default function ConstellationSignup() {
             .eq('user_id', session.user.id)
             .single()
           
-          // Only redirect if user has a founding_members record (is a constellation user)
-          if (data) {
+          // Only redirect if user has COMPLETED payment (payment_status === 'paid')
+          if (data && data.payment_status === 'paid') {
             // If they just registered (userId is set), stay on payment page
             if (userId === data.user_id) {
               return
             }
             
-            // Otherwise redirect to dashboard
+            // Otherwise redirect to dashboard - they're already a paid member
             navigate(ConstellationUrls.dashboard(), { replace: true })
           }
-          // If no founding_members record, they're not a constellation user yet - allow signup
+          // If no record, or payment not completed, allow them to stay on signup/payment page
         } catch (err) {
           // If error (no record found), they're not a constellation user - allow signup
           console.log('Not a constellation user yet, allowing signup')
