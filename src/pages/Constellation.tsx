@@ -316,7 +316,11 @@ export default function Constellation() {
                   alt="Brasão da República Federativa do Brasil" 
                   className="h-10"
                 />
-                <span className="text-sm text-slate-300 font-medium">CRECI-SP 309568</span>
+                <span className="text-sm font-bold">
+                  <span className="text-white">CRECI</span>
+                  <span className="text-red-500">SP</span>
+                  <span className="text-slate-300 font-medium ml-1">309568</span>
+                </span>
               </a>
             </div>
           </div>
@@ -1131,7 +1135,11 @@ export default function Constellation() {
                   alt="Brasão da República Federativa do Brasil" 
                   className="h-10"
                 />
-                <span className="text-sm text-slate-300 font-medium">CRECI-SP 309568</span>
+                <span className="text-sm font-bold">
+                  <span className="text-white">CRECI</span>
+                  <span className="text-red-500">SP</span>
+                  <span className="text-slate-300 font-medium ml-1">309568</span>
+                </span>
               </a>
             </div>
           </div>
