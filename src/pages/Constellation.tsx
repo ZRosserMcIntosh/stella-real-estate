@@ -187,147 +187,6 @@ export default function Constellation() {
         </div>
       </section>
 
-      {/* 3D Maps Video Demo Section */}
-      <section className="py-12 lg:py-16 relative bg-slate-950">
-        <div className="container-padded">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-8">
-              {/* Left: Explanation */}
-              <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6 flex flex-col justify-between h-full">
-                <div>
-                  <h3 className="text-xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                    Tours 3D que vendem enquanto você dorme
-                  </h3>
-                  <p className="text-slate-300 mb-6 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                    Você grava um vídeo simples do imóvel. Nós transformamos em uma experiência 3D interativa onde seus clientes "caminham" pelo espaço de qualquer lugar do mundo, 24 horas por dia.
-                  </p>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                      <div>
-                        <span className="text-white font-medium">Reduz 80%+ das visitas improdutivas</span>
-                        <p className="text-sm text-slate-400">Clientes já conhecem o imóvel antes de agendar</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                      <div>
-                        <span className="text-white font-medium">Funciona em qualquer celular ou computador</span>
-                        <p className="text-sm text-slate-400">Sem app, sem plugins, direto no navegador</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                      <div>
-                        <span className="text-white font-medium">Entrega rápida</span>
-                        <p className="text-sm text-slate-400">Seu tour pronto em até 48 horas</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Demo Video */}
-              <div className="relative group h-full">
-                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-500/20 via-cyan-500/15 to-emerald-500/20 opacity-50 blur-2xl group-hover:opacity-75 transition duration-500" />
-                <div className="relative overflow-hidden rounded-2xl border border-emerald-400/40 shadow-[0_20px_80px_-20px_rgba(16,185,129,0.6)] ring-1 ring-emerald-400/10 h-full flex flex-col">
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                    poster="/video/office-3D-poster.jpg"
-                  >
-                    <source src="/video/office-3D.mp4" type="video/mp4" />
-                  </video>
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-slate-950/95 to-transparent">
-                    <div className="flex items-center gap-2">
-                      <div className="flex h-2 w-2 shrink-0">
-                        <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-                      </div>
-                      <div className="text-xs font-semibold uppercase tracking-wider text-emerald-200">
-                        Demonstração ao Vivo
-                      </div>
-                    </div>
-                    <div className="text-sm text-slate-300 mt-1">Experiência 3D interativa em tempo real</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Social Proof & Statistics Section */}
-      <section className="py-16 lg:py-20 relative bg-gradient-to-b from-slate-950 to-slate-900">
-        <div className="container-padded">
-          <div className="max-w-7xl mx-auto">
-            {/* Statistics */}
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <div className="text-center p-8 bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-xl">
-                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  80%+
-                </div>
-                <p className="text-slate-300 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Redução em visitas que não resultam em fechamento
-                </p>
-              </div>
-              
-              <div className="text-center p-8 bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-xl">
-                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400 mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  500%+
-                </div>
-                <p className="text-slate-300 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  ROI médio em tecnologia imobiliária
-                </p>
-              </div>
-              
-              <div className="text-center p-8 bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-xl">
-                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400 mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  24/7
-                </div>
-                <p className="text-slate-300 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Tours virtuais disponíveis para seus clientes
-                </p>
-              </div>
-            </div>
-
-            {/* Trust Badges */}
-            <div className="flex flex-wrap justify-center items-center gap-8 mt-8">
-              <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
-                <img 
-                  src="/tech-icons/trustpilot-white.svg" 
-                  alt="Trustpilot" 
-                  className="h-10 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
-                />
-              </a>
-              <div className="flex items-center gap-2">
-                <a 
-                  href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
-                >
-                  <img 
-                    src="/tech-icons/brazil-coat-of-arms.png" 
-                    alt="Brasão da República Federativa do Brasil" 
-                    className="h-10"
-                  />
-                  <span className="text-lg font-bold">
-                    <span className="text-white">CRECI</span>
-                    <span className="text-red-500">SP</span>
-                  </span>
-                </a>
-                <span className="text-lg text-slate-300">309568</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Pricing Teaser */}
       <section id="pricing-section" className="py-20 lg:py-24 relative scroll-mt-20">
@@ -347,6 +206,36 @@ export default function Constellation() {
                 <p className="text-sm text-amber-300 font-light leading-relaxed">
                   <span className="font-semibold">⚡ Vagas Limitadas:</span> Lançamento exclusivo para pré-cadastrados em Janeiro 2026. Após o lançamento, novos cadastros serão aceitos gradualmente (1-3/semana). Garanta sua vaga agora.
                 </p>
+              </div>
+            </div>
+
+            {/* Trust Badges - Above Tech Logos */}
+            <div className="flex flex-wrap justify-center items-center gap-8 mb-6">
+              <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
+                <img 
+                  src="/tech-icons/trustpilot-white.svg" 
+                  alt="Trustpilot" 
+                  className="h-8 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
+                />
+              </a>
+              <div className="flex items-center gap-2">
+                <a 
+                  href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+                >
+                  <img 
+                    src="/tech-icons/brazil-coat-of-arms.png" 
+                    alt="Brasão da República Federativa do Brasil" 
+                    className="h-8"
+                  />
+                  <span className="text-base font-bold">
+                    <span className="text-white">CRECI</span>
+                    <span className="text-red-500">SP</span>
+                  </span>
+                </a>
+                <span className="text-base text-slate-300">309568</span>
               </div>
             </div>
 
@@ -593,6 +482,149 @@ export default function Constellation() {
               })}
             </div>
 
+          </div>
+        </div>
+      </section>
+
+
+      {/* 3D Maps Video Demo Section */}
+      <section className="py-12 lg:py-16 relative bg-slate-950">
+        <div className="container-padded">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-8">
+              {/* Left: Explanation */}
+              <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6 flex flex-col justify-between h-full">
+                <div>
+                  <h3 className="text-xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    Tours 3D que vendem enquanto você dorme
+                  </h3>
+                  <p className="text-slate-300 mb-6 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    Você grava um vídeo simples do imóvel. Nós transformamos em uma experiência 3D interativa onde seus clientes "caminham" pelo espaço de qualquer lugar do mundo, 24 horas por dia.
+                  </p>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-medium">Reduz 80%+ das visitas improdutivas</span>
+                        <p className="text-sm text-slate-400">Clientes já conhecem o imóvel antes de agendar</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-medium">Funciona em qualquer celular ou computador</span>
+                        <p className="text-sm text-slate-400">Sem app, sem plugins, direto no navegador</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-medium">Entrega rápida</span>
+                        <p className="text-sm text-slate-400">Seu tour pronto em até 48 horas</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Demo Video */}
+              <div className="relative group h-full">
+                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-500/20 via-cyan-500/15 to-emerald-500/20 opacity-50 blur-2xl group-hover:opacity-75 transition duration-500" />
+                <div className="relative overflow-hidden rounded-2xl border border-emerald-400/40 shadow-[0_20px_80px_-20px_rgba(16,185,129,0.6)] ring-1 ring-emerald-400/10 h-full flex flex-col">
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                    poster="/video/office-3D-poster.jpg"
+                  >
+                    <source src="/video/office-3D.mp4" type="video/mp4" />
+                  </video>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-slate-950/95 to-transparent">
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-2 w-2 shrink-0">
+                        <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                      </div>
+                      <div className="text-xs font-semibold uppercase tracking-wider text-emerald-200">
+                        Demonstração ao Vivo
+                      </div>
+                    </div>
+                    <div className="text-sm text-slate-300 mt-1">Experiência 3D interativa em tempo real</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof & Statistics Section */}
+      <section className="py-16 lg:py-20 relative bg-gradient-to-b from-slate-950 to-slate-900">
+        <div className="container-padded">
+          <div className="max-w-7xl mx-auto">
+            {/* Statistics */}
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              <div className="text-center p-8 bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-xl">
+                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  80%+
+                </div>
+                <p className="text-slate-300 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Redução em visitas que não resultam em fechamento
+                </p>
+              </div>
+              
+              <div className="text-center p-8 bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-xl">
+                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400 mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  500%+
+                </div>
+                <p className="text-slate-300 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  ROI médio em tecnologia imobiliária
+                </p>
+              </div>
+              
+              <div className="text-center p-8 bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-xl">
+                <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400 mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  24/7
+                </div>
+                <p className="text-slate-300 font-light" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Tours virtuais disponíveis para seus clientes
+                </p>
+              </div>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="flex flex-wrap justify-center items-center gap-8 mt-8">
+              <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
+                <img 
+                  src="/tech-icons/trustpilot-white.svg" 
+                  alt="Trustpilot" 
+                  className="h-10 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
+                />
+              </a>
+              <div className="flex items-center gap-2">
+                <a 
+                  href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+                >
+                  <img 
+                    src="/tech-icons/brazil-coat-of-arms.png" 
+                    alt="Brasão da República Federativa do Brasil" 
+                    className="h-10"
+                  />
+                  <span className="text-lg font-bold">
+                    <span className="text-white">CRECI</span>
+                    <span className="text-red-500">SP</span>
+                  </span>
+                </a>
+                <span className="text-lg text-slate-300">309568</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
