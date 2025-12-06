@@ -401,9 +401,16 @@ export default function ListingsForRent() {
 
 	return (
 		<div className="p-4 text-slate-300">
-		<div>
-			<h1 className="text-xl font-semibold text-slate-100">Listings · For Rent</h1>
-			<p className="mt-1 text-slate-400">Create and manage properties listed for rent.</p>
+		<div className="flex items-start justify-between gap-4">
+			<div>
+				<h1 className="text-xl font-semibold text-slate-100">Listings · For Rent</h1>
+				<p className="mt-1 text-slate-400">Manage properties listed for rent.</p>
+			</div>
+			<a href="/admin/listings/create-listing" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors">
+				<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+				Create New Listing
+			</a>
+		</div>
 			{isDemo && (
 				<p className="mt-2 inline-flex items-center gap-2 rounded-full border border-amber-400/80 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-300">
 					Demo mode · changes disabled
@@ -411,7 +418,6 @@ export default function ListingsForRent() {
 			)}
 			{loading && <p className="text-sm text-slate-500 mt-1">Loading…</p>}
 			{error && <p className="text-sm text-red-600 mt-1">{error}</p>}
-		</div>
 
 			{/* Add New Listing (collapsible) */}
 			<div className="mt-6 rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg">

@@ -95,6 +95,7 @@ import CreciCourse from './pages/CreciCourse'
 import DealRoom from './pages/admin/DealRoom'
 import AdminLayout from './pages/admin/AdminLayout'
 import Account from './pages/admin/Account'
+import CreateListing from './pages/admin/CreateListing'
 import ListingsNewProjects from './pages/admin/ListingsNewProjects'
 import ListingsForSale from './pages/admin/ListingsForSale'
 import ListingsForRent from './pages/admin/ListingsForRent'
@@ -239,6 +240,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <DealRoom /> },
       { path: 'account', element: <Account /> },
+      { path: 'listings/create-listing', element: <CreateListing /> },
       { path: 'listings/new-projects', element: <ListingsNewProjects /> },
       { path: 'listings/for-sale', element: <ListingsForSale /> },
       { path: 'listings/for-rent', element: <ListingsForRent /> },

@@ -1272,9 +1272,16 @@ export default function ListingsNewProjects(){
 	const selectCls = "rounded-md border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg text-slate-100 px-2 py-2 text-sm focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/40 outline-none"
 
 	return <div className="p-4 text-slate-200">
-	<div>
-		<h1 className="text-xl font-semibold">Listings · New Projects</h1>
-		<p className="mt-1 text-slate-400">Manage new developments.</p>
+	<div className="flex items-start justify-between gap-4">
+		<div>
+			<h1 className="text-xl font-semibold">Listings · New Projects</h1>
+			<p className="mt-1 text-slate-400">Manage new developments.</p>
+		</div>
+		<a href="/admin/listings/create-listing" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-colors">
+			<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+			Create New Listing
+		</a>
+	</div>
 		{isDemo && (
 			<p className="mt-2 inline-flex items-center gap-2 rounded-full border border-amber-300/80 bg-amber-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700">
 				Demo mode · changes disabled
@@ -1282,7 +1289,6 @@ export default function ListingsNewProjects(){
 		)}
 		{loading && <p className="text-sm text-slate-500 mt-1">Loading…</p>}
 		{error && <p className="text-sm text-red-600 mt-1">{error}</p>}
-	</div>
 
 		<div className="mt-6 rounded-xl border border-slate-700/60 bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg">
 			<button type="button" onClick={()=>setShowForm(s=>!s)} className="w-full flex items-center justify-between px-4 py-3">

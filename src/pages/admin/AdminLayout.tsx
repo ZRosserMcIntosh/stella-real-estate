@@ -95,6 +95,7 @@ export default function AdminLayout() {
   const navItems = [
     { icon: <img src="/admin-icons/deals.png" alt="" className="w-5 h-5" />, label: 'Home', path: '/admin', end: true },
     { icon: <img src="/admin-icons/for-sale.png" alt="" className="w-5 h-5" />, label: 'Listings', submenu: [
+      { label: 'Create New Listing', path: '/admin/listings/create-listing' },
       { label: 'New Projects', path: '/admin/listings/new-projects' },
       { label: 'For Sale', path: '/admin/listings/for-sale' },
       { label: 'For Rent', path: '/admin/listings/for-rent' },
@@ -279,6 +280,8 @@ export default function AdminLayout() {
                   }}
                 >
                   <div className="p-1">
+                    <NavLink to="/admin/listings/create-listing" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setListingsOpen(false)}>Create New Listing</NavLink>
+                    <div className="my-1 border-t border-slate-700/60"></div>
                     <NavLink to="/admin/listings/new-projects" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setListingsOpen(false)}>New Projects</NavLink>
                     <NavLink to="/admin/listings/for-sale" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setListingsOpen(false)}>For Sale</NavLink>
                     <NavLink to="/admin/listings/for-rent" className={({ isActive }) => `block rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`} onClick={() => setListingsOpen(false)}>For Rent</NavLink>
@@ -538,6 +541,8 @@ export default function AdminLayout() {
               <div className="rounded-lg border border-slate-700/80">
                 <div className="px-3 py-2 text-xs font-semibold uppercase text-slate-300"><img src="/admin-icons/for-sale.png" alt="" className="w-4 h-4 inline-block mr-1.5" /> Listings</div>
                 <div className="grid gap-1 p-2">
+                  <NavLink to="/admin/listings/create-listing" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>Create New Listing</NavLink>
+                  <div className="my-1 border-t border-slate-700/60"></div>
                   <NavLink to="/admin/listings/new-projects" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>New Projects</NavLink>
                   <NavLink to="/admin/listings/for-sale" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>For Sale</NavLink>
                   <NavLink to="/admin/listings/for-rent" onClick={() => setMobileOpen(false)} className={({ isActive }) => `rounded-md px-3 py-2 text-sm transition-colors ${isActive ? 'bg-indigo-600/40 text-indigo-100' : 'text-slate-200 hover:bg-slate-700/60 hover:text-slate-50'}`}>For Rent</NavLink>
