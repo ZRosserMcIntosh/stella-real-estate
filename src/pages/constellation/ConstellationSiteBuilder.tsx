@@ -96,7 +96,7 @@ export default function ConstellationSiteBuilder() {
     { id: 'contact', name: 'Contato', nameEn: 'Contact', icon: <Phone className="w-4 h-4" />, enabled: true },
   ])
 
-  // Site settings
+  // Site settings - will be loaded from site_configs table
   const [siteSettings, setSiteSettings] = useState<SiteSettings>({
     siteName: '',
     logo: '',
@@ -115,6 +115,10 @@ export default function ConstellationSiteBuilder() {
     }
   })
 
+  // Site config from database
+  const [siteConfig, setSiteConfig] = useState<any>(null)
+  const [saving, setSaving] = useState(false)
+
   useEffect(() => {
     if (authLoading) return
     
@@ -128,20 +132,123 @@ export default function ConstellationSiteBuilder() {
 
   const fetchMemberData = async () => {
     try {
-      const { data, error } = await supabase
+      // Fetch member data
+      const { data: memberDataResult, error: memberError } = await supabase
         .from('founding_members')
         .select('*')
         .eq('user_id', session?.user?.id)
         .single()
 
-      if (data) {
-        setMemberData(data)
+      if (memberDataResult) {
+        setMemberData(memberDataResult)
+        
+        // Also fetch site config
+        if (memberDataResult.subdomain) {
+          await fetchSiteConfig(memberDataResult.subdomain)
+        }
       }
       
       setLoading(false)
     } catch (err) {
       console.error('Error:', err)
       setLoading(false)
+    }
+  }
+
+  const fetchSiteConfig = async (subdomain: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('site_configs')
+        .select('*')
+        .eq('subdomain', subdomain)
+        .single()
+
+      if (data) {
+        setSiteConfig(data)
+        // Update local state from database
+        setSiteSettings({
+          siteName: data.site_name || '',
+          logo: data.logo_url || '',
+          primaryColor: data.primary_color || '#6366f1',
+          secondaryColor: data.secondary_color || '#8b5cf6',
+          font: data.font_heading || 'Inter',
+          contactEmail: data.contact_email || '',
+          contactPhone: data.contact_phone || '',
+          whatsapp: data.contact_whatsapp || '',
+          address: data.contact_address || '',
+          socialLinks: {
+            instagram: data.social_instagram || '',
+            facebook: data.social_facebook || '',
+            linkedin: data.social_linkedin || '',
+            youtube: data.social_youtube || '',
+          }
+        })
+        // Update sections from database
+        if (data.sections) {
+          const dbSections = data.sections as any[]
+          setSections(prev => prev.map(section => {
+            const dbSection = dbSections.find((s: any) => s.id === section.id)
+            return dbSection ? { ...section, enabled: dbSection.enabled } : section
+          }))
+        }
+      } else if (error && error.code === 'PGRST116') {
+        // No config exists yet - create one
+        console.log('No site config found, will create on first save')
+      }
+    } catch (err) {
+      console.error('Error fetching site config:', err)
+    }
+  }
+
+  const handleSave = async () => {
+    if (!memberData?.subdomain || !session?.user?.id) return
+    
+    setSaving(true)
+    
+    try {
+      const configData = {
+        user_id: session.user.id,
+        subdomain: memberData.subdomain,
+        site_name: siteSettings.siteName || memberData.full_name,
+        logo_url: siteSettings.logo,
+        primary_color: siteSettings.primaryColor,
+        secondary_color: siteSettings.secondaryColor,
+        font_heading: siteSettings.font,
+        font_body: siteSettings.font,
+        contact_email: siteSettings.contactEmail || memberData.email,
+        contact_phone: siteSettings.contactPhone || memberData.phone,
+        contact_whatsapp: siteSettings.whatsapp,
+        contact_address: siteSettings.address,
+        social_instagram: siteSettings.socialLinks.instagram,
+        social_facebook: siteSettings.socialLinks.facebook,
+        social_linkedin: siteSettings.socialLinks.linkedin,
+        social_youtube: siteSettings.socialLinks.youtube,
+        sections: sections.map(s => ({ id: s.id, enabled: s.enabled, order: sections.indexOf(s) + 1, config: {} })),
+        is_published: true,
+        published_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }
+
+      const { error } = await supabase
+        .from('site_configs')
+        .upsert(configData, { 
+          onConflict: 'subdomain',
+          ignoreDuplicates: false 
+        })
+
+      if (error) {
+        console.error('Error saving site config:', error)
+        alert(isPt ? 'Erro ao salvar. Tente novamente.' : 'Error saving. Please try again.')
+      } else {
+        setHasUnsavedChanges(false)
+        // Refresh the preview
+        handleRefresh()
+      }
+    } catch (err) {
+      console.error('Error:', err)
+      alert(isPt ? 'Erro ao salvar. Tente novamente.' : 'Error saving. Please try again.')
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -329,15 +436,20 @@ export default function ConstellationSiteBuilder() {
                   <RefreshCw className={`w-4 h-4 ${iframeLoading ? 'animate-spin' : ''}`} />
                 </button>
                 <button
+                  onClick={handleSave}
                   className={`hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all text-sm ${
                     hasUnsavedChanges 
                       ? 'bg-green-600 hover:bg-green-700 text-white' 
                       : 'bg-slate-700/50 text-slate-400 cursor-not-allowed'
-                  }`}
-                  disabled={!hasUnsavedChanges}
+                  } ${saving ? 'opacity-50 cursor-wait' : ''}`}
+                  disabled={!hasUnsavedChanges || saving}
                 >
-                  <Save className="w-4 h-4" />
-                  {isPt ? 'Salvar' : 'Save'}
+                  {saving ? (
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    <Save className="w-4 h-4" />
+                  )}
+                  {saving ? (isPt ? 'Salvando...' : 'Saving...') : (isPt ? 'Salvar' : 'Save')}
                 </button>
                 <button
                   onClick={() => setRightPanelOpen(!rightPanelOpen)}

@@ -15,17 +15,42 @@ interface UserData {
   creci_uf?: string
   subdomain: string
   selected_plan?: string
-  // Site customization fields (to be added later)
-  site_title?: string
+}
+
+interface SiteConfig {
+  id: string
+  subdomain: string
+  site_name?: string
+  site_tagline?: string
   site_description?: string
-  site_logo?: string
-  site_cover_image?: string
-  site_primary_color?: string
+  logo_url?: string
+  cover_image_url?: string
+  primary_color?: string
+  secondary_color?: string
+  font_heading?: string
+  font_body?: string
+  contact_email?: string
+  contact_phone?: string
+  contact_whatsapp?: string
+  contact_address?: string
+  social_instagram?: string
+  social_facebook?: string
+  social_linkedin?: string
+  social_youtube?: string
+  hero_title?: string
+  hero_subtitle?: string
+  hero_background_url?: string
+  hero_cta_text?: string
+  about_title?: string
+  about_description?: string
+  sections?: any[]
+  is_published?: boolean
 }
 
 export default function UserSite() {
   const [loading, setLoading] = useState(true)
   const [userData, setUserData] = useState<UserData | null>(null)
+  const [siteConfig, setSiteConfig] = useState<SiteConfig | null>(null)
   const [error, setError] = useState<string | null>(null)
   const subdomain = getSubdomain()
 
@@ -36,23 +61,40 @@ export default function UserSite() {
       return
     }
 
-    fetchUserData()
+    fetchSiteData()
   }, [subdomain])
 
-  const fetchUserData = async () => {
+  const fetchSiteData = async () => {
     try {
-      const { data, error: fetchError } = await supabase
+      // First, fetch user data from founding_members
+      const { data: memberData, error: memberError } = await supabase
         .from('founding_members')
         .select('*')
         .eq('subdomain', subdomain)
         .single()
 
-      if (fetchError || !data) {
+      if (memberError || !memberData) {
         setError('Site not found')
-      } else {
-        setUserData(data)
+        setLoading(false)
+        return
       }
+
+      setUserData(memberData)
+
+      // Then, fetch site config (user's customizations)
+      const { data: configData, error: configError } = await supabase
+        .from('site_configs')
+        .select('*')
+        .eq('subdomain', subdomain)
+        .single()
+
+      if (configData) {
+        setSiteConfig(configData)
+      }
+      // It's okay if no config exists - we'll use defaults from userData
+
     } catch (err) {
+      console.error('Error loading site:', err)
       setError('Error loading site')
     } finally {
       setLoading(false)
@@ -94,8 +136,18 @@ export default function UserSite() {
   }
 
   const firstName = userData.full_name?.split(' ')[0] || 'Corretor'
-  const siteTitle = userData.site_title || `${userData.full_name} - Corretor de Imóveis`
-  const siteDescription = userData.site_description || `Encontre o imóvel ideal com ${userData.full_name}. Atendimento personalizado e as melhores oportunidades do mercado.`
+  
+  // Use siteConfig values if available, otherwise fall back to userData
+  const siteName = siteConfig?.site_name || userData.full_name
+  const siteTitle = siteName ? `${siteName} - Corretor de Imóveis` : 'Corretor de Imóveis'
+  const siteDescription = siteConfig?.site_description || `Encontre o imóvel ideal com ${userData.full_name}. Atendimento personalizado e as melhores oportunidades do mercado.`
+  const heroTitle = siteConfig?.hero_title || 'Encontre o imóvel dos seus sonhos'
+  const heroSubtitle = siteConfig?.hero_subtitle || siteDescription
+  const primaryColor = siteConfig?.primary_color || '#6366f1'
+  const contactPhone = siteConfig?.contact_phone || userData.phone
+  const contactEmail = siteConfig?.contact_email || userData.email
+  const contactWhatsapp = siteConfig?.contact_whatsapp || contactPhone
+  const logoUrl = siteConfig?.logo_url
 
   return (
     <>
@@ -115,11 +167,15 @@ export default function UserSite() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
-                  {firstName.charAt(0)}
-                </div>
+                {logoUrl ? (
+                  <img src={logoUrl} alt={siteName} className="h-10 w-auto object-contain" />
+                ) : (
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-lg" style={{ background: `linear-gradient(135deg, ${primaryColor}, ${siteConfig?.secondary_color || '#8b5cf6'})` }}>
+                    {firstName.charAt(0)}
+                  </div>
+                )}
                 <div>
-                  <h1 className="font-semibold text-slate-900">{userData.full_name}</h1>
+                  <h1 className="font-semibold text-slate-900">{siteName}</h1>
                   {userData.creci_number && (
                     <p className="text-xs text-slate-500">CRECI {userData.creci_number}/{userData.creci_uf}</p>
                   )}
@@ -130,15 +186,17 @@ export default function UserSite() {
                 <a href="#sobre" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">Sobre</a>
                 <a href="#contato" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">Contato</a>
               </nav>
-              <a
-                href={`https://wa.me/55${userData.phone?.replace(/\D/g, '') || ''}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
-              >
-                <Phone className="w-4 h-4" />
-                <span className="hidden sm:inline">WhatsApp</span>
-              </a>
+              {contactWhatsapp && (
+                <a
+                  href={`https://wa.me/55${contactWhatsapp.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span className="hidden sm:inline">WhatsApp</span>
+                </a>
+              )}
             </div>
           </div>
         </header>
@@ -148,22 +206,34 @@ export default function UserSite() {
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-purple-500/5" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-indigo-600 text-sm mb-6">
+              <div 
+                className="inline-flex items-center gap-2 px-4 py-2 border rounded-full text-sm mb-6"
+                style={{ 
+                  backgroundColor: `${primaryColor}10`, 
+                  borderColor: `${primaryColor}30`, 
+                  color: primaryColor 
+                }}
+              >
                 <Home className="w-4 h-4" />
                 {userData.company_name || 'Corretor de Imóveis'}
               </div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-tight">
-                Encontre o imóvel dos seus <span className="text-indigo-600">sonhos</span>
+                {heroTitle.split(' ').map((word, i) => 
+                  word.toLowerCase() === 'sonhos' || word.toLowerCase() === 'ideal' 
+                    ? <span key={i} style={{ color: primaryColor }}>{word} </span> 
+                    : word + ' '
+                )}
               </h2>
               <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-                {siteDescription}
+                {heroSubtitle}
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
                   href="#imoveis"
-                  className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-colors shadow-lg hover:shadow-xl"
+                  className="px-8 py-4 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-xl hover:opacity-90"
+                  style={{ backgroundColor: primaryColor }}
                 >
-                  Ver Imóveis
+                  {siteConfig?.hero_cta_text || 'Ver Imóveis'}
                 </a>
                 <a
                   href="#contato"
@@ -231,24 +301,26 @@ export default function UserSite() {
                 Estou pronto para ajudar você a encontrar o imóvel ideal. Entre em contato!
               </p>
               <div className="space-y-4">
-                {userData.phone && (
+                {contactWhatsapp && (
                   <a
-                    href={`https://wa.me/55${userData.phone.replace(/\D/g, '')}`}
+                    href={`https://wa.me/55${contactWhatsapp.replace(/\D/g, '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl font-medium transition-colors"
                   >
                     <Phone className="w-5 h-5" />
-                    WhatsApp: {userData.phone}
+                    WhatsApp: {contactPhone}
                   </a>
                 )}
-                <a
-                  href={`mailto:${userData.email}`}
-                  className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-xl font-medium transition-colors"
-                >
-                  <Mail className="w-5 h-5" />
-                  {userData.email}
-                </a>
+                {contactEmail && (
+                  <a
+                    href={`mailto:${contactEmail}`}
+                    className="flex items-center justify-center gap-3 w-full px-6 py-4 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-xl font-medium transition-colors"
+                  >
+                    <Mail className="w-5 h-5" />
+                    {contactEmail}
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -259,11 +331,18 @@ export default function UserSite() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold">
-                  {firstName.charAt(0)}
-                </div>
+                {logoUrl ? (
+                  <img src={logoUrl} alt={siteName} className="h-10 w-auto object-contain brightness-0 invert" />
+                ) : (
+                  <div 
+                    className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold"
+                    style={{ background: `linear-gradient(135deg, ${primaryColor}, ${siteConfig?.secondary_color || '#8b5cf6'})` }}
+                  >
+                    {firstName.charAt(0)}
+                  </div>
+                )}
                 <div>
-                  <p className="font-semibold">{userData.full_name}</p>
+                  <p className="font-semibold">{siteName}</p>
                   {userData.creci_number && (
                     <p className="text-xs text-slate-400">CRECI {userData.creci_number}/{userData.creci_uf}</p>
                   )}
