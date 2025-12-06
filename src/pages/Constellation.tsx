@@ -729,12 +729,12 @@ export default function Constellation() {
                 </div>
                 <ul className="space-y-4">
                   {[
-                    { title: 'Criação de Sites', desc: 'Construtor drag-and-drop com templates profissionais' },
-                    { title: 'Gestão de Imóveis', desc: 'Cadastro completo com fotos, vídeos e tours 3D' },
-                    { title: 'Publicação Multi-Plataforma', desc: 'Sincronize com portais imobiliários automaticamente' },
-                    { title: 'Landing Pages', desc: 'Páginas de captura para cada imóvel ou campanha' },
-                    { title: 'SEO Otimizado', desc: 'Posicionamento orgânico no Google' },
-                    { title: 'Experiência do Cliente', desc: 'Agendamento de visitas, chat e WhatsApp integrado' }
+                    { title: 'Sites Profissionais', desc: 'Lance um site imobiliário impressionante em minutos com nosso construtor drag-and-drop. Otimizado para mobile e pronto para SEO.' },
+                    { title: 'Gestão Poderosa de Imóveis', desc: 'Gerencie todas as suas propriedades em um só lugar. Adicione fotos, vídeos, tours 3D e publique em múltiplas plataformas instantaneamente.' },
+                    { title: 'Mercado de Varejo', desc: 'Liste suas propriedades no Stella Real, nossa plataforma de varejo. Obtenha exposição para milhares de potenciais compradores.' },
+                    { title: 'Landing Pages', desc: 'Páginas de captura otimizadas para cada imóvel ou campanha de marketing.' },
+                    { title: 'SEO Otimizado', desc: 'Posicionamento orgânico no Google com meta tags, sitemaps e estrutura otimizada.' },
+                    { title: 'Experiência do Cliente', desc: 'Agendamento de visitas, chat ao vivo e WhatsApp integrado para atendimento rápido.' }
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <Check className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
@@ -761,12 +761,12 @@ export default function Constellation() {
                 </div>
                 <ul className="space-y-4">
                   {[
-                    { title: 'Gestão de Projetos', desc: 'Quadros Kanban, listas e calendários' },
-                    { title: 'CRM Completo', desc: 'Pipeline de vendas e acompanhamento de leads' },
-                    { title: 'Automações', desc: 'Fluxos de trabalho sem código' },
-                    { title: 'Gestão de Equipe', desc: 'Tarefas, metas e avaliação de desempenho' },
-                    { title: 'Documentação', desc: 'Contratos, vistorias e processos centralizados' },
-                    { title: 'Relatórios', desc: 'Dashboards e métricas de performance' }
+                    { title: 'Gestão de Tarefas (Kanban)', desc: 'Organize seu fluxo de trabalho com quadros Kanban. Acompanhe visitas, papelada e tarefas de fechamento sem esforço.' },
+                    { title: 'CRM Integrado', desc: 'Acompanhe cada lead, cliente e negócio. Nunca perca um follow-up com lembretes automáticos e gestão de pipeline.' },
+                    { title: 'Análises e Insights', desc: 'Entenda seu negócio com análises detalhadas. Acompanhe visualizações, leads, conversões e receita.' },
+                    { title: 'Automações', desc: 'Fluxos de trabalho sem código para automatizar processos repetitivos.' },
+                    { title: 'Gestão de Equipe', desc: 'Tarefas, metas individuais e avaliação de desempenho.' },
+                    { title: 'Documentação', desc: 'Contratos, vistorias e processos centralizados em um só lugar.' }
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <Check className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
@@ -789,96 +789,6 @@ export default function Constellation() {
                 <span className="text-slate-500">=</span>
                 <span className="text-white font-medium">Plataforma Completa</span>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Key Benefits */}
-      <section className="py-20 lg:py-24 relative">
-        <div className="container-padded">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl font-light tracking-tight text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                Tudo que Você Precisa para Ter Sucesso
-              </h2>
-              <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-                Do seu primeiro anúncio até escalar sua imobiliária, Constellation cresce com você
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                {
-                  title: 'Sites Profissionais',
-                  description: 'Lance um site imobiliário impressionante em minutos com nosso construtor de arrastar e soltar. Otimizado para mobile e pronto para SEO.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Gestão Poderosa de Imóveis',
-                  description: 'Gerencie todas as suas propriedades em um só lugar. Adicione fotos, vídeos, tours 3D e publique em múltiplas plataformas instantaneamente.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'CRM Integrado',
-                  description: 'Acompanhe cada lead, cliente e negócio. Nunca perca um follow-up com lembretes automáticos e gestão de pipeline.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Gestão de Tarefas (Balé)',
-                  description: 'Organize seu fluxo de trabalho com quadros Kanban. Acompanhe visitas, papelada e tarefas de fechamento sem esforço.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Mercado de Varejo',
-                  description: 'Liste suas propriedades no Stella Real, nossa plataforma de varejo. Obtenha exposição para milhares de potenciais compradores.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Análises e Insights',
-                  description: 'Entenda seu negócio com análises detalhadas. Acompanhe visualizações, leads, conversões e receita.',
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                  )
-                },
-              ].map((feature, idx) => (
-                <div
-                  key={idx}
-                  className="bg-slate-800/40 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-brand-500/50 transition-all hover:shadow-xl hover:shadow-brand-500/10 group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-500/20 to-indigo-500/20 border border-brand-500/30 flex items-center justify-center text-brand-400 mb-4 group-hover:scale-110 transition-transform">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-white mb-3">
-                    {feature.title}
-                  </h3>
-                  <p className="text-slate-400 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
