@@ -1,4 +1,4 @@
-import { Menu, X, Home, Building2, Globe, Users, FileText, Settings } from 'lucide-react'
+import { Menu, X, Home, Building2, Layout, Users, FileText, Settings } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import LanguageSwitcher from './LanguageSwitcher'
@@ -21,7 +21,7 @@ export default function ConstellationAuthHeader() {
   const navItems: NavItem[] = [
     { label: 'Início', labelEn: 'Home', href: '/dashboard', icon: <Home className="w-4 h-4" /> },
     { label: 'Meus Imóveis', labelEn: 'My Listings', href: '/dashboard/listings', icon: <Building2 className="w-4 h-4" /> },
-    { label: 'Meu Site', labelEn: 'My Site', href: '/site-builder', icon: <Globe className="w-4 h-4" /> },
+    { label: 'Construtor de Sites', labelEn: 'Site Builder', href: '/site-builder', icon: <Layout className="w-4 h-4" /> },
     { label: 'CRM', labelEn: 'CRM', href: '/dashboard/crm', icon: <Users className="w-4 h-4" /> },
     { label: 'Documentos', labelEn: 'Documents', href: '/dashboard/documents', icon: <FileText className="w-4 h-4" /> },
   ]
