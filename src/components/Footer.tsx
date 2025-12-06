@@ -304,7 +304,14 @@ export default function Footer() {
         </div>
 
         {/* TrustBox widget - Review Collector */}
-        <div className="pt-6 flex justify-center">
+        <div className="pt-6 flex flex-col items-center">
+          <div className="mb-3">
+            <img 
+              src="/tech-icons/color/Trustpilot-Logo.png" 
+              alt="Trustpilot" 
+              className="h-6 opacity-90"
+            />
+          </div>
           <div className="trustpilot-widget" data-locale="pt-BR" data-template-id="56278e9abfbbba0bdcd568bc" data-businessunit-id="693347c6fde29e408a4d2089" data-style-height="52px" data-style-width="100%" data-token="f8e526f0-2937-40fc-b735-bdda0e269895">
             <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener">Trustpilot</a>
           </div>
