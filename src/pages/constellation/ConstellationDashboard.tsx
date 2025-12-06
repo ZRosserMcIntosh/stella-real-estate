@@ -233,6 +233,60 @@ export default function ConstellationDashboard() {
         setMemberData((prev: any) => ({ ...prev, subdomain: subdomainInput }))
         setSubdomainSuccess(true)
         setTimeout(() => setSubdomainSuccess(false), 3000)
+        
+        // Create default site config with genericized template
+        const defaultSiteConfig = {
+          user_id: session?.user?.id,
+          subdomain: subdomainInput,
+          site_name: memberData?.full_name || 'Meu Site Imobiliário',
+          logo_url: null,
+          favicon_url: null,
+          primary_color: '#6366f1',
+          secondary_color: '#8b5cf6',
+          font_heading: 'Inter',
+          font_body: 'Inter',
+          contact_email: memberData?.email || null,
+          contact_phone: memberData?.phone || null,
+          contact_whatsapp: memberData?.phone || null,
+          contact_address: null,
+          social_instagram: null,
+          social_facebook: null,
+          social_linkedin: null,
+          social_youtube: null,
+          hero_title: isPt ? 'Encontre seu imóvel ideal' : 'Find your ideal property',
+          hero_subtitle: isPt ? 'Profissionalismo e dedicação para realizar seu sonho' : 'Professionalism and dedication to make your dream come true',
+          hero_cta_text: isPt ? 'Ver Imóveis' : 'View Properties',
+          about_title: isPt ? 'Sobre Nós' : 'About Us',
+          about_text: isPt 
+            ? 'Somos especialistas no mercado imobiliário, oferecendo as melhores oportunidades de compra, venda e locação de imóveis. Nossa missão é ajudar você a encontrar o imóvel perfeito para suas necessidades.'
+            : 'We are specialists in the real estate market, offering the best opportunities for buying, selling and renting properties. Our mission is to help you find the perfect property for your needs.',
+          sections: [
+            { id: 'hero', enabled: true, order: 1, config: {} },
+            { id: 'featured', enabled: true, order: 2, config: {} },
+            { id: 'about', enabled: true, order: 3, config: {} },
+            { id: 'services', enabled: true, order: 4, config: {} },
+            { id: 'testimonials', enabled: false, order: 5, config: {} },
+            { id: 'contact', enabled: true, order: 6, config: {} },
+          ],
+          is_published: true,
+          published_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        }
+        
+        // Insert default site config (ignore if already exists)
+        const { error: configError } = await supabase
+          .from('site_configs')
+          .upsert(defaultSiteConfig, { 
+            onConflict: 'subdomain',
+            ignoreDuplicates: true 
+          })
+        
+        if (configError) {
+          console.log('Note: Could not create default site config:', configError)
+          // Non-critical error, don't show to user
+        } else {
+          console.log('Default site config created for:', subdomainInput)
+        }
       }
     } catch (err) {
       console.error('Error:', err)

@@ -615,10 +615,10 @@ export default function ConstellationPortal() {
             <div className="flex flex-wrap gap-4 justify-center">
               <a
                 href={ConstellationUrls.signup()}
-                onClick={() => trackCTA('Try Free', 'final_cta')}
+                onClick={() => trackCTA('Teste Grátis', 'final_cta')}
                 className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
               >
-                Try Free (No Card Required)
+                Teste Grátis (Sem Cartão)
               </a>
               <Link
                 to="/constellation"

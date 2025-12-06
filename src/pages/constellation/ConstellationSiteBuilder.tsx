@@ -55,6 +55,7 @@ interface SiteSection {
 interface SiteSettings {
   siteName: string
   logo: string
+  favicon: string
   primaryColor: string
   secondaryColor: string
   font: string
@@ -100,6 +101,7 @@ export default function ConstellationSiteBuilder() {
   const [siteSettings, setSiteSettings] = useState<SiteSettings>({
     siteName: '',
     logo: '',
+    favicon: '',
     primaryColor: '#6366f1',
     secondaryColor: '#8b5cf6',
     font: 'Inter',
@@ -169,6 +171,7 @@ export default function ConstellationSiteBuilder() {
         setSiteSettings({
           siteName: data.site_name || '',
           logo: data.logo_url || '',
+          favicon: data.favicon_url || '',
           primaryColor: data.primary_color || '#6366f1',
           secondaryColor: data.secondary_color || '#8b5cf6',
           font: data.font_heading || 'Inter',
@@ -211,6 +214,7 @@ export default function ConstellationSiteBuilder() {
         subdomain: memberData.subdomain,
         site_name: siteSettings.siteName || memberData.full_name,
         logo_url: siteSettings.logo,
+        favicon_url: siteSettings.favicon,
         primary_color: siteSettings.primaryColor,
         secondary_color: siteSettings.secondaryColor,
         font_heading: siteSettings.font,
@@ -632,6 +636,92 @@ export default function ConstellationSiteBuilder() {
                       <option value="Montserrat">Montserrat</option>
                       <option value="Playfair Display">Playfair Display</option>
                     </select>
+                  </div>
+
+                  {/* Logo Upload */}
+                  <div>
+                    <label className="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">
+                      {isPt ? 'Logo' : 'Logo'}
+                    </label>
+                    {siteSettings.logo ? (
+                      <div className="relative">
+                        <img 
+                          src={siteSettings.logo} 
+                          alt="Logo" 
+                          className="w-full h-20 object-contain bg-slate-800/50 rounded-lg border border-slate-600/50"
+                        />
+                        <button
+                          onClick={() => {
+                            setSiteSettings(prev => ({ ...prev, logo: '' }))
+                            setHasUnsavedChanges(true)
+                          }}
+                          className="absolute top-1 right-1 p-1 bg-red-500/80 hover:bg-red-500 rounded-full text-white"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="border-2 border-dashed border-slate-600/50 rounded-lg p-4 text-center hover:border-indigo-500/50 transition-colors cursor-pointer">
+                        <Upload className="w-6 h-6 text-slate-500 mx-auto mb-2" />
+                        <p className="text-xs text-slate-400">
+                          {isPt ? 'Arraste ou clique' : 'Drag or click'}
+                        </p>
+                        <p className="text-xs text-slate-500 mt-1">PNG, JPG, SVG</p>
+                      </div>
+                    )}
+                    <input
+                      type="text"
+                      value={siteSettings.logo}
+                      onChange={(e) => {
+                        setSiteSettings(prev => ({ ...prev, logo: e.target.value }))
+                        setHasUnsavedChanges(true)
+                      }}
+                      placeholder={isPt ? 'Ou cole URL da imagem' : 'Or paste image URL'}
+                      className="w-full mt-2 px-3 py-2 bg-slate-800/50 border border-slate-600/50 rounded-lg text-xs text-slate-300 placeholder-slate-500"
+                    />
+                  </div>
+
+                  {/* Favicon Upload */}
+                  <div>
+                    <label className="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">
+                      Favicon
+                    </label>
+                    <p className="text-xs text-slate-500 mb-2">
+                      {isPt ? 'Ícone que aparece na aba do navegador' : 'Icon that appears in the browser tab'}
+                    </p>
+                    {siteSettings.favicon ? (
+                      <div className="relative inline-block">
+                        <img 
+                          src={siteSettings.favicon} 
+                          alt="Favicon" 
+                          className="w-12 h-12 object-contain bg-slate-800/50 rounded-lg border border-slate-600/50"
+                        />
+                        <button
+                          onClick={() => {
+                            setSiteSettings(prev => ({ ...prev, favicon: '' }))
+                            setHasUnsavedChanges(true)
+                          }}
+                          className="absolute -top-1 -right-1 p-1 bg-red-500/80 hover:bg-red-500 rounded-full text-white"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="border-2 border-dashed border-slate-600/50 rounded-lg p-4 text-center hover:border-indigo-500/50 transition-colors cursor-pointer w-24">
+                        <Upload className="w-5 h-5 text-slate-500 mx-auto mb-1" />
+                        <p className="text-xs text-slate-500">32x32px</p>
+                      </div>
+                    )}
+                    <input
+                      type="text"
+                      value={siteSettings.favicon}
+                      onChange={(e) => {
+                        setSiteSettings(prev => ({ ...prev, favicon: e.target.value }))
+                        setHasUnsavedChanges(true)
+                      }}
+                      placeholder={isPt ? 'Ou cole URL do favicon' : 'Or paste favicon URL'}
+                      className="w-full mt-2 px-3 py-2 bg-slate-800/50 border border-slate-600/50 rounded-lg text-xs text-slate-300 placeholder-slate-500"
+                    />
                   </div>
                 </div>
               )}

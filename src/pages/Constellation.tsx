@@ -202,7 +202,7 @@ export default function Constellation() {
                     { name: 'Remover marca Stella', included: false },
                   ],
                   popular: false,
-                  cta: 'Try Free (No Card Required)',
+                  cta: 'Teste Grátis (Sem Cartão)',
                   preRegisterPrice: 'R$ 99/mês para pré-cadastrados',
                   afterLaunchPrice: 'R$ 199/mês após Janeiro'
                 },
@@ -228,7 +228,7 @@ export default function Constellation() {
                     { name: 'Suporte prioritário', included: true },
                   ],
                   popular: true,
-                  cta: 'Try Free (No Card Required)',
+                  cta: 'Teste Grátis (Sem Cartão)',
                   preRegisterPrice: 'R$ 199/mês para pré-cadastrados',
                   afterLaunchPrice: 'R$ 399/mês após Janeiro'
                 },
@@ -254,7 +254,7 @@ export default function Constellation() {
                     { name: 'Suporte VIP + chat', included: true },
                   ],
                   popular: false,
-                  cta: 'Try Free (No Card Required)',
+                  cta: 'Teste Grátis (Sem Cartão)',
                   preRegisterPrice: 'R$ 499/mês para pré-cadastrados',
                   afterLaunchPrice: 'R$ 999/mês após Janeiro'
                 },
