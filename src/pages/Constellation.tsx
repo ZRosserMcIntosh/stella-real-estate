@@ -305,23 +305,25 @@ export default function Constellation() {
                   className="h-10 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
                 />
               </a>
-              <a 
-                href="https://www.crecisp.gov.br/cidadao/corretordetalhes?registerNumber=309568-F" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
-              >
-                <img 
-                  src="/tech-icons/brazil-coat-of-arms.png" 
-                  alt="Brasão da República Federativa do Brasil" 
-                  className="h-10"
-                />
-                <span className="text-sm font-bold">
-                  <span className="text-white">CRECI</span>
-                  <span className="text-red-500">SP</span>
-                  <span className="text-slate-300 font-medium ml-1">309568</span>
-                </span>
-              </a>
+              <div className="flex items-center gap-2">
+                <a 
+                  href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+                >
+                  <img 
+                    src="/tech-icons/brazil-coat-of-arms.png" 
+                    alt="Brasão da República Federativa do Brasil" 
+                    className="h-10"
+                  />
+                  <span className="text-sm font-bold">
+                    <span className="text-white">CRECI</span>
+                    <span className="text-red-500">SP</span>
+                  </span>
+                </a>
+                <span className="text-sm text-slate-300">309568</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1124,23 +1126,25 @@ export default function Constellation() {
               <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
                 <img src="/tech-icons/trustpilot-white.svg" alt="Trustpilot" className="h-10" />
               </a>
-              <a 
-                href="https://www.crecisp.gov.br/cidadao/corretordetalhes?registerNumber=309568-F" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
-              >
-                <img 
-                  src="/tech-icons/brazil-coat-of-arms.png" 
-                  alt="Brasão da República Federativa do Brasil" 
-                  className="h-10"
-                />
-                <span className="text-sm font-bold">
-                  <span className="text-white">CRECI</span>
-                  <span className="text-red-500">SP</span>
-                  <span className="text-slate-300 font-medium ml-1">309568</span>
-                </span>
-              </a>
+              <div className="flex items-center gap-2">
+                <a 
+                  href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+                >
+                  <img 
+                    src="/tech-icons/brazil-coat-of-arms.png" 
+                    alt="Brasão da República Federativa do Brasil" 
+                    className="h-10"
+                  />
+                  <span className="text-sm font-bold">
+                    <span className="text-white">CRECI</span>
+                    <span className="text-red-500">SP</span>
+                  </span>
+                </a>
+                <span className="text-sm text-slate-300">309568</span>
+              </div>
             </div>
           </div>
         </div>
