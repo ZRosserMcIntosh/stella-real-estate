@@ -980,42 +980,131 @@ export default function Constellation() {
       {/* Footer */}
       <footer className="border-t border-slate-700/50 py-12">
         <div className="container-padded">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-4 gap-8 mb-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+              
+              {/* Legal Column */}
               <div>
-                <h4 className="text-white font-semibold mb-4">Produto</h4>
-                <ul className="space-y-2">
-                  <li><Link to="/constellation" className="text-slate-400 hover:text-white transition-colors">Recursos</Link></li>
-                  <li><Link to="/precos" className="text-slate-400 hover:text-white transition-colors">Preços</Link></li>
-                  <li><Link to="/sub/stellareal" className="text-slate-400 hover:text-white transition-colors">Plataforma de Varejo</Link></li>
+                <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">{t('home.footer.legalTitle')}</h4>
+                <ul className="space-y-2 text-sm">
+                  <li><Link to="/privacidade" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.privacyPolicy')}</Link></li>
+                  <li><Link to="/termos" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.termsOfUse')}</Link></li>
+                  <li><Link to="/cookies" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.cookiePolicy')}</Link></li>
+                  <li><Link to="/msa" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.masterSubscriptionAgreement')}</Link></li>
+                  <li><Link to="/sla" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.serviceLevelAgreement')}</Link></li>
+                  <li><Link to="/dpa" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.dataProcessingAddendum')}</Link></li>
+                  <li><Link to="/aup" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.acceptableUsePolicy')}</Link></li>
+                  <li><Link to="/politica-suporte" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.supportPolicy')}</Link></li>
+                  <li><Link to="/termos-beta" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.betaTerms')}</Link></li>
+                  <li><Link to="/termos-api" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.apiTerms')}</Link></li>
+                  <li><Link to="/termos-indicacao" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.referralTerms')}</Link></li>
+                  <li><Link to="/juridico" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.legal')}</Link></li>
                 </ul>
               </div>
+
+              {/* Company Column */}
               <div>
-                <h4 className="text-white font-semibold mb-4">Empresa</h4>
-                <ul className="space-y-2">
-                  <li><Link to="/sobre" className="text-slate-400 hover:text-white transition-colors">Sobre</Link></li>
-                  <li><Link to="/contato" className="text-slate-400 hover:text-white transition-colors">Contato</Link></li>
-                  <li><Link to="/institucional" className="text-slate-400 hover:text-white transition-colors">Institucional</Link></li>
+                <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">{t('home.footer.companyTitle')}</h4>
+                <ul className="space-y-2 text-sm">
+                  <li><Link to="/sobre" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.aboutUs')}</Link></li>
+                  <li><Link to="/contato" className="text-slate-400 hover:text-white transition-colors">{t('header.nav.contact')}</Link></li>
+                  <li><Link to="/institucional" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.institutional')}</Link></li>
+                  <li><Link to="/investidores" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.investors')}</Link></li>
+                  <li><Link to="/luisa-marketing" className="text-slate-400 hover:text-white transition-colors">Luisa Marketing Agency</Link></li>
+                  <li><Link to="/servicos-juridicos" className="text-slate-400 hover:text-white transition-colors">Serviços Jurídicos</Link></li>
+                  <li><Link to="/seguro-fianca" className="text-slate-400 hover:text-white transition-colors">Seguro Fiança</Link></li>
+                  <li><Link to="/criar-site" className="text-slate-400 hover:text-white transition-colors">Criar meu site</Link></li>
                 </ul>
               </div>
+
+              {/* Services Column */}
               <div>
-                <h4 className="text-white font-semibold mb-4">Legal</h4>
-                <ul className="space-y-2">
-                  <li><Link to="/privacidade" className="text-slate-400 hover:text-white transition-colors">Privacidade</Link></li>
-                  <li><Link to="/termos" className="text-slate-400 hover:text-white transition-colors">Termos</Link></li>
-                  <li><Link to="/cookies" className="text-slate-400 hover:text-white transition-colors">Cookies</Link></li>
+                <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">{t('home.footer.servicesTitle')}</h4>
+                <ul className="space-y-2 text-sm">
+                  <li><Link to="/anuncie-seu-imovel" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.listProperty')}</Link></li>
+                  <li><Link to="/constellation" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.constellationPlatform')}</Link></li>
+                  <li><Link to="/precos" className="text-slate-400 hover:text-white transition-colors">{t('constellation.footer.pricing')}</Link></li>
+                  <li><Link to="/curso/creci" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.creciCourse')}</Link></li>
+                  <li><Link to="/consumidores" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.consumers')}</Link></li>
+                  <li><Link to="/corretores-independentes" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.independentAgents')}</Link></li>
+                  <li><Link to="/empresas-imobiliarias" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.brokerageCompanies')}</Link></li>
+                  <li><Link to="/incorporadores" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.propertyDevelopers')}</Link></li>
+                  <li><Link to="/gestores-longo-prazo" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.longTermManagers')}</Link></li>
+                  <li><Link to="/gestores-curto-prazo" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.shortTermManagers')}</Link></li>
+                  <li><Link to="/parceiros-financiamento" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.financingPartners')}</Link></li>
+                  <li><Link to="/inspecoes-avaliacoes" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.inspectionsAppraisals')}</Link></li>
                 </ul>
               </div>
+
+              {/* Admin & Support Column */}
               <div>
-                <h4 className="text-white font-semibold mb-4">Suporte</h4>
-                <ul className="space-y-2">
-                  <li><Link to="/contato" className="text-slate-400 hover:text-white transition-colors">Central de Ajuda</Link></li>
-                  <li><Link to="/admin/login" className="text-slate-400 hover:text-white transition-colors">Entrar</Link></li>
+                <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">{t('home.footer.adminTitle')}</h4>
+                <ul className="space-y-2 text-sm">
+                  <li><Link to="/admin" className="text-slate-400 hover:text-white transition-colors">{t('home.footer.admin')}</Link></li>
+                  <li><Link to="/admin/login" className="text-slate-400 hover:text-white transition-colors">{t('header.nav.employeeLogin')}</Link></li>
+                  <li><a href={ConstellationUrls.login()} className="text-slate-400 hover:text-white transition-colors">{t('constellation.footer.sign_in')}</a></li>
+                  <li><Link to="/sub/stellareal" className="text-slate-400 hover:text-white transition-colors">{t('constellation.footer.retail_platform')}</Link></li>
                 </ul>
               </div>
             </div>
+
+            {/* Copyright */}
             <div className="border-t border-slate-700/50 pt-8 text-center text-slate-400 text-sm">
-              <p>© 2025 Stella Real Estate. Todos os direitos reservados.</p>
+              <p>&copy; {new Date().getFullYear()} Stella Mary Lima Barbosa · CNPJ: 53.152.795/0001-10 · CRECI 309568 · {t('home.footer.copyright')}</p>
+            </div>
+
+            {/* Social Media Icons */}
+            <div className="pt-6 flex justify-center">
+              <div className="flex items-center gap-6">
+                <a href="https://www.instagram.com/stellam.real/" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                  <img src="/social-icons/instagram.png" alt="Instagram" className="h-8 w-auto" />
+                </a>
+                <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                  <img src="/social-icons/x-white.png" alt="X (Twitter)" className="h-8 w-auto" />
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                  <img src="/social-icons/linkedin.png" alt="LinkedIn" className="h-8 w-auto" />
+                </a>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                  <img src="/social-icons/facebook.png" alt="Facebook" className="h-8 w-auto" />
+                </a>
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                  <img src="/social-icons/youtube.png" alt="YouTube" className="h-8 w-auto" />
+                </a>
+                <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                  <img src="/social-icons/tiktok.png" alt="TikTok" className="h-8 w-auto" />
+                </a>
+              </div>
+            </div>
+
+            {/* Constellation Logo and Branding at Bottom */}
+            <div className="pt-8 mt-8 border-t border-slate-700/50 flex flex-col items-center gap-4">
+              <div className="flex items-center gap-3">
+                <img 
+                  src="/tech-icons/contellation-logo.png" 
+                  alt="Constellation" 
+                  className="h-16 w-auto object-contain"
+                  style={{
+                    filter: 'grayscale(1) brightness(1.2)'
+                  }}
+                />
+                <span 
+                  className="text-2xl font-light uppercase tracking-[0.3em] text-white/80" 
+                  style={{ 
+                    fontFamily: 'Outfit, sans-serif'
+                  }}
+                >
+                  CONSTELLATION
+                </span>
+              </div>
+              <p className="text-slate-400 text-xs italic">Quando o valor é muito claro, as decisões são muito fáceis</p>
+            </div>
+
+            {/* Trustpilot Logo */}
+            <div className="pt-6 flex justify-center">
+              <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
+                <img src="/tech-icons/color/Trustpilot-Logo.png" alt="Trustpilot" className="h-10" />
+              </a>
             </div>
           </div>
         </div>
