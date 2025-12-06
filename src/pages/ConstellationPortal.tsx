@@ -719,28 +719,28 @@ export default function ConstellationPortal() {
             </div>
 
             {/* Trust Badges */}
-            <div className="pt-6 flex flex-wrap justify-center items-center gap-6">
+            <div className="pt-6 flex flex-wrap justify-center items-center gap-4">
               <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
-                <img src="/tech-icons/trustpilot-white.svg" alt="Trustpilot" className="h-10" />
+                <img src="/tech-icons/trustpilot-white.svg" alt="Trustpilot" className="h-5" />
               </a>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <a 
                   href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+                  className="flex items-center gap-1 opacity-90 hover:opacity-100 transition-opacity"
                 >
                   <img 
                     src="/tech-icons/brazil-coat-of-arms.png" 
                     alt="Brasão da República Federativa do Brasil" 
-                    className="h-10"
+                    className="h-5"
                   />
-                  <span className="text-lg font-bold">
+                  <span className="text-xs font-bold">
                     <span className="text-white">CRECI</span>
                     <span className="text-red-500">SP</span>
                   </span>
                 </a>
-                <span className="text-lg text-slate-300">309568</span>
+                <span className="text-xs text-slate-300">309568</span>
               </div>
             </div>
           </div>
