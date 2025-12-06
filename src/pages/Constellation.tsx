@@ -228,7 +228,7 @@ export default function Constellation() {
             <div className="flex justify-center mt-8">
               <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
                 <img 
-                  src="/tech-icons/color/Trustpilot-Logo.png" 
+                  src="/tech-icons/trustpilot-white.svg" 
                   alt="Trustpilot" 
                   className="h-10 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
                 />
@@ -978,8 +978,11 @@ export default function Constellation() {
                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
                   <img src="/social-icons/facebook.png" alt="Facebook" className="h-8 w-auto" />
                 </a>
-                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                <a href="https://www.youtube.com/@StellaRealBrasil" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
                   <img src="/social-icons/youtube.png" alt="YouTube" className="h-8 w-auto" />
+                </a>
+                <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                  <img src="/social-icons/tiktok-white.png" alt="TikTok" className="h-8 w-auto invert" />
                 </a>
               </div>
             </div>
@@ -1010,7 +1013,7 @@ export default function Constellation() {
             {/* Trustpilot Logo */}
             <div className="pt-6 flex justify-center">
               <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
-                <img src="/tech-icons/color/Trustpilot-Logo.png" alt="Trustpilot" className="h-10" />
+                <img src="/tech-icons/trustpilot-white.svg" alt="Trustpilot" className="h-10" />
               </a>
             </div>
           </div>

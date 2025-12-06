@@ -307,7 +307,7 @@ export default function Footer() {
         <div className="pt-6 flex justify-center">
           <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
             <img 
-              src="/tech-icons/color/Trustpilot-Logo.png" 
+              src="/tech-icons/trustpilot-white.svg" 
               alt="Trustpilot" 
               className="h-8 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
             />
