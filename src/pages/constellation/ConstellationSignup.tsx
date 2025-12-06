@@ -735,7 +735,7 @@ export default function ConstellationSignup() {
                     <strong>Sua conta foi criada com sucesso!</strong>
                   </p>
                   <p className="text-xs text-slate-400">
-                    O pagamento de R$ 99 não é obrigatório, mas garante <strong className="text-emerald-400">acesso prioritário</strong> ao lançamento + <strong className="text-emerald-400">12 meses grátis</strong> + <strong className="text-emerald-400">50% OFF vitalício</strong>.
+                    O pagamento de R$ 99 não é obrigatório, mas garante <strong className="text-emerald-400">acesso prioritário</strong> ao lançamento + <strong className="text-emerald-400">1 mês grátis</strong> + <strong className="text-emerald-400">50% OFF vitalício</strong>.
                   </p>
                 </div>
 

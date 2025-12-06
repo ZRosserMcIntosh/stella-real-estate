@@ -339,7 +339,7 @@ export default function Constellation() {
                               {(plan.id === 'SOLO' || plan.id === 'TEAM') ? (
                                 <>
                                   <span className="text-2xl sm:text-3xl font-light text-emerald-400 whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                                    12 meses grátis
+                                    1 mês grátis
                                   </span>
                                 </>
                               ) : (

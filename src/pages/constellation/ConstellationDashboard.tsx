@@ -519,7 +519,7 @@ export default function ConstellationDashboard() {
                     <div className="text-2xl font-bold text-white">R$ {currentPlan.founderPrice}</div>
                     <div className="text-xs text-slate-400">/{isPt ? 'mês' : 'month'}</div>
                     <div className="text-xs text-amber-400 mt-1">
-                      {isPt ? '12 meses grátis' : '12 months free'}
+                      {isPt ? '1 mês grátis' : '1 month free'}
                     </div>
                   </div>
                 </div>
@@ -559,8 +559,8 @@ export default function ConstellationDashboard() {
             <p className="text-amber-200 text-sm md:text-base">
               <span className="font-semibold">🎉 {isPt ? 'Preço de Membro Fundador' : 'Founding Member Pricing'}:</span>{' '}
               {isPt 
-                ? '12 meses grátis no valor atual. Depois, você paga o preço promocional que travou hoje.'
-                : '12 months free at current value. Then pay the promotional price you locked in today.'}
+                ? '1 mês grátis no valor atual. Depois, você paga o preço promocional que travou hoje.'
+                : '1 month free at current value. Then pay the promotional price you locked in today.'}
             </p>
           </div>
 
@@ -628,7 +628,7 @@ export default function ConstellationDashboard() {
                           </div>
                           <p className="text-xs text-slate-500 line-through">R$ {plan.monthlyPrice}/mês</p>
                           <p className="text-xs text-amber-400 mt-1">
-                            {isPt ? '12 meses grátis' : '12 months free'}
+                            {isPt ? '1 mês grátis' : '1 month free'}
                           </p>
                         </>
                       )}
