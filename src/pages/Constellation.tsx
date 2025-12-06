@@ -158,7 +158,7 @@ export default function Constellation() {
 
               {/* Right: Demo Video */}
               <div className="relative group h-full">
-                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-500/40 via-cyan-500/30 to-emerald-500/40 opacity-75 blur-2xl group-hover:opacity-100 transition duration-500" />
+                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-500/20 via-cyan-500/15 to-emerald-500/20 opacity-50 blur-2xl group-hover:opacity-75 transition duration-500" />
                 <div className="relative overflow-hidden rounded-2xl border border-emerald-400/40 shadow-[0_20px_80px_-20px_rgba(16,185,129,0.6)] ring-1 ring-emerald-400/10 h-full flex flex-col">
                   <video
                     autoPlay
@@ -980,9 +980,6 @@ export default function Constellation() {
                 </a>
                 <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
                   <img src="/social-icons/youtube.png" alt="YouTube" className="h-8 w-auto" />
-                </a>
-                <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-                  <img src="/social-icons/tiktok.png" alt="TikTok" className="h-8 w-auto" />
                 </a>
               </div>
             </div>

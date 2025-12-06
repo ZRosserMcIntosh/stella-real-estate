@@ -764,9 +764,6 @@ export default function ConstellationPortal() {
                 <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
                   <img src="/social-icons/youtube.png" alt="YouTube" className="h-8 w-auto" />
                 </a>
-                <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-                  <img src="/social-icons/tiktok.png" alt="TikTok" className="h-8 w-auto" />
-                </a>
               </div>
             </div>
 
