@@ -184,83 +184,85 @@ export default function Constellation() {
                 {
                   id: 'SOLO',
                   name: 'Pro',
-                  description: 'Para corretores independentes crescendo seus negócios',
+                  tagline: 'Comece agora',
+                  description: 'Corretor autônomo que quer seu próprio site profissional',
                   monthlyPrice: 199,
                   founderPrice: 99,
                   features: [
-                    { name: '1 site (ilimitado)', included: true },
+                    { name: '1 site profissional', included: true },
                     { name: 'Até 50 anúncios ativos', included: true },
-                    { name: 'Domínio personalizado', included: true },
+                    { name: 'Domínio próprio (.com.br)', included: true },
                     { name: '3.000 contatos CRM', included: true },
-                    { name: '2 pipelines', included: true },
-                    { name: 'Mapas 3D incluídos', included: true, detail: '2/mês' },
-                    { name: 'Mapas extras', included: true, detail: 'R$200 cada' },
+                    { name: '2 pipelines de vendas', included: true },
+                    { name: '2 tours 3D/mês', included: true },
+                    { name: 'Tours extras R$200 cada', included: true },
                     { name: 'Automações básicas', included: true },
                     { name: '2 usuários', included: true },
                     { name: 'Lead scoring', included: false },
                     { name: 'Remover marca Stella', included: false },
                   ],
                   popular: false,
-                  cta: 'Garantir Vaga Agora',
+                  cta: 'Garantir Minha Vaga',
                   preRegisterPrice: 'R$ 99/mês para pré-cadastrados',
                   afterLaunchPrice: 'R$ 199/mês após Janeiro'
                 },
                 {
                   id: 'TEAM',
                   name: 'Team',
-                  description: 'Ideal para pequenas equipes e equipes em crescimento',
+                  tagline: 'Mais popular',
+                  description: 'Pequenas equipes prontas para escalar suas operações',
                   monthlyPrice: 399,
                   founderPrice: 199,
                   features: [
                     { name: '2 sites completos', included: true },
                     { name: 'Até 150 anúncios ativos', included: true },
-                    { name: 'Domínio personalizado', included: true },
+                    { name: 'Domínio próprio (.com.br)', included: true },
                     { name: '10.000 contatos CRM', included: true },
                     { name: 'Pipelines ilimitados', included: true },
-                    { name: 'Mapas 3D incluídos', included: true, detail: '5/mês' },
-                    { name: 'Mapas extras', included: true, detail: 'R$160 cada' },
+                    { name: '5 tours 3D/mês', included: true },
+                    { name: 'Tours extras R$160 cada', included: true },
                     { name: 'Automações completas', included: true },
-                    { name: 'Lead scoring', included: true },
-                    { name: '5 usuários', included: true },
-                    { name: 'Controle de permissões', included: true },
-                    { name: 'Remover marca Stella', included: true },
+                    { name: 'Lead scoring inteligente', included: true },
+                    { name: '5 usuários + permissões', included: true },
+                    { name: 'White label (sua marca)', included: true },
                     { name: 'Suporte prioritário', included: true },
                   ],
                   popular: true,
-                  cta: 'Garantir Vaga Agora',
+                  cta: 'Garantir Minha Vaga',
                   preRegisterPrice: 'R$ 199/mês para pré-cadastrados',
                   afterLaunchPrice: 'R$ 399/mês após Janeiro'
                 },
                 {
                   id: 'BROKERAGE',
                   name: 'Brokerage',
-                  description: 'Para imobiliárias estabelecidas com múltiplas equipes',
+                  tagline: 'Para imobiliárias',
+                  description: 'Imobiliárias com múltiplas equipes e grande volume',
                   monthlyPrice: 999,
                   founderPrice: 499,
                   features: [
                     { name: '3 sites completos', included: true },
                     { name: 'Até 500 anúncios ativos', included: true },
-                    { name: 'Domínio personalizado', included: true },
+                    { name: 'Múltiplos domínios', included: true },
                     { name: '50.000 contatos CRM', included: true },
                     { name: 'Pipelines ilimitados', included: true },
-                    { name: 'Mapas 3D incluídos', included: true, detail: '20/mês' },
-                    { name: 'Mapas extras', included: true, detail: 'R$120 cada' },
+                    { name: '20 tours 3D/mês', included: true },
+                    { name: 'Tours extras R$120 cada', included: true },
                     { name: 'Automações avançadas', included: true },
                     { name: 'Lead scoring avançado', included: true },
-                    { name: '30 usuários', included: true },
-                    { name: 'RBAC completo', included: true },
-                    { name: 'White label', included: true },
-                    { name: 'Suporte prioritário + chat', included: true },
+                    { name: '30 usuários + RBAC', included: true },
+                    { name: 'White label completo', included: true },
+                    { name: 'Suporte VIP + chat', included: true },
                   ],
                   popular: false,
-                  cta: 'Entrar na Lista de Espera',
+                  cta: 'Garantir Minha Vaga',
                   preRegisterPrice: 'R$ 499/mês para pré-cadastrados',
                   afterLaunchPrice: 'R$ 999/mês após Janeiro'
                 },
                 {
                   id: 'ENTERPRISE',
                   name: 'Enterprise',
-                  description: 'Soluções personalizadas para grandes operações',
+                  tagline: 'Sob medida',
+                  description: 'Redes e incorporadoras com operações complexas',
                   monthlyPrice: null,
                   founderPrice: null,
                   features: [
@@ -269,13 +271,13 @@ export default function Constellation() {
                     { name: 'Múltiplos domínios', included: true },
                     { name: 'Contatos ilimitados', included: true },
                     { name: 'Tudo ilimitado', included: true },
-                    { name: 'Mapas 3D customizados', included: true },
+                    { name: 'Tours 3D sob demanda', included: true },
                     { name: 'Preços por contrato', included: true },
                     { name: 'Automações enterprise', included: true },
                     { name: 'IA e scoring avançado', included: true },
                     { name: 'Usuários ilimitados', included: true },
                     { name: 'White label completo', included: true },
-                    { name: 'SLA + CSM dedicado', included: true },
+                    { name: 'SLA + gerente dedicado', included: true },
                     { name: 'Acesso antecipado', included: true },
                   ],
                   popular: false,
@@ -302,6 +304,9 @@ export default function Constellation() {
                     )}
 
                     <div className="p-6 flex flex-col flex-grow">
+                      {'tagline' in plan && plan.tagline && !plan.popular && (
+                        <span className="text-xs text-slate-500 uppercase tracking-wider mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>{plan.tagline}</span>
+                      )}
                       <h3 className="text-2xl font-light mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>{plan.name}</h3>
                       <p className="text-slate-400 text-sm mb-6 min-h-[40px]">{plan.description}</p>
 
@@ -334,9 +339,8 @@ export default function Constellation() {
                               {(plan.id === 'SOLO' || plan.id === 'TEAM') ? (
                                 <>
                                   <span className="text-2xl sm:text-3xl font-light text-emerald-400 whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                                    R$ 0
+                                    12 meses grátis
                                   </span>
-                                  <span className="text-emerald-300 font-light text-sm whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>/mês no 1º ano</span>
                                 </>
                               ) : (
                                 <>
@@ -349,7 +353,7 @@ export default function Constellation() {
                             </div>
                             {(plan.id === 'SOLO' || plan.id === 'TEAM') ? (
                               <p className="text-xs text-slate-400 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                                Depois R$ {plan.founderPrice}/mês para pré-cadastrados
+                                + R$ {plan.founderPrice}/mês após o período grátis (50% OFF vitalício)
                               </p>
                             ) : (
                               <p className="text-xs text-slate-400 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
@@ -400,9 +404,6 @@ export default function Constellation() {
                               }`}
                             >
                               {feature.name}
-                              {'detail' in feature && feature.detail && (
-                                <span className="ml-1 text-slate-400">({feature.detail})</span>
-                              )}
                             </span>
                           </div>
                         ))}
@@ -411,6 +412,16 @@ export default function Constellation() {
                   </div>
                 )
               })}
+            </div>
+
+            {/* Social Proof */}
+            <div className="text-center py-6">
+              <p className="text-slate-300 text-sm">
+                <span className="text-emerald-400 font-bold">47 corretores</span> já garantiram sua vaga esta semana
+              </p>
+              <p className="text-slate-500 text-xs mt-2">
+                Veja um exemplo real: <a href="https://stellareal.com.br" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300 underline">stellareal.com.br</a> — site construído com Constellation
+              </p>
             </div>
 
             {/* Tech Stack Logos */}
