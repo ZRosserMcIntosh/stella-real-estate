@@ -20,24 +20,30 @@ interface UserData {
 
 interface SiteConfig {
   id: string
+  user_id?: string
   subdomain: string
   site_name?: string
+  brand_name?: string
   site_tagline?: string
   site_description?: string
   logo_url?: string
   cover_image_url?: string
   primary_color?: string
   secondary_color?: string
+  accent_color?: string
   font_heading?: string
   font_body?: string
   contact_email?: string
   contact_phone?: string
   contact_whatsapp?: string
   contact_address?: string
+  contact_city?: string
+  contact_state?: string
   social_instagram?: string
   social_facebook?: string
   social_linkedin?: string
   social_youtube?: string
+  social_tiktok?: string
   hero_title?: string
   hero_subtitle?: string
   hero_background_url?: string
@@ -46,6 +52,7 @@ interface SiteConfig {
   about_description?: string
   sections?: any[]
   is_published?: boolean
+  creci_number?: string
 }
 
 interface Listing {
@@ -84,7 +91,49 @@ export default function UserSite() {
 
   const fetchSiteData = async () => {
     try {
-      // First, fetch user data from founding_members
+      // First, try to fetch site config (primary source of truth for user sites)
+      const { data: configData, error: configError } = await supabase
+        .from('site_configs')
+        .select('*')
+        .eq('subdomain', subdomain)
+        .single()
+
+      if (configData) {
+        setSiteConfig(configData)
+        
+        // Create a synthetic userData from site_configs for backwards compatibility
+        const syntheticUserData: UserData = {
+          id: configData.id,
+          user_id: configData.user_id || '',
+          full_name: configData.site_name || configData.brand_name || subdomain || '',
+          email: configData.contact_email || '',
+          phone: configData.contact_phone,
+          company_name: configData.brand_name,
+          creci_number: configData.creci_number,
+          subdomain: configData.subdomain,
+        }
+        setUserData(syntheticUserData)
+        
+        // Fetch user's listings if we have a user_id
+        if (configData.user_id) {
+          const { data: listingsData, error: listingsError } = await supabase
+            .from('listings')
+            .select('id, title, listing_type, property_type, price, area_m2, bedrooms, bathrooms, neighborhood, city, state_code, status, media')
+            .eq('user_id', configData.user_id)
+            .in('status', ['active', 'draft'])
+            .order('created_at', { ascending: false })
+            .limit(12)
+
+          if (listingsData && !listingsError) {
+            setListings(listingsData)
+          }
+        }
+        
+        setLoading(false)
+        return
+      }
+
+      // Fallback: try founding_members if no site_config exists
       const { data: memberData, error: memberError } = await supabase
         .from('founding_members')
         .select('*')
@@ -99,25 +148,13 @@ export default function UserSite() {
 
       setUserData(memberData)
 
-      // Then, fetch site config (user's customizations)
-      const { data: configData, error: configError } = await supabase
-        .from('site_configs')
-        .select('*')
-        .eq('subdomain', subdomain)
-        .single()
-
-      if (configData) {
-        setSiteConfig(configData)
-      }
-      // It's okay if no config exists - we'll use defaults from userData
-
       // Fetch user's listings (scoped by user_id)
       if (memberData.user_id) {
         const { data: listingsData, error: listingsError } = await supabase
           .from('listings')
           .select('id, title, listing_type, property_type, price, area_m2, bedrooms, bathrooms, neighborhood, city, state_code, status, media')
           .eq('user_id', memberData.user_id)
-          .in('status', ['active', 'draft']) // Show active listings, optionally drafts for owner
+          .in('status', ['active', 'draft'])
           .order('created_at', { ascending: false })
           .limit(12)
 
