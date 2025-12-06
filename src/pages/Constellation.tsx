@@ -224,22 +224,15 @@ export default function Constellation() {
               </div>
             </div>
 
-            {/* Trustpilot Widget */}
-            <div className="flex justify-center">
-              <div className="w-full max-w-2xl flex flex-col items-center">
-                <div className="text-center mb-2">
-                  <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
-                    <img 
-                      src="/tech-icons/color/Trustpilot-Logo.png" 
-                      alt="Trustpilot" 
-                      className="h-8 mx-auto opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
-                    />
-                  </a>
-                </div>
-                <div className="trustpilot-widget" data-locale="pt-BR" data-template-id="5419b6ffb0d04a076446a9af" data-businessunit-id="693347c6fde29e408a4d2089" data-style-height="20px" data-style-width="100%" data-theme="dark">
-                  <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener">Trustpilot</a>
-                </div>
-              </div>
+            {/* Trustpilot Logo */}
+            <div className="flex justify-center mt-8">
+              <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
+                <img 
+                  src="/tech-icons/color/Trustpilot-Logo.png" 
+                  alt="Trustpilot" 
+                  className="h-10 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -566,18 +559,18 @@ export default function Constellation() {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl sm:text-4xl font-light tracking-tight text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                Everything You Need to Succeed
+                Tudo que Você Precisa para Ter Sucesso
               </h2>
               <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-                From your first listing to scaling your brokerage, Constellation grows with you
+                Do seu primeiro anúncio até escalar sua imobiliária, Constellation cresce com você
               </p>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
                 {
-                  title: 'Professional Websites',
-                  description: 'Launch a stunning real estate website in minutes with our drag-and-drop builder. Mobile-optimized and SEO-ready.',
+                  title: 'Sites Profissionais',
+                  description: 'Lance um site imobiliário impressionante em minutos com nosso construtor de arrastar e soltar. Otimizado para mobile e pronto para SEO.',
                   icon: (
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
@@ -585,8 +578,8 @@ export default function Constellation() {
                   )
                 },
                 {
-                  title: 'Powerful Listing Management',
-                  description: 'Manage all your properties in one place. Add photos, videos, 3D tours, and publish to multiple platforms instantly.',
+                  title: 'Gestão Poderosa de Imóveis',
+                  description: 'Gerencie todas as suas propriedades em um só lugar. Adicione fotos, vídeos, tours 3D e publique em múltiplas plataformas instantaneamente.',
                   icon: (
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -594,8 +587,8 @@ export default function Constellation() {
                   )
                 },
                 {
-                  title: 'Integrated CRM',
-                  description: 'Track every lead, client, and deal. Never miss a follow-up with automated reminders and pipeline management.',
+                  title: 'CRM Integrado',
+                  description: 'Acompanhe cada lead, cliente e negócio. Nunca perca um follow-up com lembretes automáticos e gestão de pipeline.',
                   icon: (
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -603,8 +596,8 @@ export default function Constellation() {
                   )
                 },
                 {
-                  title: 'Task Management (Balé)',
-                  description: 'Organize your workflow with Kanban boards. Track showings, paperwork, and closing tasks effortlessly.',
+                  title: 'Gestão de Tarefas (Balé)',
+                  description: 'Organize seu fluxo de trabalho com quadros Kanban. Acompanhe visitas, papelada e tarefas de fechamento sem esforço.',
                   icon: (
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
@@ -612,8 +605,8 @@ export default function Constellation() {
                   )
                 },
                 {
-                  title: 'Retail Marketplace',
-                  description: 'List your properties on Stella Real, our retail platform. Get exposure to thousands of potential buyers.',
+                  title: 'Mercado de Varejo',
+                  description: 'Liste suas propriedades no Stella Real, nossa plataforma de varejo. Obtenha exposição para milhares de potenciais compradores.',
                   icon: (
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
@@ -621,8 +614,8 @@ export default function Constellation() {
                   )
                 },
                 {
-                  title: 'Analytics & Insights',
-                  description: 'Understand your business with detailed analytics. Track views, leads, conversions, and revenue.',
+                  title: 'Análises e Insights',
+                  description: 'Entenda seu negócio com análises detalhadas. Acompanhe visualizações, leads, conversões e receita.',
                   icon: (
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -656,10 +649,10 @@ export default function Constellation() {
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl sm:text-4xl font-light tracking-tight text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                Get Started in Minutes
+                Comece em Minutos
               </h2>
               <p className="text-lg text-slate-400">
-                No technical knowledge required. We'll guide you every step of the way.
+                Nenhum conhecimento técnico necessário. Vamos guiá-lo em cada etapa do caminho.
               </p>
             </div>
 
@@ -667,18 +660,18 @@ export default function Constellation() {
               {[
                 {
                   step: '1',
-                  title: 'Sign Up & Choose Your Plan',
-                  description: 'Create your account and select the plan that fits your needs. Start with our free trial.'
+                  title: 'Cadastre-se e Escolha Seu Plano',
+                  description: 'Crie sua conta e selecione o plano que atende às suas necessidades. Comece com nosso teste gratuito.'
                 },
                 {
                   step: '2',
-                  title: 'Build Your Site',
-                  description: 'Use our intuitive builder to create your professional website. Choose from templates or start fresh.'
+                  title: 'Construa Seu Site',
+                  description: 'Use nosso construtor intuitivo para criar seu site profissional. Escolha entre templates ou comece do zero.'
                 },
                 {
                   step: '3',
-                  title: 'Add Listings & Go Live',
-                  description: 'Upload your properties, connect your domain, and start attracting clients immediately.'
+                  title: 'Adicione Imóveis e Entre no Ar',
+                  description: 'Envie suas propriedades, conecte seu domínio e comece a atrair clientes imediatamente.'
                 }
               ].map((item, idx) => (
                 <div key={idx} className="relative">
@@ -749,39 +742,39 @@ export default function Constellation() {
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-4 gap-8 mb-8">
               <div>
-                <h4 className="text-white font-semibold mb-4">Product</h4>
+                <h4 className="text-white font-semibold mb-4">Produto</h4>
                 <ul className="space-y-2">
-                  <li><Link to="/constellation" className="text-slate-400 hover:text-white transition-colors">Features</Link></li>
-                  <li><Link to="/precos" className="text-slate-400 hover:text-white transition-colors">Pricing</Link></li>
-                  <li><Link to="/sub/stellareal" className="text-slate-400 hover:text-white transition-colors">Retail Platform</Link></li>
+                  <li><Link to="/constellation" className="text-slate-400 hover:text-white transition-colors">Recursos</Link></li>
+                  <li><Link to="/precos" className="text-slate-400 hover:text-white transition-colors">Preços</Link></li>
+                  <li><Link to="/sub/stellareal" className="text-slate-400 hover:text-white transition-colors">Plataforma de Varejo</Link></li>
                 </ul>
               </div>
               <div>
-                <h4 className="text-white font-semibold mb-4">Company</h4>
+                <h4 className="text-white font-semibold mb-4">Empresa</h4>
                 <ul className="space-y-2">
-                  <li><Link to="/sobre" className="text-slate-400 hover:text-white transition-colors">About</Link></li>
-                  <li><Link to="/contato" className="text-slate-400 hover:text-white transition-colors">Contact</Link></li>
-                  <li><Link to="/institucional" className="text-slate-400 hover:text-white transition-colors">Institutional</Link></li>
+                  <li><Link to="/sobre" className="text-slate-400 hover:text-white transition-colors">Sobre</Link></li>
+                  <li><Link to="/contato" className="text-slate-400 hover:text-white transition-colors">Contato</Link></li>
+                  <li><Link to="/institucional" className="text-slate-400 hover:text-white transition-colors">Institucional</Link></li>
                 </ul>
               </div>
               <div>
                 <h4 className="text-white font-semibold mb-4">Legal</h4>
                 <ul className="space-y-2">
-                  <li><Link to="/privacidade" className="text-slate-400 hover:text-white transition-colors">Privacy</Link></li>
-                  <li><Link to="/termos" className="text-slate-400 hover:text-white transition-colors">Terms</Link></li>
+                  <li><Link to="/privacidade" className="text-slate-400 hover:text-white transition-colors">Privacidade</Link></li>
+                  <li><Link to="/termos" className="text-slate-400 hover:text-white transition-colors">Termos</Link></li>
                   <li><Link to="/cookies" className="text-slate-400 hover:text-white transition-colors">Cookies</Link></li>
                 </ul>
               </div>
               <div>
-                <h4 className="text-white font-semibold mb-4">Support</h4>
+                <h4 className="text-white font-semibold mb-4">Suporte</h4>
                 <ul className="space-y-2">
-                  <li><Link to="/contato" className="text-slate-400 hover:text-white transition-colors">Help Center</Link></li>
-                  <li><Link to="/admin/login" className="text-slate-400 hover:text-white transition-colors">Sign In</Link></li>
+                  <li><Link to="/contato" className="text-slate-400 hover:text-white transition-colors">Central de Ajuda</Link></li>
+                  <li><Link to="/admin/login" className="text-slate-400 hover:text-white transition-colors">Entrar</Link></li>
                 </ul>
               </div>
             </div>
             <div className="border-t border-slate-700/50 pt-8 text-center text-slate-400 text-sm">
-              <p>© 2025 Stella Real Estate. All rights reserved.</p>
+              <p>© 2025 Stella Real Estate. Todos os direitos reservados.</p>
             </div>
           </div>
         </div>
