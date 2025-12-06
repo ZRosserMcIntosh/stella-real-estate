@@ -226,8 +226,8 @@ export default function Constellation() {
 
             {/* Trustpilot Widget */}
             <div className="flex justify-center">
-              <div className="w-full max-w-2xl">
-                <div className="text-center mb-4">
+              <div className="w-full max-w-2xl flex flex-col items-center">
+                <div className="text-center mb-2">
                   <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
                     <img 
                       src="/tech-icons/color/Trustpilot-Logo.png" 
@@ -236,7 +236,7 @@ export default function Constellation() {
                     />
                   </a>
                 </div>
-                <div className="trustpilot-widget" data-locale="pt-BR" data-template-id="5419b6a8b0d04a076446a9ad" data-businessunit-id="693347c6fde29e408a4d2089" data-style-height="24px" data-style-width="100%" data-theme="dark">
+                <div className="trustpilot-widget" data-locale="pt-BR" data-template-id="5419b6ffb0d04a076446a9af" data-businessunit-id="693347c6fde29e408a4d2089" data-style-height="20px" data-style-width="100%" data-theme="dark">
                   <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener">Trustpilot</a>
                 </div>
               </div>
