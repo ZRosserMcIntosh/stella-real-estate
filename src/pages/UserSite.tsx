@@ -71,13 +71,19 @@ interface Listing {
   media?: Array<{ kind: string; url: string }>
 }
 
-export default function UserSite() {
+interface UserSiteProps {
+  subdomainOverride?: string
+}
+
+export default function UserSite({ subdomainOverride }: UserSiteProps = {}) {
   const [loading, setLoading] = useState(true)
   const [userData, setUserData] = useState<UserData | null>(null)
   const [siteConfig, setSiteConfig] = useState<SiteConfig | null>(null)
   const [listings, setListings] = useState<Listing[]>([])
   const [error, setError] = useState<string | null>(null)
-  const subdomain = getSubdomain()
+  // Use override if provided, otherwise detect from hostname
+  const detectedSubdomain = getSubdomain()
+  const subdomain = subdomainOverride || detectedSubdomain
 
   useEffect(() => {
     if (!subdomain) {

@@ -99,6 +99,7 @@ import DeveloperBrokerLink from './pages/onboarding/DeveloperBrokerLink'
 import EmployeeInvite from './pages/onboarding/EmployeeInvite'
 import SiteSetup from './pages/onboarding/SiteSetup'
 import CreciCourse from './pages/CreciCourse'
+import UserSiteByPath from './pages/UserSiteByPath'
 import DealRoom from './pages/admin/DealRoom'
 import AdminLayout from './pages/admin/AdminLayout'
 import Account from './pages/admin/Account'
@@ -204,6 +205,9 @@ const router = createBrowserRouter([
       { path: 'pricing', element: <Navigate to="/precos" replace /> },
       { path: 'list-your-property', element: <Navigate to="/anuncie-seu-imovel" replace /> },
       { path: 'members', element: <Members /> },
+      // User site routes (path-based fallback when subdomain DNS isn't configured)
+      { path: 'site/:subdomain', element: <UserSiteByPath /> },
+      { path: 'site/:subdomain/*', element: <UserSiteByPath /> },
       // Constellation-specific routes (smart components that render differently based on subdomain)
       { path: 'constellation', element: <SmartConstellation /> },
       { path: 'ballet', element: <BalletPage /> },
