@@ -120,15 +120,6 @@ export default function Constellation() {
           <div className="max-w-7xl mx-auto">
             {/* Header */}
             <div className="text-center mb-10">
-              {/* Urgency Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-sm mb-6">
-                <div className="flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-                </div>
-                <span className="font-medium">Últimas {foundingSlotsRemaining} vagas · 50% OFF Vitalício</span>
-              </div>
-
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-indigo-400 to-purple-400">
                   Constellation
@@ -144,7 +135,7 @@ export default function Constellation() {
               </p>
 
               {/* Trust Badges */}
-              <div className="flex flex-wrap justify-center items-center gap-6 mb-8">
+              <div className="flex flex-wrap justify-center items-center gap-6 mb-6">
                 <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
                   <img 
                     src="/tech-icons/trustpilot-white.svg" 
@@ -173,26 +164,17 @@ export default function Constellation() {
                 </div>
               </div>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 justify-center mb-6">
-                <a
-                  href={ConstellationUrls.signup()}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    trackStartRegistration({ source: 'hero_cta', plan: 'founding_100' })
-                    trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
-                      source: 'hero_cta',
-                      plan: 'founding_100'
-                    })
-                  }}
-                  className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
-                >
-                  Garantir Minha Vaga · R$ 99/mês
-                </a>
+              {/* Urgency Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-sm mb-6">
+                <div className="flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                </div>
+                <span className="font-medium">Últimas {foundingSlotsRemaining} vagas · 50% OFF Vitalício</span>
               </div>
 
               {/* Tech Stack Logos */}
-              <div className="flex flex-wrap items-center justify-center gap-4 opacity-60">
+              <div className="flex flex-wrap items-center justify-center gap-4">
                 <img src="/tech-icons/color/Visual_Studio_Code_1.35_icon.svg.png" alt="Visual Studio Code - ferramenta de desenvolvimento" className="h-6 object-contain" />
                 <img src="/tech-icons/color/524-5240809_aws-logo-svg-white-clipart.png" alt="AWS - infraestrutura em nuvem" className="h-6 object-contain" />
                 <img src="/tech-icons/color/apple-developer-og-twitter.png" alt="Apple Developer - plataforma de desenvolvimento" className="h-12 object-contain" />
