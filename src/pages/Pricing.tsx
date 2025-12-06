@@ -431,7 +431,7 @@ export default function Pricing() {
                         }}
                         className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/50 text-lg text-center"
                       >
-                        Garantir Minha Vaga
+                        Try Free (No Card Required)
                       </a>
                       <div className="text-center">
                         <div className="text-sm text-emerald-300 font-semibold mb-2">
