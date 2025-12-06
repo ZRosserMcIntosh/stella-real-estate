@@ -258,10 +258,17 @@ export default function Footer() {
                 className="h-8 w-auto"
               />
             </a>
-            <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+            <a 
+              href="https://x.com/StellaRealBR" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="opacity-80 hover:opacity-100 transition-opacity"
+              aria-label="Siga Stella Real Estate no X (anteriormente Twitter)"
+              title="Stella Real Estate no X"
+            >
               <img 
                 src="/social-icons/x-white.png" 
-                alt="X (Twitter)" 
+                alt="Stella Real Estate no X (@StellaRealBR)" 
                 className="h-8 w-auto"
               />
             </a>
