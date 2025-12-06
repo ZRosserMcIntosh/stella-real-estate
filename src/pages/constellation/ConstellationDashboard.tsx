@@ -716,6 +716,13 @@ export default function ConstellationDashboard() {
                 
                 <div className="mt-6 pt-6 border-t border-slate-700/50 flex flex-wrap gap-3">
                   <Link
+                    to="/dashboard/listings"
+                    className="px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
+                  >
+                    {isPt ? 'Meus Anúncios' : 'My Listings'}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link
                     to="/site-builder"
                     className="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
                   >

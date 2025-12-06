@@ -78,6 +78,8 @@ import ConstellationPaymentPending from './pages/constellation/ConstellationPaym
 import ConstellationVisuals from './pages/constellation/ConstellationVisuals'
 import ConstellationSiteBuilder from './pages/constellation/ConstellationSiteBuilder'
 import ConstellationAccount from './pages/constellation/ConstellationAccount'
+import ConstellationListings from './pages/constellation/ConstellationListings'
+import ConstellationListingsCreate from './pages/constellation/ConstellationListingsCreate'
 import { SubdomainRedirect } from './components/SubdomainRedirect'
 import { SubdomainToPathRedirect } from './components/SubdomainToPathRedirect'
 import ConditionalLoginRedirect from './components/ConditionalLoginRedirect'
@@ -207,6 +209,8 @@ const router = createBrowserRouter([
       // Constellation dashboard routes (for logged-in users)
       { path: 'dashboard', element: <ConstellationDashboard /> },
       { path: 'dashboard/account', element: <ConstellationAccount /> },
+      { path: 'dashboard/listings', element: <ConstellationListings /> },
+      { path: 'dashboard/listings/create', element: <ConstellationListingsCreate /> },
       { path: 'payment-pending', element: <ConstellationPaymentPending /> },
       { path: 'visuals', element: <ConstellationVisuals /> },
       { path: 'site-builder', element: <ConstellationSiteBuilder /> },
