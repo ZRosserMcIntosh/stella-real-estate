@@ -1070,23 +1070,38 @@ export default function Constellation() {
 
             {/* Constellation Logo and Branding at Bottom */}
             <div className="pt-8 mt-8 border-t border-slate-700/50 flex flex-col items-center gap-4">
-              <div className="flex items-center gap-3">
-                <img 
-                  src="/tech-icons/contellation-logo.png" 
-                  alt="Constellation" 
-                  className="h-16 w-auto object-contain"
-                  style={{
-                    filter: 'grayscale(1) brightness(1.2)'
-                  }}
-                />
-                <span 
-                  className="text-2xl font-light uppercase tracking-[0.3em] text-white/80" 
-                  style={{ 
-                    fontFamily: 'Outfit, sans-serif'
-                  }}
-                >
-                  CONSTELLATION
-                </span>
+              <div className="flex items-center gap-6">
+                {/* Constellation Logo */}
+                <div className="flex items-center gap-3">
+                  <img 
+                    src="/tech-icons/contellation-logo.png" 
+                    alt="Constellation" 
+                    className="h-14 w-auto object-contain"
+                    style={{
+                      filter: 'grayscale(1) brightness(1.2)'
+                    }}
+                  />
+                  <span 
+                    className="text-xl font-light uppercase tracking-[0.3em] text-white/80" 
+                    style={{ 
+                      fontFamily: 'Outfit, sans-serif'
+                    }}
+                  >
+                    CONSTELLATION
+                  </span>
+                </div>
+                
+                {/* Divider */}
+                <div className="h-10 w-px bg-slate-600/50 hidden sm:block" />
+                
+                {/* Stella Mary Logo */}
+                <a href="https://stellareal.com.br" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                  <img 
+                    src="/stella-logo.png" 
+                    alt="Stella Mary Real Estate" 
+                    className="h-14 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                  />
+                </a>
               </div>
               <p className="text-slate-400 text-xs italic">Quando o valor é muito claro, as decisões são muito fáceis</p>
             </div>
