@@ -502,7 +502,7 @@ export default function Constellation() {
       </section>
 
       {/* Ballet Section - Inspired by Asana */}
-      <section className="py-24 lg:py-32 relative overflow-hidden">
+      <section className="py-12 lg:py-16 relative overflow-hidden">
         {/* Background gradient effect */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-purple-950/20 to-slate-950" />
         <div className="absolute inset-0 opacity-10">
@@ -671,6 +671,124 @@ export default function Constellation() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Constellation Platform Section - Public Facing */}
+      <section className="py-16 lg:py-20 relative overflow-hidden">
+        {/* Background gradient effect */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950/20 to-slate-950" />
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{ 
+            backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(59, 130, 246) 1px, transparent 0)', 
+            backgroundSize: '48px 48px' 
+          }} />
+        </div>
+        
+        <div className="container-padded relative z-10">
+          <div className="max-w-7xl mx-auto">
+            {/* Header with Constellation Logo */}
+            <div className="text-center mb-16">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <img 
+                  src="/contellation-logo.png" 
+                  alt="Constellation" 
+                  className="h-12 w-auto"
+                />
+                <span className="text-3xl sm:text-4xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Constellation
+                </span>
+              </div>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+                Sua presença digital completa.
+                <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400">
+                  Tudo que seus clientes veem.
+                </span>
+              </h2>
+              <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
+                Constellation é a sua vitrine digital—desde a criação do site até a gestão de imóveis, anúncios e a experiência completa do cliente. Tudo público-facing em uma única plataforma.
+              </p>
+            </div>
+
+            {/* Two Column Layout - Internal vs External */}
+            <div className="grid lg:grid-cols-2 gap-8 mb-12">
+              {/* Left - Constellation (Public) */}
+              <div className="bg-gradient-to-br from-blue-900/30 to-slate-900/50 backdrop-blur-xl border border-blue-500/20 rounded-2xl p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-light text-blue-300" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    Público-Facing
+                  </h3>
+                </div>
+                <ul className="space-y-4">
+                  {[
+                    { title: 'Criação de Sites', desc: 'Construtor drag-and-drop com templates profissionais' },
+                    { title: 'Gestão de Imóveis', desc: 'Cadastro completo com fotos, vídeos e tours 3D' },
+                    { title: 'Publicação Multi-Plataforma', desc: 'Sincronize com portais imobiliários automaticamente' },
+                    { title: 'Landing Pages', desc: 'Páginas de captura para cada imóvel ou campanha' },
+                    { title: 'SEO Otimizado', desc: 'Posicionamento orgânico no Google' },
+                    { title: 'Experiência do Cliente', desc: 'Agendamento de visitas, chat e WhatsApp integrado' }
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-medium">{item.title}</span>
+                        <p className="text-sm text-slate-400">{item.desc}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Right - Ballet (Internal) */}
+              <div className="bg-gradient-to-br from-purple-900/30 to-slate-900/50 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-light text-purple-300" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    Interno (Ballet)
+                  </h3>
+                </div>
+                <ul className="space-y-4">
+                  {[
+                    { title: 'Gestão de Projetos', desc: 'Quadros Kanban, listas e calendários' },
+                    { title: 'CRM Completo', desc: 'Pipeline de vendas e acompanhamento de leads' },
+                    { title: 'Automações', desc: 'Fluxos de trabalho sem código' },
+                    { title: 'Gestão de Equipe', desc: 'Tarefas, metas e avaliação de desempenho' },
+                    { title: 'Documentação', desc: 'Contratos, vistorias e processos centralizados' },
+                    { title: 'Relatórios', desc: 'Dashboards e métricas de performance' }
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-medium">{item.title}</span>
+                        <p className="text-sm text-slate-400">{item.desc}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Bottom message */}
+            <div className="text-center">
+              <div className="inline-flex items-center gap-4 px-8 py-4 bg-slate-900/50 border border-slate-700/50 rounded-full">
+                <span className="text-blue-400 font-medium">Constellation</span>
+                <span className="text-slate-500">+</span>
+                <span className="text-purple-400 font-medium">Ballet</span>
+                <span className="text-slate-500">=</span>
+                <span className="text-white font-medium">Plataforma Completa</span>
+              </div>
             </div>
           </div>
         </div>
