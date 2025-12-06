@@ -108,7 +108,7 @@ export default function Constellation() {
         </a>
       </div>
       {/* Hero + Pricing Consolidated Section */}
-      <section id="pricing-section" className="relative overflow-hidden pt-32 lg:pt-40 pb-16 lg:pb-20 scroll-mt-20">
+      <section id="pricing-section" className="relative overflow-hidden pt-40 lg:pt-44 pb-16 lg:pb-20 scroll-mt-20">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{ 
             backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(100, 116, 139) 1px, transparent 0)', 
