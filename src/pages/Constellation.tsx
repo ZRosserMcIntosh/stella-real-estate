@@ -172,30 +172,6 @@ export default function Constellation() {
                 </div>
                 <span className="font-medium">Últimas {foundingSlotsRemaining} vagas · 50% OFF Vitalício</span>
               </div>
-
-              {/* Tech Stack Logos */}
-              <div className="flex flex-wrap items-center justify-center gap-4">
-                <img src="/tech-icons/color/Visual_Studio_Code_1.35_icon.svg.png" alt="Visual Studio Code - ferramenta de desenvolvimento" className="h-6 object-contain" />
-                <img src="/tech-icons/color/524-5240809_aws-logo-svg-white-clipart.png" alt="AWS - infraestrutura em nuvem" className="h-6 object-contain" />
-                <img src="/tech-icons/color/apple-developer-og-twitter.png" alt="Apple Developer - plataforma de desenvolvimento" className="h-12 object-contain" />
-                <img src="/tech-icons/color/NET_BIG.D-52893f5e.png" alt=".NET - framework de desenvolvimento" className="h-6 object-contain" />
-                <img src="/tech-icons/color/pngimg.com - github_PNG65.png" alt="GitHub - controle de versão" className="h-9 object-contain invert brightness-0 invert" />
-                <img src="/tech-icons/color/Stripe_Logo,_revised_2016.svg.png" alt="Stripe - processamento de pagamentos" className="h-6 object-contain" />
-                <img src="/tech-icons/color/supabase-logo-wordmark--dark.png" alt="Supabase - banco de dados e autenticação" className="h-6 object-contain" />
-                <div className="flex items-center gap-2">
-                  <img 
-                    src="/tech-icons/contellation-logo.png" 
-                    alt="Logo da plataforma Constellation para corretores de imóveis" 
-                    className="h-10 object-contain brightness-150" 
-                    style={{ filter: 'brightness(1.5) drop-shadow(0 0 24px rgba(199, 210, 254, 1)) drop-shadow(0 0 12px rgba(199, 210, 254, 0.9)) drop-shadow(0 0 8px rgba(199, 210, 254, 0.8))' }}
-                  />
-                  <span className="text-sm font-light uppercase tracking-[0.4em] text-indigo-200/80" style={{ fontFamily: 'Outfit, sans-serif' }}>CONSTELLATION</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <img src="/tech-icons/ballet-new-logo.png" alt="Logo Ballet - gerenciamento de projetos" className="h-8 object-contain" />
-                  <span className="text-sm font-light uppercase tracking-[0.4em] text-pink-400/90" style={{ fontFamily: 'Outfit, sans-serif' }}>BALLET</span>
-                </div>
-              </div>
             </div>
 
             {/* Plans Title */}
@@ -418,6 +394,30 @@ export default function Constellation() {
                   </div>
                 )
               })}
+            </div>
+
+            {/* Tech Stack Logos */}
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-8">
+              <img src="/tech-icons/color/Visual_Studio_Code_1.35_icon.svg.png" alt="Visual Studio Code - ferramenta de desenvolvimento" className="h-6 object-contain" />
+              <img src="/tech-icons/color/524-5240809_aws-logo-svg-white-clipart.png" alt="AWS - infraestrutura em nuvem" className="h-6 object-contain" />
+              <img src="/tech-icons/color/apple-developer-og-twitter.png" alt="Apple Developer - plataforma de desenvolvimento" className="h-12 object-contain" />
+              <img src="/tech-icons/color/NET_BIG.D-52893f5e.png" alt=".NET - framework de desenvolvimento" className="h-6 object-contain" />
+              <img src="/tech-icons/color/pngimg.com - github_PNG65.png" alt="GitHub - controle de versão" className="h-9 object-contain invert brightness-0 invert" />
+              <img src="/tech-icons/color/Stripe_Logo,_revised_2016.svg.png" alt="Stripe - processamento de pagamentos" className="h-6 object-contain" />
+              <img src="/tech-icons/color/supabase-logo-wordmark--dark.png" alt="Supabase - banco de dados e autenticação" className="h-6 object-contain" />
+              <div className="flex items-center gap-2">
+                <img 
+                  src="/tech-icons/contellation-logo.png" 
+                  alt="Logo da plataforma Constellation para corretores de imóveis" 
+                  className="h-10 object-contain brightness-150" 
+                  style={{ filter: 'brightness(1.5) drop-shadow(0 0 24px rgba(199, 210, 254, 1)) drop-shadow(0 0 12px rgba(199, 210, 254, 0.9)) drop-shadow(0 0 8px rgba(199, 210, 254, 0.8))' }}
+                />
+                <span className="text-sm font-light uppercase tracking-[0.4em] text-indigo-200/80" style={{ fontFamily: 'Outfit, sans-serif' }}>CONSTELLATION</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <img src="/tech-icons/ballet-new-logo.png" alt="Logo Ballet - gerenciamento de projetos" className="h-8 object-contain" />
+                <span className="text-sm font-light uppercase tracking-[0.4em] text-pink-400/90" style={{ fontFamily: 'Outfit, sans-serif' }}>BALLET</span>
+              </div>
             </div>
 
           </div>
