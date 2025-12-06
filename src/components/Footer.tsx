@@ -265,13 +265,6 @@ export default function Footer() {
                 className="h-8 w-auto"
               />
             </a>
-            <a href="https://plus.google.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <img 
-                src="/social-icons/google-plus.png" 
-                alt="Google Plus" 
-                className="h-8 w-auto"
-              />
-            </a>
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
               <img 
                 src="/social-icons/facebook.png" 
