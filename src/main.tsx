@@ -202,6 +202,11 @@ const router = createBrowserRouter([
       { path: 'signup', element: <SmartSignup /> },
       { path: 'forgot-password', element: <ForgotPassword /> },
       { path: 'reset-password', element: <ResetPassword /> },
+      // Constellation dashboard routes (for logged-in users)
+      { path: 'dashboard', element: <ConstellationDashboard /> },
+      { path: 'payment-pending', element: <ConstellationPaymentPending /> },
+      { path: 'visuals', element: <ConstellationVisuals /> },
+      { path: 'site-builder', element: <ConstellationSiteBuilder /> },
       // Subdomain routes (temporary paths until custom domains are configured)
       { path: 'sub/stellareal', element: <StellaReal /> },
     ],
