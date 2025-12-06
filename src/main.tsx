@@ -80,6 +80,9 @@ import ConstellationSiteBuilder from './pages/constellation/ConstellationSiteBui
 import ConstellationAccount from './pages/constellation/ConstellationAccount'
 import ConstellationListings from './pages/constellation/ConstellationListings'
 import ConstellationListingsCreate from './pages/constellation/ConstellationListingsCreate'
+import ConstellationListingsForSale from './pages/constellation/ConstellationListingsForSale'
+import ConstellationListingsForRent from './pages/constellation/ConstellationListingsForRent'
+import ConstellationListingsNewProjects from './pages/constellation/ConstellationListingsNewProjects'
 import { SubdomainRedirect } from './components/SubdomainRedirect'
 import { SubdomainToPathRedirect } from './components/SubdomainToPathRedirect'
 import ConditionalLoginRedirect from './components/ConditionalLoginRedirect'
@@ -211,6 +214,9 @@ const router = createBrowserRouter([
       { path: 'dashboard/account', element: <ConstellationAccount /> },
       { path: 'dashboard/listings', element: <ConstellationListings /> },
       { path: 'dashboard/listings/create', element: <ConstellationListingsCreate /> },
+      { path: 'dashboard/listings/venda', element: <ConstellationListingsForSale /> },
+      { path: 'dashboard/listings/alugar', element: <ConstellationListingsForRent /> },
+      { path: 'dashboard/listings/novos-projetos', element: <ConstellationListingsNewProjects /> },
       { path: 'payment-pending', element: <ConstellationPaymentPending /> },
       { path: 'visuals', element: <ConstellationVisuals /> },
       { path: 'site-builder', element: <ConstellationSiteBuilder /> },
