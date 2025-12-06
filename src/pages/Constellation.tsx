@@ -1063,7 +1063,7 @@ export default function Constellation() {
                   <img src="/social-icons/youtube.png" alt="YouTube" className="h-8 w-auto" />
                 </a>
                 <a href="https://tiktok.com/@stellarealbr" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-                  <img src="/social-icons/tiktok-color.png" alt="TikTok" className="h-8 w-auto" />
+                  <img src="/social-icons/tiktok-color.png" alt="TikTok" className="h-6 w-auto" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </div>
             </div>
@@ -1100,6 +1100,7 @@ export default function Constellation() {
                     src="/stella-logo.png" 
                     alt="Stella Mary Real Estate" 
                     className="h-14 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                    style={{ filter: 'brightness(0) invert(1)' }}
                   />
                 </a>
               </div>

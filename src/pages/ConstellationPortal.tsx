@@ -671,32 +671,74 @@ export default function ConstellationPortal() {
                   <img src="/social-icons/youtube.png" alt="YouTube" className="h-8 w-auto" />
                 </a>
                 <a href="https://tiktok.com/@stellarealbr" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-                  <img src="/social-icons/tiktok-color.png" alt="TikTok" className="h-8 w-auto" />
+                  <img src="/social-icons/tiktok-color.png" alt="TikTok" className="h-6 w-auto" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               </div>
             </div>
 
             {/* Constellation Logo and Branding at Bottom */}
             <div className="pt-8 mt-8 border-t border-slate-700/50 flex flex-col items-center gap-4">
-              <div className="flex items-center gap-3">
-                <img 
-                  src="/tech-icons/contellation-logo.png" 
-                  alt="Constellation" 
-                  className="h-16 w-auto object-contain"
-                  style={{
-                    filter: 'grayscale(1) brightness(1.2)'
-                  }}
-                />
-                <span 
-                  className="text-2xl font-light uppercase tracking-[0.3em] text-white/80" 
-                  style={{ 
-                    fontFamily: 'Outfit, sans-serif'
-                  }}
-                >
-                  CONSTELLATION
-                </span>
+              <div className="flex items-center gap-6">
+                {/* Constellation Logo */}
+                <div className="flex items-center gap-3">
+                  <img 
+                    src="/tech-icons/contellation-logo.png" 
+                    alt="Constellation" 
+                    className="h-14 w-auto object-contain"
+                    style={{
+                      filter: 'grayscale(1) brightness(1.2)'
+                    }}
+                  />
+                  <span 
+                    className="text-xl font-light uppercase tracking-[0.3em] text-white/80" 
+                    style={{ 
+                      fontFamily: 'Outfit, sans-serif'
+                    }}
+                  >
+                    CONSTELLATION
+                  </span>
+                </div>
+                
+                {/* Divider */}
+                <div className="h-10 w-px bg-slate-600/50 hidden sm:block" />
+                
+                {/* Stella Mary Logo */}
+                <a href="https://stellareal.com.br" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                  <img 
+                    src="/stella-logo.png" 
+                    alt="Stella Mary Real Estate" 
+                    className="h-14 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                    style={{ filter: 'brightness(0) invert(1)' }}
+                  />
+                </a>
               </div>
               <p className="text-slate-400 text-xs italic">Quando o valor é muito claro, as decisões são muito fáceis</p>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="pt-6 flex flex-wrap justify-center items-center gap-6">
+              <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
+                <img src="/tech-icons/trustpilot-white.svg" alt="Trustpilot" className="h-10" />
+              </a>
+              <div className="flex items-center gap-2">
+                <a 
+                  href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+                >
+                  <img 
+                    src="/tech-icons/brazil-coat-of-arms.png" 
+                    alt="Brasão da República Federativa do Brasil" 
+                    className="h-10"
+                  />
+                  <span className="text-lg font-bold">
+                    <span className="text-white">CRECI</span>
+                    <span className="text-red-500">SP</span>
+                  </span>
+                </a>
+                <span className="text-lg text-slate-300">309568</span>
+              </div>
             </div>
           </div>
         </div>
