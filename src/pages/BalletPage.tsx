@@ -69,10 +69,8 @@ export default function BalletPage() {
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
-                Não é apenas um gerenciador de tarefas.
-                <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-rose-400">
-                  É tudo que sua imobiliária precisa.
+                  Tudo que sua imobiliária precisa.
                 </span>
               </h1>
               
