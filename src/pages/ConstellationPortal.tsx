@@ -673,6 +673,9 @@ export default function ConstellationPortal() {
                 <a href="https://tiktok.com/@stellarealbr" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
                   <img src="/social-icons/tiktok-color.png" alt="TikTok" className="h-6 w-auto" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
+                <a href="https://bsky.app/profile/stellarealbrasil.bsky.social" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                  <img src="/social-icons/bluesky.svg" alt="Bluesky" className="h-6 w-auto" style={{ filter: 'brightness(0) invert(1)' }} />
+                </a>
               </div>
             </div>
 
