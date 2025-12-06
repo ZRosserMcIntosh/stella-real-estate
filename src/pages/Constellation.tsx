@@ -497,58 +497,6 @@ export default function Constellation() {
               })}
             </div>
 
-            {/* Founder Pricing Explanation */}
-            <div className="max-w-4xl mx-auto mb-8">
-              <div className="bg-gradient-to-r from-emerald-900/20 via-green-900/20 to-emerald-900/20 border border-emerald-500/30 rounded-xl p-8 backdrop-blur-sm">
-                <h3 className="text-xl font-light text-emerald-300 mb-4 text-center" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Como Funciona o Preço para Corretores Fundadores
-                </h3>
-                <p className="text-slate-300 text-base leading-relaxed mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Os valores acima são os <strong className="text-white">preços mensais públicos previstos</strong> para cada plano após o lançamento em janeiro de 2026.
-                </p>
-                <p className="text-slate-300 text-base leading-relaxed mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Se você entrar agora como <strong className="text-emerald-300">Corretor Fundador</strong> por apenas <strong className="text-emerald-300">R$ 99</strong>, você:
-                </p>
-                <ul className="space-y-3 mb-4">
-                  <li className="flex items-start gap-3 text-slate-300">
-                    <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                    <span>Garante acesso assim que a plataforma lançar em <strong className="text-white">janeiro de 2026</strong></span>
-                  </li>
-                  <li className="flex items-start gap-3 text-slate-300">
-                    <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                    <span>Ganha <strong className="text-emerald-300">3 meses grátis</strong> a partir do lançamento (escolha qualquer plano)</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-slate-300">
-                    <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                    <span>Depois dos 3 meses grátis, paga apenas <strong className="text-emerald-300">50% do valor mensal público</strong> do plano escolhido</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-slate-300">
-                    <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                    <span>O desconto de <strong className="text-emerald-300">50% é permanente</strong> enquanto sua assinatura permanecer ativa</span>
-                  </li>
-                </ul>
-                <p className="text-center text-sm text-slate-400 italic" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Esta oferta é exclusiva para os primeiros 100 corretores que garantirem sua vaga agora.
-                </p>
-              </div>
-            </div>
-
-            <div className="text-center">
-              <a
-                href={ConstellationUrls.signup()}
-                onClick={(e) => {
-                  e.preventDefault()
-                  trackStartRegistration({ source: 'pricing_section', plan: 'founding_100' })
-                  trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
-                    source: 'pricing_section',
-                    plan: 'founding_100'
-                  })
-                }}
-                className="inline-block px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105"
-              >
-                Garantir Acesso - R$ 99
-              </a>
-            </div>
           </div>
         </div>
       </section>
