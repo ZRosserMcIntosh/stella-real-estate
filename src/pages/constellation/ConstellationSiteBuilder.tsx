@@ -43,7 +43,15 @@ import {
   Copy,
   Upload,
   X,
-  Sparkles
+  Sparkles,
+  Mail,
+  MapPin,
+  Instagram,
+  Facebook,
+  Linkedin,
+  Youtube,
+  BarChart3,
+  MessageCircle
 } from 'lucide-react'
 
 // Types for the editor
@@ -86,6 +94,9 @@ export default function ConstellationSiteBuilder() {
   const [selectedSection, setSelectedSection] = useState<string | null>('hero')
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
   
+  // Main top-level tab
+  const [activeMainTab, setActiveMainTab] = useState<'designer' | 'settings' | 'listings'>('designer')
+  
   // Template and settings modals
   const [showTemplatePicker, setShowTemplatePicker] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
@@ -95,6 +106,7 @@ export default function ConstellationSiteBuilder() {
   const { session, loading: authLoading } = useAuth()
   const { i18n } = useTranslation()
   const isPt = i18n.language?.startsWith('pt')
+  const isEs = i18n.language?.startsWith('es')
 
   // Default sections for a real estate site
   const [sections, setSections] = useState<SiteSection[]>([
@@ -335,6 +347,15 @@ export default function ConstellationSiteBuilder() {
     setShowSettings(false)
   }
 
+  // Handle inline settings changes in Settings tab
+  const handleFullSettingsChange = (field: keyof SiteSettingsData, value: string) => {
+    setFullSiteSettings(prev => ({
+      ...prev,
+      [field]: value
+    }))
+    setHasUnsavedChanges(true)
+  }
+
   const handleSave = async () => {
     if (!memberData?.subdomain || !session?.user?.id) return
     
@@ -487,8 +508,48 @@ export default function ConstellationSiteBuilder() {
       <ConstellationAuthHeader />
       
       <div className="min-h-screen bg-slate-950 pt-28">
-        {/* Toolbar */}
-        <div className="sticky top-28 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-700/50">
+        {/* Top-Level Tabs */}
+        <div className="sticky top-28 z-50 bg-slate-900 border-b border-slate-700/50">
+          <div className="flex items-center justify-center gap-1 p-2">
+            <button
+              onClick={() => setActiveMainTab('designer')}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium transition-all ${
+                activeMainTab === 'designer'
+                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+              }`}
+            >
+              <Palette className="w-4 h-4" />
+              <span>{isPt ? 'Designer' : isEs ? 'Diseñador' : 'Designer'}</span>
+            </button>
+            <button
+              onClick={() => setActiveMainTab('settings')}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium transition-all ${
+                activeMainTab === 'settings'
+                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+              }`}
+            >
+              <Settings className="w-4 h-4" />
+              <span>{isPt ? 'Configurações' : isEs ? 'Configuración' : 'Settings'}</span>
+            </button>
+            <button
+              onClick={() => setActiveMainTab('listings')}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium transition-all ${
+                activeMainTab === 'listings'
+                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+              }`}
+            >
+              <Building2 className="w-4 h-4" />
+              <span>{isPt ? 'Imóveis' : isEs ? 'Inmuebles' : 'Listings'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Toolbar - only show in designer mode */}
+        {activeMainTab === 'designer' && (
+        <div className="sticky top-[7.5rem] z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-700/50">
           <div className="px-4">
             <div className="flex items-center justify-between h-12">
               {/* Left - Toggle & Site URL */}
@@ -635,8 +696,243 @@ export default function ConstellationSiteBuilder() {
             </div>
           </div>
         </div>
+        )}
 
-        {/* Main Content - Three Panel Layout */}
+        {/* Settings Tab Content */}
+        {activeMainTab === 'settings' && (
+          <div className="p-6 max-w-4xl mx-auto">
+            <div className="bg-slate-900/80 rounded-2xl border border-slate-700/50 p-6">
+              <h2 className="text-2xl font-bold text-white mb-6">
+                {isPt ? 'Configurações do Site' : isEs ? 'Configuración del Sitio' : 'Site Settings'}
+              </h2>
+              
+              {/* Contact Information Section */}
+              <div className="space-y-6">
+                <div className="border-b border-slate-700/50 pb-6">
+                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                    <Phone className="w-5 h-5 text-indigo-400" />
+                    {isPt ? 'Informações de Contato' : isEs ? 'Información de Contacto' : 'Contact Information'}
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <MessageCircle className="w-4 h-4 inline mr-2 text-green-500" />
+                        WhatsApp
+                      </label>
+                      <input
+                        type="tel"
+                        value={fullSiteSettings.contactWhatsapp || ''}
+                        onChange={(e) => handleFullSettingsChange('contactWhatsapp', e.target.value)}
+                        placeholder="+55 11 99999-9999"
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      />
+                      <p className="text-xs text-slate-500 mt-1">
+                        {isPt ? 'Número que aparecerá nos botões de contato' : isEs ? 'Número que aparecerá en los botones de contacto' : 'Number that will appear on contact buttons'}
+                      </p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <Mail className="w-4 h-4 inline mr-2 text-blue-400" />
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        value={fullSiteSettings.contactEmail || ''}
+                        onChange={(e) => handleFullSettingsChange('contactEmail', e.target.value)}
+                        placeholder="contato@exemplo.com"
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <Phone className="w-4 h-4 inline mr-2 text-slate-400" />
+                        {isPt ? 'Telefone' : isEs ? 'Teléfono' : 'Phone'}
+                      </label>
+                      <input
+                        type="tel"
+                        value={fullSiteSettings.contactPhone || ''}
+                        onChange={(e) => handleFullSettingsChange('contactPhone', e.target.value)}
+                        placeholder="+55 11 3333-3333"
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <MapPin className="w-4 h-4 inline mr-2 text-red-400" />
+                        {isPt ? 'Endereço' : isEs ? 'Dirección' : 'Address'}
+                      </label>
+                      <input
+                        type="text"
+                        value={fullSiteSettings.contactAddress || ''}
+                        onChange={(e) => handleFullSettingsChange('contactAddress', e.target.value)}
+                        placeholder={isPt ? 'Rua Exemplo, 123 - São Paulo' : 'Example Street, 123'}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Social Media Section */}
+                <div className="border-b border-slate-700/50 pb-6">
+                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                    <Instagram className="w-5 h-5 text-pink-400" />
+                    {isPt ? 'Redes Sociais' : isEs ? 'Redes Sociales' : 'Social Media'}
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <Instagram className="w-4 h-4 inline mr-2 text-pink-400" />
+                        Instagram
+                      </label>
+                      <input
+                        type="url"
+                        value={fullSiteSettings.socialInstagram || ''}
+                        onChange={(e) => handleFullSettingsChange('socialInstagram', e.target.value)}
+                        placeholder="https://instagram.com/seuperfil"
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <Facebook className="w-4 h-4 inline mr-2 text-blue-500" />
+                        Facebook
+                      </label>
+                      <input
+                        type="url"
+                        value={fullSiteSettings.socialFacebook || ''}
+                        onChange={(e) => handleFullSettingsChange('socialFacebook', e.target.value)}
+                        placeholder="https://facebook.com/suapagina"
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <Linkedin className="w-4 h-4 inline mr-2 text-blue-400" />
+                        LinkedIn
+                      </label>
+                      <input
+                        type="url"
+                        value={fullSiteSettings.socialLinkedin || ''}
+                        onChange={(e) => handleFullSettingsChange('socialLinkedin', e.target.value)}
+                        placeholder="https://linkedin.com/in/seuperfil"
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                        <Youtube className="w-4 h-4 inline mr-2 text-red-500" />
+                        YouTube
+                      </label>
+                      <input
+                        type="url"
+                        value={fullSiteSettings.socialYoutube || ''}
+                        onChange={(e) => handleFullSettingsChange('socialYoutube', e.target.value)}
+                        placeholder="https://youtube.com/@seucanal"
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Professional Info Section */}
+                <div className="pb-6">
+                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                    <BarChart3 className="w-5 h-5 text-indigo-400" />
+                    {isPt ? 'Informações Profissionais' : isEs ? 'Información Profesional' : 'Professional Info'}
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                        CRECI
+                      </label>
+                      <input
+                        type="text"
+                        value={fullSiteSettings.creciNumber || ''}
+                        onChange={(e) => handleFullSettingsChange('creciNumber', e.target.value)}
+                        placeholder="CRECI 123456-F"
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      />
+                      <p className="text-xs text-slate-500 mt-1">
+                        {isPt ? 'Seu número de registro no CRECI' : isEs ? 'Su número de registro en CRECI' : 'Your CRECI registration number'}
+                      </p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                        {isPt ? 'Nome da Empresa/Marca' : isEs ? 'Nombre de la Empresa/Marca' : 'Company/Brand Name'}
+                      </label>
+                      <input
+                        type="text"
+                        value={fullSiteSettings.siteName || ''}
+                        onChange={(e) => handleFullSettingsChange('siteName', e.target.value)}
+                        placeholder={isPt ? 'Sua Imobiliária' : 'Your Real Estate'}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Save Button */}
+                <div className="flex justify-end pt-4 border-t border-slate-700/50">
+                  <button
+                    onClick={handleSave}
+                    disabled={saving}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all ${
+                      saving 
+                        ? 'bg-slate-700/50 text-slate-400 cursor-wait' 
+                        : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                    }`}
+                  >
+                    {saving ? (
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      <Save className="w-4 h-4" />
+                    )}
+                    {saving ? (isPt ? 'Salvando...' : isEs ? 'Guardando...' : 'Saving...') : (isPt ? 'Salvar Configurações' : isEs ? 'Guardar Configuración' : 'Save Settings')}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Listings Tab Content */}
+        {activeMainTab === 'listings' && (
+          <div className="p-6 max-w-6xl mx-auto">
+            <div className="bg-slate-900/80 rounded-2xl border border-slate-700/50 p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">
+                  {isPt ? 'Meus Imóveis' : isEs ? 'Mis Inmuebles' : 'My Listings'}
+                </h2>
+                <Link
+                  to="/dashboard/listings/create"
+                  className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all"
+                >
+                  <Plus className="w-4 h-4" />
+                  {isPt ? 'Adicionar Imóvel' : isEs ? 'Agregar Inmueble' : 'Add Listing'}
+                </Link>
+              </div>
+              <p className="text-slate-400">
+                {isPt 
+                  ? 'Gerencie seus imóveis aqui. Os imóveis adicionados aparecerão automaticamente no seu site.' 
+                  : isEs 
+                    ? 'Administre sus inmuebles aquí. Los inmuebles agregados aparecerán automáticamente en su sitio.'
+                    : 'Manage your listings here. Added listings will automatically appear on your site.'}
+              </p>
+              <div className="mt-6">
+                <Link
+                  to="/dashboard/listings"
+                  className="inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors"
+                >
+                  {isPt ? 'Ver todos os imóveis' : isEs ? 'Ver todos los inmuebles' : 'View all listings'}
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Main Content - Three Panel Layout (Designer Mode) */}
+        {activeMainTab === 'designer' && (
         <div className="flex h-[calc(100vh-7rem-3rem)]">
           
           {/* Left Panel - Sections & Navigation */}
@@ -1068,6 +1364,7 @@ export default function ConstellationSiteBuilder() {
             </div>
           </div>
         </div>
+        )}
       </div>
 
       {/* Template Picker Modal */}
