@@ -318,42 +318,105 @@ export default function ConstellationPortal() {
                 onClick={() => trackCTA('Explore Site', 'hero')}
                 className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full font-medium transition-all border border-white/20 hover:border-white/30 text-lg"
               >
-                Explore um Site Powered by Constellation
+                Veja um Site Feito com Constellation
               </a>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="flex flex-wrap justify-center items-center gap-4 mt-6">
+              <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
+                <img 
+                  src="/tech-icons/trustpilot-white.svg" 
+                  alt="Trustpilot" 
+                  className="h-5 opacity-70 hover:opacity-100 transition-opacity"
+                />
+              </a>
+              <div className="flex items-center gap-1">
+                <a 
+                  href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 opacity-70 hover:opacity-100 transition-opacity"
+                >
+                  <img 
+                    src="/tech-icons/brazil-coat-of-arms.png" 
+                    alt="Brasão da República Federativa do Brasil" 
+                    className="h-5"
+                  />
+                  <span className="text-xs font-bold">
+                    <span className="text-white">CRECI</span>
+                    <span className="text-red-500">SP</span>
+                  </span>
+                </a>
+                <span className="text-xs text-slate-400">309568</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3D Video Demo - Compressed */}
+      {/* 3D Video Demo - With Specs */}
       <section className="py-12 lg:py-16 relative">
         <div className="container-padded">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-light text-white mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                Tours 3D que vendem enquanto você dorme
-              </h2>
-              <p className="text-slate-400">Seus clientes "caminham" pelo imóvel de qualquer lugar do mundo</p>
-            </div>
-            <div className="relative group">
-              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-500/20 via-cyan-500/15 to-emerald-500/20 opacity-50 blur-2xl group-hover:opacity-75 transition duration-500" />
-              <div className="relative overflow-hidden rounded-2xl border border-emerald-400/30 shadow-[0_20px_60px_-20px_rgba(16,185,129,0.4)]">
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full aspect-video object-cover"
-                  poster="/video/office-3D-poster.jpg"
-                >
-                  <source src="/video/office-3D.mp4" type="video/mp4" />
-                </video>
-                <div className="absolute bottom-4 left-4 flex items-center gap-2">
-                  <div className="flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-8">
+              {/* Left: Explanation */}
+              <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6 flex flex-col justify-between h-full">
+                <div>
+                  <h3 className="text-xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    Tours 3D que vendem enquanto você dorme
+                  </h3>
+                  <p className="text-slate-300 mb-6 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    Você grava um vídeo simples do imóvel. Nós transformamos em uma experiência 3D interativa onde seus clientes "caminham" pelo espaço de qualquer lugar do mundo, 24 horas por dia.
+                  </p>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-medium">Reduz 80%+ das visitas improdutivas</span>
+                        <p className="text-sm text-slate-400">Clientes já conhecem o imóvel antes de agendar</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-medium">Funciona em qualquer celular ou computador</span>
+                        <p className="text-sm text-slate-400">Sem app, sem plugins, direto no navegador</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-medium">Entrega rápida</span>
+                        <p className="text-sm text-slate-400">Seu tour pronto em até 48 horas</p>
+                      </div>
+                    </div>
                   </div>
-                  <span className="text-xs font-semibold text-emerald-200 uppercase tracking-wider">Demo ao Vivo</span>
+                </div>
+              </div>
+
+              {/* Right: Demo Video */}
+              <div className="relative group h-full">
+                <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-500/20 via-cyan-500/15 to-emerald-500/20 opacity-50 blur-2xl group-hover:opacity-75 transition duration-500" />
+                <div className="relative overflow-hidden rounded-2xl border border-emerald-400/30 shadow-[0_20px_60px_-20px_rgba(16,185,129,0.4)] h-full">
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover min-h-[300px]"
+                    poster="/video/office-3D-poster.jpg"
+                  >
+                    <source src="/video/office-3D.mp4" type="video/mp4" />
+                  </video>
+                  <div className="absolute bottom-4 left-4 flex items-center gap-2">
+                    <div className="flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                    </div>
+                    <span className="text-xs font-semibold text-emerald-200 uppercase tracking-wider">Demo ao Vivo</span>
+                  </div>
                 </div>
               </div>
             </div>
