@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { supabase } from '../lib/supabaseClient'
 import { getSubdomain } from '../utils/subdomain'
-import { Phone, Mail, MapPin, Building2, Home, Sparkles } from 'lucide-react'
+import { Phone, Mail, MapPin, Building2, Home, Sparkles, Bed, Bath, Maximize, ChevronRight } from 'lucide-react'
 
 interface UserData {
   id: string
+  user_id: string
   full_name: string
   email: string
   phone?: string
@@ -47,10 +48,27 @@ interface SiteConfig {
   is_published?: boolean
 }
 
+interface Listing {
+  id: string
+  title: string
+  listing_type: 'sale' | 'rent' | 'new_development'
+  property_type?: string
+  price?: number
+  area_m2?: number
+  bedrooms?: number
+  bathrooms?: number
+  neighborhood?: string
+  city?: string
+  state_code?: string
+  status: string
+  media?: Array<{ kind: string; url: string }>
+}
+
 export default function UserSite() {
   const [loading, setLoading] = useState(true)
   const [userData, setUserData] = useState<UserData | null>(null)
   const [siteConfig, setSiteConfig] = useState<SiteConfig | null>(null)
+  const [listings, setListings] = useState<Listing[]>([])
   const [error, setError] = useState<string | null>(null)
   const subdomain = getSubdomain()
 
@@ -92,6 +110,21 @@ export default function UserSite() {
         setSiteConfig(configData)
       }
       // It's okay if no config exists - we'll use defaults from userData
+
+      // Fetch user's listings (scoped by user_id)
+      if (memberData.user_id) {
+        const { data: listingsData, error: listingsError } = await supabase
+          .from('listings')
+          .select('id, title, listing_type, property_type, price, area_m2, bedrooms, bathrooms, neighborhood, city, state_code, status, media')
+          .eq('user_id', memberData.user_id)
+          .in('status', ['active', 'draft']) // Show active listings, optionally drafts for owner
+          .order('created_at', { ascending: false })
+          .limit(12)
+
+        if (listingsData && !listingsError) {
+          setListings(listingsData)
+        }
+      }
 
     } catch (err) {
       console.error('Error loading site:', err)
@@ -136,6 +169,19 @@ export default function UserSite() {
   }
 
   const firstName = userData.full_name?.split(' ')[0] || 'Corretor'
+  
+  // Helper function to format price
+  const formatPrice = (price?: number) => {
+    if (!price) return null
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(price)
+  }
+
+  // Get thumbnail from listing media
+  const getThumbnail = (listing: Listing) => {
+    const thumb = listing.media?.find(m => m.kind === 'thumbnail')
+    const image = listing.media?.find(m => m.kind === 'image')
+    return thumb?.url || image?.url || null
+  }
   
   // Use siteConfig values if available, otherwise fall back to userData
   const siteName = siteConfig?.site_name || userData.full_name
@@ -248,25 +294,108 @@ export default function UserSite() {
           </div>
         </section>
 
-        {/* Listings Placeholder */}
+        {/* Listings Section */}
         <section id="imoveis" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-slate-900 mb-4">Imóveis em Destaque</h2>
               <p className="text-slate-600">Os melhores imóveis selecionados para você</p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Placeholder cards - will be replaced with actual listings */}
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-slate-100 rounded-2xl p-8 text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-slate-200 rounded-xl flex items-center justify-center">
-                    <Building2 className="w-8 h-8 text-slate-400" />
+            
+            {listings.length > 0 ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {listings.map((listing) => (
+                  <div key={listing.id} className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all border border-slate-100">
+                    {/* Listing Image */}
+                    <div className="aspect-[4/3] relative overflow-hidden bg-slate-100">
+                      {getThumbnail(listing) ? (
+                        <img 
+                          src={getThumbnail(listing)!} 
+                          alt={listing.title} 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Building2 className="w-16 h-16 text-slate-300" />
+                        </div>
+                      )}
+                      {/* Listing Type Badge */}
+                      <div 
+                        className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold text-white"
+                        style={{ backgroundColor: listing.listing_type === 'rent' ? '#10b981' : listing.listing_type === 'new_development' ? '#8b5cf6' : primaryColor }}
+                      >
+                        {listing.listing_type === 'sale' ? 'Venda' : listing.listing_type === 'rent' ? 'Aluguel' : 'Lançamento'}
+                      </div>
+                    </div>
+                    
+                    {/* Listing Details */}
+                    <div className="p-5">
+                      <h3 className="font-semibold text-slate-900 text-lg mb-2 line-clamp-1 group-hover:text-indigo-600 transition-colors">
+                        {listing.title}
+                      </h3>
+                      
+                      {(listing.neighborhood || listing.city) && (
+                        <p className="text-sm text-slate-500 mb-3 flex items-center gap-1">
+                          <MapPin className="w-4 h-4" />
+                          {[listing.neighborhood, listing.city, listing.state_code].filter(Boolean).join(', ')}
+                        </p>
+                      )}
+                      
+                      {/* Features */}
+                      <div className="flex items-center gap-4 text-sm text-slate-600 mb-4">
+                        {listing.bedrooms && (
+                          <span className="flex items-center gap-1">
+                            <Bed className="w-4 h-4" />
+                            {listing.bedrooms}
+                          </span>
+                        )}
+                        {listing.bathrooms && (
+                          <span className="flex items-center gap-1">
+                            <Bath className="w-4 h-4" />
+                            {listing.bathrooms}
+                          </span>
+                        )}
+                        {listing.area_m2 && (
+                          <span className="flex items-center gap-1">
+                            <Maximize className="w-4 h-4" />
+                            {listing.area_m2}m²
+                          </span>
+                        )}
+                      </div>
+                      
+                      {/* Price */}
+                      {listing.price && (
+                        <div className="flex items-center justify-between">
+                          <p className="text-xl font-bold" style={{ color: primaryColor }}>
+                            {formatPrice(listing.price)}
+                            {listing.listing_type === 'rent' && <span className="text-sm font-normal text-slate-500">/mês</span>}
+                          </p>
+                          <button 
+                            className="p-2 rounded-full hover:bg-slate-100 transition-colors"
+                            style={{ color: primaryColor }}
+                          >
+                            <ChevronRight className="w-5 h-5" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <h3 className="font-semibold text-slate-700 mb-2">Em breve</h3>
-                  <p className="text-sm text-slate-500">Novos imóveis sendo adicionados</p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Empty state placeholder cards */}
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="bg-slate-100 rounded-2xl p-8 text-center">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-slate-200 rounded-xl flex items-center justify-center">
+                      <Building2 className="w-8 h-8 text-slate-400" />
+                    </div>
+                    <h3 className="font-semibold text-slate-700 mb-2">Em breve</h3>
+                    <p className="text-sm text-slate-500">Novos imóveis sendo adicionados</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
