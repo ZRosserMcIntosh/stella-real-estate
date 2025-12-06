@@ -77,6 +77,7 @@ import ConstellationDashboard from './pages/constellation/ConstellationDashboard
 import ConstellationPaymentPending from './pages/constellation/ConstellationPaymentPending'
 import ConstellationVisuals from './pages/constellation/ConstellationVisuals'
 import ConstellationSiteBuilder from './pages/constellation/ConstellationSiteBuilder'
+import ConstellationAccount from './pages/constellation/ConstellationAccount'
 import { SubdomainRedirect } from './components/SubdomainRedirect'
 import { SubdomainToPathRedirect } from './components/SubdomainToPathRedirect'
 import ConditionalLoginRedirect from './components/ConditionalLoginRedirect'
@@ -204,6 +205,7 @@ const router = createBrowserRouter([
       { path: 'reset-password', element: <ResetPassword /> },
       // Constellation dashboard routes (for logged-in users)
       { path: 'dashboard', element: <ConstellationDashboard /> },
+      { path: 'dashboard/account', element: <ConstellationAccount /> },
       { path: 'payment-pending', element: <ConstellationPaymentPending /> },
       { path: 'visuals', element: <ConstellationVisuals /> },
       { path: 'site-builder', element: <ConstellationSiteBuilder /> },
