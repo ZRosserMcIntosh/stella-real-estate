@@ -290,8 +290,6 @@ export default function ConstellationPortal() {
             </div>
             
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
-              Pare de fazer malabarismo com 10 ferramentas.
-              <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400">
                 Comece a fechar negócios.
               </span>
