@@ -44,16 +44,16 @@ export default function ConstellationHeader() {
                 {t('constellation.nav.platform_and_plans')}
               </Link>
               <Link 
+                to="/ballet"
+                className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
+              >
+                Ballet
+              </Link>
+              <Link 
                 to="/sobre"
                 className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
               >
                 {t('constellation.nav.about')}
-              </Link>
-              <Link 
-                to="/contato"
-                className="text-slate-300 hover:text-white transition-colors text-sm font-medium"
-              >
-                {t('constellation.nav.contact')}
               </Link>
               <Link
                 to="/login"
@@ -97,18 +97,18 @@ export default function ConstellationHeader() {
               {t('constellation.nav.platform_and_plans')}
             </Link>
             <Link 
+              to="/ballet"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
+            >
+              Ballet
+            </Link>
+            <Link 
               to="/sobre"
               onClick={() => setMobileMenuOpen(false)}
               className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
             >
               {t('constellation.nav.about')}
-            </Link>
-            <Link 
-              to="/contato"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-slate-300 hover:text-white transition-colors py-2 font-medium"
-            >
-              {t('constellation.nav.contact')}
             </Link>
             <div className="border-t border-white/10 pt-4 mt-2 flex flex-col gap-3">
               <Link

@@ -68,6 +68,7 @@ import StellaReal from './pages/StellaReal'
 import International from './pages/International'
 import ConstellationPortal from './pages/ConstellationPortal'
 import ConstellationPage from './pages/Constellation'
+import BalletPage from './pages/BalletPage'
 import PricingPage from './pages/Pricing'
 import ConstellationLogin from './pages/constellation/ConstellationLogin'
 import ConstellationSignup from './pages/constellation/ConstellationSignup'
@@ -194,6 +195,7 @@ const router = createBrowserRouter([
       { path: 'members', element: <Members /> },
       // Constellation-specific routes (smart components that render differently based on subdomain)
       { path: 'constellation', element: <SmartConstellation /> },
+      { path: 'ballet', element: <BalletPage /> },
       { path: 'precos', element: <SmartPrecos /> },
       // Authentication routes (needed for constellation subdomain)
       { path: 'login', element: <SmartLogin /> },
