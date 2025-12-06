@@ -303,8 +303,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Trustpilot Logo */}
-        <div className="pt-6 flex justify-center">
+        {/* Trustpilot Logo & CRECI Badge */}
+        <div className="pt-6 flex justify-center items-center gap-6">
           <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
             <img 
               src="/tech-icons/trustpilot-white.svg" 
@@ -312,6 +312,25 @@ export default function Footer() {
               className="h-8 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
             />
           </a>
+          <div className="flex items-center gap-2">
+            <a 
+              href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+            >
+              <img 
+                src="/tech-icons/brazil-coat-of-arms.png" 
+                alt="Brasão da República Federativa do Brasil" 
+                className="h-8"
+              />
+              <span className="text-base font-bold">
+                <span className="text-white">CRECI</span>
+                <span className="text-red-500">SP</span>
+              </span>
+            </a>
+            <span className="text-base text-slate-300">309568</span>
+          </div>
         </div>
 
         {/* Footer Logo - Centered at Bottom */}
