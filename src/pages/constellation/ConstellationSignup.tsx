@@ -402,8 +402,8 @@ export default function ConstellationSignup() {
         cnpj: null,
         creci_number: null,
         creci_uf: null,
-        payment_status: 'pending', // Mark as pending until payment
-        payment_amount: 99.00,
+        payment_status: 'paid', // Mark as paid immediately (no payment required)
+        payment_amount: 0.00, // Free signup
       }
       
       console.log('Inserting founding member with data:', memberData)
@@ -418,53 +418,29 @@ export default function ConstellationSignup() {
         throw new Error(`Founding member error: ${memberError.message || memberError.details || 'Unknown error'}`)
       }
 
-      console.log('Founding member record created with pending status')
+      console.log('Founding member record created successfully')
       
-      // NOW sign out so they stay on the payment page (after all DB inserts)
+      // Sign out and sign back in to ensure session is fresh
       await supabase.auth.signOut()
-      console.log('User signed out, staying on payment page')
-
-      // Step 4: Create payment intent
-      console.log('Step 4: Creating payment intent...')
       
-      const response = await fetch('/api/stripe/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...signupData,
-          userId: newUserId, // Pass user ID to payment API
-          amount: 9900, // R$ 99.00 in cents
-        }),
+      // Sign them in with their credentials
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: signupData.email,
+        password: signupData.password,
       })
 
-      const text = await response.text()
-      console.log('Payment API Response:', text)
+      if (signInError) {
+        console.error('Error signing in after signup:', signInError)
+        setError(`Conta criada! Por favor, faça login em ${ConstellationUrls.login()}`)
+        setLoading(false)
+        return
+      }
       
-      if (!text) {
-        throw new Error('Empty response from payment server. Are you running with `vercel dev`?')
-      }
-
-      let data
-      try {
-        data = JSON.parse(text)
-      } catch (parseError) {
-        console.error('JSON Parse Error:', parseError)
-        throw new Error('Invalid response format from payment server')
-      }
-
-      if (!response.ok) {
-        throw new Error(data.error || `Payment server error: ${response.status}`)
-      }
-
-      if (!data.clientSecret) {
-        throw new Error('Missing client secret in response')
-      }
-
-      setClientSecret(data.clientSecret)
-      setPaymentIntentId(data.paymentIntentId)
+      console.log('User signed in, redirecting to dashboard...')
+      setIsRegistering(false)
       
-      // User is now created with pending status, move to payment
-      setSignupStep('payment')
+      // Redirect directly to Constellation dashboard
+      navigate(ConstellationUrls.dashboard(), { replace: true })
       
     } catch (err: any) {
       console.error('Registration error:', err)
@@ -741,7 +717,7 @@ export default function ConstellationSignup() {
                   className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-light uppercase tracking-[0.2em] transition-all shadow-lg hover:shadow-xl text-xs sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ fontFamily: 'Outfit, sans-serif' }}
                 >
-                  {loading ? 'Criando conta...' : 'Criar Conta'}
+                  {loading ? 'Finalizando...' : 'Finalizar'}
                 </button>
               </div>
             )}
