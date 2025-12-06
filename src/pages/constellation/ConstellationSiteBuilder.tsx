@@ -6,6 +6,8 @@ import { useAuth } from '../../context/AuthContext'
 import { useTranslation } from 'react-i18next'
 import { ConstellationUrls } from '../../utils/constellationUrl'
 import ConstellationAuthHeader from '../../components/ConstellationAuthHeader'
+import TemplatePicker, { TEMPLATES } from '../../components/constellation/TemplatePicker'
+import SiteSettingsModal, { SiteSettingsData } from '../../components/constellation/SiteSettingsModal'
 import { 
   Globe, 
   ExternalLink, 
@@ -40,7 +42,8 @@ import {
   Trash2,
   Copy,
   Upload,
-  X
+  X,
+  Sparkles
 } from 'lucide-react'
 
 // Types for the editor
@@ -82,6 +85,12 @@ export default function ConstellationSiteBuilder() {
   const [activeLeftTab, setActiveLeftTab] = useState<'sections' | 'pages' | 'theme'>('sections')
   const [selectedSection, setSelectedSection] = useState<string | null>('hero')
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
+  
+  // Template and settings modals
+  const [showTemplatePicker, setShowTemplatePicker] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
+  const [selectedTemplate, setSelectedTemplate] = useState('stella')
+  
   const navigate = useNavigate()
   const { session, loading: authLoading } = useAuth()
   const { i18n } = useTranslation()
@@ -115,6 +124,42 @@ export default function ConstellationSiteBuilder() {
       linkedin: '',
       youtube: '',
     }
+  })
+
+  // Full site settings for the modal
+  const [fullSiteSettings, setFullSiteSettings] = useState<SiteSettingsData>({
+    siteName: '',
+    brandName: '',
+    siteTagline: '',
+    siteDescription: '',
+    logoUrl: '',
+    faviconUrl: '',
+    creciNumber: '',
+    primaryColor: '#6366f1',
+    secondaryColor: '#8b5cf6',
+    accentColor: '#06b6d4',
+    fontHeading: 'Inter',
+    fontBody: 'Inter',
+    darkMode: false,
+    contactEmail: '',
+    contactPhone: '',
+    contactWhatsapp: '',
+    contactAddress: '',
+    contactCity: '',
+    contactState: '',
+    socialInstagram: '',
+    socialFacebook: '',
+    socialLinkedin: '',
+    socialYoutube: '',
+    socialTiktok: '',
+    metaTitle: '',
+    metaDescription: '',
+    metaKeywords: '',
+    ogImageUrl: '',
+    googleAnalyticsId: '',
+    facebookPixelId: '',
+    customCss: '',
+    customHeadHtml: '',
   })
 
   // Site config from database
@@ -186,6 +231,45 @@ export default function ConstellationSiteBuilder() {
             youtube: data.social_youtube || '',
           }
         })
+        // Update template
+        if (data.template_id) {
+          setSelectedTemplate(data.template_id)
+        }
+        // Update full site settings for the modal
+        setFullSiteSettings({
+          siteName: data.site_name || '',
+          brandName: data.brand_name || '',
+          siteTagline: data.site_tagline || '',
+          siteDescription: data.site_description || '',
+          logoUrl: data.logo_url || '',
+          faviconUrl: data.favicon_url || '',
+          creciNumber: data.creci_number || '',
+          primaryColor: data.primary_color || '#6366f1',
+          secondaryColor: data.secondary_color || '#8b5cf6',
+          accentColor: data.accent_color || '#06b6d4',
+          fontHeading: data.font_heading || 'Inter',
+          fontBody: data.font_body || 'Inter',
+          darkMode: data.dark_mode || false,
+          contactEmail: data.contact_email || '',
+          contactPhone: data.contact_phone || '',
+          contactWhatsapp: data.contact_whatsapp || '',
+          contactAddress: data.contact_address || '',
+          contactCity: data.contact_city || '',
+          contactState: data.contact_state || '',
+          socialInstagram: data.social_instagram || '',
+          socialFacebook: data.social_facebook || '',
+          socialLinkedin: data.social_linkedin || '',
+          socialYoutube: data.social_youtube || '',
+          socialTiktok: data.social_tiktok || '',
+          metaTitle: data.meta_title || '',
+          metaDescription: data.meta_description || '',
+          metaKeywords: (data.meta_keywords || []).join(', '),
+          ogImageUrl: data.og_image_url || '',
+          googleAnalyticsId: data.google_analytics_id || '',
+          facebookPixelId: data.facebook_pixel_id || '',
+          customCss: data.custom_css || '',
+          customHeadHtml: data.custom_head_html || '',
+        })
         // Update sections from database
         if (data.sections) {
           const dbSections = data.sections as any[]
@@ -203,6 +287,54 @@ export default function ConstellationSiteBuilder() {
     }
   }
 
+  // Handle template selection
+  const handleTemplateSelect = (templateId: string) => {
+    setSelectedTemplate(templateId)
+    setShowTemplatePicker(false)
+    setHasUnsavedChanges(true)
+    // Update colors based on selected template
+    const template = TEMPLATES.find(t => t.id === templateId)
+    if (template) {
+      setSiteSettings(prev => ({
+        ...prev,
+        primaryColor: template.colorScheme.primary,
+        secondaryColor: template.colorScheme.secondary,
+      }))
+      setFullSiteSettings(prev => ({
+        ...prev,
+        primaryColor: template.colorScheme.primary,
+        secondaryColor: template.colorScheme.secondary,
+        accentColor: template.colorScheme.accent,
+      }))
+    }
+  }
+
+  // Handle settings save from modal
+  const handleSettingsSave = async (settings: SiteSettingsData) => {
+    setFullSiteSettings(settings)
+    // Also update the local siteSettings for backward compatibility
+    setSiteSettings({
+      siteName: settings.siteName,
+      logo: settings.logoUrl,
+      favicon: settings.faviconUrl,
+      primaryColor: settings.primaryColor,
+      secondaryColor: settings.secondaryColor,
+      font: settings.fontHeading,
+      contactEmail: settings.contactEmail,
+      contactPhone: settings.contactPhone,
+      whatsapp: settings.contactWhatsapp,
+      address: settings.contactAddress,
+      socialLinks: {
+        instagram: settings.socialInstagram,
+        facebook: settings.socialFacebook,
+        linkedin: settings.socialLinkedin,
+        youtube: settings.socialYoutube,
+      }
+    })
+    setHasUnsavedChanges(true)
+    setShowSettings(false)
+  }
+
   const handleSave = async () => {
     if (!memberData?.subdomain || !session?.user?.id) return
     
@@ -212,21 +344,39 @@ export default function ConstellationSiteBuilder() {
       const configData = {
         user_id: session.user.id,
         subdomain: memberData.subdomain,
-        site_name: siteSettings.siteName || memberData.full_name,
-        logo_url: siteSettings.logo,
-        favicon_url: siteSettings.favicon,
-        primary_color: siteSettings.primaryColor,
-        secondary_color: siteSettings.secondaryColor,
-        font_heading: siteSettings.font,
-        font_body: siteSettings.font,
-        contact_email: siteSettings.contactEmail || memberData.email,
-        contact_phone: siteSettings.contactPhone || memberData.phone,
-        contact_whatsapp: siteSettings.whatsapp,
-        contact_address: siteSettings.address,
-        social_instagram: siteSettings.socialLinks.instagram,
-        social_facebook: siteSettings.socialLinks.facebook,
-        social_linkedin: siteSettings.socialLinks.linkedin,
-        social_youtube: siteSettings.socialLinks.youtube,
+        template_id: selectedTemplate,
+        site_name: fullSiteSettings.siteName || siteSettings.siteName || memberData.full_name,
+        brand_name: fullSiteSettings.brandName,
+        site_tagline: fullSiteSettings.siteTagline,
+        site_description: fullSiteSettings.siteDescription,
+        logo_url: fullSiteSettings.logoUrl || siteSettings.logo,
+        favicon_url: fullSiteSettings.faviconUrl || siteSettings.favicon,
+        creci_number: fullSiteSettings.creciNumber,
+        primary_color: fullSiteSettings.primaryColor || siteSettings.primaryColor,
+        secondary_color: fullSiteSettings.secondaryColor || siteSettings.secondaryColor,
+        accent_color: fullSiteSettings.accentColor,
+        font_heading: fullSiteSettings.fontHeading || siteSettings.font,
+        font_body: fullSiteSettings.fontBody || siteSettings.font,
+        dark_mode: fullSiteSettings.darkMode,
+        contact_email: fullSiteSettings.contactEmail || siteSettings.contactEmail || memberData.email,
+        contact_phone: fullSiteSettings.contactPhone || siteSettings.contactPhone || memberData.phone,
+        contact_whatsapp: fullSiteSettings.contactWhatsapp || siteSettings.whatsapp,
+        contact_address: fullSiteSettings.contactAddress || siteSettings.address,
+        contact_city: fullSiteSettings.contactCity,
+        contact_state: fullSiteSettings.contactState,
+        social_instagram: fullSiteSettings.socialInstagram || siteSettings.socialLinks.instagram,
+        social_facebook: fullSiteSettings.socialFacebook || siteSettings.socialLinks.facebook,
+        social_linkedin: fullSiteSettings.socialLinkedin || siteSettings.socialLinks.linkedin,
+        social_youtube: fullSiteSettings.socialYoutube || siteSettings.socialLinks.youtube,
+        social_tiktok: fullSiteSettings.socialTiktok,
+        meta_title: fullSiteSettings.metaTitle,
+        meta_description: fullSiteSettings.metaDescription,
+        meta_keywords: fullSiteSettings.metaKeywords ? fullSiteSettings.metaKeywords.split(',').map(k => k.trim()) : [],
+        og_image_url: fullSiteSettings.ogImageUrl,
+        google_analytics_id: fullSiteSettings.googleAnalyticsId,
+        facebook_pixel_id: fullSiteSettings.facebookPixelId,
+        custom_css: fullSiteSettings.customCss,
+        custom_head_html: fullSiteSettings.customHeadHtml,
         sections: sections.map(s => ({ id: s.id, enabled: s.enabled, order: sections.indexOf(s) + 1, config: {} })),
         is_published: true,
         published_at: new Date().toISOString(),
@@ -432,6 +582,25 @@ export default function ConstellationSiteBuilder() {
 
               {/* Right - Actions */}
               <div className="flex items-center gap-2">
+                {/* Template Picker Button */}
+                <button
+                  onClick={() => setShowTemplatePicker(true)}
+                  className="hidden sm:flex items-center gap-2 px-3 py-2 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all border border-slate-700/50 hover:border-indigo-500/50"
+                  title={isPt ? 'Escolher Template' : 'Choose Template'}
+                >
+                  <Palette className="w-4 h-4" />
+                  <span className="text-xs font-medium">{isPt ? 'Template' : 'Template'}</span>
+                </button>
+                {/* Settings Button */}
+                <button
+                  onClick={() => setShowSettings(true)}
+                  className="hidden sm:flex items-center gap-2 px-3 py-2 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all border border-slate-700/50 hover:border-indigo-500/50"
+                  title={isPt ? 'Configurações do Site' : 'Site Settings'}
+                >
+                  <Settings className="w-4 h-4" />
+                  <span className="text-xs font-medium">{isPt ? 'Configurações' : 'Settings'}</span>
+                </button>
+                <div className="hidden sm:block w-px h-6 bg-slate-700/50" />
                 <button
                   onClick={handleRefresh}
                   className="p-2 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all"
@@ -900,6 +1069,25 @@ export default function ConstellationSiteBuilder() {
           </div>
         </div>
       </div>
+
+      {/* Template Picker Modal */}
+      <TemplatePicker
+        isOpen={showTemplatePicker}
+        onClose={() => setShowTemplatePicker(false)}
+        selectedTemplate={selectedTemplate}
+        onSelect={handleTemplateSelect}
+        isPt={isPt}
+      />
+
+      {/* Site Settings Modal */}
+      <SiteSettingsModal
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        settings={fullSiteSettings}
+        onSave={handleSettingsSave}
+        saving={saving}
+        isPt={isPt}
+      />
     </>
   )
 }
