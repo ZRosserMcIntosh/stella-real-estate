@@ -295,7 +295,7 @@ export default function Footer() {
             </a>
             <a href="https://tiktok.com/@stellarealbr" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
               <img 
-                src="/social-icons/tiktok-color.png" 
+                src="/social-icons/tiktok-icon.png" 
                 alt="TikTok" 
                 className="h-6 w-auto"
                 style={{ filter: 'brightness(0) invert(1)' }}
