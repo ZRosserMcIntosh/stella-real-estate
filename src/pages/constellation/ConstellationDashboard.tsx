@@ -347,97 +347,153 @@ export default function ConstellationDashboard() {
             </div>
           )}
 
-          {/* Subdomain Configuration */}
-          {selectedPlan && (
+          {/* Subdomain Configuration - Always visible */}
+          <div className="max-w-2xl mx-auto mb-10">
+            <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 bg-indigo-500/20 rounded-lg">
+                  <Globe className="w-5 h-5 text-indigo-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white">
+                    {isPt ? 'Endereço do Seu Site' : 'Your Site Address'}
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    {isPt ? 'Escolha o subdomínio para seu site profissional' : 'Choose the subdomain for your professional site'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex-1 relative">
+                  <div className="flex items-center bg-slate-800/80 border border-slate-600/50 rounded-xl overflow-hidden focus-within:border-indigo-500/50 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all">
+                    <input
+                      type="text"
+                      value={subdomainInput}
+                      onChange={handleSubdomainChange}
+                      placeholder={isPt ? 'seusite' : 'yoursite'}
+                      className="flex-1 px-4 py-3 bg-transparent text-white placeholder-slate-500 outline-none text-base"
+                      maxLength={30}
+                    />
+                    <span className="px-4 py-3 bg-slate-700/50 text-slate-400 text-sm font-medium border-l border-slate-600/50">
+                      .stellareal.com.br
+                    </span>
+                  </div>
+                  {subdomainError && (
+                    <p className="absolute -bottom-6 left-0 text-red-400 text-xs flex items-center gap-1">
+                      <XIcon className="w-3 h-3" />
+                      {subdomainError}
+                    </p>
+                  )}
+                </div>
+                
+                <button
+                  onClick={handleSaveSubdomain}
+                  disabled={subdomainSaving || subdomainInput === subdomain}
+                  className={`px-6 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+                    subdomainSuccess
+                      ? 'bg-green-600 text-white'
+                      : subdomainInput === subdomain
+                        ? 'bg-slate-700/50 text-slate-500 cursor-not-allowed'
+                        : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                  } ${subdomainSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {subdomainSaving ? (
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : subdomainSuccess ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      {isPt ? 'Salvo!' : 'Saved!'}
+                    </>
+                  ) : (
+                    <>
+                      <LinkIcon className="w-4 h-4" />
+                      {isPt ? 'Salvar' : 'Save'}
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Show current subdomain if set */}
+              {subdomain && (
+                <div className="mt-6 pt-4 border-t border-slate-700/50">
+                  <div className="flex items-center justify-between flex-wrap gap-3">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Check className="w-4 h-4 text-green-400" />
+                      <span className="text-slate-400">{isPt ? 'Seu site estará disponível em:' : 'Your site will be available at:'}</span>
+                    </div>
+                    <a
+                      href={`https://${subdomain}.stellareal.com.br`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-1.5 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-600/50 rounded-lg text-indigo-300 hover:text-indigo-200 text-sm font-medium transition-all group"
+                    >
+                      <span>{subdomain}.stellareal.com.br</span>
+                      <ExternalLink className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
+                    </a>
+                  </div>
+                  <p className="mt-2 text-xs text-slate-500">
+                    {isPt 
+                      ? 'Você poderá conectar seu próprio domínio (.com.br) depois que a plataforma for lançada.'
+                      : 'You can connect your own domain (.com.br) after the platform launches.'}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Current Plan Details - Only visible when plan is selected */}
+          {selectedPlan && currentPlan && (
             <div className="max-w-2xl mx-auto mb-10">
-              <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-indigo-500/20 rounded-lg">
-                    <Globe className="w-5 h-5 text-indigo-400" />
+              <div className="bg-gradient-to-br from-slate-900/80 via-indigo-900/20 to-slate-900/80 border border-indigo-500/30 rounded-2xl p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-lg bg-indigo-500/20 text-indigo-400`}>
+                      {currentPlan.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                        {isPt ? 'Seu Plano' : 'Your Plan'}: {currentPlan.name}
+                        <span className="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full font-medium">
+                          {isPt ? 'Ativo' : 'Active'}
+                        </span>
+                      </h3>
+                      <p className="text-sm text-slate-400">{currentPlan.description}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">
-                      {isPt ? 'Endereço do Seu Site' : 'Your Site Address'}
-                    </h3>
-                    <p className="text-sm text-slate-400">
-                      {isPt ? 'Escolha o subdomínio para seu site profissional' : 'Choose the subdomain for your professional site'}
-                    </p>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-white">R$ {currentPlan.founderPrice}</div>
+                    <div className="text-xs text-slate-400">/{isPt ? 'mês' : 'month'}</div>
+                    <div className="text-xs text-amber-400 mt-1">
+                      {isPt ? '12 meses grátis' : '12 months free'}
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <div className="flex-1 relative">
-                    <div className="flex items-center bg-slate-800/80 border border-slate-600/50 rounded-xl overflow-hidden focus-within:border-indigo-500/50 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all">
-                      <input
-                        type="text"
-                        value={subdomainInput}
-                        onChange={handleSubdomainChange}
-                        placeholder={isPt ? 'seusite' : 'yoursite'}
-                        className="flex-1 px-4 py-3 bg-transparent text-white placeholder-slate-500 outline-none text-base"
-                        maxLength={30}
-                      />
-                      <span className="px-4 py-3 bg-slate-700/50 text-slate-400 text-sm font-medium border-l border-slate-600/50">
-                        .stellareal.com.br
-                      </span>
+                {/* Plan Features */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4 pt-4 border-t border-slate-700/50">
+                  {currentPlan.features.map((feature, idx) => (
+                    <div key={idx} className="flex items-center gap-2 text-sm">
+                      <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                      <span className="text-slate-300">{feature.name}</span>
                     </div>
-                    {subdomainError && (
-                      <p className="absolute -bottom-6 left-0 text-red-400 text-xs flex items-center gap-1">
-                        <XIcon className="w-3 h-3" />
-                        {subdomainError}
-                      </p>
-                    )}
-                  </div>
-                  
-                  <button
-                    onClick={handleSaveSubdomain}
-                    disabled={subdomainSaving || subdomainInput === subdomain}
-                    className={`px-6 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
-                      subdomainSuccess
-                        ? 'bg-green-600 text-white'
-                        : subdomainInput === subdomain
-                          ? 'bg-slate-700/50 text-slate-500 cursor-not-allowed'
-                          : 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                    } ${subdomainSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  >
-                    {subdomainSaving ? (
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    ) : subdomainSuccess ? (
-                      <>
-                        <Check className="w-4 h-4" />
-                        {isPt ? 'Salvo!' : 'Saved!'}
-                      </>
-                    ) : (
-                      <>
-                        <LinkIcon className="w-4 h-4" />
-                        {isPt ? 'Salvar' : 'Save'}
-                      </>
-                    )}
-                  </button>
+                  ))}
                 </div>
 
-                {/* Show current subdomain if set */}
-                {subdomain && (
-                  <div className="mt-6 pt-4 border-t border-slate-700/50">
-                    <div className="flex items-center justify-between flex-wrap gap-3">
-                      <div className="flex items-center gap-2 text-sm">
-                        <Check className="w-4 h-4 text-green-400" />
-                        <span className="text-slate-400">{isPt ? 'Seu site estará disponível em:' : 'Your site will be available at:'}</span>
-                      </div>
-                      <a
-                        href={`https://${subdomain}.stellareal.com.br`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-1.5 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-600/50 rounded-lg text-indigo-300 hover:text-indigo-200 text-sm font-medium transition-all group"
-                      >
-                        <span>{subdomain}.stellareal.com.br</span>
-                        <ExternalLink className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
-                      </a>
-                    </div>
-                    <p className="mt-2 text-xs text-slate-500">
-                      {isPt 
-                        ? 'Você poderá conectar seu próprio domínio (.com.br) depois que a plataforma for lançada.'
-                        : 'You can connect your own domain (.com.br) after the platform launches.'}
-                    </p>
+                {/* Upgrade Button - only show if not on the highest plan */}
+                {currentPlan.id !== 'ENTERPRISE' && (
+                  <div className="pt-4 border-t border-slate-700/50">
+                    <button
+                      onClick={() => {
+                        // Scroll to plans section
+                        document.getElementById('plans-section')?.scrollIntoView({ behavior: 'smooth' })
+                      }}
+                      className="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-medium transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+                    >
+                      <Crown className="w-4 h-4" />
+                      {isPt ? 'Fazer Upgrade' : 'Upgrade Plan'}
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
                   </div>
                 )}
               </div>
@@ -455,7 +511,7 @@ export default function ConstellationDashboard() {
           </div>
 
           {/* Plans Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div id="plans-section" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {plans.map((plan) => {
               const isCurrentPlan = selectedPlan === plan.id
               const isEnterprise = plan.monthlyPrice === null
