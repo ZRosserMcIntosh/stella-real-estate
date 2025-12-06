@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 import { CheckCircle, Check, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import ConstellationHeader from '../components/ConstellationHeader'
@@ -55,9 +56,34 @@ export default function Constellation() {
   }, [])
 
   return (
-    <div className="bg-slate-950 text-slate-100 min-h-screen -mt-[var(--header-height,60px)]">
-      {/* Constellation Header */}
-      <ConstellationHeader />
+    <>
+      <Helmet>
+        <title>Constellation - Plataforma Completa para Corretores de Imóveis</title>
+        <meta name="description" content="Crie seu site, gerencie leads, gere tours 3D e automatize seu CRM. Plataforma completa para corretores a partir de R$ 99/mês. Vagas limitadas para corretores fundadores." />
+        
+        {/* Open Graph - WhatsApp, Facebook, LinkedIn */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://constellation.stellareal.com.br/constellation" />
+        <meta property="og:title" content="Constellation - Plataforma para Corretores" />
+        <meta property="og:description" content="Site + CRM + Tours 3D + Gestão de Equipe. Tudo em uma única plataforma por R$ 99/mês." />
+        <meta property="og:image" content="https://constellation.stellareal.com.br/constellation-og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Constellation - Plataforma Imobiliária" />
+        <meta property="og:site_name" content="Constellation by Stella Real Estate" />
+        <meta property="og:locale" content="pt_BR" />
+        
+        {/* Twitter/X */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@StellaRealBR" />
+        <meta name="twitter:title" content="Constellation - Plataforma para Corretores" />
+        <meta name="twitter:description" content="Site + CRM + Tours 3D + Gestão de Equipe. Tudo em uma única plataforma por R$ 99/mês." />
+        <meta name="twitter:image" content="https://constellation.stellareal.com.br/constellation-og-image.png" />
+      </Helmet>
+      
+      <div className="bg-slate-950 text-slate-100 min-h-screen -mt-[var(--header-height,60px)]">
+        {/* Constellation Header */}
+        <ConstellationHeader />
 
       {/* Sticky Floating CTA */}
       <div
@@ -1086,5 +1112,6 @@ export default function Constellation() {
         </div>
       </footer>
     </div>
+    </>
   )
 }
