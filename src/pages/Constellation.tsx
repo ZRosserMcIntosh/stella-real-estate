@@ -553,6 +553,181 @@ export default function Constellation() {
         </div>
       </section>
 
+      {/* Ballet Section - Inspired by Asana */}
+      <section className="py-24 lg:py-32 relative overflow-hidden">
+        {/* Background gradient effect */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-purple-950/20 to-slate-950" />
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{ 
+            backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(147, 51, 234) 1px, transparent 0)', 
+            backgroundSize: '48px 48px' 
+          }} />
+        </div>
+        
+        <div className="container-padded relative z-10">
+          <div className="max-w-7xl mx-auto">
+            {/* Header with Ballet Logo */}
+            <div className="text-center mb-20">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <img 
+                  src="/ballet-new-logo.png" 
+                  alt="Ballet" 
+                  className="h-12 w-auto"
+                />
+                <span className="text-3xl sm:text-4xl font-light text-white" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Ballet
+                </span>
+              </div>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+                Não é apenas um gerenciador de tarefas.
+                <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-rose-400">
+                  É tudo que sua imobiliária precisa.
+                </span>
+              </h2>
+              <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
+                Com Ballet, você gerencia projetos, acompanha negócios, coordena sua equipe e automatiza fluxos de trabalho—tudo em uma única plataforma integrada ao Constellation.
+              </p>
+            </div>
+
+            {/* Feature Grid - Asana-inspired */}
+            <div className="grid lg:grid-cols-3 gap-8 mb-16">
+              {/* Column 1 - Where Work Connects */}
+              <div className="bg-gradient-to-br from-purple-900/30 to-slate-900/50 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/40 transition-all">
+                <div className="w-14 h-14 rounded-xl bg-purple-500/20 flex items-center justify-center mb-6">
+                  <svg className="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-light text-white mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Clareza e Responsabilidade
+                </h3>
+                <p className="text-slate-400 leading-relaxed mb-4">
+                  Conecte o trabalho diário às metas da imobiliária. Mantenha todos focados no que importa com visibilidade em tempo real.
+                </p>
+                <ul className="space-y-2">
+                  {['Quadros Kanban personalizáveis', 'Visualização de Timeline', 'Metas e OKRs integrados'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-slate-300">
+                      <Check className="w-4 h-4 text-purple-400" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Column 2 - Maximize Impact */}
+              <div className="bg-gradient-to-br from-pink-900/30 to-slate-900/50 backdrop-blur-xl border border-pink-500/20 rounded-2xl p-8 hover:border-pink-500/40 transition-all">
+                <div className="w-14 h-14 rounded-xl bg-pink-500/20 flex items-center justify-center mb-6">
+                  <svg className="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-light text-white mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Maximize seu Impacto
+                </h3>
+                <p className="text-slate-400 leading-relaxed mb-4">
+                  Aumente a eficiência em todos os departamentos com automações inteligentes e fluxos de trabalho personalizados.
+                </p>
+                <ul className="space-y-2">
+                  {['Automações sem código', 'Templates de projetos', 'Integrações nativas'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-slate-300">
+                      <Check className="w-4 h-4 text-pink-400" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Column 3 - Scale with Confidence */}
+              <div className="bg-gradient-to-br from-rose-900/30 to-slate-900/50 backdrop-blur-xl border border-rose-500/20 rounded-2xl p-8 hover:border-rose-500/40 transition-all">
+                <div className="w-14 h-14 rounded-xl bg-rose-500/20 flex items-center justify-center mb-6">
+                  <svg className="w-7 h-7 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-light text-white mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Escale com Confiança
+                </h3>
+                <p className="text-slate-400 leading-relaxed mb-4">
+                  Conecte equipes e ferramentas em toda sua organização com segurança e controle de nível enterprise.
+                </p>
+                <ul className="space-y-2">
+                  {['Controle de permissões', 'Múltiplos workspaces', 'Histórico completo'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-slate-300">
+                      <Check className="w-4 h-4 text-rose-400" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Use Cases Row */}
+            <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 lg:p-12 mb-16">
+              <h3 className="text-2xl font-light text-white mb-8 text-center" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Um sistema para cada área da sua imobiliária
+              </h3>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  {
+                    title: 'Gestão de Vendas',
+                    description: 'Pipeline de negócios, acompanhamento de propostas e fechamentos',
+                    icon: '💼'
+                  },
+                  {
+                    title: 'Marketing',
+                    description: 'Campanhas, calendário de conteúdo e lançamentos de imóveis',
+                    icon: '📣'
+                  },
+                  {
+                    title: 'Operações',
+                    description: 'Documentação, vistorias e processos de locação',
+                    icon: '⚙️'
+                  },
+                  {
+                    title: 'Equipe',
+                    description: 'Onboarding, metas individuais e avaliação de desempenho',
+                    icon: '👥'
+                  }
+                ].map((useCase, i) => (
+                  <div key={i} className="text-center p-4">
+                    <div className="text-4xl mb-4">{useCase.icon}</div>
+                    <h4 className="text-lg font-medium text-white mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                      {useCase.title}
+                    </h4>
+                    <p className="text-sm text-slate-400">{useCase.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bottom CTA */}
+            <div className="text-center">
+              <p className="text-lg text-slate-300 mb-6" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                Ballet está <strong className="text-purple-400">incluído em todos os planos</strong> do Constellation
+              </p>
+              <a
+                href={ConstellationUrls.signup()}
+                onClick={(e) => {
+                  e.preventDefault()
+                  trackStartRegistration({ source: 'ballet_section', plan: 'founding_100' })
+                  trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
+                    source: 'ballet_section',
+                    plan: 'founding_100'
+                  })
+                }}
+                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105"
+              >
+                <span>Experimente Ballet com Constellation</span>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Key Benefits */}
       <section className="py-20 lg:py-24 relative">
         <div className="container-padded">
