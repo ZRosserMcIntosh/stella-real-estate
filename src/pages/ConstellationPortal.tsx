@@ -328,7 +328,7 @@ export default function ConstellationPortal() {
                 <img 
                   src="/tech-icons/trustpilot-white.svg" 
                   alt="Trustpilot" 
-                  className="h-5 opacity-70 hover:opacity-100 transition-opacity"
+                  className="h-5 hover:opacity-80 transition-opacity"
                 />
               </a>
               <div className="flex items-center gap-1">
@@ -336,7 +336,7 @@ export default function ConstellationPortal() {
                   href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 opacity-70 hover:opacity-100 transition-opacity"
+                  className="flex items-center gap-1 hover:opacity-80 transition-opacity"
                 >
                   <img 
                     src="/tech-icons/brazil-coat-of-arms.png" 
