@@ -296,14 +296,27 @@ export default function Constellation() {
               </div>
             </div>
 
-            {/* Trustpilot Logo */}
-            <div className="flex justify-center mt-8">
+            {/* Trust Badges */}
+            <div className="flex flex-wrap justify-center items-center gap-8 mt-8">
               <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
                 <img 
                   src="/tech-icons/trustpilot-white.svg" 
                   alt="Trustpilot" 
                   className="h-10 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
                 />
+              </a>
+              <a 
+                href="https://www.crecisp.gov.br/cidadao/corretordetalhes?registerNumber=309568-F" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+              >
+                <img 
+                  src="/tech-icons/brazil-coat-of-arms.png" 
+                  alt="Brasão da República Federativa do Brasil" 
+                  className="h-10"
+                />
+                <span className="text-sm text-slate-300 font-medium">CRECI-SP 309568</span>
               </a>
             </div>
           </div>
@@ -1102,10 +1115,23 @@ export default function Constellation() {
               <p className="text-slate-400 text-xs italic">Quando o valor é muito claro, as decisões são muito fáceis</p>
             </div>
 
-            {/* Trustpilot Logo */}
-            <div className="pt-6 flex justify-center">
+            {/* Trust Badges */}
+            <div className="pt-6 flex flex-wrap justify-center items-center gap-6">
               <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
                 <img src="/tech-icons/trustpilot-white.svg" alt="Trustpilot" className="h-10" />
+              </a>
+              <a 
+                href="https://www.crecisp.gov.br/cidadao/corretordetalhes?registerNumber=309568-F" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+              >
+                <img 
+                  src="/tech-icons/brazil-coat-of-arms.png" 
+                  alt="Brasão da República Federativa do Brasil" 
+                  className="h-10"
+                />
+                <span className="text-sm text-slate-300 font-medium">CRECI-SP 309568</span>
               </a>
             </div>
           </div>
