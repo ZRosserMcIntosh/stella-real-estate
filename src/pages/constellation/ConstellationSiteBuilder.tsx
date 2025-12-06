@@ -5,6 +5,7 @@ import { supabase } from '../../lib/supabaseClient'
 import { useAuth } from '../../context/AuthContext'
 import { useTranslation } from 'react-i18next'
 import { ConstellationUrls } from '../../utils/constellationUrl'
+import ConstellationAuthHeader from '../../components/ConstellationAuthHeader'
 import { 
   Layout, 
   Palette, 
@@ -81,7 +82,8 @@ export default function ConstellationSiteBuilder() {
         <meta name="description" content="Crie e personalize seu site profissional de imóveis com o construtor da Constellation." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-950">
+      <ConstellationAuthHeader />
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-950 pt-28">
       {/* Header */}
       <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm">
         <div className="container-padded py-4">

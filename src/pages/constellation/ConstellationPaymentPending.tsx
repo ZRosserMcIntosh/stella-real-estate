@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { supabase } from '../../lib/supabaseClient'
 import { ConstellationUrls } from '../../utils/constellationUrl'
 import { AlertCircle, Clock, CheckCircle, XCircle } from 'lucide-react'
+import ConstellationAuthHeader from '../../components/ConstellationAuthHeader'
 import type { Session } from '@supabase/supabase-js'
 
 export default function ConstellationPaymentPending() {
@@ -96,7 +97,8 @@ export default function ConstellationPaymentPending() {
         <meta name="description" content="Complete seu pagamento para garantir sua vaga no programa Founding 100 da Constellation." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center p-4">
+      <ConstellationAuthHeader />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center p-4 pt-36">
       <div className="max-w-2xl w-full bg-slate-800/50 backdrop-blur-sm rounded-2xl shadow-2xl border border-slate-700 p-8">
         {/* Header */}
         <div className="text-center mb-8">

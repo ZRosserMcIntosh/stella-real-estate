@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { supabase } from '../../lib/supabaseClient'
 import { useAuth } from '../../context/AuthContext'
 import { ConstellationUrls } from '../../utils/constellationUrl'
-import ConstellationHeader from '../../components/ConstellationHeader'
+import ConstellationAuthHeader from '../../components/ConstellationAuthHeader'
 
 // Declare gtag for TypeScript
 declare global {
@@ -98,7 +98,7 @@ export default function ConstellationDashboard() {
           <meta name="description" content="Acesse seu painel Constellation - Gerencie sua conta, acesse ferramentas de CRM e automação para corretores de imóveis." />
           <meta name="robots" content="noindex, nofollow" />
         </Helmet>
-        <ConstellationHeader />
+        <ConstellationAuthHeader />
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center pt-20">
           <div className="text-white text-xl">Carregando...</div>
         </div>
@@ -115,7 +115,7 @@ export default function ConstellationDashboard() {
           <meta name="description" content="Complete seu pagamento para ter acesso à plataforma Constellation." />
           <meta name="robots" content="noindex, nofollow" />
         </Helmet>
-        <ConstellationHeader />
+        <ConstellationAuthHeader />
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4 pt-24">
           <div className="max-w-2xl w-full bg-slate-900/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8 text-center">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
@@ -204,7 +204,7 @@ export default function ConstellationDashboard() {
           <meta name="description" content="Parabéns! Você é agora um membro Constellation Founding 100. Acesse suas ferramentas de CRM e automação." />
           <meta name="robots" content="noindex, nofollow" />
         </Helmet>
-        <ConstellationHeader />
+        <ConstellationAuthHeader />
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4 pt-24">
         <div className="max-w-2xl w-full bg-slate-900/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8 text-center">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center">
@@ -277,7 +277,7 @@ export default function ConstellationDashboard() {
   // Fallback - no payment record found
   return (
     <>
-      <ConstellationHeader />
+      <ConstellationAuthHeader />
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 flex items-center justify-center p-4 pt-24">
         <div className="max-w-2xl w-full bg-slate-900/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800/50 p-8 text-center">
           <p className="text-white">Nenhum registro de pagamento encontrado. Entre em contato com o suporte.</p>
