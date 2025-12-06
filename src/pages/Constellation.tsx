@@ -92,6 +92,15 @@ export default function Constellation() {
         
         <div className="container-padded relative z-10">
           <div className="max-w-5xl mx-auto text-center">
+            {/* Urgency Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-sm mb-6">
+              <div className="flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+              </div>
+              <span className="font-medium">Últimas {foundingSlotsRemaining} vagas para Corretores Fundadores</span>
+            </div>
+
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-indigo-400 to-purple-400">
                 Constellation
@@ -99,30 +108,54 @@ export default function Constellation() {
             </h1>
             
             <p className="text-2xl sm:text-3xl text-slate-300 mb-4 font-light">
-              Plataforma Completa para Corretores de Imóveis
+              Seu site, CRM e gestão em uma única plataforma.
             </p>
             
-            <p className="text-lg sm:text-xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Crie seu site, gerencie imóveis, cultive leads e feche negócios—tudo em uma plataforma poderosa projetada especificamente para corretores e imobiliárias.
+            <p className="text-lg sm:text-xl text-slate-400 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Pare de pagar por 5 ferramentas separadas. Crie seu site, gerencie leads, acompanhe negócios e gere tours 3D—tudo por R$ 99/mês como corretor fundador.
             </p>
 
+            {/* Quick Stats Row */}
+            <div className="flex flex-wrap justify-center gap-6 mb-10">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-emerald-400">50%</div>
+                <div className="text-xs text-slate-400">Desconto Vitalício</div>
+              </div>
+              <div className="w-px bg-slate-700 hidden sm:block" />
+              <div className="text-center">
+                <div className="text-2xl font-bold text-purple-400">80%+</div>
+                <div className="text-xs text-slate-400">Menos Visitas Perdidas</div>
+              </div>
+              <div className="w-px bg-slate-700 hidden sm:block" />
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-400">24/7</div>
+                <div className="text-xs text-slate-400">Tours 3D Online</div>
+              </div>
+            </div>
+
             <div className="flex flex-wrap gap-4 justify-center">
+              <a
+                href={ConstellationUrls.signup()}
+                onClick={(e) => {
+                  e.preventDefault()
+                  trackStartRegistration({ source: 'hero_cta', plan: 'founding_100' })
+                  trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
+                    source: 'hero_cta',
+                    plan: 'founding_100'
+                  })
+                }}
+                className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
+              >
+                Garantir Minha Vaga · R$ 99/mês
+              </a>
               <button
                 onClick={() => {
                   document.getElementById('pricing-section')?.scrollIntoView({ behavior: 'smooth' })
                 }}
-                className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
-              >
-                Ver Planos e Preços
-              </button>
-              <a
-                href="https://www.stellareal.com.br"
-                target="_blank"
-                rel="noopener noreferrer"
                 className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full font-medium transition-all border border-white/20 hover:border-white/30 text-lg"
               >
-                Explorar Site Criado com Constellation
-              </a>
+                Ver Todos os Planos
+              </button>
             </div>
           </div>
         </div>
@@ -136,22 +169,35 @@ export default function Constellation() {
               {/* Left: Explanation */}
               <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6 flex flex-col justify-between h-full">
                 <div>
+                  <h3 className="text-xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    Tours 3D que vendem enquanto você dorme
+                  </h3>
                   <p className="text-slate-300 mb-6 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                    Transformamos seus vídeos 2D em mundos 3D totalmente exploráveis. Você grava, nós criamos uma experiência imersiva onde seus clientes podem "caminhar" pelo imóvel como se estivessem lá.
+                    Você grava um vídeo simples do imóvel. Nós transformamos em uma experiência 3D interativa onde seus clientes "caminham" pelo espaço de qualquer lugar do mundo, 24 horas por dia.
                   </p>
                   
-                  <div className="text-left">
-                    <p className="text-blue-400 text-sm font-semibold mb-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                      Especificações Técnicas:
-                    </p>
-                    <ul className="text-blue-300 text-xs space-y-1 font-light leading-relaxed" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                      <li>• Estimativa de pose e mapeamento denso (~12min)</li>
-                      <li>• 3D Gaussian Splatting para síntese fotorrealista (~20-38min em GPUs L4/L40S)</li>
-                      <li>• Cenas web-optimized com splats tileados e compressão adaptativa</li>
-                      <li>• Renderização high-FPS em browser sem plugins</li>
-                      <li>• Armazenamento S3 multi-tier + entrega via CDN edge-cached</li>
-                      <li>• Custos variáveis: disponibilidade GPU, consumo energético datacenter, demanda computacional</li>
-                    </ul>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-medium">Reduz 80%+ das visitas improdutivas</span>
+                        <p className="text-sm text-slate-400">Clientes já conhecem o imóvel antes de agendar</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-medium">Funciona em qualquer celular ou computador</span>
+                        <p className="text-sm text-slate-400">Sem app, sem plugins, direto no navegador</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <span className="text-white font-medium">Entrega rápida</span>
+                        <p className="text-sm text-slate-400">Seu tour pronto em até 48 horas</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -239,19 +285,22 @@ export default function Constellation() {
       </section>
 
       {/* Pricing Teaser */}
-      <section id="pricing-section" className="py-20 lg:py-24 relative">
+      <section id="pricing-section" className="py-20 lg:py-24 relative scroll-mt-20">
         <div className="container-padded">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-sm mb-4">
+                <span className="font-medium">🎁 Oferta de Lançamento: 50% OFF Vitalício</span>
+              </div>
               <h2 className="text-3xl md:text-4xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                Planos Constellation
+                Escolha Seu Plano
               </h2>
               <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-4">
-                Planos flexíveis para todos os tamanhos de negócio
+                Corretores fundadores garantem o preço de pré-cadastro para sempre
               </p>
-              <div className="inline-block bg-blue-900/30 border border-blue-500/50 rounded-lg px-6 py-3 max-w-3xl">
-                <p className="text-sm text-blue-300 font-light leading-relaxed">
-                  <span className="font-semibold">Importante:</span> A plataforma é atualmente somente por convite, mas será lançada EXCLUSIVAMENTE para pré-cadastrados em Janeiro. Após o lançamento, devido a limitações de GPU, aceitaremos entre 1-3 novos cadastros por semana conforme escalamos. Cadastrar-se agora garante sua vaga.
+              <div className="inline-block bg-amber-900/30 border border-amber-500/50 rounded-lg px-6 py-3 max-w-3xl">
+                <p className="text-sm text-amber-300 font-light leading-relaxed">
+                  <span className="font-semibold">⚡ Vagas Limitadas:</span> Lançamento exclusivo para pré-cadastrados em Janeiro 2026. Após o lançamento, novos cadastros serão aceitos gradualmente (1-3/semana). Garanta sua vaga agora.
                 </p>
               </div>
             </div>
@@ -356,7 +405,9 @@ export default function Constellation() {
                     { name: 'Suporte prioritário + chat', included: true },
                   ],
                   popular: false,
-                  cta: 'Chegando T2 2026',
+                  cta: 'Entrar na Lista de Espera',
+                  preRegisterPrice: 'R$ 499/mês para pré-cadastrados',
+                  afterLaunchPrice: 'R$ 999/mês após Janeiro'
                 },
                 {
                   id: 'ENTERPRISE',
@@ -855,11 +906,19 @@ export default function Constellation() {
       <section className="py-20 lg:py-24 relative">
         <div className="container-padded">
           <div className="max-w-4xl mx-auto text-center">
+            {/* Urgency reminder */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-400 text-sm mb-6">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Preço de R$ 99/mês só até Janeiro 2026</span>
+            </div>
+            
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif' }}>
-              Pronto para Transformar Seu Negócio Imobiliário?
+              Últimas {foundingSlotsRemaining} vagas para Corretores Fundadores
             </h2>
             <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-              Seja um dos primeiros 100 corretores fundadores e garanta benefícios vitalícios.
+              Garanta 50% de desconto vitalício + acesso prioritário ao lançamento em Janeiro.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <a
