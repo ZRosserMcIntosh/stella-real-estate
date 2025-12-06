@@ -66,22 +66,22 @@ export default function ConstellationPortal() {
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://constellation.stellareal.com.br/" />
-        <meta property="og:title" content="Constellation - Plataforma Imobiliária e CRM para Corretores" />
-        <meta property="og:description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A plataforma completa para corretores." />
-        <meta property="og:image" content="https://stellareal.com.br/constellation-og-image.png" />
+        <meta property="og:title" content="Constellation - Plataforma Profissional para Corretores" />
+        <meta property="og:description" content="Site + CRM + Tours 3D + Gestão de Tarefas. A plataforma completa para corretores que querem trabalhar de forma mais inteligente." />
+        <meta property="og:image" content="https://constellation.stellareal.com.br/constellation-og-image.png?v=2" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:site_name" content="Constellation by Stella Real Estate" />
+        <meta property="og:site_name" content="Constellation" />
         
         {/* Twitter/X */}
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:site" content="@StellaRealBR" />
         <meta property="twitter:creator" content="@StellaRealBR" />
         <meta property="twitter:url" content="https://constellation.stellareal.com.br/" />
-        <meta property="twitter:title" content="Constellation - Plataforma Imobiliária e CRM para Corretores" />
-        <meta property="twitter:description" content="Crie sites profissionais, gerencie leads, gere mapas 3D e automatize seu marketing imobiliário. A partir de R$ 149/mês." />
-        <meta property="twitter:image" content="https://stellareal.com.br/constellation-og-image.png" />
+        <meta property="twitter:title" content="Constellation - Plataforma Profissional para Corretores" />
+        <meta property="twitter:description" content="Site + CRM + Tours 3D + Gestão de Tarefas. A plataforma completa para corretores." />
+        <meta property="twitter:image" content="https://constellation.stellareal.com.br/constellation-og-image.png?v=2" />
         
         {/* Language and Geo */}
         <meta httpEquiv="content-language" content="pt-BR" />
