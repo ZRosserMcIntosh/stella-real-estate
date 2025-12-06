@@ -8,6 +8,7 @@ import { ConstellationUrls } from '../../utils/constellationUrl'
 import ConstellationAuthHeader from '../../components/ConstellationAuthHeader'
 import { Check, X as XIcon, Sparkles, ArrowRight, Crown, Building2, Users, Zap, Globe, Link as LinkIcon, ExternalLink } from 'lucide-react'
 
+// Declare gtag for TypeScript
 declare global {
   interface Window {
     gtag?: (
@@ -28,93 +29,88 @@ interface Plan {
   features: { name: string; included: boolean }[]
   popular: boolean
   icon: React.ReactNode
-  color: string
 }
 
 const plans: Plan[] = [
   {
     id: 'PRO',
     name: 'Pro',
-    tagline: 'Para corretores autônomos',
-    description: 'Tudo que você precisa para destacar seus imóveis online',
-    monthlyPrice: 97,
-    founderPrice: 0,
+    tagline: 'Comece agora',
+    description: 'Corretor autônomo que quer seu próprio site profissional',
+    monthlyPrice: 199,
+    founderPrice: 99,
     features: [
-      { name: 'Site profissional personalizado', included: true },
-      { name: 'Até 50 imóveis ativos', included: true },
-      { name: 'Integração com portais', included: true },
-      { name: 'CRM básico', included: true },
-      { name: 'Suporte por email', included: true },
-      { name: 'Equipe de corretores', included: false },
-      { name: 'Relatórios avançados', included: false },
-      { name: 'API personalizada', included: false },
+      { name: '1 site profissional', included: true },
+      { name: 'Até 50 anúncios ativos', included: true },
+      { name: 'Domínio próprio (.com.br)', included: true },
+      { name: '3.000 contatos CRM', included: true },
+      { name: '2 pipelines de vendas', included: true },
+      { name: '2 tours 3D/mês', included: true },
+      { name: 'Automações básicas', included: true },
+      { name: '2 usuários', included: true },
     ],
     popular: false,
     icon: <Zap className="w-6 h-6" />,
-    color: 'indigo',
   },
   {
     id: 'TEAM',
     name: 'Team',
-    tagline: 'Para pequenas equipes',
-    description: 'Colabore com sua equipe e multiplique resultados',
-    monthlyPrice: 197,
-    founderPrice: 0,
+    tagline: 'Mais popular',
+    description: 'Pequenas equipes prontas para escalar suas operações',
+    monthlyPrice: 399,
+    founderPrice: 199,
     features: [
-      { name: 'Tudo do Pro', included: true },
-      { name: 'Até 200 imóveis ativos', included: true },
-      { name: 'Até 5 corretores', included: true },
-      { name: 'CRM completo', included: true },
-      { name: 'Relatórios de equipe', included: true },
-      { name: 'Suporte prioritário', included: true },
-      { name: 'Multi-imobiliárias', included: false },
-      { name: 'API personalizada', included: false },
+      { name: '2 sites completos', included: true },
+      { name: 'Até 150 anúncios ativos', included: true },
+      { name: 'Domínio próprio (.com.br)', included: true },
+      { name: '10.000 contatos CRM', included: true },
+      { name: 'Pipelines ilimitados', included: true },
+      { name: '5 tours 3D/mês', included: true },
+      { name: 'Automações completas', included: true },
+      { name: '5 usuários + permissões', included: true },
+      { name: 'White label (sua marca)', included: true },
     ],
     popular: true,
     icon: <Users className="w-6 h-6" />,
-    color: 'purple',
   },
   {
     id: 'BROKERAGE',
     name: 'Brokerage',
     tagline: 'Para imobiliárias',
-    description: 'Gerencie toda sua imobiliária em um só lugar',
-    monthlyPrice: 397,
-    founderPrice: 0,
+    description: 'Imobiliárias com múltiplas equipes e grande volume',
+    monthlyPrice: 999,
+    founderPrice: 499,
     features: [
-      { name: 'Tudo do Team', included: true },
-      { name: 'Imóveis ilimitados', included: true },
-      { name: 'Corretores ilimitados', included: true },
-      { name: 'Múltiplas filiais', included: true },
-      { name: 'Relatórios avançados', included: true },
-      { name: 'Integração contábil', included: true },
-      { name: 'Gerente de conta dedicado', included: true },
-      { name: 'API personalizada', included: false },
+      { name: '3 sites completos', included: true },
+      { name: 'Até 500 anúncios ativos', included: true },
+      { name: 'Múltiplos domínios', included: true },
+      { name: '50.000 contatos CRM', included: true },
+      { name: 'Pipelines ilimitados', included: true },
+      { name: '20 tours 3D/mês', included: true },
+      { name: '30 usuários + RBAC', included: true },
+      { name: 'White label completo', included: true },
+      { name: 'Suporte VIP', included: true },
     ],
     popular: false,
     icon: <Building2 className="w-6 h-6" />,
-    color: 'amber',
   },
   {
     id: 'ENTERPRISE',
     name: 'Enterprise',
-    tagline: 'Soluções personalizadas',
-    description: 'Para grandes operações com necessidades específicas',
+    tagline: 'Sob medida',
+    description: 'Redes e incorporadoras com operações complexas',
     monthlyPrice: null,
     founderPrice: null,
     features: [
-      { name: 'Tudo do Brokerage', included: true },
-      { name: 'API personalizada', included: true },
-      { name: 'Integrações sob demanda', included: true },
-      { name: 'SLA garantido', included: true },
-      { name: 'Suporte 24/7', included: true },
-      { name: 'Treinamento personalizado', included: true },
-      { name: 'Customizações exclusivas', included: true },
-      { name: 'White-label disponível', included: true },
+      { name: 'Sites ilimitados', included: true },
+      { name: 'Anúncios ilimitados', included: true },
+      { name: 'Contatos ilimitados', included: true },
+      { name: 'Usuários ilimitados', included: true },
+      { name: 'Tours 3D sob demanda', included: true },
+      { name: 'SLA + gerente dedicado', included: true },
     ],
     popular: false,
     icon: <Crown className="w-6 h-6" />,
-    color: 'rose',
   },
 ]
 
@@ -122,7 +118,7 @@ export default function ConstellationDashboard() {
   const [loading, setLoading] = useState(true)
   const [memberData, setMemberData] = useState<any>(null)
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
-  const [savingPlan, setSavingPlan] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [subdomain, setSubdomain] = useState('')
   const [subdomainInput, setSubdomainInput] = useState('')
   const [subdomainError, setSubdomainError] = useState('')
@@ -135,44 +131,56 @@ export default function ConstellationDashboard() {
 
   useEffect(() => {
     if (authLoading) return
+    
     if (!session) {
       navigate(ConstellationUrls.login(), { replace: true })
       return
     }
+
     fetchMemberData()
   }, [session, authLoading])
 
   const fetchMemberData = async () => {
-    if (!session?.user?.email) return
     try {
       const { data, error } = await supabase
         .from('founding_members')
         .select('*')
-        .eq('email', session.user.email)
+        .eq('user_id', session?.user?.id)
         .single()
+
       if (error) {
         console.error('Error fetching member data:', error)
-      } else {
-        setMemberData(data)
-        setSelectedPlan(data?.selected_plan || null)
-        setSubdomain(data?.subdomain || '')
-        setSubdomainInput(data?.subdomain || '')
+        setLoading(false)
+        return
       }
+
+      setMemberData(data)
+      setSelectedPlan(data?.selected_plan || null)
+      setSubdomain(data?.subdomain || '')
+      setSubdomainInput(data?.subdomain || '')
+      setLoading(false)
     } catch (err) {
       console.error('Error:', err)
-    } finally {
       setLoading(false)
     }
   }
 
+  // Validate subdomain format
   const validateSubdomain = (value: string): string | null => {
     if (!value) return isPt ? 'Subdomínio é obrigatório' : 'Subdomain is required'
     if (value.length < 3) return isPt ? 'Mínimo 3 caracteres' : 'Minimum 3 characters'
     if (value.length > 30) return isPt ? 'Máximo 30 caracteres' : 'Maximum 30 characters'
-    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(value)) {
+    if (/^[0-9-]/.test(value)) return isPt ? 'Deve começar com letra' : 'Must start with a letter'
+    if (/[-]$/.test(value)) return isPt ? 'Não pode terminar com hífen' : 'Cannot end with a hyphen'
+    if (/--/.test(value)) return isPt ? 'Não use hífens consecutivos' : 'No consecutive hyphens'
+    if (!/^[a-z][a-z0-9-]*[a-z0-9]$/.test(value) && value.length > 2) {
       return isPt ? 'Use apenas letras minúsculas, números e hífens' : 'Use only lowercase letters, numbers and hyphens'
     }
-    const reserved = ['www', 'api', 'admin', 'app', 'mail', 'ftp', 'blog', 'shop', 'store', 'constellation', 'ballet', 'stella']
+    if (value.length === 3 && !/^[a-z][a-z0-9]{2}$|^[a-z][a-z0-9]-?[a-z0-9]$/.test(value)) {
+      return isPt ? 'Use apenas letras minúsculas, números e hífens' : 'Use only lowercase letters, numbers and hyphens'
+    }
+    // Reserved subdomains
+    const reserved = ['admin', 'api', 'app', 'www', 'mail', 'ftp', 'constellation', 'stella', 'stellareal', 'test', 'demo', 'blog', 'help', 'support']
     if (reserved.includes(value)) return isPt ? 'Este subdomínio está reservado' : 'This subdomain is reserved'
     return null
   }
@@ -190,32 +198,44 @@ export default function ConstellationDashboard() {
       setSubdomainError(error)
       return
     }
+
     setSubdomainSaving(true)
     setSubdomainError('')
+
     try {
+      // Check if subdomain is already taken
       const { data: existing } = await supabase
         .from('founding_members')
         .select('id')
         .eq('subdomain', subdomainInput)
-        .neq('email', session?.user?.email || '')
+        .neq('user_id', session?.user?.id)
         .single()
+
       if (existing) {
         setSubdomainError(isPt ? 'Este subdomínio já está em uso' : 'This subdomain is already taken')
         setSubdomainSaving(false)
         return
       }
-      const { error: updateError } = await supabase
+
+      const { error } = await supabase
         .from('founding_members')
-        .update({ subdomain: subdomainInput, subdomain_set_at: new Date().toISOString() })
-        .eq('email', session?.user?.email || '')
-      if (updateError) {
+        .update({ 
+          subdomain: subdomainInput,
+          subdomain_set_at: new Date().toISOString()
+        })
+        .eq('user_id', session?.user?.id)
+
+      if (error) {
+        console.error('Error saving subdomain:', error)
         setSubdomainError(isPt ? 'Erro ao salvar. Tente novamente.' : 'Error saving. Please try again.')
       } else {
         setSubdomain(subdomainInput)
+        setMemberData((prev: any) => ({ ...prev, subdomain: subdomainInput }))
         setSubdomainSuccess(true)
         setTimeout(() => setSubdomainSuccess(false), 3000)
       }
     } catch (err) {
+      console.error('Error:', err)
       setSubdomainError(isPt ? 'Erro ao salvar. Tente novamente.' : 'Error saving. Please try again.')
     } finally {
       setSubdomainSaving(false)
@@ -224,26 +244,42 @@ export default function ConstellationDashboard() {
 
   const handleSelectPlan = async (planId: string) => {
     if (planId === 'ENTERPRISE') {
-      window.open('https://wa.me/5511999999999?text=Olá! Tenho interesse no plano Enterprise da Constellation.', '_blank')
+      // Open WhatsApp for enterprise inquiries
+      window.open('https://wa.me/5511985853836?text=Olá! Tenho interesse no plano Enterprise da Constellation.', '_blank')
       return
     }
-    setSavingPlan(true)
+
+    setSaving(true)
     try {
       const { error } = await supabase
         .from('founding_members')
-        .update({ selected_plan: planId, plan_selected_at: new Date().toISOString() })
-        .eq('email', session?.user?.email || '')
-      if (!error) {
+        .update({ 
+          selected_plan: planId,
+          plan_selected_at: new Date().toISOString()
+        })
+        .eq('user_id', session?.user?.id)
+
+      if (error) {
+        console.error('Error updating plan:', error)
+        alert('Erro ao selecionar plano. Tente novamente.')
+      } else {
         setSelectedPlan(planId)
+        setMemberData((prev: any) => ({ ...prev, selected_plan: planId }))
       }
     } catch (err) {
-      console.error('Error saving plan:', err)
+      console.error('Error:', err)
+      alert('Erro ao selecionar plano. Tente novamente.')
     } finally {
-      setSavingPlan(false)
+      setSaving(false)
     }
   }
 
-  if (loading || authLoading) {
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    navigate(ConstellationUrls.login())
+  }
+
+  if (loading) {
     return (
       <>
         <Helmet>
@@ -267,33 +303,51 @@ export default function ConstellationDashboard() {
     <>
       <Helmet>
         <title>Escolha seu Plano - Constellation Dashboard</title>
-        <meta name="description" content="Escolha o plano ideal para suas necessidades." />
+        <meta name="description" content="Escolha o plano ideal para suas necessidades. Corretores, equipes e imobiliárias." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <ConstellationAuthHeader />
+      
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 pt-32 pb-16 px-4">
         <div className="max-w-7xl mx-auto">
+          {/* Welcome Section */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-indigo-300 text-sm mb-4">
               <Sparkles className="w-4 h-4" />
               {isPt ? 'Membro Fundador' : 'Founding Member'}
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
-              {isPt ? \`Olá, \${memberData?.full_name?.split(' ')[0] || 'Corretor'}!\` : \`Hello, \${memberData?.full_name?.split(' ')[0] || 'Realtor'}!\`}
+              {isPt ? `Olá, ${memberData?.full_name?.split(' ')[0] || 'Corretor'}!` : `Hello, ${memberData?.full_name?.split(' ')[0] || 'Realtor'}!`}
             </h1>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-              {selectedPlan ? (isPt ? \`Você está no plano \${currentPlan?.name}.\` : \`You're on the \${currentPlan?.name} plan.\`) : (isPt ? 'Escolha o plano ideal para começar.' : 'Choose the ideal plan to start.')}
+              {selectedPlan ? (
+                isPt 
+                  ? `Você está no plano ${currentPlan?.name}. Sua plataforma está sendo preparada.`
+                  : `You're on the ${currentPlan?.name} plan. Your platform is being prepared.`
+              ) : (
+                isPt 
+                  ? 'Escolha o plano ideal para começar a usar a Constellation.'
+                  : 'Choose the ideal plan to start using Constellation.'
+              )}
             </p>
           </div>
+
+          {/* Current Plan Badge */}
           {selectedPlan && (
             <div className="flex justify-center mb-8">
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-green-500/10 border border-green-500/30 rounded-xl">
                 <Check className="w-5 h-5 text-green-400" />
-                <span className="text-green-300 font-medium">{isPt ? \`Plano: \${currentPlan?.name}\` : \`Plan: \${currentPlan?.name}\`}</span>
-                <span className="text-green-400 font-bold">R$ {currentPlan?.founderPrice}/mês</span>
+                <span className="text-green-300 font-medium">
+                  {isPt ? `Plano selecionado: ${currentPlan?.name}` : `Selected plan: ${currentPlan?.name}`}
+                </span>
+                <span className="text-green-400 font-bold">
+                  R$ {currentPlan?.founderPrice}/mês
+                </span>
               </div>
             </div>
           )}
+
+          {/* Subdomain Configuration */}
           {selectedPlan && (
             <div className="max-w-2xl mx-auto mb-10">
               <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-6">
@@ -302,90 +356,285 @@ export default function ConstellationDashboard() {
                     <Globe className="w-5 h-5 text-indigo-400" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white">{isPt ? 'Endereço do Seu Site' : 'Your Site Address'}</h3>
-                    <p className="text-sm text-slate-400">{isPt ? 'Escolha o subdomínio para seu site' : 'Choose the subdomain for your site'}</p>
+                    <h3 className="text-lg font-semibold text-white">
+                      {isPt ? 'Endereço do Seu Site' : 'Your Site Address'}
+                    </h3>
+                    <p className="text-sm text-slate-400">
+                      {isPt ? 'Escolha o subdomínio para seu site profissional' : 'Choose the subdomain for your professional site'}
+                    </p>
                   </div>
                 </div>
+
                 <div className="flex flex-col sm:flex-row gap-3">
                   <div className="flex-1 relative">
-                    <div className="flex items-center bg-slate-800/80 border border-slate-600/50 rounded-xl overflow-hidden focus-within:border-indigo-500/50">
-                      <input type="text" value={subdomainInput} onChange={handleSubdomainChange} placeholder={isPt ? 'seusite' : 'yoursite'} className="flex-1 px-4 py-3 bg-transparent text-white placeholder-slate-500 outline-none" maxLength={30} />
-                      <span className="px-4 py-3 bg-slate-700/50 text-slate-400 text-sm font-medium border-l border-slate-600/50">.stellareal.com.br</span>
+                    <div className="flex items-center bg-slate-800/80 border border-slate-600/50 rounded-xl overflow-hidden focus-within:border-indigo-500/50 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all">
+                      <input
+                        type="text"
+                        value={subdomainInput}
+                        onChange={handleSubdomainChange}
+                        placeholder={isPt ? 'seusite' : 'yoursite'}
+                        className="flex-1 px-4 py-3 bg-transparent text-white placeholder-slate-500 outline-none text-base"
+                        maxLength={30}
+                      />
+                      <span className="px-4 py-3 bg-slate-700/50 text-slate-400 text-sm font-medium border-l border-slate-600/50">
+                        .stellareal.com.br
+                      </span>
                     </div>
-                    {subdomainError && <p className="absolute -bottom-6 left-0 text-red-400 text-xs flex items-center gap-1"><XIcon className="w-3 h-3" />{subdomainError}</p>}
+                    {subdomainError && (
+                      <p className="absolute -bottom-6 left-0 text-red-400 text-xs flex items-center gap-1">
+                        <XIcon className="w-3 h-3" />
+                        {subdomainError}
+                      </p>
+                    )}
                   </div>
-                  <button onClick={handleSaveSubdomain} disabled={subdomainSaving || subdomainInput === subdomain} className={\`px-6 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 \${subdomainSuccess ? 'bg-green-600 text-white' : subdomainInput === subdomain ? 'bg-slate-700/50 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 text-white'}\`}>
-                    {subdomainSaving ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : subdomainSuccess ? <><Check className="w-4 h-4" />{isPt ? 'Salvo!' : 'Saved!'}</> : <><LinkIcon className="w-4 h-4" />{isPt ? 'Salvar' : 'Save'}</>}
+                  
+                  <button
+                    onClick={handleSaveSubdomain}
+                    disabled={subdomainSaving || subdomainInput === subdomain}
+                    className={`px-6 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+                      subdomainSuccess
+                        ? 'bg-green-600 text-white'
+                        : subdomainInput === subdomain
+                          ? 'bg-slate-700/50 text-slate-500 cursor-not-allowed'
+                          : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                    } ${subdomainSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  >
+                    {subdomainSaving ? (
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : subdomainSuccess ? (
+                      <>
+                        <Check className="w-4 h-4" />
+                        {isPt ? 'Salvo!' : 'Saved!'}
+                      </>
+                    ) : (
+                      <>
+                        <LinkIcon className="w-4 h-4" />
+                        {isPt ? 'Salvar' : 'Save'}
+                      </>
+                    )}
                   </button>
                 </div>
+
+                {/* Show current subdomain if set */}
                 {subdomain && (
                   <div className="mt-6 pt-4 border-t border-slate-700/50">
                     <div className="flex items-center justify-between flex-wrap gap-3">
                       <div className="flex items-center gap-2 text-sm">
                         <Check className="w-4 h-4 text-green-400" />
-                        <span className="text-slate-400">{isPt ? 'Seu site:' : 'Your site:'}</span>
+                        <span className="text-slate-400">{isPt ? 'Seu site estará disponível em:' : 'Your site will be available at:'}</span>
                       </div>
-                      <a href={\`https://\${subdomain}.stellareal.com.br\`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/30 rounded-lg text-indigo-300 text-sm font-medium">
-                        {subdomain}.stellareal.com.br<ExternalLink className="w-4 h-4" />
+                      <a
+                        href={`https://${subdomain}.stellareal.com.br`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-600/50 rounded-lg text-indigo-300 hover:text-indigo-200 text-sm font-medium transition-all group"
+                      >
+                        <span>{subdomain}.stellareal.com.br</span>
+                        <ExternalLink className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
                       </a>
                     </div>
+                    <p className="mt-2 text-xs text-slate-500">
+                      {isPt 
+                        ? 'Você poderá conectar seu próprio domínio (.com.br) depois que a plataforma for lançada.'
+                        : 'You can connect your own domain (.com.br) after the platform launches.'}
+                    </p>
                   </div>
                 )}
               </div>
             </div>
           )}
-          <div className="max-w-4xl mx-auto mb-10">
-            <div className="bg-gradient-to-r from-amber-500/10 via-amber-600/10 to-amber-500/10 border border-amber-500/30 rounded-2xl p-6 text-center">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/20 rounded-full text-amber-300 text-xs font-medium mb-3">
-                <Crown className="w-3 h-3" />{isPt ? 'OFERTA EXCLUSIVA' : 'EXCLUSIVE OFFER'}
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">{isPt ? '12 meses grátis em qualquer plano!' : '12 months free on any plan!'}</h3>
-              <p className="text-amber-200/80 text-sm">{isPt ? 'Como membro fundador, você tem acesso gratuito durante o primeiro ano.' : 'As a founding member, you have free access during the first year.'}</p>
-            </div>
+
+          {/* Founder Pricing Banner */}
+          <div className="mb-10 p-4 bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-amber-500/10 border border-amber-500/20 rounded-xl text-center">
+            <p className="text-amber-200 text-sm md:text-base">
+              <span className="font-semibold">🎉 {isPt ? 'Preço de Membro Fundador' : 'Founding Member Pricing'}:</span>{' '}
+              {isPt 
+                ? '12 meses grátis no valor atual. Depois, você paga o preço promocional que travou hoje.'
+                : '12 months free at current value. Then pay the promotional price you locked in today.'}
+            </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+
+          {/* Plans Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {plans.map((plan) => {
-              const isSelected = selectedPlan === plan.id
-              const colorClasses: Record<string, string> = { indigo: 'border-indigo-500/50 bg-indigo-500/5', purple: 'border-purple-500/50 bg-purple-500/5', amber: 'border-amber-500/50 bg-amber-500/5', rose: 'border-rose-500/50 bg-rose-500/5' }
-              const buttonColorClasses: Record<string, string> = { indigo: 'bg-indigo-600 hover:bg-indigo-700', purple: 'bg-purple-600 hover:bg-purple-700', amber: 'bg-amber-600 hover:bg-amber-700', rose: 'bg-rose-600 hover:bg-rose-700' }
-              const iconColorClasses: Record<string, string> = { indigo: 'text-indigo-400 bg-indigo-500/20', purple: 'text-purple-400 bg-purple-500/20', amber: 'text-amber-400 bg-amber-500/20', rose: 'text-rose-400 bg-rose-500/20' }
+              const isCurrentPlan = selectedPlan === plan.id
+              const isEnterprise = plan.monthlyPrice === null
+              
               return (
-                <div key={plan.id} className={\`relative rounded-2xl p-6 transition-all \${isSelected ? colorClasses[plan.color] : 'bg-slate-900/60 border border-slate-700/50 hover:border-slate-600'}\`}>
-                  {plan.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2"><span className="px-3 py-1 bg-purple-600 text-white text-xs font-medium rounded-full">{isPt ? 'Mais Popular' : 'Most Popular'}</span></div>}
-                  {isSelected && <div className="absolute top-4 right-4"><div className="p-1 bg-green-500 rounded-full"><Check className="w-4 h-4 text-white" /></div></div>}
-                  <div className={\`inline-flex p-3 rounded-xl \${iconColorClasses[plan.color]} mb-4\`}>{plan.icon}</div>
-                  <h3 className="text-xl font-bold text-white mb-1">{plan.name}</h3>
-                  <p className="text-sm text-slate-400 mb-4">{plan.tagline}</p>
-                  <div className="mb-4">
-                    {plan.monthlyPrice !== null ? (
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-3xl font-bold text-white">R$ {plan.founderPrice}</span>
-                        <span className="text-slate-500 line-through">R$ {plan.monthlyPrice}</span>
-                        <span className="text-slate-400 text-sm">/mês</span>
+                <div
+                  key={plan.id}
+                  className={`relative rounded-2xl backdrop-blur-xl border transition-all duration-300 hover:scale-[1.02] flex flex-col ${
+                    isCurrentPlan
+                      ? 'bg-gradient-to-br from-green-900/30 via-emerald-900/30 to-green-900/30 border-green-500/50 shadow-2xl shadow-green-500/10'
+                      : plan.popular
+                        ? 'bg-gradient-to-br from-blue-900/40 via-purple-900/40 to-pink-900/40 border-blue-500/50 shadow-2xl shadow-blue-500/20'
+                        : 'bg-slate-900/40 border-slate-700/50 hover:border-slate-600/50'
+                  }`}
+                >
+                  {/* Current Plan Badge */}
+                  {isCurrentPlan && (
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                      <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                        {isPt ? 'Seu Plano' : 'Your Plan'}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Popular Badge */}
+                  {plan.popular && !isCurrentPlan && (
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                      <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                        {isPt ? 'Mais Popular' : 'Most Popular'}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="p-6 flex-1 flex flex-col">
+                    {/* Plan Header */}
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className={`p-2 rounded-lg ${
+                        isCurrentPlan ? 'bg-green-500/20 text-green-400' : 
+                        plan.popular ? 'bg-indigo-500/20 text-indigo-400' : 'bg-slate-700/50 text-slate-400'
+                      }`}>
+                        {plan.icon}
                       </div>
-                    ) : <div className="text-2xl font-bold text-white">{isPt ? 'Sob consulta' : 'Contact us'}</div>}
-                    {plan.monthlyPrice !== null && <p className="text-xs text-green-400 mt-1">{isPt ? '12 meses grátis para fundadores' : '12 months free for founders'}</p>}
+                      <div>
+                        <h3 className="text-xl font-bold text-white">{plan.name}</h3>
+                        <p className="text-xs text-slate-400">{plan.tagline}</p>
+                      </div>
+                    </div>
+                    
+                    <p className="text-sm text-slate-400 mb-4 line-clamp-2">{plan.description}</p>
+
+                    {/* Pricing */}
+                    <div className="mb-4">
+                      {isEnterprise ? (
+                        <div className="text-2xl font-bold text-white">{isPt ? 'Sob consulta' : 'Custom'}</div>
+                      ) : (
+                        <>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-3xl font-bold text-white">R$ {plan.founderPrice}</span>
+                            <span className="text-slate-400">/mês</span>
+                          </div>
+                          <p className="text-xs text-slate-500 line-through">R$ {plan.monthlyPrice}/mês</p>
+                          <p className="text-xs text-amber-400 mt-1">
+                            {isPt ? '12 meses grátis' : '12 months free'}
+                          </p>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Features */}
+                    <ul className="space-y-2 mb-6 flex-1">
+                      {plan.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm">
+                          <Check className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
+                          <span className="text-slate-300">{feature.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* CTA Button */}
+                    {isCurrentPlan ? (
+                      <button
+                        disabled
+                        className="w-full py-3 px-4 bg-green-600/30 text-green-300 rounded-xl font-medium flex items-center justify-center gap-2 cursor-default"
+                      >
+                        <Check className="w-5 h-5" />
+                        {isPt ? 'Plano Atual' : 'Current Plan'}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleSelectPlan(plan.id)}
+                        disabled={saving}
+                        className={`w-full py-3 px-4 rounded-xl font-medium transition-all flex items-center justify-center gap-2 ${
+                          plan.popular
+                            ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl'
+                            : 'bg-slate-700 hover:bg-slate-600 text-white'
+                        } ${saving ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      >
+                        {saving ? (
+                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        ) : (
+                          <>
+                            {isEnterprise ? (isPt ? 'Falar com Vendas' : 'Contact Sales') : (isPt ? 'Selecionar Plano' : 'Select Plan')}
+                            <ArrowRight className="w-4 h-4" />
+                          </>
+                        )}
+                      </button>
+                    )}
                   </div>
-                  <p className="text-sm text-slate-300 mb-6">{plan.description}</p>
-                  <ul className="space-y-2 mb-6">
-                    {plan.features.slice(0, 5).map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm">
-                        {feature.included ? <Check className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" /> : <XIcon className="w-4 h-4 text-slate-600 mt-0.5 flex-shrink-0" />}
-                        <span className={feature.included ? 'text-slate-300' : 'text-slate-600'}>{feature.name}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button onClick={() => handleSelectPlan(plan.id)} disabled={savingPlan} className={\`w-full py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 \${isSelected ? 'bg-green-600 text-white cursor-default' : buttonColorClasses[plan.color] + ' text-white'}\`}>
-                    {isSelected ? <><Check className="w-4 h-4" />{isPt ? 'Selecionado' : 'Selected'}</> : plan.id === 'ENTERPRISE' ? <>{isPt ? 'Falar com vendas' : 'Contact sales'}<ArrowRight className="w-4 h-4" /></> : <>{isPt ? 'Selecionar plano' : 'Select plan'}<ArrowRight className="w-4 h-4" /></>}
-                  </button>
                 </div>
               )
             })}
           </div>
-          <div className="text-center">
+
+          {/* Next Steps Section */}
+          {selectedPlan && (
+            <div className="max-w-2xl mx-auto">
+              <div className="bg-slate-900/50 border border-slate-700/50 rounded-2xl p-6 md:p-8">
+                <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-indigo-400" />
+                  {isPt ? 'Próximos Passos' : 'Next Steps'}
+                </h2>
+                <ul className="space-y-3 text-slate-300">
+                  <li className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Check className="w-4 h-4 text-green-400" />
+                    </div>
+                    <span>{isPt ? 'Conta criada' : 'Account created'}</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Check className="w-4 h-4 text-green-400" />
+                    </div>
+                    <span>{isPt ? `Plano ${currentPlan?.name} selecionado` : `${currentPlan?.name} plan selected`}</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-indigo-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+                    </div>
+                    <span>{isPt ? 'Estamos preparando sua plataforma personalizada' : 'We are preparing your personalized platform'}</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-slate-700/50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs text-slate-500">3</span>
+                    </div>
+                    <span className="text-slate-500">{isPt ? 'Notificaremos você via email quando estiver pronto' : 'We will notify you by email when ready'}</span>
+                  </li>
+                </ul>
+                
+                <div className="mt-6 pt-6 border-t border-slate-700/50 flex flex-wrap gap-3">
+                  <Link
+                    to="/site-builder"
+                    className="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
+                  >
+                    {isPt ? 'Construtor de Sites' : 'Site Builder'}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <button
+                    onClick={handleSignOut}
+                    className="px-5 py-2.5 bg-slate-700/50 hover:bg-slate-700 text-white rounded-lg font-medium transition-all"
+                  >
+                    {isPt ? 'Sair' : 'Sign Out'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Help Section */}
+          <div className="mt-12 text-center">
             <p className="text-slate-400 text-sm">
-              {isPt ? 'Dúvidas?' : 'Questions?'}{' '}
-              <a href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300">{isPt ? 'Fale conosco via WhatsApp' : 'Contact us via WhatsApp'}</a>
+              {isPt ? 'Dúvidas sobre os planos?' : 'Questions about plans?'}{' '}
+              <a 
+                href="https://wa.me/5511985853836" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-indigo-400 hover:text-indigo-300 transition-colors"
+              >
+                {isPt ? 'Fale conosco via WhatsApp' : 'Contact us via WhatsApp'}
+              </a>
             </p>
           </div>
         </div>

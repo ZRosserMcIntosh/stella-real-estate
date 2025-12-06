@@ -1,9 +1,10 @@
-import { Menu, X, Home, Building2, Layout, Users, FileText, Settings } from 'lucide-react'
+import { Menu, X, Home, Building2, Layout, Users, FileText, Settings, Bell, LogOut } from 'lucide-react'
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 import { ConstellationUrls } from '../utils/constellationUrl'
+import { supabase } from '../lib/supabaseClient'
 
 interface NavItem {
   label: string
@@ -16,7 +17,13 @@ export default function ConstellationAuthHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { t, i18n } = useTranslation()
   const location = useLocation()
+  const navigate = useNavigate()
   const isPt = i18n.language?.startsWith('pt')
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    navigate(ConstellationUrls.login())
+  }
 
   const navItems: NavItem[] = [
     { label: 'Início', labelEn: 'Home', href: '/dashboard', icon: <Home className="w-4 h-4" /> },
@@ -79,6 +86,16 @@ export default function ConstellationAuthHeader() {
             <div className="border-l border-white/10 pl-4 flex items-center gap-4">
               <LanguageSwitcher />
               
+              {/* Notification Bell */}
+              <button 
+                className="relative p-2 text-slate-400 hover:text-white transition-colors"
+                aria-label={isPt ? 'Notificações' : 'Notifications'}
+              >
+                <Bell className="w-5 h-5" />
+                {/* Notification badge - uncomment when there are notifications */}
+                {/* <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span> */}
+              </button>
+              
               {/* My Account Button */}
               <Link 
                 to="/dashboard/account"
@@ -87,6 +104,15 @@ export default function ConstellationAuthHeader() {
                 <Settings className="w-4 h-4" />
                 {isPt ? 'Minha Conta' : 'My Account'}
               </Link>
+              
+              {/* Sign Out Link */}
+              <button
+                onClick={handleSignOut}
+                className="flex items-center gap-1.5 text-slate-400 hover:text-white text-sm transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                {isPt ? 'Sair' : 'Exit'}
+              </button>
             </div>
           </div>
 
@@ -172,6 +198,18 @@ export default function ConstellationAuthHeader() {
                 <Settings className="w-4 h-4" />
                 {isPt ? 'Minha Conta' : 'My Account'}
               </Link>
+              
+              {/* Sign Out - Mobile */}
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  handleSignOut()
+                }}
+                className="flex items-center justify-center gap-2 px-4 py-3 text-slate-400 hover:text-white transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                {isPt ? 'Sair' : 'Exit'}
+              </button>
             </div>
           </nav>
         </div>
