@@ -308,18 +308,20 @@ export default function ConstellationPortal() {
             <div className="flex flex-wrap gap-4 justify-center">
               <a
                 href={ConstellationUrls.signup()}
-                onClick={() => trackCTA('Garantir Vaga', 'hero')}
+                onClick={() => trackCTA('Plataforma e Planos', 'hero')}
                 className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
               >
-                Garantir Vaga · R$ 99
+                Plataforma e Planos
               </a>
-              <Link
-                to="/constellation"
-                onClick={() => trackCTA('Ver Recursos', 'hero')}
+              <a
+                href="https://stellareal.com.br"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackCTA('Explore Site', 'hero')}
                 className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full font-medium transition-all border border-white/20 hover:border-white/30 text-lg"
               >
-                Ver Todos os Recursos
-              </Link>
+                Explore a Site Powered by Constellation
+              </a>
             </div>
           </div>
         </div>
