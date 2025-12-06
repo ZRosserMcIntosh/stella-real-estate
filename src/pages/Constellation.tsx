@@ -107,8 +107,8 @@ export default function Constellation() {
           <span className="bg-white/20 px-2 py-1 rounded-full text-xs">R$ 99</span>
         </a>
       </div>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-32 lg:pt-40 pb-8 lg:pb-12">
+      {/* Hero + Pricing Consolidated Section */}
+      <section id="pricing-section" className="relative overflow-hidden pt-32 lg:pt-40 pb-16 lg:pb-20 scroll-mt-20">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{ 
             backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(100, 116, 139) 1px, transparent 0)', 
@@ -117,131 +117,82 @@ export default function Constellation() {
         </div>
         
         <div className="container-padded relative z-10">
-          <div className="max-w-5xl mx-auto text-center">
-            {/* Urgency Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-sm mb-6">
-              <div className="flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-              </div>
-              <span className="font-medium">Últimas {foundingSlotsRemaining} vagas para Corretores Fundadores</span>
-            </div>
-
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight text-white mb-6" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-indigo-400 to-purple-400">
-                Constellation
-              </span>
-            </h1>
-            
-            <p className="text-2xl sm:text-3xl text-slate-300 mb-4 font-light">
-              Seu site, CRM e gestão em uma única plataforma.
-            </p>
-            
-            <p className="text-lg sm:text-xl text-slate-400 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Pare de pagar por 5 ferramentas separadas. Crie seu site, gerencie leads, acompanhe negócios e gere tours 3D—tudo por R$ 99/mês como corretor fundador.
-            </p>
-
-            {/* Quick Stats Row */}
-            <div className="flex flex-wrap justify-center gap-6 mb-10">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-emerald-400">50%</div>
-                <div className="text-xs text-slate-400">Desconto Vitalício</div>
-              </div>
-              <div className="w-px bg-slate-700 hidden sm:block" />
-              <div className="text-center">
-                <div className="text-2xl font-bold text-purple-400">80%+</div>
-                <div className="text-xs text-slate-400">Menos Visitas Perdidas</div>
-              </div>
-              <div className="w-px bg-slate-700 hidden sm:block" />
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-400">24/7</div>
-                <div className="text-xs text-slate-400">Tours 3D Online</div>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-4 justify-center">
-              <a
-                href={ConstellationUrls.signup()}
-                onClick={(e) => {
-                  e.preventDefault()
-                  trackStartRegistration({ source: 'hero_cta', plan: 'founding_100' })
-                  trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
-                    source: 'hero_cta',
-                    plan: 'founding_100'
-                  })
-                }}
-                className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
-              >
-                Garantir Minha Vaga · R$ 99/mês
-              </a>
-              <button
-                onClick={() => {
-                  document.getElementById('pricing-section')?.scrollIntoView({ behavior: 'smooth' })
-                }}
-                className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full font-medium transition-all border border-white/20 hover:border-white/30 text-lg"
-              >
-                Ver Todos os Planos
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* Pricing Teaser */}
-      <section id="pricing-section" className="py-20 lg:py-24 relative scroll-mt-20">
-        <div className="container-padded">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-sm mb-4">
-                <span className="font-medium">🎁 Oferta de Lançamento: 50% OFF Vitalício</span>
+            {/* Header */}
+            <div className="text-center mb-10">
+              {/* Urgency Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-sm mb-6">
+                <div className="flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                </div>
+                <span className="font-medium">Últimas {foundingSlotsRemaining} vagas · 50% OFF Vitalício</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-light text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                Escolha Seu Plano
-              </h2>
-              <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-4">
-                Corretores fundadores garantem o preço de pré-cadastro para sempre
+
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight text-white mb-4" style={{ fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-indigo-400 to-purple-400">
+                  Constellation
+                </span>
+              </h1>
+              
+              <p className="text-2xl sm:text-3xl text-slate-300 mb-4 font-light">
+                Seu site, CRM e gestão em uma única plataforma.
               </p>
-              <div className="inline-block bg-amber-900/30 border border-amber-500/50 rounded-lg px-6 py-3 max-w-3xl">
-                <p className="text-sm text-amber-300 font-light leading-relaxed">
-                  <span className="font-semibold">⚡ Vagas Limitadas:</span> Lançamento exclusivo para pré-cadastrados em Janeiro 2026. Após o lançamento, novos cadastros serão aceitos gradualmente (1-3/semana). Garanta sua vaga agora.
-                </p>
-              </div>
-            </div>
+              
+              <p className="text-lg text-slate-400 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Pare de pagar por 5 ferramentas separadas. Crie seu site, gerencie leads, acompanhe negócios e gere tours 3D—tudo por R$ 99/mês como corretor fundador.
+              </p>
 
-            {/* Trust Badges - Above Tech Logos */}
-            <div className="flex flex-wrap justify-center items-center gap-8 mb-6">
-              <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
-                <img 
-                  src="/tech-icons/trustpilot-white.svg" 
-                  alt="Trustpilot" 
-                  className="h-8 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
-                />
-              </a>
-              <div className="flex items-center gap-2">
-                <a 
-                  href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
-                >
+              {/* Trust Badges */}
+              <div className="flex flex-wrap justify-center items-center gap-6 mb-8">
+                <a href="https://br.trustpilot.com/review/stellareal.com.br" target="_blank" rel="noopener noreferrer">
                   <img 
-                    src="/tech-icons/brazil-coat-of-arms.png" 
-                    alt="Brasão da República Federativa do Brasil" 
-                    className="h-8"
+                    src="/tech-icons/trustpilot-white.svg" 
+                    alt="Trustpilot" 
+                    className="h-7 opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
                   />
-                  <span className="text-base font-bold">
-                    <span className="text-white">CRECI</span>
-                    <span className="text-red-500">SP</span>
-                  </span>
                 </a>
-                <span className="text-base text-slate-300">309568</span>
+                <div className="flex items-center gap-2">
+                  <a 
+                    href="https://www.crecisp.gov.br/cidadao/buscaporcorretores" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 opacity-90 hover:opacity-100 transition-opacity"
+                  >
+                    <img 
+                      src="/tech-icons/brazil-coat-of-arms.png" 
+                      alt="Brasão da República Federativa do Brasil" 
+                      className="h-7"
+                    />
+                    <span className="text-sm font-bold">
+                      <span className="text-white">CRECI</span>
+                      <span className="text-red-500">SP</span>
+                    </span>
+                  </a>
+                  <span className="text-sm text-slate-300">309568</span>
+                </div>
               </div>
-            </div>
 
-            {/* Tech Stack Logos */}
-            <div className="mb-12">
-              <div className="flex flex-wrap items-center justify-center gap-4">
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap gap-4 justify-center mb-6">
+                <a
+                  href={ConstellationUrls.signup()}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    trackStartRegistration({ source: 'hero_cta', plan: 'founding_100' })
+                    trackPurchaseEventWithRedirect(ConstellationUrls.signup(), {
+                      source: 'hero_cta',
+                      plan: 'founding_100'
+                    })
+                  }}
+                  className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full font-semibold transition-all shadow-xl hover:shadow-2xl hover:scale-105 text-lg"
+                >
+                  Garantir Minha Vaga · R$ 99/mês
+                </a>
+              </div>
+
+              {/* Tech Stack Logos */}
+              <div className="flex flex-wrap items-center justify-center gap-4 opacity-60">
                 <img src="/tech-icons/color/Visual_Studio_Code_1.35_icon.svg.png" alt="Visual Studio Code - ferramenta de desenvolvimento" className="h-6 object-contain" />
                 <img src="/tech-icons/color/524-5240809_aws-logo-svg-white-clipart.png" alt="AWS - infraestrutura em nuvem" className="h-6 object-contain" />
                 <img src="/tech-icons/color/apple-developer-og-twitter.png" alt="Apple Developer - plataforma de desenvolvimento" className="h-12 object-contain" />
@@ -264,6 +215,11 @@ export default function Constellation() {
                 </div>
               </div>
             </div>
+
+            {/* Plans Title */}
+            <h2 className="text-2xl md:text-3xl font-light text-white text-center mb-8" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              Escolha Seu Plano
+            </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
               {[
